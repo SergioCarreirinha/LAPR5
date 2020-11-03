@@ -7,7 +7,7 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
-var Bear     = require('./app/models/bear');
+var Bear     = require('./src/models/bear');
 
 //DB
 var mongoose   = require('mongoose');
@@ -16,7 +16,7 @@ mongoose.connect('mongodb+srv://testUser:test123@cgroup25.ngqyx.mongodb.net/My_d
     useUnifiedTopology: true 
 });
 
-var No     = require('./app/models/bear'); //must be before db
+var No     = require('./src/models/bear'); //must be before db
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
