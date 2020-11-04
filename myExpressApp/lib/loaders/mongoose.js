@@ -13,6 +13,6 @@ const mongoose = require("mongoose");
 const index_js_1 = require("../config/index.js");
 exports.default = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(index_js_1.default);
-    const connection = yield mongoose.connect('mongodb+srv://testUser:test123@cgroup25.ngqyx.mongodb.net/My_database?retryWrites=true&w=majority', { useNewUrlParser: true });
+    const connection = yield mongoose.connect(index_js_1.default.databaseURL, { useNewUrlParser: true });
     return connection.connection.db;
 });

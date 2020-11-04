@@ -1,17 +1,10 @@
-import * as dotenv from 'dotenv';
-  
-/*const envFound = dotenv.config();
-if (envFound.error) {
-  // This error should crash whole process
+const dotenv = require('dotenv');
+const path = require('path');
 
-  throw new Error("⚠️  Couldn't find .env file  ⚠️");
+dotenv.config({path: path.resolve(__dirname, '.env') });
+
+export default{
+    port: process.env.PORT,
+
+    databaseURL: process.env.DATABASE_URL,
 }
-*/
-
-
-  export default{
-     port: process.env.PORT,
-
-     databaseURL: process.env.DATABASE_URL,
-  }
-  console.log(process.env.DATABASE_URL);
