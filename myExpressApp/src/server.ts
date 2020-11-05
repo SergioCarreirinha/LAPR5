@@ -1,10 +1,7 @@
-import { request } from "http";
-
 const loaders = require('./loaders');
-const api = require('./api');
 const express = require('express');
+const bodyParser = require('body-parser');
 async function startServer() {
-  var router = express.Router();
   const app = express();
 
   //Import Routes
@@ -12,6 +9,9 @@ async function startServer() {
 
   //ROUTE MIDDLEWARE
   app.use('/api/vehicleType', vehicleTypeRoute);
+
+  //MIDDLEWEAR
+  app.use(bodyParser.json());
 
   //await api.default({expressApp: app});
 

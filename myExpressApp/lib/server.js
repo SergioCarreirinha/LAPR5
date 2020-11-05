@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,18 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const loaders = require('./loaders');
-const api = require('./api');
 const express = require('express');
+const bodyParser = require('body-parser');
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
-        var router = express.Router();
         const app = express();
         //Import Routes
         const vehicleTypeRoute = require('./api/routes/VehicleTypeRouter');
         //ROUTE MIDDLEWARE
         app.use('/api/vehicleType', vehicleTypeRoute);
+        //MIDDLEWEAR
+        app.use(bodyParser.json());
         //await api.default({expressApp: app});
         yield loaders.default({ expressApp: app });
         app.listen(process.env.PORT, err => {

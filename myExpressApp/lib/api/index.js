@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require('express');
 const express_1 = require("express");
-const app = express();
-const vehicleTypeRouter = require('./routes/VehicleTypeRouter');
+const VehicleTypeRouter_1 = require("./routes/VehicleTypeRouter");
 // guaranteed to get dependencies
 exports.default = () => {
     const app = express_1.Router();
-    vehicleTypeRouter(app);
+    VehicleTypeRouter_1.default(app);
     return app;
 };

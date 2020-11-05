@@ -1,9 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 const cors = require('cors');
-//import routes from '../api';
-import config from '../config';
-
 export default async ({ app }: { app: express.Application }) => {
 
     app.get('/status', (req, res) => {

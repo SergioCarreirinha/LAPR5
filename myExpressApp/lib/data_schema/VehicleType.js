@@ -4,7 +4,7 @@ const vehicleTypeSchema = new mongoose.Schema({
         type: String,
         required: true,
         max: 40
-    } /*,
+    },
     fuelType: {
         type: String,
         required: true
@@ -24,6 +24,6 @@ const vehicleTypeSchema = new mongoose.Schema({
     avgSpeed: {
         type: Number,
         required: true
-    }*/
+    }
 });
 module.exports = mongoose.model('VehicleType', vehicleTypeSchema);
