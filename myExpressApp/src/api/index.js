@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import VehicleTypeRouter from './routes/VehicleTypeRouter';
+import VehicleType from './routes/VehicleTypeRouter';
 
 
 // guaranteed to get dependencies
 export default () => {
 	const app = Router();
-	VehicleTypeRouter(app);
+	VehicleType(app);
 	return app
 }

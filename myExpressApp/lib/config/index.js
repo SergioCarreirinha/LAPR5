@@ -6,4 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 exports.default = {
     port: process.env.PORT,
     databaseURL: process.env.DATABASE_URL,
+    api: {
+        prefix: '/api',
+    },
 };
