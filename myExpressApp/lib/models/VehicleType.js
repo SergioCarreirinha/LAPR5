@@ -10,20 +10,20 @@ const vehicleTypeSchema = new mongoose.Schema({
         required: true
     },
     range: {
-        type: int,
+        type: Number,
         required: true
     },
     costPerKm: {
-        type: float,
+        type: Number,
         required: true
     },
     avgConsumption: {
-        type: float,
+        type: Number,
         required: true
     },
     avgSpeed: {
-        type: float,
+        type: Number,
         required: true
     }
 });
-module.exports = mongoose.model('VehicleType', VehicleTypeSchema);
+module.exports = mongoose.model('VehicleType', vehicleTypeSchema);
