@@ -1,6 +1,7 @@
 import { request } from "http";
 
 const loaders = require('./loaders');
+const api = require('./api');
 const express = require('express');
 async function startServer() {
   var router = express.Router();
@@ -11,6 +12,8 @@ async function startServer() {
 
   //ROUTE MIDDLEWARE
   app.use('/api/vehicleType', vehicleTypeRoute);
+
+  //await api.default({expressApp: app});
 
   await loaders.default({ expressApp: app });
   app.listen(process.env.PORT, err => {

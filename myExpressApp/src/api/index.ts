@@ -1,9 +1,11 @@
 const express = require('express');
+import { Router } from 'express';
 const app = express();
+const vehicleTypeRouter = require('./routes/VehicleTypeRouter');
 
-//Import Routes
-const vehicleTypeRoute = require('./api/routes/VehicleTypeRouter');
-
-//ROUTE MIDDLEWARE
-app.use('/api/vehicleType', vehicleTypeRoute);
-
+// guaranteed to get dependencies
+export default () => {
+	const app = Router();
+	vehicleTypeRouter(app);
+	return app
+}

@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const loaders = require('./loaders');
+const api = require('./api');
 const express = require('express');
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -19,6 +20,7 @@ function startServer() {
         const vehicleTypeRoute = require('./api/routes/VehicleTypeRouter');
         //ROUTE MIDDLEWARE
         app.use('/api/vehicleType', vehicleTypeRoute);
+        //await api.default({expressApp: app});
         yield loaders.default({ expressApp: app });
         app.listen(process.env.PORT, err => {
             if (err) {

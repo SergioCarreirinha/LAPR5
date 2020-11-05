@@ -1,6 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
+const express_1 = require("express");
 const app = express();
-//Import Routes
-const vehicleTypeRoute = require('./api/routes/VehicleTypeRouter');
-//ROUTE MIDDLEWARE
-app.use('/api/vehicleType', vehicleTypeRoute);
+const vehicleTypeRouter = require('./routes/VehicleTypeRouter');
+// guaranteed to get dependencies
+exports.default = () => {
+    const app = express_1.Router();
+    vehicleTypeRouter(app);
+    return app;
+};
