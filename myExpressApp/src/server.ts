@@ -1,6 +1,6 @@
 const loaders = require('./loaders');
 const express = require('express');
-const bodyParser = require('body-parser');
+
 async function startServer() {
   const app = express();
 
@@ -11,7 +11,6 @@ async function startServer() {
   app.use('/api/vehicleType', vehicleTypeRoute);
 
   //MIDDLEWEAR
-  app.use(bodyParser.json());
 
   //await api.default({expressApp: app});
 

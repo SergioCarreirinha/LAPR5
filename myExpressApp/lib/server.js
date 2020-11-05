@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const loaders = require('./loaders');
 const express = require('express');
-const bodyParser = require('body-parser');
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = express();
@@ -18,7 +17,6 @@ function startServer() {
         //ROUTE MIDDLEWARE
         app.use('/api/vehicleType', vehicleTypeRoute);
         //MIDDLEWEAR
-        app.use(bodyParser.json());
         //await api.default({expressApp: app});
         yield loaders.default({ expressApp: app });
         app.listen(process.env.PORT, err => {

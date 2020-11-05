@@ -9,12 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const router = require('express').Router();
 const VehicleType = require('../../models/VehicleType');
-router.post('/create', (req, res) => __awaiter(this, void 0, void 0, function* () {
+const bodyParser = require('body-parser');
+router.post('/create', bodyParser.json(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    console.log(req.body.name);
     const newVehicleType = new VehicleType({
         name: req.body.name
     });
     try {
         const saved = yield newVehicleType.save();
+        res.send(saved);
     }
     catch (err) {
         res.status(400).send(err);

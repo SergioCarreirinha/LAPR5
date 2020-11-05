@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const VehicleType = require('../../models/VehicleType');
+const bodyParser = require('body-parser');
 
-router.post('/create', async (req, res) => {
+router.post('/create', bodyParser.json(), async (req, res) => {
+    console.log(req.body.name);
     const newVehicleType = new VehicleType({
         name: req.body.name
     });
