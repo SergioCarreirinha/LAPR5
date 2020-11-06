@@ -7,4 +7,8 @@ export default{
     port: process.env.PORT,
 
     databaseURL: process.env.DATABASE_URL,
+
+    api: {
+        prefix: '/api',
+    },
 }

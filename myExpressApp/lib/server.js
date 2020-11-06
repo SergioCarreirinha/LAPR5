@@ -9,15 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const loaders = require('./loaders');
 const express = require('express');
+const api = require('./api');
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = express();
-        //Import Routes
-        const vehicleTypeRoute = require('./api/routes/VehicleTypeRouter');
-        //ROUTE MIDDLEWARE
-        app.use('/api/vehicleType', vehicleTypeRoute);
-        //MIDDLEWEAR
-        //await api.default({expressApp: app});
         yield loaders.default({ expressApp: app });
         app.listen(process.env.PORT, err => {
             if (err) {
