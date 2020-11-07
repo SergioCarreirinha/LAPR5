@@ -4,12 +4,16 @@ import {celebrate, Joi} from 'celebrate';
 import IVehicleTypeDTO from '../dto/VehicleTypeDTO/IVehicleTypeDTO';
 import IVehicleTypeService from '../services/VehicleTypeService';
 import config from '../config';
+import VehicleTypeRepo from '../repositories/VehicleTypeRepo';
 
 
 export default class VehicleTypeController {
     constructor(
         @Inject(config.services.VehicleType.name) private vehicleTypeServiceInstance : IVehicleTypeService
-    ) {}
+    ) {
+        //doubt
+        this.vehicleTypeServiceInstance=new IVehicleTypeService(new VehicleTypeRepo);
+    }
 
     public async createVehicleType(req: Request, res: Response, next: NextFunction) {
         celebrate({
@@ -19,7 +23,6 @@ export default class VehicleTypeController {
         });
 
         try{
-            console.log("AMIGOOOO");
             const callService = await this.vehicleTypeServiceInstance.createVehicleType(req.body as IVehicleTypeDTO);
 
             if(!callService) {

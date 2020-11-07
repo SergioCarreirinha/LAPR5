@@ -25,9 +25,12 @@ const typedi_1 = require("typedi");
 const celebrate_1 = require("celebrate");
 const VehicleTypeService_1 = require("../services/VehicleTypeService");
 const config_1 = require("../config");
+const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
 let VehicleTypeController = class VehicleTypeController {
     constructor(vehicleTypeServiceInstance) {
         this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
+        //doubt
+        this.vehicleTypeServiceInstance = new VehicleTypeService_1.default(new VehicleTypeRepo_1.default);
     }
     createVehicleType(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -37,8 +40,6 @@ let VehicleTypeController = class VehicleTypeController {
                 })
             });
             try {
-                console.log("AMIGOOOO");
-                console.log(req.body);
                 const callService = yield this.vehicleTypeServiceInstance.createVehicleType(req.body);
                 if (!callService) {
                     return res.status(402).send();
