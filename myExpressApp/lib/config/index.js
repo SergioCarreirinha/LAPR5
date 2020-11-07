@@ -9,4 +9,31 @@ exports.default = {
     api: {
         prefix: '/api',
     },
+    logs: {
+        level: process.env.LOG_LEVEL || 'silly',
+    },
+    controllers: {
+        VehicleType: {
+            name: "VehicleTypeController",
+            path: "../controllers/VehicleTypeController"
+        }
+    },
+    schemas: {
+        VehicleType: {
+            name: "VehicleTypeSchema",
+            schema: "../dataschemas/VehicleTypeSchema"
+        }
+    },
+    repositories: {
+        VehicleType: {
+            name: "VehicleTypeRepo",
+            path: "../repositories/VehicleTypeRepo"
+        }
+    },
+    services: {
+        VehicleType: {
+            name: "VehicleTypeService",
+            path: "../services/VehicleTypeService"
+        }
+    }
 };

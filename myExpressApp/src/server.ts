@@ -3,8 +3,8 @@ const express = require('express');
 const api = require('./api');
 
 async function startServer() {
+
   const app = express();
-  
 
   await loaders.default({ expressApp: app });
   
