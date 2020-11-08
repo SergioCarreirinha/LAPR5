@@ -17,8 +17,8 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
     const mongoConnection = yield mongoose_1.default();
     console.log('MongoDB Intialized');
     const vehicleTypeSchema = {
-        name: 'VehicleTypeSchema',
-        schema: '../dataschemas/VehicleTypeSchema'
+        name: config_1.default.schemas.VehicleType.name,
+        schema: config_1.default.schemas.VehicleType.schema
     };
     const vehicleTypeRepo = {
         name: config_1.default.repositories.VehicleType.name,
@@ -32,12 +32,28 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
         name: config_1.default.services.VehicleType.name,
         path: config_1.default.services.VehicleType.path
     };
+    const DriverTypeSchema = {
+        name: config_1.default.schemas.DriverType.name,
+        schema: config_1.default.schemas.DriverType.schema
+    };
+    const DriverTypeRepo = {
+        name: config_1.default.repositories.DriverType.name,
+        path: config_1.default.repositories.DriverType.path
+    };
+    const DriverTypeController = {
+        name: config_1.default.controllers.DriverType.name,
+        path: config_1.default.controllers.DriverType.path
+    };
+    const DriverTypeService = {
+        name: config_1.default.services.DriverType.name,
+        path: config_1.default.services.DriverType.path
+    };
     yield dependencyInjector_1.default({
         mongoConnection,
-        schemas: [vehicleTypeSchema],
-        repositories: [vehicleTypeRepo],
-        controllers: [vehicleTypeController],
-        services: [vehicleTypeService]
+        schemas: [vehicleTypeSchema, DriverTypeSchema],
+        repositories: [vehicleTypeRepo, DriverTypeRepo],
+        controllers: [vehicleTypeController, DriverTypeController],
+        services: [vehicleTypeService, DriverTypeService]
     });
     yield express_1.default({ app: expressApp });
     console.log('Express Intialized');

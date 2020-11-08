@@ -8,8 +8,8 @@ export default async ({ expressApp }) => {
   console.log('MongoDB Intialized');
   
   const vehicleTypeSchema = {
-    name: 'VehicleTypeSchema',
-    schema: '../dataschemas/VehicleTypeSchema'
+    name: config.schemas.VehicleType.name,
+    schema: config.schemas.VehicleType.schema
   }
   
   const vehicleTypeRepo = {
@@ -27,12 +27,32 @@ export default async ({ expressApp }) => {
     path: config.services.VehicleType.path
   }
 
+  const DriverTypeSchema = {
+    name: config.schemas.DriverType.name,
+    schema: config.schemas.DriverType.schema
+  }
+  
+  const DriverTypeRepo = {
+    name: config.repositories.DriverType.name,
+    path: config.repositories.DriverType.path
+  }
+
+  const DriverTypeController = {
+    name: config.controllers.DriverType.name,
+    path: config.controllers.DriverType.path
+  }
+
+  const DriverTypeService = {
+    name: config.services.DriverType.name,
+    path: config.services.DriverType.path
+  }
+
   await dependencyInjector({
     mongoConnection,
-    schemas: [vehicleTypeSchema],
-    repositories: [vehicleTypeRepo],
-    controllers: [vehicleTypeController],
-    services: [vehicleTypeService]
+    schemas: [vehicleTypeSchema, DriverTypeSchema],
+    repositories: [vehicleTypeRepo, DriverTypeRepo],
+    controllers: [vehicleTypeController, DriverTypeController],
+    services: [vehicleTypeService, DriverTypeService]
   })
   
   await expressLoader({ app: expressApp });
