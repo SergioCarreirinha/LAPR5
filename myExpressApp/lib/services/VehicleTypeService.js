@@ -26,6 +26,7 @@ const config_1 = require("../config");
 const VehicleType_1 = require("../domain/models/VehicleType");
 const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
 const VehicleTypeMap_1 = require("../mappers/VehicleTypeMap");
+const Result_1 = require("../core/logic/Result");
 let VehicleTypeService = class VehicleTypeService {
     constructor(vehicleTypeRepo) {
         this.vehicleTypeRepo = vehicleTypeRepo;
@@ -33,13 +34,14 @@ let VehicleTypeService = class VehicleTypeService {
     createVehicleType(vehicleTypeDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log("Service");
                 const vehicleType = yield VehicleType_1.VehicleType.create(vehicleTypeDTO);
-                if (!vehicleType) {
-                    return Error("Missing Data");
+                if (vehicleType.isFailure) {
+                    return Result_1.Result.fail(vehicleType.errorValue());
                 }
-                yield this.vehicleTypeRepo.save(vehicleType);
-                const vehicleTypeReturn = VehicleTypeMap_1.VehicleTypeMap.toDTO(vehicleType);
-                return vehicleTypeReturn;
+                yield this.vehicleTypeRepo.save(vehicleType.getValue());
+                const vehicleTypeReturn = VehicleTypeMap_1.VehicleTypeMap.toDTO(vehicleType.getValue());
+                return Result_1.Result.ok(vehicleTypeReturn);
             }
             catch (e) {
                 throw e;

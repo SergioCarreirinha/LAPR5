@@ -41,6 +41,7 @@ export default ({ mongoConnection, schemas, repositories, controllers, services 
 
 
     LoggerInstance.info('✌️ All injected into container');
+    return;
 
   } catch (e) {
     LoggerInstance.error('🔥 Error on dependency injector loader: %o', e);

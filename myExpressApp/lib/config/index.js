@@ -18,12 +18,6 @@ exports.default = {
             path: "../controllers/VehicleTypeController"
         }
     },
-    schemas: {
-        VehicleType: {
-            name: "VehicleTypeSchema",
-            schema: "../dataschemas/VehicleTypeSchema"
-        }
-    },
     repositories: {
         VehicleType: {
             name: "VehicleTypeRepo",

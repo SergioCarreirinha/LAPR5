@@ -8,8 +8,8 @@ export default async ({ expressApp }) => {
   console.log('MongoDB Intialized');
   
   const vehicleTypeSchema = {
-    name: config.schemas.VehicleType.name,
-    schema: config.schemas.VehicleType.schema
+    name: 'VehicleTypeSchema',
+    schema: '../dataschemas/VehicleTypeSchema'
   }
   
   const vehicleTypeRepo = {

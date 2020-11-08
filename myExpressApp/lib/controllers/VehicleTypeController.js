@@ -22,9 +22,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const celebrate_1 = require("celebrate");
+const config_1 = require("../config/");
 const VehicleTypeService_1 = require("../services/VehicleTypeService");
-const config_1 = require("../config");
+const celebrate_1 = require("celebrate");
+const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
+const VehicleTypeSchema_1 = require("../dataschemas/VehicleTypeSchema");
 let VehicleTypeController = class VehicleTypeController {
     constructor(vehicleTypeServiceInstance) {
         this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
@@ -33,17 +35,22 @@ let VehicleTypeController = class VehicleTypeController {
         return __awaiter(this, void 0, void 0, function* () {
             celebrate_1.celebrate({
                 body: celebrate_1.Joi.object({
-                    name: celebrate_1.Joi.string().required()
+                    name: celebrate_1.Joi.string().required(),
+                    fuelType: celebrate_1.Joi.string().required(),
+                    range: celebrate_1.Joi.number().required(),
+                    costPerKm: celebrate_1.Joi.number().required(),
+                    avgConsumptiom: celebrate_1.Joi.number().required(),
+                    avgSpeed: celebrate_1.Joi.number().required()
                 })
             });
             try {
-                console.log("AMIGOOOO");
-                console.log(req.body);
-                const callService = yield this.vehicleTypeServiceInstance.createVehicleType(req.body);
-                if (!callService) {
+                console.log(config_1.default.services.VehicleType.name);
+                console.log("Controller");
+                const callService = yield new VehicleTypeService_1.default(new VehicleTypeRepo_1.default(VehicleTypeSchema_1.default)).createVehicleType(req.body);
+                if (callService.isFailure) {
                     return res.status(402).send();
                 }
-                return res.status(201).json(callService);
+                return res.status(201).json(callService.getValue());
             }
             catch (e) {
                 return next(e);

@@ -1,10 +1,12 @@
-const mongoose = require('mongoose');
-const vehicleTypeSchema = new mongoose.Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
+const VehicleTypeSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        max: 40
-    } /*,
+        unique: true,
+        required: true
+    },
     fuelType: {
         type: String,
         required: true
@@ -24,6 +26,6 @@ const vehicleTypeSchema = new mongoose.Schema({
     avgSpeed: {
         type: Number,
         required: true
-    }*/
+    }
 });
-module.exports = mongoose.model('VehicleType', vehicleTypeSchema);
+exports.default = mongoose.model('VehicleType', VehicleTypeSchema);

@@ -1,3 +1,9 @@
 export default interface IVehicleTypeDTO {
-    name: string
+    name: string;
+    fuelType: string;
+    range: Number;
+    costPerKm: Number;
+    avgConsumption: Number;
+    avgSpeed: Number;
+
 }

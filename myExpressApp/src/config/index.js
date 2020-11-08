@@ -24,13 +24,6 @@ export default{
         }
     },
 
-    schemas: {
-        VehicleType: {
-            name: "VehicleTypeSchema",
-            schema: "../dataschemas/VehicleTypeSchema"
-        }
-    },
-
     repositories: {
         VehicleType: {
             name: "VehicleTypeRepo",

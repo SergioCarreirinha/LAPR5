@@ -17,8 +17,8 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
     const mongoConnection = yield mongoose_1.default();
     console.log('MongoDB Intialized');
     const vehicleTypeSchema = {
-        name: config_1.default.schemas.VehicleType.name,
-        schema: config_1.default.schemas.VehicleType.schema
+        name: 'VehicleTypeSchema',
+        schema: '../dataschemas/VehicleTypeSchema'
     };
     const vehicleTypeRepo = {
         name: config_1.default.repositories.VehicleType.name,
