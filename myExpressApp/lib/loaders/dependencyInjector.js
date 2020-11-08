@@ -29,6 +29,7 @@ exports.default = ({ mongoConnection, schemas, repositories, controllers, servic
         });
         logger_1.default.info('❤️ Controllers are all injected!');
         logger_1.default.info('✌️ All injected into container');
+        return;
     }
     catch (e) {
         logger_1.default.error('🔥 Error on dependency injector loader: %o', e);

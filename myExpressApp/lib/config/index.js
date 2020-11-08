@@ -12,28 +12,44 @@ exports.default = {
     logs: {
         level: process.env.LOG_LEVEL || 'silly',
     },
+    schemas: {
+        VehicleType: {
+            name: 'VehicleTypeSchema',
+            schema: '../dataschemas/VehicleTypeSchema'
+        },
+        DriverType: {
+            name: 'DriverTypeSchema',
+            schema: '../dataschemas/DriverTypeSchema'
+        }
+    },
     controllers: {
         VehicleType: {
             name: "VehicleTypeController",
             path: "../controllers/VehicleTypeController"
-        }
-    },
-    schemas: {
-        VehicleType: {
-            name: "VehicleTypeSchema",
-            schema: "../dataschemas/VehicleTypeSchema"
+        },
+        DriverType: {
+            name: "DriverTypeController",
+            path: "../controllers/DriverTypeController"
         }
     },
     repositories: {
         VehicleType: {
             name: "VehicleTypeRepo",
             path: "../repositories/VehicleTypeRepo"
+        },
+        DriverType: {
+            name: "DriverTypeRepo",
+            path: "../repositories/DriverTypeRepo"
         }
     },
     services: {
         VehicleType: {
             name: "VehicleTypeService",
             path: "../services/VehicleTypeService"
+        },
+        DriverType: {
+            name: "DriverTypeService",
+            path: "../services/DriverTypeService"
         }
     }
 };

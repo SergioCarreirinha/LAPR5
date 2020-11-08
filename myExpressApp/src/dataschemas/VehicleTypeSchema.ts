@@ -1,31 +1,39 @@
-const mongoose = require('mongoose');
 
-const vehicleTypeSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        max: 40
-    }/*,
-    fuelType: {
-        type: String,
-        required: true
-    },
-    range: {
-        type: Number,
-        required: true
-    },
-    costPerKm: {
-        type: Number,
-        required: true
-    },
-    avgConsumption: {
-        type: Number,
-        required: true
-    },
-    avgSpeed: {
-        type: Number,
-        required: true
-    }*/
-});
+import { IVehicleTypePersistence } from '../persistence/interface/IVehicleTypePersistence';
+import * as mongoose from 'mongoose';
 
-module.exports = mongoose.model('VehicleType',vehicleTypeSchema);
+const VehicleTypeSchema = new mongoose.Schema(
+  {
+    name: { 
+      type: String, 
+      unique: true,
+      required: true
+    },
+    autonomy: {
+      type: Number,
+      required: true
+    },
+    cost: {
+        type: Number,
+        required: true
+    },
+    averageSpeed: {
+        type: Number,
+        required: true
+    },
+    energySource: {
+        type: Number,
+        required: true
+    },
+    consumption: {
+        type: Number,
+        required: true
+    },
+    emissions: {
+        type: Number,
+        required: true
+    }
+  }
+);
+
+export default mongoose.model<IVehicleTypePersistence & mongoose.Document>('VehicleType', VehicleTypeSchema);

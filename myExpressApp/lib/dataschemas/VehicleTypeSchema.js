@@ -1,29 +1,35 @@
-const mongoose = require('mongoose');
-const vehicleTypeSchema = new mongoose.Schema({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
+const VehicleTypeSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        max: 40
-    } /*,
-    fuelType: {
-        type: String,
+        unique: true,
         required: true
     },
-    range: {
+    autonomy: {
         type: Number,
         required: true
     },
-    costPerKm: {
+    cost: {
         type: Number,
         required: true
     },
-    avgConsumption: {
+    averageSpeed: {
         type: Number,
         required: true
     },
-    avgSpeed: {
+    energySource: {
         type: Number,
         required: true
-    }*/
+    },
+    consumption: {
+        type: Number,
+        required: true
+    },
+    emissions: {
+        type: Number,
+        required: true
+    }
 });
-module.exports = mongoose.model('VehicleType', vehicleTypeSchema);
+exports.default = mongoose.model('VehicleType', VehicleTypeSchema);
