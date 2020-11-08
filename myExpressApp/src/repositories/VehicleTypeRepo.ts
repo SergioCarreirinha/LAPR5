@@ -32,11 +32,12 @@ export default class VehicleTypeRepo implements IVehicleTypeRepo{
                 return VehicleTypeMap.toDomain(vehicleTypeCreated);
             }else{
                 document.name = vehicleType.name;
-                document.fuelType = vehicleType.fuelType;
-                document.range = vehicleType.range;
-                document.costPerKm = vehicleType.costPerKm;
-                document.avgConsumption = vehicleType.avgConsumption;
-                document.avgSpeed = vehicleType.avgSpeed;
+                document.autonomy = vehicleType.autonomy;
+                document.cost = vehicleType.cost;
+                document.averageSpeed = vehicleType.averageSpeed;
+                document.energySource = vehicleType.energySource;
+                document.consumption = vehicleType.consumption;
+                document.emissions = vehicleType.emissions;
                 await document.save();
                 return vehicleType;
             }

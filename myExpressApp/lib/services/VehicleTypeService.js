@@ -34,7 +34,6 @@ let VehicleTypeService = class VehicleTypeService {
     createVehicleType(vehicleTypeDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("Service");
                 const vehicleType = yield VehicleType_1.VehicleType.create(vehicleTypeDTO);
                 if (vehicleType.isFailure) {
                     return Result_1.Result.fail(vehicleType.errorValue());

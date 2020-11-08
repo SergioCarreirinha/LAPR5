@@ -3,62 +3,70 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VehicleType = void 0;
 const Result_1 = require("../../core/logic/Result");
 class VehicleType {
-    constructor(name, fuelType, range, costPerKm, avgConsumption, avgSpeed) {
+    constructor(name, autonomy, cost, averageSpeed, energySource, consumption, emissions) {
         this._name = name;
-        this._fuelType = fuelType;
-        this._range = range;
-        this._costPerKm = costPerKm;
-        this._avgConsumption = avgConsumption;
-        this._avgSpeed = avgSpeed;
+        this._autonomy = autonomy;
+        this._cost = cost;
+        this._averageSpeed = averageSpeed;
+        this._energySource = energySource;
+        this._consumption = consumption;
+        this._emissions = emissions;
     }
     get name() {
         return this._name;
     }
-    get fuelType() {
-        return this._fuelType;
+    get autonomy() {
+        return this._autonomy;
     }
-    get range() {
-        return this._range;
+    get cost() {
+        return this._cost;
     }
-    get costPerKm() {
-        return this._costPerKm;
+    get averageSpeed() {
+        return this._averageSpeed;
     }
-    get avgConsumption() {
-        return this._avgConsumption;
+    get energySource() {
+        return this._energySource;
     }
-    get avgSpeed() {
-        return this._avgSpeed;
+    get consumption() {
+        return this._consumption;
+    }
+    get emissions() {
+        return this._emissions;
     }
     set name(value) {
         this._name = value;
     }
-    set fuelType(value) {
-        this._fuelType = value;
+    set autonomy(value) {
+        this._autonomy = value;
     }
-    set range(value) {
-        this._range = value;
+    set cost(value) {
+        this._cost = value;
     }
-    set costPerKm(value) {
-        this._costPerKm = value;
+    set averageSpeed(value) {
+        this._averageSpeed = value;
     }
-    set avgConsumption(value) {
-        this._avgConsumption = value;
+    set energySource(value) {
+        this._energySource = value;
     }
-    set avgSpeed(value) {
-        this._avgSpeed = value;
+    set consumption(value) {
+        this._consumption = value;
+    }
+    set emissions(value) {
+        this._emissions = value;
     }
     static create(vehicleTypeDTO) {
         const name = vehicleTypeDTO.name;
-        const fuelType = vehicleTypeDTO.fuelType;
-        const range = vehicleTypeDTO.range;
-        const costPerKm = vehicleTypeDTO.costPerKm;
-        const avgConsumption = vehicleTypeDTO.avgConsumption;
-        const avgSpeed = vehicleTypeDTO.avgSpeed;
+        const autonomy = vehicleTypeDTO.autonomy;
+        const cost = vehicleTypeDTO.cost;
+        const averageSpeed = vehicleTypeDTO.averageSpeed;
+        const energySource = vehicleTypeDTO.energySource;
+        const consumption = vehicleTypeDTO.consumption;
+        const emissions = vehicleTypeDTO.emissions;
         if (!!name === false || name.length === 0) {
             return Result_1.Result.fail('Must provide a role name');
         }
         else {
-            const roleF = new VehicleType(name, fuelType, range, costPerKm, avgConsumption, avgSpeed);
+            const roleF = new VehicleType(name, autonomy, cost, averageSpeed, energySource, consumption, emissions);
             return Result_1.Result.ok(roleF);
         }
     }

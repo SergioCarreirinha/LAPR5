@@ -35,26 +35,22 @@ let VehicleTypeRepo = class VehicleTypeRepo {
     }
     save(vehicleType) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Repository");
             const query = { name: vehicleType.name };
-            console.log(query);
             const document = yield this.vehicleTypeSchema.findOne(query);
-            console.log(document);
             try {
                 if (document === null) {
-                    console.log("Null");
                     const rawVehicleType = VehicleTypeMap_1.VehicleTypeMap.toPersistence(vehicleType);
                     const vehicleTypeCreated = yield this.vehicleTypeSchema.create(rawVehicleType);
                     return VehicleTypeMap_1.VehicleTypeMap.toDomain(vehicleTypeCreated);
                 }
                 else {
-                    console.log("nao Null");
                     document.name = vehicleType.name;
-                    document.fuelType = vehicleType.fuelType;
-                    document.range = vehicleType.range;
-                    document.costPerKm = vehicleType.costPerKm;
-                    document.avgConsumption = vehicleType.avgConsumption;
-                    document.avgSpeed = vehicleType.avgSpeed;
+                    document.autonomy = vehicleType.autonomy;
+                    document.cost = vehicleType.cost;
+                    document.averageSpeed = vehicleType.averageSpeed;
+                    document.energySource = vehicleType.energySource;
+                    document.consumption = vehicleType.consumption;
+                    document.emissions = vehicleType.emissions;
                     yield document.save();
                     return vehicleType;
                 }

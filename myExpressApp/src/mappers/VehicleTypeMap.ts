@@ -8,11 +8,12 @@ export class VehicleTypeMap {
   public static toDTO(vehicleType: VehicleType) : IVehicleTypeDTO {
     return {
       name: vehicleType.name,
-      fuelType: vehicleType.fuelType,
-      range: vehicleType.range,
-      costPerKm: vehicleType.costPerKm,
-      avgConsumption: vehicleType.avgConsumption,
-      avgSpeed: vehicleType.avgSpeed
+      autonomy: vehicleType.autonomy,
+      cost: vehicleType.cost,
+      averageSpeed: vehicleType.averageSpeed,
+      energySource: vehicleType.energySource,
+      consumption: vehicleType.consumption,
+      emissions: vehicleType.emissions,
     } as IVehicleTypeDTO;
   }
     
@@ -28,11 +29,12 @@ export class VehicleTypeMap {
   public static toPersistence (vehicleType: VehicleType): any {
     return {
       name: vehicleType.name,
-      fuelType: vehicleType.fuelType,
-      range: vehicleType.range,
-      costPerKm: vehicleType.costPerKm,
-      avgConsumption: vehicleType.avgConsumption,
-      avgSpeed: vehicleType.avgSpeed
+      autonomy: vehicleType.autonomy,
+      cost: vehicleType.cost,
+      averageSpeed: vehicleType.averageSpeed,
+      energySource: vehicleType.energySource,
+      consumption: vehicleType.consumption,
+      emissions: vehicleType.emissions
     }
   }
 

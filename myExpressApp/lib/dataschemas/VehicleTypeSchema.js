@@ -7,23 +7,27 @@ const VehicleTypeSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    fuelType: {
-        type: String,
-        required: true
-    },
-    range: {
+    autonomy: {
         type: Number,
         required: true
     },
-    costPerKm: {
+    cost: {
         type: Number,
         required: true
     },
-    avgConsumption: {
+    averageSpeed: {
         type: Number,
         required: true
     },
-    avgSpeed: {
+    energySource: {
+        type: Number,
+        required: true
+    },
+    consumption: {
+        type: Number,
+        required: true
+    },
+    emissions: {
         type: Number,
         required: true
     }

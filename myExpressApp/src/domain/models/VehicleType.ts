@@ -1,86 +1,97 @@
 import IVehicleTypeDTO from "../../dto/VehicleTypeDTO/IVehicleTypeDTO";
 import { Result } from '../../core/logic/Result';
-import { allowedNodeEnvironmentFlags } from "process";
 
 export class VehicleType {
 
     private _name: string;
-    private _fuelType: string;
-    private _range: Number;
-    private _costPerKm: Number;
-    private _avgConsumption: Number;
-    private _avgSpeed: Number;
+    private _autonomy: Number;
+    private _cost: Number;
+    private _averageSpeed: Number;
+    private _energySource: Number;
+    private _consumption: Number;
+    private _emissions: Number;
 
 
-    protected constructor(name: string, fuelType: string, range: Number, costPerKm: Number, avgConsumption: Number, avgSpeed: Number) {
+    protected constructor(name: string, autonomy: Number, cost: Number, averageSpeed: Number, energySource: Number, consumption: Number, emissions: Number) {
         this._name = name;
-        this._fuelType = fuelType;
-        this._range = range;
-        this._costPerKm = costPerKm;
-        this._avgConsumption = avgConsumption;
-        this._avgSpeed = avgSpeed;
+        this._autonomy = autonomy;
+        this._cost = cost;
+        this._averageSpeed = averageSpeed;
+        this._energySource = energySource;
+        this._consumption = consumption;
+        this._emissions = emissions;
     }
 
     get name(): string {
         return this._name;
     }
 
-    get fuelType(): string {
-        return this._fuelType;
+    get autonomy(): Number {
+        return this._autonomy;
     }
 
-    get range(): Number {
-        return this._range;
+    get cost(): Number {
+        return this._cost;
     }
 
-    get costPerKm(): Number {
-        return this._costPerKm;
+    get averageSpeed(): Number {
+        return this._averageSpeed;
     }
 
-    get avgConsumption(): Number {
-        return this._avgConsumption;
+    get energySource(): Number {
+        return this._energySource;
     }
 
-    get avgSpeed(): Number {
-        return this._avgSpeed;
+    get consumption(): Number {
+        return this._consumption;
+    }
+
+    get emissions(): Number {
+        return this._emissions;
     }
 
     set name(value: string) {
         this._name = value;
     }
 
-    set fuelType(value: string) {
-        this._fuelType = value;
+    set autonomy(value: Number) {
+        this._autonomy = value;
     }
 
-    set range(value: Number) {
-        this._range = value;
+    set cost(value: Number) {
+        this._cost = value;
     }
 
-    set costPerKm(value: Number) {
-        this._costPerKm = value;
+    set averageSpeed(value: Number) {
+        this._averageSpeed = value;
     }
 
-    set avgConsumption(value: Number) {
-        this._avgConsumption = value;
+    set energySource(value: Number) {
+        this._energySource = value;
     }
 
-    set avgSpeed(value: Number) {
-        this._avgSpeed = value;
+    set consumption(value: Number) {
+        this._consumption = value;
     }
+
+    set emissions(value: Number) {
+        this._emissions = value;
+    }
+
 
     static create(vehicleTypeDTO: IVehicleTypeDTO): Result<VehicleType> {
         const name = vehicleTypeDTO.name;
-        const fuelType = vehicleTypeDTO.fuelType;
-        const range = vehicleTypeDTO.range;
-        const costPerKm = vehicleTypeDTO.costPerKm;
-        const avgConsumption = vehicleTypeDTO.avgConsumption;
-        const avgSpeed = vehicleTypeDTO.avgSpeed;
+        const autonomy = vehicleTypeDTO.autonomy;
+        const cost = vehicleTypeDTO.cost;
+        const averageSpeed = vehicleTypeDTO.averageSpeed;
+        const energySource = vehicleTypeDTO.energySource;
+        const consumption = vehicleTypeDTO.consumption;
+        const emissions = vehicleTypeDTO.emissions;
 
         if (!!name === false || name.length === 0) {
             return Result.fail<VehicleType>('Must provide a role name')
         } else {
-            const roleF = new VehicleType(name, fuelType, range, costPerKm, avgConsumption, avgSpeed);
+            const roleF = new VehicleType(name, autonomy, cost, averageSpeed, energySource, consumption,emissions);
             return Result.ok<VehicleType>( roleF );
         }
     }

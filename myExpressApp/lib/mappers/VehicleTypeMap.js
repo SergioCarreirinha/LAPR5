@@ -6,11 +6,12 @@ class VehicleTypeMap {
     static toDTO(vehicleType) {
         return {
             name: vehicleType.name,
-            fuelType: vehicleType.fuelType,
-            range: vehicleType.range,
-            costPerKm: vehicleType.costPerKm,
-            avgConsumption: vehicleType.avgConsumption,
-            avgSpeed: vehicleType.avgSpeed
+            autonomy: vehicleType.autonomy,
+            cost: vehicleType.cost,
+            averageSpeed: vehicleType.averageSpeed,
+            energySource: vehicleType.energySource,
+            consumption: vehicleType.consumption,
+            emissions: vehicleType.emissions,
         };
     }
     static toDomain(vehicleType) {
@@ -21,11 +22,12 @@ class VehicleTypeMap {
     static toPersistence(vehicleType) {
         return {
             name: vehicleType.name,
-            fuelType: vehicleType.fuelType,
-            range: vehicleType.range,
-            costPerKm: vehicleType.costPerKm,
-            avgConsumption: vehicleType.avgConsumption,
-            avgSpeed: vehicleType.avgSpeed
+            autonomy: vehicleType.autonomy,
+            cost: vehicleType.cost,
+            averageSpeed: vehicleType.averageSpeed,
+            energySource: vehicleType.energySource,
+            consumption: vehicleType.consumption,
+            emissions: vehicleType.emissions
         };
     }
 }
