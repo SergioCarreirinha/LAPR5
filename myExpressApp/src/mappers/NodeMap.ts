@@ -7,7 +7,7 @@ export class NodeMap {
 
   public static toDTO(node: Node) : INodeDTO {
     return {
-        id: node.id,
+        id: node.id.toString(),
         key: node.key,
         name: node.name,
         latitude: node.latitude,
@@ -19,8 +19,8 @@ export class NodeMap {
   }
     
 
-  public static toDomain (Node: any | Model<INodePersistence & Document> ): Node {
-    const NodeOrError = Node.create(Node);
+  public static toDomain (node: any | Model<INodePersistence & Document> ): Node {
+    const NodeOrError = Node.create(node);
 
     NodeOrError.isFailure ? console.log(NodeOrError.error) : '';
 
@@ -29,7 +29,7 @@ export class NodeMap {
 
   public static toPersistence (node: Node): any {
     return {
-        domainId: node.id,
+        domainId: node.id.toString(),
         key: node.key,
         name: node.name,
         latitude: node.latitude,

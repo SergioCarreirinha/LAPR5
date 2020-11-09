@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NodeMap = void 0;
+const Node_1 = require("../domain/models/Node");
 class NodeMap {
     static toDTO(node) {
         return {
-            id: node.id,
+            id: node.id.toString(),
             key: node.key,
             name: node.name,
             latitude: node.latitude,
@@ -14,14 +15,14 @@ class NodeMap {
             isReliefPoint: node.isReliefPoint
         };
     }
-    static toDomain(Node) {
-        const NodeOrError = Node.create(Node);
+    static toDomain(node) {
+        const NodeOrError = Node_1.Node.create(node);
         NodeOrError.isFailure ? console.log(NodeOrError.error) : '';
         return NodeOrError.isSuccess ? NodeOrError.getValue() : null;
     }
     static toPersistence(node) {
         return {
-            domainId: node.id,
+            domainId: node.id.toString(),
             key: node.key,
             name: node.name,
             latitude: node.latitude,

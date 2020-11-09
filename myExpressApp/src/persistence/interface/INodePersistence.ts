@@ -1,10 +1,10 @@
 export interface INodePersistence {
-    domainId: String;
-    key: String;
-    name: String;
+    domainId: string;
+    key: string;
+    name: string;
     latitude: Number;
     longitude: Number;
-    shortName: String;
+    shortName: string;
     isDepot: Boolean;
     isReliefPoint: Boolean;
 }

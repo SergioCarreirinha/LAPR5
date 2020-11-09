@@ -56,7 +56,7 @@ class Node extends AggregateRoot_1.AggregateRoot {
     set isReliefPoint(value) {
         this.props.isReliefPoint = value;
     }
-    static make(NodeDTO, id) {
+    static create(NodeDTO, id) {
         const key = NodeDTO.key;
         const name = NodeDTO.name;
         const latitude = NodeDTO.latitude;
@@ -65,7 +65,6 @@ class Node extends AggregateRoot_1.AggregateRoot {
         const isDepot = NodeDTO.isDepot;
         const isReliefPoint = NodeDTO.isReliefPoint;
         if (!!key === false || key.length === 0) {
-            console.log("ISTO DEVIA DAR ERRO");
             return Result_1.Result.fail('Must provide a key');
         }
         else {

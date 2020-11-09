@@ -34,7 +34,7 @@ let NodeService = class NodeService {
     createNode(nodeDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const node = yield Node_1.Node.make(nodeDTO);
+                const node = yield Node_1.Node.create(nodeDTO);
                 if (node.isFailure) {
                     return Result_1.Result.fail(node.errorValue());
                 }
