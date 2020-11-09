@@ -54,8 +54,8 @@ export default{
             name: "NodeController",
             path: "../controllers/NodeController"
         },
-        LinesPath: {
-            name: "LinesPathController",
+        LinePaths: {
+            name: "LinePathsController",
             path: "../controllers/LinesPathController"
         }
 
@@ -98,8 +98,8 @@ export default{
             name: "NodeService",
             path: "../services/NodeService"
         },
-        LinesPath: {
-            name: "LinesPathService",
+        LinePaths: {
+            name: "LinePathsService",
             path: "../services/LinesPathService"
         }
     }
