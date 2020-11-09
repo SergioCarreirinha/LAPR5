@@ -15,6 +15,7 @@ export default class DriverTypeService implements IDriverTypeService {
 
     public async createDriverType(driverTypeDTO : IDriverTypeDTO): Promise<Result<IDriverTypeDTO>> {
         try {
+            
             const driverType = await DriverType.create(driverTypeDTO);
 
             if(driverType.isFailure) {

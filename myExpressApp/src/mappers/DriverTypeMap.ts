@@ -7,6 +7,7 @@ export class DriverTypeMap {
 
   public static toDTO(driverType: DriverType) : IDriverTypeDTO {
     return {
+      id: driverType.id.toString(),
       description: driverType.description,
     } as IDriverTypeDTO;
   }
@@ -22,6 +23,7 @@ export class DriverTypeMap {
 
   public static toPersistence (driverType: DriverType): any {
     return {
+      domainId: driverType.id.toString(),
       description: driverType.description,
     }
   }

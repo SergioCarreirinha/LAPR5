@@ -23,7 +23,7 @@ export default class DriverTypeRepo implements IDriverTypeRepo{
     }
 
     public async save(DriverType: DriverType): Promise<DriverType> {
-        const query = {description: DriverType.description};
+        const query = {domainId: DriverType.id.toString()};
         const document = await this.DriverTypeSchema.findOne(query);
         try{
             if(document === null) {
