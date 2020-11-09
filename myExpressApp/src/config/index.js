@@ -25,6 +25,14 @@ export default{
         DriverType: {
             name: 'DriverTypeSchema',
             schema: '../dataschemas/DriverTypeSchema'
+        },
+        Line: {
+            name: 'LineSchema',
+            schema: '../dataschemas/LineSchema'
+        },
+        Path: {
+            name: 'PathSchema',
+            schema: '../dataschemas/PathSchema'
         }
     },
     
@@ -36,6 +44,10 @@ export default{
         DriverType: {
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
+        },
+        LinesPath: {
+            name: "LinesPathController",
+            path: "../controllers/LinesPathController"
         }
     },
 
@@ -47,6 +59,14 @@ export default{
         DriverType: {
             name: "DriverTypeRepo",
             path: "../repositories/DriverTypeRepo"
+        },
+        Line: {
+            name: "LineRepo",
+            path: "../repositories/LineRepo"
+        },
+        Path: {
+            name: "PathRepo",
+            path: "../repositories/PathRepo"
         }
     },
 
@@ -58,6 +78,10 @@ export default{
         DriverType: {
             name: "DriverTypeService",
             path: "../services/DriverTypeService"
+        },
+        LinesPath: {
+            name: "LinesPathService",
+            path: "../services/LinesPathService"
         }
     }
 }
