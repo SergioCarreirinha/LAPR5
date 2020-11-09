@@ -23,30 +23,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const config_1 = require("../config/");
-const VehicleTypeService_1 = require("../services/VehicleTypeService");
+const NodeService_1 = require("../services/NodeService");
 const celebrate_1 = require("celebrate");
-const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
-const VehicleTypeSchema_1 = require("../dataschemas/VehicleTypeSchema");
-let VehicleTypeController = class VehicleTypeController {
-    constructor(vehicleTypeServiceInstance) {
-        this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
+const NodeRepo_1 = require("../repositories/NodeRepo");
+const NodeSchema_1 = require("../dataschemas/NodeSchema");
+let NodeController = class NodeController {
+    constructor(nodeServiceInstance) {
+        this.nodeServiceInstance = nodeServiceInstance;
     }
-    createVehicleType(req, res, next) {
+    createNode(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             celebrate_1.celebrate({
                 body: celebrate_1.Joi.object({
+                    key: celebrate_1.Joi.string().required(),
                     name: celebrate_1.Joi.string().required(),
-                    fuelType: celebrate_1.Joi.number().required(),
-                    cost: celebrate_1.Joi.number().required(),
-                    averageSpeed: celebrate_1.Joi.number().required(),
-                    energySource: celebrate_1.Joi.number().required(),
-                    consumption: celebrate_1.Joi.number().required(),
-                    emissions: celebrate_1.Joi.number().required()
+                    latitude: celebrate_1.Joi.number().required(),
+                    longitude: celebrate_1.Joi.number().required(),
+                    shortName: celebrate_1.Joi.string().required(),
+                    isDepot: celebrate_1.Joi.boolean().required(),
+                    isReliefPoint: celebrate_1.Joi.boolean().required(),
                 })
             });
             try {
-                console.log(config_1.default.services.VehicleType.name);
-                const callService = yield new VehicleTypeService_1.default(new VehicleTypeRepo_1.default(VehicleTypeSchema_1.default)).createVehicleType(req.body);
+                console.log(config_1.default.services.Node.name);
+                const callService = yield new NodeService_1.default(new NodeRepo_1.default(NodeSchema_1.default)).createNode(req.body);
                 if (callService.isFailure) {
                     return res.status(402).send();
                 }
@@ -58,8 +58,8 @@ let VehicleTypeController = class VehicleTypeController {
         });
     }
 };
-VehicleTypeController = __decorate([
-    __param(0, typedi_1.Inject(config_1.default.services.VehicleType.name)),
-    __metadata("design:paramtypes", [VehicleTypeService_1.default])
-], VehicleTypeController);
-exports.default = VehicleTypeController;
+NodeController = __decorate([
+    __param(0, typedi_1.Inject(config_1.default.services.Node.name)),
+    __metadata("design:paramtypes", [NodeService_1.default])
+], NodeController);
+exports.default = NodeController;

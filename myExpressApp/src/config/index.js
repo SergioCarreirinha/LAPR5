@@ -25,6 +25,10 @@ export default{
         DriverType: {
             name: 'DriverTypeSchema',
             schema: '../dataschemas/DriverTypeSchema'
+        },
+        Node: {
+            name: 'NodeSchema',
+            schema: '../dataschemas/NodeSchema'
         }
     },
     
@@ -36,7 +40,12 @@ export default{
         DriverType: {
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
+        },
+        Node: {
+            name: "NodeController",
+            path: "../controllers/NodeController"
         }
+
     },
 
     repositories: {
@@ -47,7 +56,12 @@ export default{
         DriverType: {
             name: "DriverTypeRepo",
             path: "../repositories/DriverTypeRepo"
+        },
+        Node: {
+            name: "NodeRepo",
+            path: "../repositories/NodeRepo"
         }
+
     },
 
     services: {
@@ -58,6 +72,10 @@ export default{
         DriverType: {
             name: "DriverTypeService",
             path: "../services/DriverTypeService"
+        },
+        Node: {
+            name: "NodeService",
+            path: "../services/NodeService"
         }
     }
 }

@@ -45,6 +45,4 @@ export default class VehicleTypeRepo implements IVehicleTypeRepo{
             throw e;
         }
     }
-
-
 }

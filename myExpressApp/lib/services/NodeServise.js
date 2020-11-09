@@ -22,44 +22,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config/");
-const VehicleTypeService_1 = require("../services/VehicleTypeService");
-const celebrate_1 = require("celebrate");
-const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
-const VehicleTypeSchema_1 = require("../dataschemas/VehicleTypeSchema");
-let VehicleTypeController = class VehicleTypeController {
-    constructor(vehicleTypeServiceInstance) {
-        this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
+const config_1 = require("../config");
+const Node_1 = require("../domain/models/Node");
+const NodeRepo_1 = require("../repositories/NodeRepo");
+const NodeMap_1 = require("../mappers/NodeMap");
+const Result_1 = require("../core/logic/Result");
+let NodeService = class NodeService {
+    constructor(NodeRepo) {
+        this.NodeRepo = NodeRepo;
     }
-    createVehicleType(req, res, next) {
+    createNode(nodeDTO) {
         return __awaiter(this, void 0, void 0, function* () {
-            celebrate_1.celebrate({
-                body: celebrate_1.Joi.object({
-                    name: celebrate_1.Joi.string().required(),
-                    fuelType: celebrate_1.Joi.number().required(),
-                    cost: celebrate_1.Joi.number().required(),
-                    averageSpeed: celebrate_1.Joi.number().required(),
-                    energySource: celebrate_1.Joi.number().required(),
-                    consumption: celebrate_1.Joi.number().required(),
-                    emissions: celebrate_1.Joi.number().required()
-                })
-            });
             try {
-                console.log(config_1.default.services.VehicleType.name);
-                const callService = yield new VehicleTypeService_1.default(new VehicleTypeRepo_1.default(VehicleTypeSchema_1.default)).createVehicleType(req.body);
-                if (callService.isFailure) {
-                    return res.status(402).send();
+                const node = yield Node_1.Node.create(nodeDTO);
+                if (node.isFailure) {
+                    return Result_1.Result.fail(node.errorValue());
                 }
-                return res.status(201).json(callService.getValue());
+                yield this.NodeRepo.save(node.getValue());
+                const nodeReturn = NodeMap_1.NodeMap.toDTO(node.getValue());
+                return Result_1.Result.ok(nodeReturn);
             }
             catch (e) {
-                return next(e);
+                throw e;
             }
         });
     }
 };
-VehicleTypeController = __decorate([
-    __param(0, typedi_1.Inject(config_1.default.services.VehicleType.name)),
-    __metadata("design:paramtypes", [VehicleTypeService_1.default])
-], VehicleTypeController);
-exports.default = VehicleTypeController;
+NodeService = __decorate([
+    typedi_1.Service(),
+    __param(0, typedi_1.Inject(config_1.default.repositories.node.name)),
+    __metadata("design:paramtypes", [NodeRepo_1.default])
+], NodeService);
+exports.default = NodeService;

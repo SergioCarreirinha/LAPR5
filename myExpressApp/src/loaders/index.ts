@@ -46,13 +46,33 @@ export default async ({ expressApp }) => {
     name: config.services.DriverType.name,
     path: config.services.DriverType.path
   }
+  const NodeSchema = {
+    name: config.schemas.Node.name,
+    schema: config.schemas.Node.schema
+  }
+  
+  const NodeRepo = {
+    name: config.repositories.Node.name,
+    path: config.repositories.Node.path
+  }
+
+  const NodeController = {
+    name: config.controllers.Node.name,
+    path: config.controllers.Node.path
+  }
+
+  const NodeService = {
+    name: config.services.Node.name,
+    path: config.services.Node.path
+  }
+
 
   await dependencyInjector({
     mongoConnection,
-    schemas: [vehicleTypeSchema, DriverTypeSchema],
-    repositories: [vehicleTypeRepo, DriverTypeRepo],
-    controllers: [vehicleTypeController, DriverTypeController],
-    services: [vehicleTypeService, DriverTypeService]
+    schemas: [vehicleTypeSchema, DriverTypeSchema,NodeSchema],
+    repositories: [vehicleTypeRepo, DriverTypeRepo,NodeRepo],
+    controllers: [vehicleTypeController, DriverTypeController,NodeController],
+    services: [vehicleTypeService, DriverTypeService,NodeService]
   })
   
   await expressLoader({ app: expressApp });

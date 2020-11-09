@@ -48,12 +48,28 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
         name: config_1.default.services.DriverType.name,
         path: config_1.default.services.DriverType.path
     };
+    const NodeSchema = {
+        name: config_1.default.schemas.Node.name,
+        schema: config_1.default.schemas.Node.schema
+    };
+    const NodeRepo = {
+        name: config_1.default.repositories.Node.name,
+        path: config_1.default.repositories.Node.path
+    };
+    const NodeController = {
+        name: config_1.default.controllers.Node.name,
+        path: config_1.default.controllers.Node.path
+    };
+    const NodeService = {
+        name: config_1.default.services.Node.name,
+        path: config_1.default.services.Node.path
+    };
     yield dependencyInjector_1.default({
         mongoConnection,
-        schemas: [vehicleTypeSchema, DriverTypeSchema],
-        repositories: [vehicleTypeRepo, DriverTypeRepo],
-        controllers: [vehicleTypeController, DriverTypeController],
-        services: [vehicleTypeService, DriverTypeService]
+        schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema],
+        repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo],
+        controllers: [vehicleTypeController, DriverTypeController, NodeController],
+        services: [vehicleTypeService, DriverTypeService, NodeService]
     });
     yield express_1.default({ app: expressApp });
     console.log('Express Intialized');

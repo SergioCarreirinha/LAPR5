@@ -22,44 +22,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config/");
-const VehicleTypeService_1 = require("../services/VehicleTypeService");
-const celebrate_1 = require("celebrate");
-const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
-const VehicleTypeSchema_1 = require("../dataschemas/VehicleTypeSchema");
-let VehicleTypeController = class VehicleTypeController {
-    constructor(vehicleTypeServiceInstance) {
-        this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
+const NodeMap_1 = require("../mappers/NodeMap");
+const mongoose_1 = require("mongoose");
+let NodeRepo = class NodeRepo {
+    constructor(NodeSchema) {
+        this.NodeSchema = NodeSchema;
     }
-    createVehicleType(req, res, next) {
+    createBaseQuery() {
+        return {
+            where: {},
+        };
+    }
+    save(node) {
         return __awaiter(this, void 0, void 0, function* () {
-            celebrate_1.celebrate({
-                body: celebrate_1.Joi.object({
-                    name: celebrate_1.Joi.string().required(),
-                    fuelType: celebrate_1.Joi.number().required(),
-                    cost: celebrate_1.Joi.number().required(),
-                    averageSpeed: celebrate_1.Joi.number().required(),
-                    energySource: celebrate_1.Joi.number().required(),
-                    consumption: celebrate_1.Joi.number().required(),
-                    emissions: celebrate_1.Joi.number().required()
-                })
-            });
+            const query = { key: node.key };
+            const document = yield this.NodeSchema.findOne(query);
             try {
-                console.log(config_1.default.services.VehicleType.name);
-                const callService = yield new VehicleTypeService_1.default(new VehicleTypeRepo_1.default(VehicleTypeSchema_1.default)).createVehicleType(req.body);
-                if (callService.isFailure) {
-                    return res.status(402).send();
+                if (document === null) {
+                    const rawNode = NodeMap_1.NodeMap.toPersistence(node);
+                    const NodeCreated = yield this.NodeSchema.create(rawNode);
+                    return NodeMap_1.NodeMap.toDomain(NodeCreated);
                 }
-                return res.status(201).json(callService.getValue());
+                else {
+                    document.key = node.key;
+                    document.name = node.name;
+                    document.latitude = node.latitude;
+                    document.longitude = node.longitude;
+                    document.shortName = node.shortName;
+                    document.isDepot = node.isDepot;
+                    document.isReliefPoint = node.isReliefPoint;
+                    yield document.save();
+                    return node;
+                }
             }
             catch (e) {
-                return next(e);
+                throw e;
             }
         });
     }
 };
-VehicleTypeController = __decorate([
-    __param(0, typedi_1.Inject(config_1.default.services.VehicleType.name)),
-    __metadata("design:paramtypes", [VehicleTypeService_1.default])
-], VehicleTypeController);
-exports.default = VehicleTypeController;
+NodeRepo = __decorate([
+    typedi_1.Service(),
+    __param(0, typedi_1.Inject('NodeSchema')),
+    __metadata("design:paramtypes", [mongoose_1.Model])
+], NodeRepo);
+exports.default = NodeRepo;

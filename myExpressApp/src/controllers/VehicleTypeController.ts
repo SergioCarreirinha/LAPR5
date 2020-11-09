@@ -20,7 +20,7 @@ export default class VehicleTypeController implements IVehicleTypeController{
         celebrate({
             body: Joi.object({
                 name: Joi.string().required(),
-                fuautonomyelType: Joi.number().required(),
+                fuelType: Joi.number().required(),
                 cost: Joi.number().required(),
                 averageSpeed: Joi.number().required(),
                 energySource: Joi.number().required(),
