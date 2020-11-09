@@ -1,7 +1,7 @@
 import { Service, Inject} from 'typedi';
 import config from "../config";
 import INodeDTO from '../dto/NodeDTO/INodeDTO';
-import { Node } from '../domain/models/Node';
+import { Node }  from '../domain/models/Node';
 import INodeRepo from '../repositories/NodeRepo';
 import INodeService from './interface/INodeService';
 import { NodeMap } from '../mappers/NodeMap';
@@ -16,7 +16,6 @@ export default class NodeService implements INodeService {
     public async createNode(nodeDTO : INodeDTO): Promise<Result<INodeDTO>> {
         try {
             const node = await Node.create(nodeDTO);
-
             if(node.isFailure) {
                 return Result.fail<INodeDTO>(node.errorValue());
             }

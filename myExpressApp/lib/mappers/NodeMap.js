@@ -4,6 +4,7 @@ exports.NodeMap = void 0;
 class NodeMap {
     static toDTO(node) {
         return {
+            id: node.id,
             key: node.key,
             name: node.name,
             latitude: node.latitude,
@@ -20,6 +21,7 @@ class NodeMap {
     }
     static toPersistence(node) {
         return {
+            domainId: node.id,
             key: node.key,
             name: node.name,
             latitude: node.latitude,

@@ -24,6 +24,14 @@ exports.default = {
         Node: {
             name: 'NodeSchema',
             schema: '../dataschemas/NodeSchema'
+        },
+        Line: {
+            name: 'LineSchema',
+            schema: '../dataschemas/LineSchema'
+        },
+        Path: {
+            name: 'PathSchema',
+            schema: '../dataschemas/PathSchema'
         }
     },
     controllers: {
@@ -38,6 +46,10 @@ exports.default = {
         Node: {
             name: "NodeController",
             path: "../controllers/NodeController"
+        },
+        LinesPath: {
+            name: "LinesPathController",
+            path: "../controllers/LinesPathController"
         }
     },
     repositories: {
@@ -52,6 +64,14 @@ exports.default = {
         Node: {
             name: "NodeRepo",
             path: "../repositories/NodeRepo"
+        },
+        Line: {
+            name: "LineRepo",
+            path: "../repositories/LineRepo"
+        },
+        Path: {
+            name: "PathRepo",
+            path: "../repositories/PathRepo"
         }
     },
     services: {
@@ -66,6 +86,10 @@ exports.default = {
         Node: {
             name: "NodeService",
             path: "../services/NodeService"
+        },
+        LinesPath: {
+            name: "LinesPathService",
+            path: "../services/LinesPathService"
         }
     }
 };

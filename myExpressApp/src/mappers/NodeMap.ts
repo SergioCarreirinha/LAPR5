@@ -7,6 +7,7 @@ export class NodeMap {
 
   public static toDTO(node: Node) : INodeDTO {
     return {
+        id: node.id,
         key: node.key,
         name: node.name,
         latitude: node.latitude,
@@ -28,6 +29,7 @@ export class NodeMap {
 
   public static toPersistence (node: Node): any {
     return {
+        domainId: node.id,
         key: node.key,
         name: node.name,
         latitude: node.latitude,

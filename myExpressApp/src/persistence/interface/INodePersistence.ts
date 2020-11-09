@@ -1,4 +1,5 @@
 export interface INodePersistence {
+    domainId: String;
     key: String;
     name: String;
     latitude: Number;

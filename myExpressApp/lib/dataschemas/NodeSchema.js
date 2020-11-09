@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const NodeSchema = new mongoose.Schema({
+    domainId: {
+        type: String,
+        unique: true
+    },
     key: {
         type: String,
         unique: true,

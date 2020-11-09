@@ -4,6 +4,10 @@ import * as mongoose from 'mongoose';
 
 const NodeSchema = new mongoose.Schema(
   {
+    domainId: {
+        type: String,
+         unique: true
+    },
     key: { 
       type: String, 
       unique: true,

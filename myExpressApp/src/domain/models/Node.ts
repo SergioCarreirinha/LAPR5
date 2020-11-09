@@ -1,84 +1,91 @@
 import { Result } from '../../core/logic/Result';
 import INodeDTO from "../../dto/NodeDTO/INodeDTO";
+import { AggregateRoot } from "../../core/domain/AggregateRoot";
+import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
+import {NodeID} from './ID/NodeID';
 
-export class Node {
+interface INode {
+     key: string;
+     name: string;
+     latitude: Number;
+     longitude: Number;
+     shortName: string;
+     isDepot: Boolean;
+     isReliefPoint: Boolean;
 
-    private _key: String;
-    private _name: String;
-    private _latitude: Number;
-    private _longitude: Number;
-    private _shortName: String;
-    private _isDepot: Boolean;
-    private _isReliefPoint: Boolean;
+}
 
+export class Node extends AggregateRoot<INode>{
 
-    protected constructor(key: String, name: String, latitude: Number, longitude: Number, shortName: String, isDepot: Boolean, isReliefPoint: Boolean) {
-        this._key = key;
-        this._name = name;
-        this._latitude = latitude;
-        this._longitude = longitude;
-        this._shortName = shortName;
-        this._isDepot = isDepot;
-        this._isReliefPoint = isReliefPoint;
+    private constructor(inter: INode, id?: UniqueEntityID) {
+        super(inter,id);
     }
 
-    get key(): String {
-        return this._key;
+    get key(): string {
+        return this.props.key;
     }
 
-    get name(): String {
-        return this._name;
+    get name(): string {
+        return this.props.name;
     }
 
     get latitude(): Number {
-        return this._latitude;
+        return this.props.latitude;
     }
 
     get longitude(): Number {
-        return this._longitude;
+        return this.props.longitude;
     }
 
-    get shortName(): String {
-        return this._shortName;
+    get shortName(): string {
+        return this.props.shortName;
     }
 
     get isDepot(): Boolean {
-        return this._isDepot;
+        return this.props.isDepot;
     }
 
     get isReliefPoint(): Boolean {
-        return this._isReliefPoint;
+        return this.props.isReliefPoint;
     }
     
-    set key(value: String) {
-        this._key = value;
+    get id(): UniqueEntityID {
+        return this._id;
     }
 
-    set name(value: String) {
-        this._name = value;
+    get nodeID() : NodeID {
+        return NodeID.create(this.id);
+    }
+
+    set key(value: string) {
+        this.props.key = value;
+    }
+
+    set name(value: string) {
+        this.props.name = value;
     }
 
     set latitude(value: Number) {
-        this._latitude = value;
+        this.props.latitude = value;
     }
 
     set longitude(value: Number) {
-        this._longitude = value;
+        this.props.longitude = value;
     }
 
-    set shortName(value: String) {
-        this._shortName = value;
+    set shortName(value: string) {
+        this.props.shortName = value;
     }
 
     set isDepot(value: Boolean) {
-        this._isDepot = value;
+        this.props.isDepot = value;
     }
 
     set isReliefPoint(value: Boolean) {
-        this._isReliefPoint = value;
+        this.props.isReliefPoint = value;
     }
 
-    static create(NodeDTO: INodeDTO): Result<Node> {
+    static create(NodeDTO: INodeDTO, id?: UniqueEntityID): Result<Node> {
         const key = NodeDTO.key;
         const name = NodeDTO.name;
         const latitude = NodeDTO.latitude;
@@ -90,7 +97,7 @@ export class Node {
         if (!!key === false || key.length === 0) {
             return Result.fail<Node>('Must provide a key')
         } else {
-            const roleF = new Node(key, name, latitude, longitude, shortName, isDepot, isReliefPoint);
+            const roleF = new Node({key:key, name:name, latitude:latitude, longitude:longitude, shortName:shortName, isDepot:isDepot, isReliefPoint:isReliefPoint},id);
             return Result.ok<Node>( roleF );
         }
     }

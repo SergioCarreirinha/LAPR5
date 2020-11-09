@@ -35,7 +35,7 @@ let NodeRepo = class NodeRepo {
     }
     save(node) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { key: node.key };
+            const query = { domainId: node.id.toString() };
             const document = yield this.NodeSchema.findOne(query);
             try {
                 if (document === null) {

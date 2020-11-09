@@ -1,9 +1,9 @@
 export default interface INodeDTO {
-    key: String;
-    name: String;
+    key: string;
+    name: string;
     latitude: Number;
     longitude: Number;
-    shortName: String;
+    shortName: string;
     isDepot: Boolean;
     isReliefPoint: Boolean;
 }
