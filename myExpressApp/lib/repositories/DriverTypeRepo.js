@@ -35,7 +35,7 @@ let DriverTypeRepo = class DriverTypeRepo {
     }
     save(DriverType) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { description: DriverType.description };
+            const query = { domainId: DriverType.id.toString() };
             const document = yield this.DriverTypeSchema.findOne(query);
             try {
                 if (document === null) {

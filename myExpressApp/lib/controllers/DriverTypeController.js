@@ -39,7 +39,6 @@ let DriverTypeController = class DriverTypeController {
                 })
             });
             try {
-                console.log(config_1.default.services.DriverType.name);
                 const callService = yield new DriverTypeService_1.default(new DriverTypeRepo_1.default(DriverTypeSchema_1.default)).createDriverType(req.body);
                 if (callService.isFailure) {
                     return res.status(402).send();

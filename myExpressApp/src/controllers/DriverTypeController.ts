@@ -25,7 +25,7 @@ export default class DriverTypeController implements IDriverTypeController {
         });
 
         try{
-            console.log(config.services.DriverType.name)
+            
             const callService = await new DriverTypeService(new DriverTypeRepo(DriverTypeSchema)).createDriverType(req.body as IDriverTypeDTO) as Result<IDriverTypeDTO>;
 
             if(callService.isFailure) {

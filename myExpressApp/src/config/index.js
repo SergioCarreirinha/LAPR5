@@ -29,6 +29,14 @@ export default{
         Node: {
             name: 'NodeSchema',
             schema: '../dataschemas/NodeSchema'
+        },
+        Line: {
+            name: 'LineSchema',
+            schema: '../dataschemas/LineSchema'
+        },
+        Path: {
+            name: 'PathSchema',
+            schema: '../dataschemas/PathSchema'
         }
     },
     
@@ -41,9 +49,14 @@ export default{
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
         },
+
         Node: {
             name: "NodeController",
             path: "../controllers/NodeController"
+        },
+        LinesPath: {
+            name: "LinesPathController",
+            path: "../controllers/LinesPathController"
         }
 
     },
@@ -60,6 +73,14 @@ export default{
         Node: {
             name: "NodeRepo",
             path: "../repositories/NodeRepo"
+        },
+        Line: {
+            name: "LineRepo",
+            path: "../repositories/LineRepo"
+        },
+        Path: {
+            name: "PathRepo",
+            path: "../repositories/PathRepo"
         }
 
     },
@@ -76,6 +97,10 @@ export default{
         Node: {
             name: "NodeService",
             path: "../services/NodeService"
+        },
+        LinesPath: {
+            name: "LinesPathService",
+            path: "../services/LinesPathService"
         }
     }
 }

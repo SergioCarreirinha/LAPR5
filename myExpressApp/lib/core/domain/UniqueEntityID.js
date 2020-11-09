@@ -5,7 +5,7 @@ const uuid_1 = require("uuid");
 const Identifier_1 = require("./Identifier");
 class UniqueEntityID extends Identifier_1.Identifier {
     constructor(id) {
-        super(id ? id : uuid_1.default());
+        super(id ? id : uuid_1.v4());
     }
 }
 exports.UniqueEntityID = UniqueEntityID;

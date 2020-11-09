@@ -5,6 +5,7 @@ const DriverType_1 = require("../domain/models/DriverType");
 class DriverTypeMap {
     static toDTO(driverType) {
         return {
+            id: driverType.id.toString(),
             description: driverType.description,
         };
     }
@@ -15,6 +16,7 @@ class DriverTypeMap {
     }
     static toPersistence(driverType) {
         return {
+            domainId: driverType.id.toString(),
             description: driverType.description,
         };
     }
