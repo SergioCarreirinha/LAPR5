@@ -59,7 +59,7 @@ export default{
         },
         LinePaths: {
             name: "LinePathsController",
-            path: "../controllers/LinesPathController"
+            path: "../controllers/LinePathsController"
         },
         Line: {
             name: "LineController",
@@ -110,7 +110,7 @@ export default{
         },
         LinePaths: {
             name: "LinePathsService",
-            path: "../services/LinesPathService"
+            path: "../services/LinePathsService"
         },
         Line: {
             name: "LineService",
