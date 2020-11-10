@@ -10,7 +10,7 @@ import { Result } from '../core/logic/Result';
 @Service()
 export default class LineService implements ILineService {
     constructor(
-        @Inject(config.repositories.line.name) private lineRepo :  ILineRepo
+        @Inject(config.repositories.Line.name) private lineRepo :  ILineRepo
     ){}
 
     public async createLine(line : ILineDTO): Promise<Result<ILineDTO>> {

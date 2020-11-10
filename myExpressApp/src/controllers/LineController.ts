@@ -15,13 +15,10 @@ import { Line } from '../domain/models/Line';
 
 export default class LineController implements ILineController {
     constructor(
-        @Inject(config.services.line.name) private lineServiceInstance : ILineService
+        @Inject(config.services.Line.name) private lineServiceInstance : ILineService
     ) {}
 
     public async createLine(req: Request, res: Response, next: NextFunction) {
-        celebrate({
-        });
-
         try{
             
             const callService = await new LineService(new LineRepo(LineSchema)).createLine(req.body as ILineDTO) as Result<ILineDTO>;

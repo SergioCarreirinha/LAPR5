@@ -49,7 +49,7 @@ let LineService = class LineService {
 };
 LineService = __decorate([
     typedi_1.Service(),
-    __param(0, typedi_1.Inject(config_1.default.repositories.line.name)),
+    __param(0, typedi_1.Inject(config_1.default.repositories.Line.name)),
     __metadata("design:paramtypes", [Object])
 ], LineService);
 exports.default = LineService;

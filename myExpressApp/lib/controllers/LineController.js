@@ -26,14 +26,12 @@ const config_1 = require("../config/");
 const LineService_1 = require("../services/LineService");
 const LineRepo_1 = require("../repositories/LineRepo");
 const LineSchema_1 = require("../dataschemas/LineSchema");
-const celebrate_1 = require("celebrate");
 let LineController = class LineController {
     constructor(lineServiceInstance) {
         this.lineServiceInstance = lineServiceInstance;
     }
     createLine(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            celebrate_1.celebrate({});
             try {
                 const callService = yield new LineService_1.default(new LineRepo_1.default(LineSchema_1.default)).createLine(req.body);
                 if (callService.isFailure) {
@@ -48,7 +46,7 @@ let LineController = class LineController {
     }
 };
 LineController = __decorate([
-    __param(0, typedi_1.Inject(config_1.default.services.line.name)),
+    __param(0, typedi_1.Inject(config_1.default.services.Line.name)),
     __metadata("design:paramtypes", [Object])
 ], LineController);
 exports.default = LineController;

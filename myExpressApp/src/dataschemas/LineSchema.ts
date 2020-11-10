@@ -19,10 +19,12 @@ const LineSchema = new mongoose.Schema(
         type: String
     },
     goPath: {
-        type: Path
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Path',
     },
     returnPath: {
-        type: Path
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Path',
     },
     emptyPaths: {
         type: Array<Path>()

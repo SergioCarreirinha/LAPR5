@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
-const Path_1 = require("../domain/models/Path");
 const LineSchema = new mongoose.Schema({
     domainId: {
         type: String,
@@ -15,10 +14,12 @@ const LineSchema = new mongoose.Schema({
         type: String
     },
     goPath: {
-        type: Path_1.Path
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Path',
     },
     returnPath: {
-        type: Path_1.Path
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Path',
     },
     emptyPaths: {
         type: Array()
