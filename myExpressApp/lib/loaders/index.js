@@ -48,12 +48,20 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
         name: config_1.default.services.DriverType.name,
         path: config_1.default.services.DriverType.path
     };
+    const FileUploadController = {
+        name: config_1.default.controllers.FileUpload.name,
+        path: config_1.default.controllers.FileUpload.path
+    };
+    const FileUploadService = {
+        name: config_1.default.services.FileUpload.name,
+        path: config_1.default.services.FileUpload.path
+    };
     yield dependencyInjector_1.default({
         mongoConnection,
         schemas: [vehicleTypeSchema, DriverTypeSchema],
         repositories: [vehicleTypeRepo, DriverTypeRepo],
-        controllers: [vehicleTypeController, DriverTypeController],
-        services: [vehicleTypeService, DriverTypeService]
+        controllers: [vehicleTypeController, DriverTypeController, FileUploadController],
+        services: [vehicleTypeService, DriverTypeService, FileUploadService]
     });
     yield express_1.default({ app: expressApp });
     console.log('Express Intialized');

@@ -30,6 +30,10 @@ exports.default = {
         DriverType: {
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
+        },
+        FileUpload: {
+            name: "FileUploadController",
+            path: "../controllers/FileUploadController"
         }
     },
     repositories: {
@@ -50,6 +54,10 @@ exports.default = {
         DriverType: {
             name: "DriverTypeService",
             path: "../services/DriverTypeService"
+        },
+        FileUpload: {
+            name: "FileUploadService",
+            path: "../services/FileUploadService"
         }
     }
 };
