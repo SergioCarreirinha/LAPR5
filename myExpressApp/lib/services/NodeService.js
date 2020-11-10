@@ -47,6 +47,17 @@ let NodeService = class NodeService {
             }
         });
     }
+    findByName(value) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const nodeToReturn = yield this.nodeRepo.findByName(value);
+                return nodeToReturn;
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
 };
 NodeService = __decorate([
     typedi_1.Service(),

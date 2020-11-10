@@ -28,4 +28,14 @@ export default class NodeService implements INodeService {
             throw e;
         }
     }
+
+    public async findByName(value: string): Promise<Result<Node>> {
+        try  {
+            const nodeToReturn = await this.nodeRepo.findByName(value);
+
+            return nodeToReturn;
+        } catch (e) {
+            throw e;
+        }
+    }
 }

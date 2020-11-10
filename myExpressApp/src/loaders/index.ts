@@ -66,13 +66,42 @@ export default async ({ expressApp }) => {
     path: config.services.Node.path
   }
 
+  const LineSchema = {
+    name: config.schemas.Line.name,
+    schema: config.schemas.Line.schema
+  }
+  
+  const LineRepo = {
+    name: config.repositories.Line.name,
+    path: config.repositories.Line.path
+  }
+
+  const LineController = {
+    name: config.controllers.Line.name,
+    path: config.controllers.Line.path
+  }
+
+  const LineService = {
+    name: config.services.Line.name,
+    path: config.services.Line.path
+  }
+
+  const FileUploadController = {
+    name: config.controllers.FileUpload.name,
+    path: config.controllers.FileUpload.path
+  }
+
+  const FileUploadService = {
+    name: config.services.FileUpload.name,
+    path: config.services.FileUpload.path
+  }
 
   await dependencyInjector({
     mongoConnection,
-    schemas: [vehicleTypeSchema, DriverTypeSchema,NodeSchema],
-    repositories: [vehicleTypeRepo, DriverTypeRepo,NodeRepo],
-    controllers: [vehicleTypeController, DriverTypeController,NodeController],
-    services: [vehicleTypeService, DriverTypeService,NodeService]
+    schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema],
+    repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo],
+    controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController,FileUploadController],
+    services: [vehicleTypeService, DriverTypeService, NodeService, LineService,FileUploadService]
   })
   
   await expressLoader({ app: expressApp });

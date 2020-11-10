@@ -24,6 +24,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const NodeMap_1 = require("../mappers/NodeMap");
 const mongoose_1 = require("mongoose");
+const Result_1 = require("../core/logic/Result");
 let NodeRepo = class NodeRepo {
     constructor(NodeSchema) {
         this.NodeSchema = NodeSchema;
@@ -57,6 +58,18 @@ let NodeRepo = class NodeRepo {
             }
             catch (e) {
                 throw e;
+            }
+        });
+    }
+    findByName(value) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = { name: value };
+            const document = yield this.NodeSchema.findOne(query);
+            if (document === null) {
+                return Result_1.Result.fail('No Node found!');
+            }
+            else {
+                return Result_1.Result.ok(NodeMap_1.NodeMap.toDomain(document));
             }
         });
     }
