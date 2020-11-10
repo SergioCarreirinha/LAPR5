@@ -5,6 +5,7 @@ import IPathRepo from './interface/IPathRepo';
 import { IPathPersistence } from '../persistence/interface/IPathPersistence';
 import { PathMap } from '../mappers/PathMap';
 import {Document, Model} from 'mongoose';
+import { Double } from 'mongodb';
 
 
 @Service()
@@ -27,11 +28,15 @@ export default class PathRepo implements IPathRepo{
         const document = await this.PathSchema.findOne(query);
         try{
             if(document === null) {
-                const rawPath: any = PathMap.toPersistence(Path);
+                const rawPath: any = PathMap.toPersistence(path);
                 const pathCreated = await this.PathSchema.create(rawPath);
                 return PathMap.toDomain(pathCreated);
             }else{
                 document.description = path.description;
+                document.isEmpty = path.isEmpty;
+                document.segments = path.segments;
+                document.totalDist = path.totalDist;
+                document.totalDur = path.totalDur;
                 await document.save();
                 return path;
             }

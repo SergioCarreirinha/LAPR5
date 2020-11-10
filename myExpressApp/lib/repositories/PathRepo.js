@@ -22,38 +22,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const NodeMap_1 = require("../mappers/NodeMap");
+const PathMap_1 = require("../mappers/PathMap");
 const mongoose_1 = require("mongoose");
-const Result_1 = require("../core/logic/Result");
-let NodeRepo = class NodeRepo {
-    constructor(NodeSchema) {
-        this.NodeSchema = NodeSchema;
+let PathRepo = class PathRepo {
+    constructor(PathSchema) {
+        this.PathSchema = PathSchema;
     }
     createBaseQuery() {
         return {
             where: {},
         };
     }
-    save(node) {
+    save(path) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { domainId: node.id.toString() };
-            const document = yield this.NodeSchema.findOne(query);
+            const query = { desc: path.description.toString() };
+            const document = yield this.PathSchema.findOne(query);
             try {
                 if (document === null) {
-                    const rawNode = NodeMap_1.NodeMap.toPersistence(node);
-                    const NodeCreated = yield this.NodeSchema.create(rawNode);
-                    return NodeMap_1.NodeMap.toDomain(NodeCreated);
+                    const rawPath = PathMap_1.PathMap.toPersistence(path);
+                    const pathCreated = yield this.PathSchema.create(rawPath);
+                    return PathMap_1.PathMap.toDomain(pathCreated);
                 }
                 else {
-                    document.key = node.key;
-                    document.name = node.name;
-                    document.latitude = node.latitude;
-                    document.longitude = node.longitude;
-                    document.shortName = node.shortName;
-                    document.isDepot = node.isDepot;
-                    document.isReliefPoint = node.isReliefPoint;
+                    document.description = path.description;
+                    document.isEmpty = path.isEmpty;
+                    document.segments = path.segments;
+                    document.totalDist = path.totalDist;
+                    document.totalDur = path.totalDur;
                     yield document.save();
-                    return node;
+                    return path;
                 }
             }
             catch (e) {
@@ -61,22 +58,10 @@ let NodeRepo = class NodeRepo {
             }
         });
     }
-    findByName(value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = { name: value };
-            const document = yield this.NodeSchema.findOne(query);
-            if (document === null) {
-                return Result_1.Result.fail('No Node found!');
-            }
-            else {
-                return Result_1.Result.ok(NodeMap_1.NodeMap.toDomain(document));
-            }
-        });
-    }
 };
-NodeRepo = __decorate([
+PathRepo = __decorate([
     typedi_1.Service(),
-    __param(0, typedi_1.Inject('NodeSchema')),
+    __param(0, typedi_1.Inject('PathSchema')),
     __metadata("design:paramtypes", [mongoose_1.Model])
-], NodeRepo);
-exports.default = NodeRepo;
+], PathRepo);
+exports.default = PathRepo;

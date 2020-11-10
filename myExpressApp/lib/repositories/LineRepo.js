@@ -22,38 +22,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const NodeMap_1 = require("../mappers/NodeMap");
 const mongoose_1 = require("mongoose");
+const LineMap_1 = require("../mappers/LineMap");
 const Result_1 = require("../core/logic/Result");
-let NodeRepo = class NodeRepo {
-    constructor(NodeSchema) {
-        this.NodeSchema = NodeSchema;
+let LineRepo = class LineRepo {
+    constructor(LineSchema) {
+        this.LineSchema = LineSchema;
     }
     createBaseQuery() {
         return {
             where: {},
         };
     }
-    save(node) {
+    save(line) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { domainId: node.id.toString() };
-            const document = yield this.NodeSchema.findOne(query);
+            const query = { domainId: line.id.toString() };
+            const document = yield this.LineSchema.findOne(query);
             try {
                 if (document === null) {
-                    const rawNode = NodeMap_1.NodeMap.toPersistence(node);
-                    const NodeCreated = yield this.NodeSchema.create(rawNode);
-                    return NodeMap_1.NodeMap.toDomain(NodeCreated);
+                    const rawLine = LineMap_1.LineMap.toPersistence(line);
+                    const lineCreated = yield this.LineSchema.create(rawLine);
+                    return LineMap_1.LineMap.toDomain(lineCreated);
                 }
                 else {
-                    document.key = node.key;
-                    document.name = node.name;
-                    document.latitude = node.latitude;
-                    document.longitude = node.longitude;
-                    document.shortName = node.shortName;
-                    document.isDepot = node.isDepot;
-                    document.isReliefPoint = node.isReliefPoint;
+                    document.name = line.name;
+                    document.code = line.code;
+                    document.goPath = line.goPath;
+                    document.returnPath = line.returnPath;
+                    document.emptyPaths = line.emptyPaths;
+                    document.endNodes = line.endNodes;
+                    document.allowedVehicles = line.allowedVehicles;
+                    document.allowedDrivers = line.allowedDrivers;
                     yield document.save();
-                    return node;
+                    return line;
                 }
             }
             catch (e) {
@@ -61,22 +62,29 @@ let NodeRepo = class NodeRepo {
             }
         });
     }
-    findByName(value) {
+    updateLineByName(value, toGo, path) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { name: value };
-            const document = yield this.NodeSchema.findOne(query);
-            if (document === null) {
-                return Result_1.Result.fail('No Node found!');
+            try {
+                const query = { name: value };
+                const document = yield this.LineSchema.findOne(query);
+                if (toGo) {
+                    document.goPath = path;
+                }
+                else {
+                    document.returnPath = path;
+                }
+                yield document.save();
+                return Result_1.Result.ok(LineMap_1.LineMap.toDomain(document));
             }
-            else {
-                return Result_1.Result.ok(NodeMap_1.NodeMap.toDomain(document));
+            catch (e) {
+                throw e;
             }
         });
     }
 };
-NodeRepo = __decorate([
+LineRepo = __decorate([
     typedi_1.Service(),
-    __param(0, typedi_1.Inject('NodeSchema')),
+    __param(0, typedi_1.Inject('LineSchema')),
     __metadata("design:paramtypes", [mongoose_1.Model])
-], NodeRepo);
-exports.default = NodeRepo;
+], LineRepo);
+exports.default = LineRepo;

@@ -22,46 +22,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config");
-const Node_1 = require("../domain/models/Node");
-const NodeRepo_1 = require("../repositories/NodeRepo");
-const NodeMap_1 = require("../mappers/NodeMap");
-const Result_1 = require("../core/logic/Result");
-let NodeService = class NodeService {
-    constructor(nodeRepo) {
-        this.nodeRepo = nodeRepo;
+const config_1 = require("../config/");
+const LineService_1 = require("../services/LineService");
+const LineRepo_1 = require("../repositories/LineRepo");
+const LineSchema_1 = require("../dataschemas/LineSchema");
+const celebrate_1 = require("celebrate");
+let LineController = class LineController {
+    constructor(lineServiceInstance) {
+        this.lineServiceInstance = lineServiceInstance;
     }
-    createNode(nodeDTO) {
+    createLine(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            celebrate_1.celebrate({});
             try {
-                const node = yield Node_1.Node.create(nodeDTO);
-                if (node.isFailure) {
-                    return Result_1.Result.fail(node.errorValue());
+                const callService = yield new LineService_1.default(new LineRepo_1.default(LineSchema_1.default)).createLine(req.body);
+                if (callService.isFailure) {
+                    return res.status(402).send();
                 }
-                yield this.nodeRepo.save(node.getValue());
-                const nodeReturn = NodeMap_1.NodeMap.toDTO(node.getValue());
-                return Result_1.Result.ok(nodeReturn);
+                return res.status(201).json(callService.getValue());
             }
             catch (e) {
-                throw e;
-            }
-        });
-    }
-    findByName(value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const nodeToReturn = yield this.nodeRepo.findByName(value);
-                return nodeToReturn;
-            }
-            catch (e) {
-                throw e;
+                return next(e);
             }
         });
     }
 };
-NodeService = __decorate([
-    typedi_1.Service(),
-    __param(0, typedi_1.Inject(config_1.default.repositories.Node.name)),
-    __metadata("design:paramtypes", [NodeRepo_1.default])
-], NodeService);
-exports.default = NodeService;
+LineController = __decorate([
+    __param(0, typedi_1.Inject(config_1.default.services.line.name)),
+    __metadata("design:paramtypes", [Object])
+], LineController);
+exports.default = LineController;

@@ -22,61 +22,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const NodeMap_1 = require("../mappers/NodeMap");
-const mongoose_1 = require("mongoose");
+const config_1 = require("../config");
+const Line_1 = require("../domain/models/Line");
+const LineMap_1 = require("../mappers/LineMap");
 const Result_1 = require("../core/logic/Result");
-let NodeRepo = class NodeRepo {
-    constructor(NodeSchema) {
-        this.NodeSchema = NodeSchema;
+let LineService = class LineService {
+    constructor(lineRepo) {
+        this.lineRepo = lineRepo;
     }
-    createBaseQuery() {
-        return {
-            where: {},
-        };
-    }
-    save(node) {
+    createLine(line) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { domainId: node.id.toString() };
-            const document = yield this.NodeSchema.findOne(query);
             try {
-                if (document === null) {
-                    const rawNode = NodeMap_1.NodeMap.toPersistence(node);
-                    const NodeCreated = yield this.NodeSchema.create(rawNode);
-                    return NodeMap_1.NodeMap.toDomain(NodeCreated);
+                const lineCreated = yield Line_1.Line.create(line);
+                if (lineCreated.isFailure) {
+                    return Result_1.Result.fail(lineCreated.errorValue());
                 }
-                else {
-                    document.key = node.key;
-                    document.name = node.name;
-                    document.latitude = node.latitude;
-                    document.longitude = node.longitude;
-                    document.shortName = node.shortName;
-                    document.isDepot = node.isDepot;
-                    document.isReliefPoint = node.isReliefPoint;
-                    yield document.save();
-                    return node;
-                }
+                yield this.lineRepo.save(lineCreated.getValue());
+                const lineReturn = LineMap_1.LineMap.toDTO(lineCreated.getValue());
+                return Result_1.Result.ok(lineReturn);
             }
             catch (e) {
                 throw e;
             }
         });
     }
-    findByName(value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = { name: value };
-            const document = yield this.NodeSchema.findOne(query);
-            if (document === null) {
-                return Result_1.Result.fail('No Node found!');
-            }
-            else {
-                return Result_1.Result.ok(NodeMap_1.NodeMap.toDomain(document));
-            }
-        });
-    }
 };
-NodeRepo = __decorate([
+LineService = __decorate([
     typedi_1.Service(),
-    __param(0, typedi_1.Inject('NodeSchema')),
-    __metadata("design:paramtypes", [mongoose_1.Model])
-], NodeRepo);
-exports.default = NodeRepo;
+    __param(0, typedi_1.Inject(config_1.default.repositories.line.name)),
+    __metadata("design:paramtypes", [Object])
+], LineService);
+exports.default = LineService;

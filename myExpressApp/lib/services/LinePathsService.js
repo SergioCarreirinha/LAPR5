@@ -22,61 +22,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const NodeMap_1 = require("../mappers/NodeMap");
-const mongoose_1 = require("mongoose");
+const config_1 = require("../config");
+const Path_1 = require("../domain/models/Path");
+const LineMap_1 = require("../mappers/LineMap");
 const Result_1 = require("../core/logic/Result");
-let NodeRepo = class NodeRepo {
-    constructor(NodeSchema) {
-        this.NodeSchema = NodeSchema;
+let LinePathsService = class LinePathsService {
+    constructor(pathRepo, lineRepo) {
+        this.pathRepo = pathRepo;
+        this.lineRepo = lineRepo;
     }
-    createBaseQuery() {
-        return {
-            where: {},
-        };
-    }
-    save(node) {
+    createLinePaths(linePathsDTO) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { domainId: node.id.toString() };
-            const document = yield this.NodeSchema.findOne(query);
             try {
-                if (document === null) {
-                    const rawNode = NodeMap_1.NodeMap.toPersistence(node);
-                    const NodeCreated = yield this.NodeSchema.create(rawNode);
-                    return NodeMap_1.NodeMap.toDomain(NodeCreated);
+                const path = yield Path_1.Path.create(linePathsDTO);
+                if (path.isFailure) {
+                    return Result_1.Result.fail("Error on line paths");
                 }
-                else {
-                    document.key = node.key;
-                    document.name = node.name;
-                    document.latitude = node.latitude;
-                    document.longitude = node.longitude;
-                    document.shortName = node.shortName;
-                    document.isDepot = node.isDepot;
-                    document.isReliefPoint = node.isReliefPoint;
-                    yield document.save();
-                    return node;
-                }
+                yield this.pathRepo.save(path.getValue());
+                const savedLine = yield this.lineRepo.updateLineByName(linePathsDTO.line, linePathsDTO.toGo, path.getValue());
+                const lineReturn = LineMap_1.LineMap.toDTO(savedLine.getValue());
+                return Result_1.Result.ok(lineReturn);
             }
             catch (e) {
                 throw e;
             }
         });
     }
-    findByName(value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = { name: value };
-            const document = yield this.NodeSchema.findOne(query);
-            if (document === null) {
-                return Result_1.Result.fail('No Node found!');
-            }
-            else {
-                return Result_1.Result.ok(NodeMap_1.NodeMap.toDomain(document));
-            }
-        });
-    }
 };
-NodeRepo = __decorate([
+LinePathsService = __decorate([
     typedi_1.Service(),
-    __param(0, typedi_1.Inject('NodeSchema')),
-    __metadata("design:paramtypes", [mongoose_1.Model])
-], NodeRepo);
-exports.default = NodeRepo;
+    __param(0, typedi_1.Inject(config_1.default.repositories.Path.name)),
+    __param(1, typedi_1.Inject(config_1.default.repositories.Line.name)),
+    __metadata("design:paramtypes", [Object, Object])
+], LinePathsService);
+exports.default = LinePathsService;

@@ -1,26 +1,24 @@
 import { Document, Model } from 'mongoose';
 import { IPathPersistence } from '../persistence/interface/IPathPersistence';
-import { VehicleType } from '../domain/models/VehicleType';
+import { Path } from '../domain/models/Path';
 
 export class PathMap {
 
-  public static toDomain (vehicleType: any | Model<IPathPersistence & Document> ): VehicleType {
-    const vehicleTypeOrError = VehicleType.create(vehicleType);
+  public static toDomain (path: any | Model<IPathPersistence & Document> ): Path {
+    const pathOrError = Path.create(path);
 
-    vehicleTypeOrError.isFailure ? console.log(vehicleTypeOrError.error) : '';
+    pathOrError.isFailure ? console.log(pathOrError.error) : '';
 
-    return vehicleTypeOrError.isSuccess ? vehicleTypeOrError.getValue() : null;
+    return pathOrError.isSuccess ? pathOrError.getValue() : null;
   }
 
-  public static toPersistence (vehicleType: VehicleType): any {
+  public static toPersistence (path: Path): any {
     return {
-      name: vehicleType.name,
-      autonomy: vehicleType.autonomy,
-      cost: vehicleType.cost,
-      averageSpeed: vehicleType.averageSpeed,
-      energySource: vehicleType.energySource,
-      consumption: vehicleType.consumption,
-      emissions: vehicleType.emissions
+      description : path.description,
+      isEmpty : path.isEmpty,
+      segments : path.segments,
+      totalDur : path.totalDur,
+      totalDist : path.totalDist
     }
   }
 

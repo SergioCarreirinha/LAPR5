@@ -34,7 +34,7 @@ export class Path extends AggregateRoot<IPath>{
         return this.props.description;
     }
 
-    get isEmty(): boolean {
+    get isEmpty(): boolean {
         return this.props.isEmpty;
     }
 

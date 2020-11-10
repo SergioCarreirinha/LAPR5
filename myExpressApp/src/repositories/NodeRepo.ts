@@ -5,6 +5,7 @@ import INodeRepo from './interface/INodeRepo';
 import { INodePersistence } from '../persistence/interface/INodePersistence';
 import { NodeMap } from '../mappers/NodeMap';
 import {Document, Model} from 'mongoose';
+import { Result } from '../core/logic/Result';
 
 
 @Service()
@@ -43,6 +44,17 @@ export default class NodeRepo implements INodeRepo{
             }
         } catch(e){
             throw e;
+        }
+    }
+
+    public async findByName(value: string): Promise<Result<Node>> {
+        const query = {name: value};
+        const document = await this.NodeSchema.findOne(query);
+
+        if(document === null) {
+            return Result.fail<Node>('No Node found!');
+        } else {
+            return Result.ok<Node>(NodeMap.toDomain(document));
         }
     }
 }
