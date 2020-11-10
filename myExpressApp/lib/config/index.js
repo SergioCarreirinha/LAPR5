@@ -47,6 +47,11 @@ exports.default = {
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
         },
+<<<<<<< HEAD
+        FileUpload: {
+            name: "FileUploadController",
+            path: "../controllers/FileUploadController"
+=======
         Node: {
             name: "NodeController",
             path: "../controllers/NodeController"
@@ -58,6 +63,7 @@ exports.default = {
         Line: {
             name: "LineController",
             path: "../controllers/LineController"
+>>>>>>> 7cc6c01e2d118a6005d1ef50bc614e54dd838784
         }
     },
     repositories: {
@@ -95,6 +101,11 @@ exports.default = {
             name: "DriverTypeService",
             path: "../services/DriverTypeService"
         },
+<<<<<<< HEAD
+        FileUpload: {
+            name: "FileUploadService",
+            path: "../services/FileUploadService"
+=======
         Node: {
             name: "NodeService",
             path: "../services/NodeService"
@@ -106,6 +117,7 @@ exports.default = {
         Line: {
             name: "LineService",
             path: "../services/LineService"
+>>>>>>> 7cc6c01e2d118a6005d1ef50bc614e54dd838784
         }
     }
 };

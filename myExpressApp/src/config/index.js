@@ -53,6 +53,10 @@ export default{
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
         },
+        FileUpload:{
+            name: "FileUploadController",
+            path: "../controllers/FileUploadController"
+        },
         Node: {
             name: "NodeController",
             path: "../controllers/NodeController"
@@ -103,6 +107,10 @@ export default{
         DriverType: {
             name: "DriverTypeService",
             path: "../services/DriverTypeService"
+        },
+        FileUpload:{
+            name: "FileUploadService",
+            path: "../services/FileUploadService"
         },
         Node: {
             name: "NodeService",

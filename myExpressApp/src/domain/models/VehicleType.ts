@@ -1,85 +1,90 @@
 import IVehicleTypeDTO from "../../dto/VehicleTypeDTO/IVehicleTypeDTO";
 import { Result } from '../../core/logic/Result';
+import { AggregateRoot } from "../../core/domain/AggregateRoot";
+import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
+import { VehicleID } from "./ID/VehicleTypeID";
 
-export class VehicleType {
+interface IVehicle {
+    name: string;
+    autonomy: Number;
+    cost: Number;
+    averageSpeed: Number;
+    energySource: Number;
+    consumption: Number;
+    emissions: Number;
+}
 
-    private _name: string;
-    private _autonomy: Number;
-    private _cost: Number;
-    private _averageSpeed: Number;
-    private _energySource: Number;
-    private _consumption: Number;
-    private _emissions: Number;
+export class VehicleType extends AggregateRoot<IVehicle>{
 
-
-    protected constructor(name: string, autonomy: Number, cost: Number, averageSpeed: Number, energySource: Number, consumption: Number, emissions: Number) {
-        this._name = name;
-        this._autonomy = autonomy;
-        this._cost = cost;
-        this._averageSpeed = averageSpeed;
-        this._energySource = energySource;
-        this._consumption = consumption;
-        this._emissions = emissions;
+    private constructor(inter: IVehicle, id?: UniqueEntityID) {
+        super(inter,id);
     }
 
     get name(): string {
-        return this._name;
+        return this.props.name;
     }
 
     get autonomy(): Number {
-        return this._autonomy;
+        return this.props.autonomy;
     }
 
     get cost(): Number {
-        return this._cost;
+        return this.props.cost;
     }
 
     get averageSpeed(): Number {
-        return this._averageSpeed;
+        return this.props.averageSpeed;
     }
 
     get energySource(): Number {
-        return this._energySource;
+        return this.props.energySource;
     }
 
     get consumption(): Number {
-        return this._consumption;
+        return this.props.consumption;
     }
 
     get emissions(): Number {
-        return this._emissions;
+        return this.props.emissions;
+    }
+    get id(): UniqueEntityID {
+        return this._id;
+    }
+
+    get vehicleID() : VehicleID {
+        return VehicleID.create(this.id);
     }
 
     set name(value: string) {
-        this._name = value;
+        this.props.name = value;
     }
 
     set autonomy(value: Number) {
-        this._autonomy = value;
+        this.props.autonomy = value;
     }
 
     set cost(value: Number) {
-        this._cost = value;
+        this.props.cost = value;
     }
 
     set averageSpeed(value: Number) {
-        this._averageSpeed = value;
+        this.props.averageSpeed = value;
     }
 
     set energySource(value: Number) {
-        this._energySource = value;
+        this.props.energySource = value;
     }
 
     set consumption(value: Number) {
-        this._consumption = value;
+        this.props.consumption = value;
     }
 
     set emissions(value: Number) {
-        this._emissions = value;
+        this.props.emissions = value;
     }
 
 
-    static create(vehicleTypeDTO: IVehicleTypeDTO): Result<VehicleType> {
+    static create(vehicleTypeDTO: IVehicleTypeDTO, id?: UniqueEntityID): Result<VehicleType> {
         const name = vehicleTypeDTO.name;
         const autonomy = vehicleTypeDTO.autonomy;
         const cost = vehicleTypeDTO.cost;
@@ -91,7 +96,7 @@ export class VehicleType {
         if (!!name === false || name.length === 0) {
             return Result.fail<VehicleType>('Must provide a role name')
         } else {
-            const roleF = new VehicleType(name, autonomy, cost, averageSpeed, energySource, consumption,emissions);
+            const roleF = new VehicleType({name:name, autonomy:autonomy, cost:cost, averageSpeed:averageSpeed, energySource:energySource, consumption:consumption,emissions:emissions},id);
             return Result.ok<VehicleType>( roleF );
         }
     }
