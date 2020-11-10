@@ -36,7 +36,7 @@ let VehicleTypeController = class VehicleTypeController {
             celebrate_1.celebrate({
                 body: celebrate_1.Joi.object({
                     name: celebrate_1.Joi.string().required(),
-                    fuautonomyelType: celebrate_1.Joi.number().required(),
+                    fuelType: celebrate_1.Joi.number().required(),
                     cost: celebrate_1.Joi.number().required(),
                     averageSpeed: celebrate_1.Joi.number().required(),
                     energySource: celebrate_1.Joi.number().required(),

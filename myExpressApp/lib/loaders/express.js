@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bodyParser = require("body-parser");
 const api_1 = require("../api");
 const config_1 = require("../config");
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 exports.default = ({ app }) => __awaiter(void 0, void 0, void 0, function* () {
     app.get('/status', (req, res) => {
@@ -26,6 +27,10 @@ exports.default = ({ app }) => __awaiter(void 0, void 0, void 0, function* () {
     // ...More middlewares
     // Middleware that transforms the raw string of req.body into json
     app.use(bodyParser.json());
+    app.use(fileUpload({
+        useTempFiles: true,
+        tempFileDir: '/tmp/'
+    }));
     // Load API routes
     app.use(config_1.default.api.prefix, api_1.default());
     /// catch 404 and forward to error handler

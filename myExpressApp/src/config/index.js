@@ -25,6 +25,22 @@ export default{
         DriverType: {
             name: 'DriverTypeSchema',
             schema: '../dataschemas/DriverTypeSchema'
+        },
+        Node: {
+            name: 'NodeSchema',
+            schema: '../dataschemas/NodeSchema'
+        },
+        Line: {
+            name: 'LineSchema',
+            schema: '../dataschemas/LineSchema'
+        },
+        Path: {
+            name: 'PathSchema',
+            schema: '../dataschemas/PathSchema'
+        },
+        Line: {
+            name: 'LineSchema',
+            schema: '../dataschemas/LineSchema'
         }
     },
     
@@ -40,6 +56,18 @@ export default{
         FileUpload:{
             name: "FileUploadController",
             path: "../controllers/FileUploadController"
+        },
+        Node: {
+            name: "NodeController",
+            path: "../controllers/NodeController"
+        },
+        LinePaths: {
+            name: "LinePathsController",
+            path: "../controllers/LinesPathController"
+        },
+        Line: {
+            name: "LineController",
+            path: "../controllers/LineController"
         }
     },
 
@@ -51,7 +79,24 @@ export default{
         DriverType: {
             name: "DriverTypeRepo",
             path: "../repositories/DriverTypeRepo"
+        },
+        Node: {
+            name: "NodeRepo",
+            path: "../repositories/NodeRepo"
+        },
+        Line: {
+            name: "LineRepo",
+            path: "../repositories/LineRepo"
+        },
+        Path: {
+            name: "PathRepo",
+            path: "../repositories/PathRepo"
+        },
+        Line: {
+            name: "LineRepo",
+            path: "../repositories/LineRepo"
         }
+
     },
 
     services: {
@@ -66,6 +111,18 @@ export default{
         FileUpload:{
             name: "FileUploadService",
             path: "../services/FileUploadService"
+        },
+        Node: {
+            name: "NodeService",
+            path: "../services/NodeService"
+        },
+        LinePaths: {
+            name: "LinePathsService",
+            path: "../services/LinesPathService"
+        },
+        Line: {
+            name: "LineService",
+            path: "../services/LineService"
         }
     }
 }

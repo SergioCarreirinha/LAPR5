@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import routes from '../api';
 import config from '../config';
+const fileUpload=require('express-fileupload');
 const cors = require('cors');
 export default async ({ app }: { app: express.Application }) => {
 
@@ -22,6 +23,11 @@ export default async ({ app }: { app: express.Application }) => {
 
     // Middleware that transforms the raw string of req.body into json
     app.use(bodyParser.json());
+
+    app.use(fileUpload({
+        useTempFiles : true,
+        tempFileDir : '/tmp/'
+    }));
 
     // Load API routes
     app.use(config.api.prefix, routes());
