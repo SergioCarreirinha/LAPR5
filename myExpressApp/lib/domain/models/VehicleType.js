@@ -2,59 +2,61 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VehicleType = void 0;
 const Result_1 = require("../../core/logic/Result");
-class VehicleType {
-    constructor(name, autonomy, cost, averageSpeed, energySource, consumption, emissions) {
-        this._name = name;
-        this._autonomy = autonomy;
-        this._cost = cost;
-        this._averageSpeed = averageSpeed;
-        this._energySource = energySource;
-        this._consumption = consumption;
-        this._emissions = emissions;
+const AggregateRoot_1 = require("../../core/domain/AggregateRoot");
+const VehicleTypeID_1 = require("./ID/VehicleTypeID");
+class VehicleType extends AggregateRoot_1.AggregateRoot {
+    constructor(inter, id) {
+        super(inter, id);
     }
     get name() {
-        return this._name;
+        return this.props.name;
     }
     get autonomy() {
-        return this._autonomy;
+        return this.props.autonomy;
     }
     get cost() {
-        return this._cost;
+        return this.props.cost;
     }
     get averageSpeed() {
-        return this._averageSpeed;
+        return this.props.averageSpeed;
     }
     get energySource() {
-        return this._energySource;
+        return this.props.energySource;
     }
     get consumption() {
-        return this._consumption;
+        return this.props.consumption;
     }
     get emissions() {
-        return this._emissions;
+        return this.props.emissions;
+    }
+    get id() {
+        return this._id;
+    }
+    get vehicleID() {
+        return VehicleTypeID_1.VehicleID.create(this.id);
     }
     set name(value) {
-        this._name = value;
+        this.props.name = value;
     }
     set autonomy(value) {
-        this._autonomy = value;
+        this.props.autonomy = value;
     }
     set cost(value) {
-        this._cost = value;
+        this.props.cost = value;
     }
     set averageSpeed(value) {
-        this._averageSpeed = value;
+        this.props.averageSpeed = value;
     }
     set energySource(value) {
-        this._energySource = value;
+        this.props.energySource = value;
     }
     set consumption(value) {
-        this._consumption = value;
+        this.props.consumption = value;
     }
     set emissions(value) {
-        this._emissions = value;
+        this.props.emissions = value;
     }
-    static create(vehicleTypeDTO) {
+    static create(vehicleTypeDTO, id) {
         const name = vehicleTypeDTO.name;
         const autonomy = vehicleTypeDTO.autonomy;
         const cost = vehicleTypeDTO.cost;
@@ -66,7 +68,7 @@ class VehicleType {
             return Result_1.Result.fail('Must provide a role name');
         }
         else {
-            const roleF = new VehicleType(name, autonomy, cost, averageSpeed, energySource, consumption, emissions);
+            const roleF = new VehicleType({ name: name, autonomy: autonomy, cost: cost, averageSpeed: averageSpeed, energySource: energySource, consumption: consumption, emissions: emissions }, id);
             return Result_1.Result.ok(roleF);
         }
     }

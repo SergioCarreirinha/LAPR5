@@ -8,7 +8,10 @@ const NodeSchema = new mongoose.Schema(
         type: String,
          unique: true
     },
-    key: { type: String, unique: true, required: true }, 
+    key: {
+         type: String, unique: true,
+          required: true 
+    }, 
     name: { type: String, required: true },
     latitude: {
         type: Number,

@@ -2,6 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
 const VehicleTypeSchema = new mongoose.Schema({
+    domainId: {
+        type: String,
+        unique: true
+    },
+    key: { type: String, unique: true,
+        required: true
+    },
     name: {
         type: String,
         unique: true,
