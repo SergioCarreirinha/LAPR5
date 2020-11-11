@@ -40,7 +40,7 @@ let LinePathsService = class LinePathsService {
                 }
                 yield this.pathRepo.save(path.getValue());
                 const savedLine = yield this.lineRepo.updateLineByName(linePathsDTO.line, linePathsDTO.toGo, path.getValue());
-                const lineReturn = LineMap_1.LineMap.toDTO(savedLine.getValue());
+                const lineReturn = LineMap_1.LineMap.toDTO(savedLine);
                 return Result_1.Result.ok(lineReturn);
             }
             catch (e) {

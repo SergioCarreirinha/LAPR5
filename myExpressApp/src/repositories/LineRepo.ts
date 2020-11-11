@@ -6,7 +6,7 @@ import { Line } from '../domain/models/Line';
 import { ILinePersistence } from '../persistence/interface/ILinePersistence';
 import { LineMap } from '../mappers/LineMap';
 import { Path } from '../domain/models/Path';
-import { Result } from '../core/logic/Result';
+import e = require('express');
 
 
 @Service()
@@ -49,25 +49,20 @@ export default class LineRepo implements ILineRepo{
         }
     }
 
-    public async updateLineByName(value: string, toGo: boolean, path: Path): Promise<Result<Line>> {
-        try  {
+    public async updateLineByName(value: string, toGo: boolean, path: Path): Promise<Line> {
+        const query = {name: value};
 
-            const query = {name: value};
-            const document = await this.LineSchema.findOne(query);
-
-            if(toGo) {
-                document.goPath = path;
-            } else {
-                document.returnPath = path;
+        try{
+            if(toGo){
+                var document = await this.LineSchema.findOneAndUpdate(query, {goPath: path}, {new: true});
+            }else{
+                var document = await this.LineSchema.findOneAndUpdate(query, {returnPath: path}, {new: true});
             }
 
-            await document.save();
-            return Result.ok<Line>(LineMap.toDomain(document));
-            
-        } catch (e) {
-            throw e;
+            return LineMap.toDomain(document);
+        } catch(e){}
+            throw e;    
         }
     }
 
 
-}

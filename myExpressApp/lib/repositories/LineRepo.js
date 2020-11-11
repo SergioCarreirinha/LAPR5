@@ -24,7 +24,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const mongoose_1 = require("mongoose");
 const LineMap_1 = require("../mappers/LineMap");
-const Result_1 = require("../core/logic/Result");
+const e = require("express");
 let LineRepo = class LineRepo {
     constructor(LineSchema) {
         this.LineSchema = LineSchema;
@@ -64,21 +64,18 @@ let LineRepo = class LineRepo {
     }
     updateLineByName(value, toGo, path) {
         return __awaiter(this, void 0, void 0, function* () {
+            const query = { name: value };
             try {
-                const query = { name: value };
-                const document = yield this.LineSchema.findOne(query);
                 if (toGo) {
-                    document.goPath = path;
+                    var document = yield this.LineSchema.findOneAndUpdate(query, { goPath: path }, { new: true });
                 }
                 else {
-                    document.returnPath = path;
+                    var document = yield this.LineSchema.findOneAndUpdate(query, { returnPath: path }, { new: true });
                 }
-                yield document.save();
-                return Result_1.Result.ok(LineMap_1.LineMap.toDomain(document));
+                return LineMap_1.LineMap.toDomain(document);
             }
-            catch (e) {
-                throw e;
-            }
+            catch (e) { }
+            throw e;
         });
     }
 };

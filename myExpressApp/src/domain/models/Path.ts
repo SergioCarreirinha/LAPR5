@@ -16,7 +16,6 @@ interface IPath{
 }
 
 export class Path extends AggregateRoot<IPath>{
-    
 
     private constructor(inter: IPath, id?: UniqueEntityID){
         super(inter,id);
@@ -54,16 +53,16 @@ export class Path extends AggregateRoot<IPath>{
         this.props.description=value;
     }
 
-    private static getTotalDur(segments: PathSegment[]): Number {
-        var dur;
+    private static getTotalDur(segments: PathSegment[]): number {
+        var dur = 0;
         segments.forEach(element => {
             dur += element.duration;
         });
         return dur;
     }
 
-    private static getTotalDist(segments: PathSegment[]): Number {
-        var dist;
+    private static getTotalDist(segments: PathSegment[]): number {
+        var dist = 0;
         segments.forEach(element => {
             dist += element.distance;
         });

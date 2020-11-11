@@ -33,7 +33,7 @@ export default class LinePathsService implements ILinePathsService {
 
             const savedLine = await this.lineRepo.updateLineByName(linePathsDTO.line, linePathsDTO.toGo, path.getValue());
             
-            const lineReturn = LineMap.toDTO(savedLine.getValue()) as ILineDTO;
+            const lineReturn = LineMap.toDTO(savedLine) as ILineDTO;
             return Result.ok<ILineDTO>(lineReturn);
         } catch (e) {
             throw e;

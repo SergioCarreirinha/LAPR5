@@ -41,10 +41,11 @@ let FileUploadService = class FileUploadService {
                     }
                     const objects = new DOMParser().parseFromString(data);
                     let parser = new xml2js.Parser({ explicitRoot: false, mergeAttrs: true, explicitArray: false, attrNameProcessors: [xml2js.processors.firstCharLowerCase] });
+                    //importar VehicleTypes
                     let vehicleTypes = objects.getElementsByTagName("VehicleType");
                     for (var i = 0; i < vehicleTypes.length; i++) {
                         parser.parseString(vehicleTypes[i], (err, result) => {
-                            console.log(result);
+                            //console.log(result);
                             vehicleTypeService.createVehicleType(result);
                         });
                     }
