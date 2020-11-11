@@ -1,5 +1,4 @@
 import { Service, Inject } from 'typedi';
-import config from '../config';
 import {Document, Model} from 'mongoose';
 import ILineRepo from './interface/ILineRepo';
 import { Line } from '../domain/models/Line';
