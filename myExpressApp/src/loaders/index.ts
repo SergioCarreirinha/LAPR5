@@ -86,6 +86,16 @@ export default async ({ expressApp }) => {
     path: config.services.Line.path
   }
 
+  const LinePathsController = {
+    name: config.controllers.LinePaths.name,
+    path: config.controllers.LinePaths.path
+  }
+
+  const LinePathsService = {
+
+    name: config.services.LinePaths.name,
+    path: config.services.LinePaths.path
+  }
   const FileUploadController = {
     name: config.controllers.FileUpload.name,
     path: config.controllers.FileUpload.path
@@ -100,8 +110,8 @@ export default async ({ expressApp }) => {
     mongoConnection,
     schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema],
     repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo],
-    controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController,FileUploadController],
-    services: [vehicleTypeService, DriverTypeService, NodeService, LineService,FileUploadService]
+    controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController, LinePathsController,FileUploadController],
+    services: [vehicleTypeService, DriverTypeService, NodeService, LineService, LinePathsService,FileUploadService]
   })
   
   await expressLoader({ app: expressApp });

@@ -26,19 +26,17 @@ export default class LinePathsController implements ILinePathsController{
     ) {}
 
     public async createLinePaths(req: Request, res: Response, next: NextFunction) {
-        celebrate({
-        });
-
+        
         try{
-            console.log(req.body);
             const nodeService = new NodeService(new NodeRepo(NodeSchema));
             const pathSegments = new Array<PathSegment>();
-            const forLoop = req.body[4];
-            for (let index = 0; index < forLoop.length; index++) {
-                const pathSegment = PathSegment.create(forLoop[2], forLoop[3], (await nodeService.findByName(forLoop[0])).getValue(), (await nodeService.findByName(forLoop[1])).getValue(), index).getValue();
+            const reqlength = Object.keys(req.body.segments).length;
+            const forLoop = req.body.segments;
+            for (let index = 0; index < reqlength; index++) {
+                const pathSegment = PathSegment.create(forLoop[index][2], forLoop[index][3], (await nodeService.findByName(forLoop[index][0])).getValue(), (await nodeService.findByName(forLoop[index][1])).getValue(), index+1).getValue();
                 pathSegments.push(pathSegment);
             };
-            const dto = LinePathsMap.toDTO(req.body[0], req.body[1], req.body[2], req.body[3], pathSegments);
+            const dto = LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.description, req.body.isEmpty, pathSegments);
             const callService = await new LinePathsService(new PathRepo(PathSchema), new LineRepo(LineSchema)).createLinePaths(dto) as Result<ILineDTO>;
 
             if(callService.isFailure) {

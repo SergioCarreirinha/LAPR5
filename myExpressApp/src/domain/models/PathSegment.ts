@@ -3,11 +3,11 @@ import { Result } from '../../core/logic/Result';
 import { Node } from '../../domain/models/Node';
 
 interface IPathSegment{
-    duration : Number;
-    distance : Number;
+    duration : number;
+    distance : number;
     startNode : Node;
     endNode : Node;
-    sequence : Number;
+    sequence : number;
 }
 
 export class PathSegment extends ValueObject<IPathSegment>{
@@ -17,11 +17,11 @@ export class PathSegment extends ValueObject<IPathSegment>{
         super(inter);
     }
 
-    get duration(): Number {
+    get duration(): number {
         return this.props.duration;
     }
 
-    get distance(): Number {
+    get distance(): number {
         return this.props.distance;
     }
 
@@ -33,15 +33,15 @@ export class PathSegment extends ValueObject<IPathSegment>{
         return this.props.endNode;
     }
 
-    get sequence(): Number {
+    get sequence(): number {
         return this.props.sequence;
     }
 
-    set duration(value: Number){
+    set duration(value: number){
         this.props.duration = value;
     }
 
-    set distance(value: Number) {
+    set distance(value: number) {
         this.props.distance = value;
     }
 
@@ -53,12 +53,11 @@ export class PathSegment extends ValueObject<IPathSegment>{
         this.props.endNode = value;
     }
 
-    set sequence(value: Number){
+    set sequence(value: number){
         this.props.sequence = value;
     }
 
-    static create(duration: Number, distance: Number, startNode: Node, endNode: Node, sequence: Number): Result<PathSegment>{
-        
+    static create(duration: number, distance: number, startNode: Node, endNode: Node, sequence: number): Result<PathSegment>{
         if(!!duration === false || duration == 0 || !!distance === false || distance== 0 || !!startNode === false || !!endNode === false || !!sequence === false || sequence == 0){
             return Result.fail<PathSegment>('Must valid segment info');
         }else{

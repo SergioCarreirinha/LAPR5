@@ -43,7 +43,12 @@ let FileUploadService = class FileUploadService {
                     let vehicleTypes = objects.getElementsByTagName("VehicleType");
                     for (var i = 0; i < vehicleTypes.length; i++) {
                         parser.parseString(vehicleTypes[i], (err, result) => {
+<<<<<<< HEAD
                             this.vehicleTypeServiceInstance.createVehicleType(result);
+=======
+                            //console.log(result);
+                            vehicleTypeService.createVehicleType(result);
+>>>>>>> 5615533f0daf64063f6084d15ace84012bfc94bb
                         });
                     }
                     /*   //importar nós

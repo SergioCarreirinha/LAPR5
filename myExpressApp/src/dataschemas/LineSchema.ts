@@ -4,6 +4,7 @@ import { Path } from '../domain/models/Path';
 import { Node } from '../domain/models/Node';
 import { DriverType } from '../domain/models/DriverType';
 import { VehicleType } from '../domain/models/VehicleType';
+var pathSchema = require('./PathSchema');
 
 const LineSchema = new mongoose.Schema(
   {
@@ -19,12 +20,10 @@ const LineSchema = new mongoose.Schema(
         type: String
     },
     goPath: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Path',
+        type: pathSchema,
     },
     returnPath: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Path',
+        type: pathSchema,
     },
     emptyPaths: {
         type: Array<Path>()

@@ -33,14 +33,14 @@ class Path extends AggregateRoot_1.AggregateRoot {
         this.props.description = value;
     }
     static getTotalDur(segments) {
-        var dur;
+        var dur = 0;
         segments.forEach(element => {
             dur += element.duration;
         });
         return dur;
     }
     static getTotalDist(segments) {
-        var dist;
+        var dist = 0;
         segments.forEach(element => {
             dist += element.distance;
         });

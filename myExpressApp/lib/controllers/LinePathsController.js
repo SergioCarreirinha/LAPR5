@@ -25,7 +25,6 @@ const typedi_1 = require("typedi");
 const config_1 = require("../config");
 const LinePathsService_1 = require("../services/LinePathsService");
 const NodeService_1 = require("../services/NodeService");
-const celebrate_1 = require("celebrate");
 const PathRepo_1 = require("../repositories/PathRepo");
 const PathSchema_1 = require("../dataschemas/PathSchema");
 const NodeRepo_1 = require("../repositories/NodeRepo");
@@ -40,18 +39,17 @@ let LinePathsController = class LinePathsController {
     }
     createLinePaths(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            celebrate_1.celebrate({});
             try {
-                console.log(req.body);
                 const nodeService = new NodeService_1.default(new NodeRepo_1.default(NodeSchema_1.default));
                 const pathSegments = new Array();
-                const forLoop = req.body[4];
-                for (let index = 0; index < forLoop.length; index++) {
-                    const pathSegment = PathSegment_1.PathSegment.create(forLoop[2], forLoop[3], (yield nodeService.findByName(forLoop[0])).getValue(), (yield nodeService.findByName(forLoop[1])).getValue(), index).getValue();
+                const reqlength = Object.keys(req.body.segments).length;
+                const forLoop = req.body.segments;
+                for (let index = 0; index < reqlength; index++) {
+                    const pathSegment = PathSegment_1.PathSegment.create(forLoop[index][2], forLoop[index][3], (yield nodeService.findByName(forLoop[index][0])).getValue(), (yield nodeService.findByName(forLoop[index][1])).getValue(), index + 1).getValue();
                     pathSegments.push(pathSegment);
                 }
                 ;
-                const dto = LinePathsMap_1.LinePathsMap.toDTO(req.body[0], req.body[1], req.body[2], req.body[3], pathSegments);
+                const dto = LinePathsMap_1.LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.description, req.body.isEmpty, pathSegments);
                 const callService = yield new LinePathsService_1.default(new PathRepo_1.default(PathSchema_1.default), new LineRepo_1.default(LineSchema_1.default)).createLinePaths(dto);
                 if (callService.isFailure) {
                     return res.status(402).send();

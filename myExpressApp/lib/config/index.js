@@ -53,7 +53,7 @@ exports.default = {
         },
         LinePaths: {
             name: "LinePathsController",
-            path: "../controllers/LinesPathController"
+            path: "../controllers/LinePathsController"
         },
         Line: {
             name: "LineController",

@@ -3,7 +3,8 @@ import VehicleType from './routes/VehicleTypeRouter';
 import DriverType from './routes/DriverTypeRouter';
 import fileUpload from './routes/FileUploadRouter';
 import Node from './routes/NodeRouter';
-import Line from './routes/LineRoute'
+import Line from './routes/LineRoute';
+import LinePaths from './routes/LinePathsRouter';
 
 
 // guaranteed to get dependencies
@@ -14,5 +15,6 @@ export default () => {
 	fileUpload(app);
 	Node(app);
 	Line(app);
+	LinePaths(app);
 	return app
 }
