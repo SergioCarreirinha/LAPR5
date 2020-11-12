@@ -24,10 +24,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const config_1 = require("../config/");
 const FileUploadService_1 = require("../services/FileUploadService");
-const FileUploadService_2 = require("../services/FileUploadService");
-const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
-const VehicleTypeSchema_1 = require("../dataschemas/VehicleTypeSchema");
-const VehicleTypeService_1 = require("../services/VehicleTypeService");
 let FileUploadController = class FileUploadController {
     constructor(fileUploadServiceInstance) {
         this.fileUploadServiceInstance = fileUploadServiceInstance;
@@ -40,7 +36,7 @@ let FileUploadController = class FileUploadController {
                     //vai buscar o path do ficheiro temporario
                     let xml = req.files.xml.tempFilePath;
                     console.log("ola");
-                    call = yield new FileUploadService_2.default(new VehicleTypeService_1.default(new VehicleTypeRepo_1.default(VehicleTypeSchema_1.default))).fileUpload(xml);
+                    call = yield this.fileUploadServiceInstance.fileUpload(xml);
                 }
                 else {
                     //se nao existir nada dentro do req quer dizer que o cliente não deu upload do ficheiro

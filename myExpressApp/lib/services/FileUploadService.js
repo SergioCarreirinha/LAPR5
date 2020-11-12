@@ -26,14 +26,12 @@ const config_1 = require("../config");
 const xml2js = require("xml2js");
 const fs = require("fs");
 const { DOMParser } = require('xmldom');
-const parseString = require('xml2js-parser').parseString;
 let FileUploadService = class FileUploadService {
     constructor(vehicleTypeServiceInstance) {
         this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
     }
     fileUpload(xml) {
         return __awaiter(this, void 0, void 0, function* () {
-            let vehicleTypeService = this.vehicleTypeServiceInstance;
             fs.readFile(xml, 'utf8', function read(err, data) {
                 return __awaiter(this, void 0, void 0, function* () {
                     if (err) {
@@ -41,13 +39,21 @@ let FileUploadService = class FileUploadService {
                     }
                     const objects = new DOMParser().parseFromString(data);
                     let parser = new xml2js.Parser({ explicitRoot: false, mergeAttrs: true, explicitArray: false, attrNameProcessors: [xml2js.processors.firstCharLowerCase] });
+                    //importar VehicleTypes
                     let vehicleTypes = objects.getElementsByTagName("VehicleType");
                     for (var i = 0; i < vehicleTypes.length; i++) {
                         parser.parseString(vehicleTypes[i], (err, result) => {
-                            console.log(result);
-                            vehicleTypeService.createVehicleType(result);
+                            this.vehicleTypeServiceInstance.createVehicleType(result);
                         });
                     }
+                    /*   //importar nós
+                       let nodes = objects.getElementsByTagName("Nodes");
+                       for (var i = 0; i < nodes.length; i++) {
+                           parser.parseString(nodes[i], (err, result) => {
+                               console.log(result);
+                               nodeService.createNode(result as INodeDTO);
+                           });
+                       } */
                 });
             });
         });

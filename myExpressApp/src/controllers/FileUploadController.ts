@@ -9,6 +9,9 @@ import { Result } from '../core/logic/Result';
 import VehicleTypeRepo from '../repositories/VehicleTypeRepo';
 import VehicleTypeSchema from '../dataschemas/VehicleTypeSchema';
 import VehicleTypeService from '../services/VehicleTypeService';
+import NodeService from '../services/NodeService';
+import NodeRepo from '../repositories/NodeRepo';
+import NodeSchema from '../dataschemas/NodeSchema';
 
 export default class FileUploadController implements IFileUploadController {
     constructor(
@@ -17,14 +20,14 @@ export default class FileUploadController implements IFileUploadController {
 
     public async fileUpload(req: any, res: any, next: NextFunction){
         try {
-            let call
+            let call;
             if (req.files) {
 
                 //vai buscar o path do ficheiro temporario
                 let xml = req.files.xml.tempFilePath;
                 console.log("ola");
 
-                call=await new FileUploadService(new VehicleTypeService(new VehicleTypeRepo(VehicleTypeSchema))).fileUpload(xml);
+                call=await this.fileUploadServiceInstance.fileUpload(xml);
 
             } else {
                 //se nao existir nada dentro do req quer dizer que o cliente não deu upload do ficheiro
