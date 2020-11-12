@@ -39,6 +39,7 @@ export default class NodeRepo implements INodeRepo{
                 document.shortName = node.shortName;
                 document.isDepot = node.isDepot;
                 document.isReliefPoint = node.isReliefPoint;
+                document.capacities= node.capacities;
                 await document.save();
                 return node;
             }
@@ -55,6 +56,20 @@ export default class NodeRepo implements INodeRepo{
             return Result.fail<Node>('No Node found!');
         } else {
             return Result.ok<Node>(NodeMap.toDomain(document));
+        }
+    }
+
+    public async findAll(): Promise<Result<Array<Node>>> {
+        var document = await this.NodeSchema.find();
+        var nodes=[];
+        for(var i=0;i<document.length;i++){
+            nodes.push(NodeMap.toDomain(document[i]));
+        }
+
+        if(document === null) {
+            return Result.fail<Array<Node>>('No Node found!');
+        } else {
+           return Result.ok<Array<Node>>(nodes);
         }
     }
 }

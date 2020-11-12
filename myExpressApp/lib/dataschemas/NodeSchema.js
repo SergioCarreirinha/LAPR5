@@ -27,6 +27,10 @@ const NodeSchema = new mongoose.Schema({
     isReliefPoint: {
         type: Boolean,
         required: true
+    },
+    capacities: {
+        type: Number,
+        required: true
     }
 });
 exports.default = mongoose.model('Node', NodeSchema);

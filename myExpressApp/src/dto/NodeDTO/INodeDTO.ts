@@ -6,4 +6,5 @@ export default interface INodeDTO {
     shortName: string;
     isDepot: Boolean;
     isReliefPoint: Boolean;
+    capacities: Number;
 }

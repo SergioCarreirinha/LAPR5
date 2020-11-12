@@ -22,7 +22,7 @@ import LineSchema from '../dataschemas/LineSchema';
 
 export default class LinePathsController implements ILinePathsController{
     constructor(
-        @Inject(config.services.LinesPath.name) private linePathsServiceInstance : ILinePathsService
+        @Inject(config.services.LinePaths.name) private linePathsServiceInstance : ILinePathsService
     ) {}
 
     public async createLinePaths(req: Request, res: Response, next: NextFunction) {

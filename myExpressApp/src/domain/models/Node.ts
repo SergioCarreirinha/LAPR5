@@ -12,6 +12,7 @@ interface INode {
      shortName: string;
      isDepot: Boolean;
      isReliefPoint: Boolean;
+     capacities: Number;
 
 }
 
@@ -56,6 +57,9 @@ export class Node extends AggregateRoot<INode>{
     get nodeID() : NodeID {
         return NodeID.create(this.id);
     }
+    get capacities() : Number {
+        return this.props.capacities;
+    }
 
     set key(value: string) {
         this.props.key = value;
@@ -84,6 +88,9 @@ export class Node extends AggregateRoot<INode>{
     set isReliefPoint(value: Boolean) {
         this.props.isReliefPoint = value;
     }
+    set capacities(value: Number) {
+        this.props.capacities = value;
+    }
 
     static create(NodeDTO: INodeDTO, id?: UniqueEntityID): Result<Node> {
         const key = NodeDTO.key;
@@ -93,11 +100,12 @@ export class Node extends AggregateRoot<INode>{
         const shortName = NodeDTO.shortName;
         const isDepot = NodeDTO.isDepot;
         const isReliefPoint = NodeDTO.isReliefPoint;
+        const capacities = NodeDTO.capacities;
 
         if (!!key === false || key.length === 0) {
             return Result.fail<Node>('Must provide a key')
         } else {
-            const roleF = new Node({key:key, name:name, latitude:latitude, longitude:longitude, shortName:shortName, isDepot:isDepot, isReliefPoint:isReliefPoint},id);
+            const roleF = new Node({key:key, name:name, latitude:latitude, longitude:longitude, shortName:shortName, isDepot:isDepot, isReliefPoint:isReliefPoint, capacities:capacities},id);
             return Result.ok<Node>( roleF );
         }
     }

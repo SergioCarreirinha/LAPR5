@@ -7,4 +7,5 @@ export interface INodePersistence {
     shortName: string;
     isDepot: Boolean;
     isReliefPoint: Boolean;
+    capacities: Number; 
 }

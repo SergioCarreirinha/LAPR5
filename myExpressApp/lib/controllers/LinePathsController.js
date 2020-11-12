@@ -65,7 +65,7 @@ let LinePathsController = class LinePathsController {
     }
 };
 LinePathsController = __decorate([
-    __param(0, typedi_1.Inject(config_1.default.services.LinesPath.name)),
+    __param(0, typedi_1.Inject(config_1.default.services.LinePaths.name)),
     __metadata("design:paramtypes", [Object])
 ], LinePathsController);
 exports.default = LinePathsController;

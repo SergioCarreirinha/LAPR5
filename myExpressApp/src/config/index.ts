@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv = require('dotenv');
+import path = require('path');
 
 dotenv.config({path: path.resolve(__dirname, '.env') });
 
@@ -37,10 +37,6 @@ export default{
         Path: {
             name: 'PathSchema',
             schema: '../dataschemas/PathSchema'
-        },
-        Line: {
-            name: 'LineSchema',
-            schema: '../dataschemas/LineSchema'
         }
     },
     
@@ -91,12 +87,7 @@ export default{
         Path: {
             name: "PathRepo",
             path: "../repositories/PathRepo"
-        },
-        Line: {
-            name: "LineRepo",
-            path: "../repositories/LineRepo"
         }
-
     },
 
     services: {
@@ -118,7 +109,7 @@ export default{
         },
         LinePaths: {
             name: "LinePathsService",
-            path: "../services/LinesPathService"
+            path: "../services/LinePathsService"
         },
         Line: {
             name: "LineService",

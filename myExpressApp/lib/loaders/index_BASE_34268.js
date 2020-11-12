@@ -48,52 +48,12 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
         name: config_1.default.services.DriverType.name,
         path: config_1.default.services.DriverType.path
     };
-    const NodeSchema = {
-        name: config_1.default.schemas.Node.name,
-        schema: config_1.default.schemas.Node.schema
-    };
-    const NodeRepo = {
-        name: config_1.default.repositories.Node.name,
-        path: config_1.default.repositories.Node.path
-    };
-    const NodeController = {
-        name: config_1.default.controllers.Node.name,
-        path: config_1.default.controllers.Node.path
-    };
-    const NodeService = {
-        name: config_1.default.services.Node.name,
-        path: config_1.default.services.Node.path
-    };
-    const LineSchema = {
-        name: config_1.default.schemas.Line.name,
-        schema: config_1.default.schemas.Line.schema
-    };
-    const LineRepo = {
-        name: config_1.default.repositories.Line.name,
-        path: config_1.default.repositories.Line.path
-    };
-    const LineController = {
-        name: config_1.default.controllers.Line.name,
-        path: config_1.default.controllers.Line.path
-    };
-    const LineService = {
-        name: config_1.default.services.Line.name,
-        path: config_1.default.services.Line.path
-    };
-    const FileUploadController = {
-        name: config_1.default.controllers.FileUpload.name,
-        path: config_1.default.controllers.FileUpload.path
-    };
-    const FileUploadService = {
-        name: config_1.default.services.FileUpload.name,
-        path: config_1.default.services.FileUpload.path
-    };
     yield dependencyInjector_1.default({
         mongoConnection,
-        schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema],
-        repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo],
-        controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController, FileUploadController],
-        services: [vehicleTypeService, DriverTypeService, NodeService, LineService, FileUploadService]
+        schemas: [vehicleTypeSchema, DriverTypeSchema],
+        repositories: [vehicleTypeRepo, DriverTypeRepo],
+        controllers: [vehicleTypeController, DriverTypeController],
+        services: [vehicleTypeService, DriverTypeService]
     });
     yield express_1.default({ app: expressApp });
     console.log('Express Intialized');

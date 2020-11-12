@@ -12,7 +12,8 @@ class NodeMap {
             longitude: node.longitude,
             shortName: node.shortName,
             isDepot: node.isDepot,
-            isReliefPoint: node.isReliefPoint
+            isReliefPoint: node.isReliefPoint,
+            capacities: node.capacities
         };
     }
     static toDomain(node) {
@@ -29,7 +30,8 @@ class NodeMap {
             longitude: node.longitude,
             shortName: node.shortName,
             isDepot: node.isDepot,
-            isReliefPoint: node.isReliefPoint
+            isReliefPoint: node.isReliefPoint,
+            capacities: node.capacities
         };
     }
 }

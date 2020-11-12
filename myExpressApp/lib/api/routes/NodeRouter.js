@@ -8,4 +8,5 @@ exports.default = (app) => {
     app.use('/node', route);
     const crtl = typedi_1.Container.get(config_1.default.controllers.Node.name);
     route.post('', (req, res, next) => crtl.createNode(req, res, next));
+    route.get('', (req, res, next) => crtl.findAll(req, res, next));
 };

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,20 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const loaders = require('./loaders');
+Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata"); // We need this in order to use @Decorators
 const express = require('express');
-const api = require('./api');
+const logger_1 = require("./loaders/logger");
+const config_1 = require("./config");
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = express();
-        yield loaders.default({ expressApp: app });
-        app.listen(process.env.PORT, err => {
+        yield require('./loaders').default({ expressApp: app });
+        app.listen(config_1.default.port, err => {
             if (err) {
-                console.log(err);
+                logger_1.default.error(err);
+                process.exit(1);
                 return;
             }
-            console.log(`Your server is ready !`);
-            console.log(process.env.PORT);
+            logger_1.default.info(`################################################
+      🛡️  Server listening on port: ${config_1.default.port} 🛡️ 
+      ################################################`);
         });
     });
 }

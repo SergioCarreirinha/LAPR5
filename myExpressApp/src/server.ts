@@ -1,20 +1,27 @@
-const loaders = require('./loaders');
-const express = require('express');
-const api = require('./api');
+import 'reflect-metadata'; // We need this in order to use @Decorators
+
+const express = require ('express');
+
+import Logger from './loaders/logger';
+import config from './config';
 
 async function startServer() {
-
   const app = express();
 
-  await loaders.default({ expressApp: app });
-  
-  app.listen(process.env.PORT, err => {
+  await require('./loaders').default({ expressApp: app });
+
+  app.listen(config.port, err => {
     if (err) {
-      console.log(err);
+      Logger.error(err);
+      process.exit(1);
       return;
     }
-    console.log(`Your server is ready !`);
-    console.log(process.env.PORT);
+    Logger.info(
+      `################################################
+      🛡️  Server listening on port: ${config.port} 🛡️ 
+      ################################################`
+    );
   });
 }
+
 startServer();

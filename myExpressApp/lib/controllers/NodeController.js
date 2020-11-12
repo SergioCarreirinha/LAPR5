@@ -57,6 +57,20 @@ let NodeController = class NodeController {
             }
         });
     }
+    findAll(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const callService = yield new NodeService_1.default(new NodeRepo_1.default(NodeSchema_1.default)).findAll(req);
+                if (callService.isFailure) {
+                    return res.status(402).send();
+                }
+                return res.status(201).json(callService.getValue());
+            }
+            catch (e) {
+                return next(e);
+            }
+        });
+    }
 };
 NodeController = __decorate([
     __param(0, typedi_1.Inject(config_1.default.services.Node.name)),

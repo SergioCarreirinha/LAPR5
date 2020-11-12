@@ -90,10 +90,10 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
     };
     yield dependencyInjector_1.default({
         mongoConnection,
-        schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema],
-        repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo],
-        controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController, FileUploadController],
-        services: [vehicleTypeService, DriverTypeService, NodeService, LineService, FileUploadService]
+        schemas: [vehicleTypeSchema, DriverTypeSchema],
+        repositories: [vehicleTypeRepo, DriverTypeRepo],
+        controllers: [vehicleTypeController, DriverTypeController, FileUploadController],
+        services: [vehicleTypeService, DriverTypeService, FileUploadService]
     });
     yield express_1.default({ app: expressApp });
     console.log('Express Intialized');

@@ -52,6 +52,7 @@ let NodeRepo = class NodeRepo {
                     document.shortName = node.shortName;
                     document.isDepot = node.isDepot;
                     document.isReliefPoint = node.isReliefPoint;
+                    document.capacities = node.capacities;
                     yield document.save();
                     return node;
                 }
@@ -70,6 +71,21 @@ let NodeRepo = class NodeRepo {
             }
             else {
                 return Result_1.Result.ok(NodeMap_1.NodeMap.toDomain(document));
+            }
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            var document = yield this.NodeSchema.find();
+            var nodes = [];
+            for (var i = 0; i < document.length; i++) {
+                nodes.push(NodeMap_1.NodeMap.toDomain(document[i]));
+            }
+            if (document === null) {
+                return Result_1.Result.fail('No Node found!');
+            }
+            else {
+                return Result_1.Result.ok(nodes);
             }
         });
     }

@@ -14,7 +14,8 @@ export class NodeMap {
         longitude: node.longitude,
         shortName: node.shortName,
         isDepot: node.isDepot,
-        isReliefPoint: node.isReliefPoint
+        isReliefPoint: node.isReliefPoint,
+        capacities: node.capacities
     } as INodeDTO;
   }
     
@@ -36,7 +37,8 @@ export class NodeMap {
         longitude: node.longitude,
         shortName: node.shortName,
         isDepot: node.isDepot,
-        isReliefPoint: node.isReliefPoint
+        isReliefPoint: node.isReliefPoint,
+        capacities:node.capacities
     }
   }
 

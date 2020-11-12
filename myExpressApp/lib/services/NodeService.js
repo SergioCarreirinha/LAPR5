@@ -58,6 +58,73 @@ let NodeService = class NodeService {
             }
         });
     }
+    findAll(req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const nodes = yield this.nodeRepo.findAll();
+                const result = nodes.getValue();
+                if (req.body.orderByName && req.body.orderByCode) {
+                    result.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                            return -1;
+                        }
+                        else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                            return 1;
+                        }
+                        else {
+                            if (a.key < b.key) {
+                                return -1;
+                            }
+                            else if (a.key > b.key) {
+                                return 1;
+                            }
+                            else {
+                                return 0;
+                            }
+                        }
+                    });
+                }
+                else if (req.body.orderByName) {
+                    result.sort(function (a, b) {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                            return -1;
+                        }
+                        else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    });
+                }
+                else if (req.body.orderByCode) {
+                    result.sort(function (a, b) {
+                        if (a.key < b.key) {
+                            return -1;
+                        }
+                        else if (a.key > b.key) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    });
+                }
+                function filterItems(query) {
+                    return result.filter(function (el) {
+                        return el.name.toLowerCase().indexOf(query.toLowerCase()) > -1 || el.key.toLowerCase().indexOf(query.toLowerCase()) > -1;
+                    });
+                }
+                if (req.body.search) {
+                    return Result_1.Result.ok(filterItems(req.body.search));
+                }
+                return Result_1.Result.ok(result);
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
 };
 NodeService = __decorate([
     typedi_1.Service(),

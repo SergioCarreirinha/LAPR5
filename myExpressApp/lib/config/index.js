@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = require('dotenv');
-const path = require('path');
+const dotenv = require("dotenv");
+const path = require("path");
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 exports.default = {
     port: process.env.PORT,
@@ -32,10 +32,6 @@ exports.default = {
         Path: {
             name: 'PathSchema',
             schema: '../dataschemas/PathSchema'
-        },
-        Line: {
-            name: 'LineSchema',
-            schema: '../dataschemas/LineSchema'
         }
     },
     controllers: {
@@ -47,11 +43,10 @@ exports.default = {
             name: "DriverTypeController",
             path: "../controllers/DriverTypeController"
         },
-<<<<<<< HEAD
         FileUpload: {
             name: "FileUploadController",
             path: "../controllers/FileUploadController"
-=======
+        },
         Node: {
             name: "NodeController",
             path: "../controllers/NodeController"
@@ -63,7 +58,6 @@ exports.default = {
         Line: {
             name: "LineController",
             path: "../controllers/LineController"
->>>>>>> 7cc6c01e2d118a6005d1ef50bc614e54dd838784
         }
     },
     repositories: {
@@ -86,10 +80,6 @@ exports.default = {
         Path: {
             name: "PathRepo",
             path: "../repositories/PathRepo"
-        },
-        Line: {
-            name: "LineRepo",
-            path: "../repositories/LineRepo"
         }
     },
     services: {
@@ -101,23 +91,21 @@ exports.default = {
             name: "DriverTypeService",
             path: "../services/DriverTypeService"
         },
-<<<<<<< HEAD
         FileUpload: {
             name: "FileUploadService",
             path: "../services/FileUploadService"
-=======
+        },
         Node: {
             name: "NodeService",
             path: "../services/NodeService"
         },
         LinePaths: {
             name: "LinePathsService",
-            path: "../services/LinesPathService"
+            path: "../services/LinePathsService"
         },
         Line: {
             name: "LineService",
             path: "../services/LineService"
->>>>>>> 7cc6c01e2d118a6005d1ef50bc614e54dd838784
         }
     }
 };

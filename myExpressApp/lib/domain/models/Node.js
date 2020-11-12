@@ -35,6 +35,9 @@ class Node extends AggregateRoot_1.AggregateRoot {
     get nodeID() {
         return NodeID_1.NodeID.create(this.id);
     }
+    get capacities() {
+        return this.props.capacities;
+    }
     set key(value) {
         this.props.key = value;
     }
@@ -56,6 +59,9 @@ class Node extends AggregateRoot_1.AggregateRoot {
     set isReliefPoint(value) {
         this.props.isReliefPoint = value;
     }
+    set capacities(value) {
+        this.props.capacities = value;
+    }
     static create(NodeDTO, id) {
         const key = NodeDTO.key;
         const name = NodeDTO.name;
@@ -64,11 +70,12 @@ class Node extends AggregateRoot_1.AggregateRoot {
         const shortName = NodeDTO.shortName;
         const isDepot = NodeDTO.isDepot;
         const isReliefPoint = NodeDTO.isReliefPoint;
+        const capacities = NodeDTO.capacities;
         if (!!key === false || key.length === 0) {
             return Result_1.Result.fail('Must provide a key');
         }
         else {
-            const roleF = new Node({ key: key, name: name, latitude: latitude, longitude: longitude, shortName: shortName, isDepot: isDepot, isReliefPoint: isReliefPoint }, id);
+            const roleF = new Node({ key: key, name: name, latitude: latitude, longitude: longitude, shortName: shortName, isDepot: isDepot, isReliefPoint: isReliefPoint, capacities: capacities }, id);
             return Result_1.Result.ok(roleF);
         }
     }

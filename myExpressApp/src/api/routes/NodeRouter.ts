@@ -12,4 +12,6 @@ export default (app: Router) => {
     const crtl = Container.get(config.controllers.Node.name) as INodeController;
 
     route.post('', (req, res, next) => crtl.createNode(req, res, next));
+
+    route.get('', (req,res,next) => crtl.findAll(req,res,next));
 }
