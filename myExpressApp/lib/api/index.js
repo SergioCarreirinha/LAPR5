@@ -6,10 +6,7 @@ const DriverTypeRouter_1 = require("./routes/DriverTypeRouter");
 const FileUploadRouter_1 = require("./routes/FileUploadRouter");
 const NodeRouter_1 = require("./routes/NodeRouter");
 const LineRoute_1 = require("./routes/LineRoute");
-<<<<<<< HEAD
-=======
 const LinePathsRouter_1 = require("./routes/LinePathsRouter");
->>>>>>> 5615533f0daf64063f6084d15ace84012bfc94bb
 // guaranteed to get dependencies
 exports.default = () => {
     const app = express_1.Router();
@@ -18,9 +15,6 @@ exports.default = () => {
     FileUploadRouter_1.default(app);
     NodeRouter_1.default(app);
     LineRoute_1.default(app);
-<<<<<<< HEAD
-=======
     LinePathsRouter_1.default(app);
->>>>>>> 5615533f0daf64063f6084d15ace84012bfc94bb
     return app;
 };

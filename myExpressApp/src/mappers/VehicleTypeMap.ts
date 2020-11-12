@@ -7,6 +7,8 @@ export class VehicleTypeMap {
 
   public static toDTO(vehicleType: VehicleType) : IVehicleTypeDTO {
     return {
+      id:vehicleType.id.toString(),
+      key: vehicleType.key,
       name: vehicleType.name,
       autonomy: vehicleType.autonomy,
       cost: vehicleType.cost,
@@ -28,6 +30,8 @@ export class VehicleTypeMap {
 
   public static toPersistence (vehicleType: VehicleType): any {
     return {
+      domainId:vehicleType.id.toString(),
+      key: vehicleType.key,
       name: vehicleType.name,
       autonomy: vehicleType.autonomy,
       cost: vehicleType.cost,

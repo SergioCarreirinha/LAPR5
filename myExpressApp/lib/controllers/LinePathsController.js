@@ -23,16 +23,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const config_1 = require("../config");
-const LinePathsService_1 = require("../services/LinePathsService");
 const NodeService_1 = require("../services/NodeService");
-const PathRepo_1 = require("../repositories/PathRepo");
-const PathSchema_1 = require("../dataschemas/PathSchema");
 const NodeRepo_1 = require("../repositories/NodeRepo");
 const NodeSchema_1 = require("../dataschemas/NodeSchema");
 const PathSegment_1 = require("../domain/models/PathSegment");
 const LinePathsMap_1 = require("../mappers/LinePathsMap");
-const LineRepo_1 = require("../repositories/LineRepo");
-const LineSchema_1 = require("../dataschemas/LineSchema");
 let LinePathsController = class LinePathsController {
     constructor(linePathsServiceInstance) {
         this.linePathsServiceInstance = linePathsServiceInstance;
@@ -50,7 +45,7 @@ let LinePathsController = class LinePathsController {
                 }
                 ;
                 const dto = LinePathsMap_1.LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.description, req.body.isEmpty, pathSegments);
-                const callService = yield new LinePathsService_1.default(new PathRepo_1.default(PathSchema_1.default), new LineRepo_1.default(LineSchema_1.default)).createLinePaths(dto);
+                const callService = yield this.linePathsServiceInstance.createLinePaths(dto);
                 if (callService.isFailure) {
                     return res.status(402).send();
                 }

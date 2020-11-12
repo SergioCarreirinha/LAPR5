@@ -25,8 +25,6 @@ const typedi_1 = require("typedi");
 const config_1 = require("../config/");
 const VehicleTypeService_1 = require("../services/VehicleTypeService");
 const celebrate_1 = require("celebrate");
-const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
-const VehicleTypeSchema_1 = require("../dataschemas/VehicleTypeSchema");
 let VehicleTypeController = class VehicleTypeController {
     constructor(vehicleTypeServiceInstance) {
         this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
@@ -35,6 +33,7 @@ let VehicleTypeController = class VehicleTypeController {
         return __awaiter(this, void 0, void 0, function* () {
             celebrate_1.celebrate({
                 body: celebrate_1.Joi.object({
+                    key: celebrate_1.Joi.string().required(),
                     name: celebrate_1.Joi.string().required(),
                     fuelType: celebrate_1.Joi.number().required(),
                     cost: celebrate_1.Joi.number().required(),
@@ -46,7 +45,7 @@ let VehicleTypeController = class VehicleTypeController {
             });
             try {
                 console.log(config_1.default.services.VehicleType.name);
-                const callService = yield new VehicleTypeService_1.default(new VehicleTypeRepo_1.default(VehicleTypeSchema_1.default)).createVehicleType(req.body);
+                const callService = yield this.vehicleTypeServiceInstance.createVehicleType(req.body);
                 if (callService.isFailure) {
                     return res.status(402).send();
                 }

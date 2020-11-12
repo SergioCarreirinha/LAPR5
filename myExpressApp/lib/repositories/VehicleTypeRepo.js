@@ -35,7 +35,7 @@ let VehicleTypeRepo = class VehicleTypeRepo {
     }
     save(vehicleType) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = { name: vehicleType.name };
+            const query = { key: vehicleType.key };
             const document = yield this.vehicleTypeSchema.findOne(query);
             try {
                 if (document === null) {
@@ -44,6 +44,7 @@ let VehicleTypeRepo = class VehicleTypeRepo {
                     return VehicleTypeMap_1.VehicleTypeMap.toDomain(vehicleTypeCreated);
                 }
                 else {
+                    document.key = vehicleType.key;
                     document.name = vehicleType.name;
                     document.autonomy = vehicleType.autonomy;
                     document.cost = vehicleType.cost;

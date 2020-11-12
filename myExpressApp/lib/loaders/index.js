@@ -16,19 +16,19 @@ const config_1 = require("../config");
 exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function* () {
     const mongoConnection = yield mongoose_1.default();
     console.log('MongoDB Intialized');
-    const vehicleTypeSchema = {
+    const VehicleTypeSchema = {
         name: config_1.default.schemas.VehicleType.name,
         schema: config_1.default.schemas.VehicleType.schema
     };
-    const vehicleTypeRepo = {
+    const VehicleTypeRepo = {
         name: config_1.default.repositories.VehicleType.name,
         path: config_1.default.repositories.VehicleType.path
     };
-    const vehicleTypeController = {
+    const VehicleTypeController = {
         name: config_1.default.controllers.VehicleType.name,
         path: config_1.default.controllers.VehicleType.path
     };
-    const vehicleTypeService = {
+    const VehicleTypeService = {
         name: config_1.default.services.VehicleType.name,
         path: config_1.default.services.VehicleType.path
     };
@@ -80,8 +80,6 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
         name: config_1.default.services.Line.name,
         path: config_1.default.services.Line.path
     };
-<<<<<<< HEAD
-=======
     const LinePathsController = {
         name: config_1.default.controllers.LinePaths.name,
         path: config_1.default.controllers.LinePaths.path
@@ -90,7 +88,14 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
         name: config_1.default.services.LinePaths.name,
         path: config_1.default.services.LinePaths.path
     };
->>>>>>> 5615533f0daf64063f6084d15ace84012bfc94bb
+    const PathSchema = {
+        name: config_1.default.schemas.Path.name,
+        schema: config_1.default.schemas.Path.schema
+    };
+    const PathRepo = {
+        name: config_1.default.repositories.Path.name,
+        path: config_1.default.repositories.Path.path
+    };
     const FileUploadController = {
         name: config_1.default.controllers.FileUpload.name,
         path: config_1.default.controllers.FileUpload.path
@@ -101,15 +106,10 @@ exports.default = ({ expressApp }) => __awaiter(void 0, void 0, void 0, function
     };
     yield dependencyInjector_1.default({
         mongoConnection,
-        schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema],
-        repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo],
-<<<<<<< HEAD
-        controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController, FileUploadController],
-        services: [vehicleTypeService, DriverTypeService, NodeService, LineService, FileUploadService]
-=======
-        controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController, LinePathsController, FileUploadController],
-        services: [vehicleTypeService, DriverTypeService, NodeService, LineService, LinePathsService, FileUploadService]
->>>>>>> 5615533f0daf64063f6084d15ace84012bfc94bb
+        schemas: [VehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema, PathSchema],
+        repositories: [VehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo, PathRepo],
+        controllers: [VehicleTypeController, DriverTypeController, NodeController, LineController, LinePathsController, FileUploadController],
+        services: [VehicleTypeService, DriverTypeService, NodeService, LineService, LinePathsService, FileUploadService]
     });
     yield express_1.default({ app: expressApp });
     console.log('Express Intialized');

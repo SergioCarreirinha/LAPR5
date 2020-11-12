@@ -37,7 +37,7 @@ export default class LinePathsController implements ILinePathsController{
                 pathSegments.push(pathSegment);
             };
             const dto = LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.description, req.body.isEmpty, pathSegments);
-            const callService = await new LinePathsService(new PathRepo(PathSchema), new LineRepo(LineSchema)).createLinePaths(dto) as Result<ILineDTO>;
+            const callService = await this.linePathsServiceInstance.createLinePaths(dto) as Result<ILineDTO>;
 
             if(callService.isFailure) {
                 return res.status(402).send();

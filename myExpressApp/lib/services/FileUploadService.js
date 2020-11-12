@@ -27,11 +27,13 @@ const xml2js = require("xml2js");
 const fs = require("fs");
 const { DOMParser } = require('xmldom');
 let FileUploadService = class FileUploadService {
-    constructor(vehicleTypeServiceInstance) {
+    constructor(vehicleTypeServiceInstance, nodeServiceInstance) {
         this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
+        this.nodeServiceInstance = nodeServiceInstance;
     }
     fileUpload(xml) {
         return __awaiter(this, void 0, void 0, function* () {
+            let vehicleType = this.vehicleTypeServiceInstance;
             fs.readFile(xml, 'utf8', function read(err, data) {
                 return __awaiter(this, void 0, void 0, function* () {
                     if (err) {
@@ -42,14 +44,15 @@ let FileUploadService = class FileUploadService {
                     //importar VehicleTypes
                     let vehicleTypes = objects.getElementsByTagName("VehicleType");
                     for (var i = 0; i < vehicleTypes.length; i++) {
-                        parser.parseString(vehicleTypes[i], (err, result) => {
-<<<<<<< HEAD
-                            this.vehicleTypeServiceInstance.createVehicleType(result);
-=======
-                            //console.log(result);
-                            vehicleTypeService.createVehicleType(result);
->>>>>>> 5615533f0daf64063f6084d15ace84012bfc94bb
-                        });
+                        parser.parseString(vehicleTypes[i], (err, result) => __awaiter(this, void 0, void 0, function* () {
+                            console.log(result);
+                            try {
+                                yield vehicleType.createVehicleType(result);
+                            }
+                            catch (e) {
+                                throw e;
+                            }
+                        }));
                     }
                     /*   //importar nós
                        let nodes = objects.getElementsByTagName("Nodes");
@@ -67,6 +70,7 @@ let FileUploadService = class FileUploadService {
 FileUploadService = __decorate([
     typedi_1.Service(),
     __param(0, typedi_1.Inject(config_1.default.services.VehicleType.name)),
-    __metadata("design:paramtypes", [Object])
+    __param(1, typedi_1.Inject(config_1.default.services.Node.name)),
+    __metadata("design:paramtypes", [Object, Object])
 ], FileUploadService);
 exports.default = FileUploadService;

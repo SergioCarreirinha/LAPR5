@@ -19,6 +19,7 @@ export default class VehicleTypeController implements IVehicleTypeController{
     public async createVehicleType(req: Request, res: Response, next: NextFunction) {
         celebrate({
             body: Joi.object({
+                key: Joi.string().required(),
                 name: Joi.string().required(),
                 fuelType: Joi.number().required(),
                 cost: Joi.number().required(),
@@ -31,7 +32,7 @@ export default class VehicleTypeController implements IVehicleTypeController{
 
         try{
             console.log(config.services.VehicleType.name)
-            const callService = await new IVehicleTypeService(new VehicleTypeRepo(VehicleTypeSchema)).createVehicleType(req.body as IVehicleTypeDTO) as Result<IVehicleTypeDTO>;
+            const callService = await this.vehicleTypeServiceInstance.createVehicleType(req.body as IVehicleTypeDTO) as Result<IVehicleTypeDTO>;
 
             if(callService.isFailure) {
                 return res.status(402).send();

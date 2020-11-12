@@ -24,9 +24,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const config_1 = require("../config/");
 const celebrate_1 = require("celebrate");
-const DriverTypeService_1 = require("../services/DriverTypeService");
-const DriverTypeRepo_1 = require("../repositories/DriverTypeRepo");
-const DriverTypeSchema_1 = require("../dataschemas/DriverTypeSchema");
 let DriverTypeController = class DriverTypeController {
     constructor(driverTypeServiceInstance) {
         this.driverTypeServiceInstance = driverTypeServiceInstance;
@@ -39,7 +36,7 @@ let DriverTypeController = class DriverTypeController {
                 })
             });
             try {
-                const callService = yield new DriverTypeService_1.default(new DriverTypeRepo_1.default(DriverTypeSchema_1.default)).createDriverType(req.body);
+                const callService = yield this.driverTypeServiceInstance.createDriverType(req.body);
                 if (callService.isFailure) {
                     return res.status(402).send();
                 }

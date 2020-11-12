@@ -5,6 +5,7 @@ import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
 import { VehicleID } from "./ID/VehicleTypeID";
 
 interface IVehicle {
+    key: string;
     name: string;
     autonomy: Number;
     cost: Number;
@@ -18,6 +19,10 @@ export class VehicleType extends AggregateRoot<IVehicle>{
 
     private constructor(inter: IVehicle, id?: UniqueEntityID) {
         super(inter,id);
+    }
+
+    get key(): string {
+        return this.props.key;
     }
 
     get name(): string {
@@ -55,6 +60,10 @@ export class VehicleType extends AggregateRoot<IVehicle>{
         return VehicleID.create(this.id);
     }
 
+    set key(value: string) {
+        this.props.key = value;
+    }
+
     set name(value: string) {
         this.props.name = value;
     }
@@ -85,6 +94,7 @@ export class VehicleType extends AggregateRoot<IVehicle>{
 
 
     static create(vehicleTypeDTO: IVehicleTypeDTO, id?: UniqueEntityID): Result<VehicleType> {
+        const key = vehicleTypeDTO.key;
         const name = vehicleTypeDTO.name;
         const autonomy = vehicleTypeDTO.autonomy;
         const cost = vehicleTypeDTO.cost;
@@ -96,7 +106,7 @@ export class VehicleType extends AggregateRoot<IVehicle>{
         if (!!name === false || name.length === 0) {
             return Result.fail<VehicleType>('Must provide a role name')
         } else {
-            const roleF = new VehicleType({name:name, autonomy:autonomy, cost:cost, averageSpeed:averageSpeed, energySource:energySource, consumption:consumption,emissions:emissions},id);
+            const roleF = new VehicleType({key:key, name:name, autonomy:autonomy, cost:cost, averageSpeed:averageSpeed, energySource:energySource, consumption:consumption,emissions:emissions},id);
             return Result.ok<VehicleType>( roleF );
         }
     }

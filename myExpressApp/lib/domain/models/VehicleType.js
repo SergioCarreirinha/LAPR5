@@ -8,6 +8,9 @@ class VehicleType extends AggregateRoot_1.AggregateRoot {
     constructor(inter, id) {
         super(inter, id);
     }
+    get key() {
+        return this.props.key;
+    }
     get name() {
         return this.props.name;
     }
@@ -35,6 +38,9 @@ class VehicleType extends AggregateRoot_1.AggregateRoot {
     get vehicleID() {
         return VehicleTypeID_1.VehicleID.create(this.id);
     }
+    set key(value) {
+        this.props.key = value;
+    }
     set name(value) {
         this.props.name = value;
     }
@@ -57,6 +63,7 @@ class VehicleType extends AggregateRoot_1.AggregateRoot {
         this.props.emissions = value;
     }
     static create(vehicleTypeDTO, id) {
+        const key = vehicleTypeDTO.key;
         const name = vehicleTypeDTO.name;
         const autonomy = vehicleTypeDTO.autonomy;
         const cost = vehicleTypeDTO.cost;
@@ -68,7 +75,7 @@ class VehicleType extends AggregateRoot_1.AggregateRoot {
             return Result_1.Result.fail('Must provide a role name');
         }
         else {
-            const roleF = new VehicleType({ name: name, autonomy: autonomy, cost: cost, averageSpeed: averageSpeed, energySource: energySource, consumption: consumption, emissions: emissions }, id);
+            const roleF = new VehicleType({ key: key, name: name, autonomy: autonomy, cost: cost, averageSpeed: averageSpeed, energySource: energySource, consumption: consumption, emissions: emissions }, id);
             return Result_1.Result.ok(roleF);
         }
     }

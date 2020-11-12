@@ -5,6 +5,8 @@ const VehicleType_1 = require("../domain/models/VehicleType");
 class VehicleTypeMap {
     static toDTO(vehicleType) {
         return {
+            id: vehicleType.id.toString(),
+            key: vehicleType.key,
             name: vehicleType.name,
             autonomy: vehicleType.autonomy,
             cost: vehicleType.cost,
@@ -21,6 +23,8 @@ class VehicleTypeMap {
     }
     static toPersistence(vehicleType) {
         return {
+            domainId: vehicleType.id.toString(),
+            key: vehicleType.key,
             name: vehicleType.name,
             autonomy: vehicleType.autonomy,
             cost: vehicleType.cost,

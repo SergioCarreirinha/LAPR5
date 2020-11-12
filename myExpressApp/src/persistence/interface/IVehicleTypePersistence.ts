@@ -1,4 +1,5 @@
 export interface IVehicleTypePersistence {
+    key: string;
     name: string;
     autonomy: Number;
     cost: Number;

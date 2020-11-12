@@ -7,22 +7,22 @@ export default async ({ expressApp }) => {
   const mongoConnection = await mongooseLoader();
   console.log('MongoDB Intialized');
   
-  const vehicleTypeSchema = {
+  const VehicleTypeSchema = {
     name: config.schemas.VehicleType.name,
     schema: config.schemas.VehicleType.schema
   }
   
-  const vehicleTypeRepo = {
+  const VehicleTypeRepo = {
     name: config.repositories.VehicleType.name,
     path: config.repositories.VehicleType.path
   }
 
-  const vehicleTypeController = {
+  const VehicleTypeController = {
     name: config.controllers.VehicleType.name,
     path: config.controllers.VehicleType.path
   }
 
-  const vehicleTypeService = {
+  const VehicleTypeService = {
     name: config.services.VehicleType.name,
     path: config.services.VehicleType.path
   }
@@ -96,6 +96,17 @@ export default async ({ expressApp }) => {
     name: config.services.LinePaths.name,
     path: config.services.LinePaths.path
   }
+
+  const PathSchema = {
+    name: config.schemas.Path.name,
+    schema: config.schemas.Path.schema
+  }
+
+  const PathRepo = {
+    name: config.repositories.Path.name,
+    path: config.repositories.Path.path
+  }
+  
   const FileUploadController = {
     name: config.controllers.FileUpload.name,
     path: config.controllers.FileUpload.path
@@ -108,10 +119,10 @@ export default async ({ expressApp }) => {
 
   await dependencyInjector({
     mongoConnection,
-    schemas: [vehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema],
-    repositories: [vehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo],
-    controllers: [vehicleTypeController, DriverTypeController, NodeController, LineController, LinePathsController,FileUploadController],
-    services: [vehicleTypeService, DriverTypeService, NodeService, LineService, LinePathsService,FileUploadService]
+    schemas: [VehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema , PathSchema],
+    repositories: [VehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo, PathRepo],
+    controllers: [VehicleTypeController, DriverTypeController, NodeController, LineController, LinePathsController,FileUploadController],
+    services: [VehicleTypeService, DriverTypeService, NodeService, LineService, LinePathsService,FileUploadService]
   })
   
   await expressLoader({ app: expressApp });
