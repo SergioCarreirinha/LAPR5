@@ -34,6 +34,7 @@ let FileUploadService = class FileUploadService {
     fileUpload(xml) {
         return __awaiter(this, void 0, void 0, function* () {
             let vehicleType = this.vehicleTypeServiceInstance;
+            let node = this.nodeServiceInstance;
             fs.readFile(xml, 'utf8', function read(err, data) {
                 return __awaiter(this, void 0, void 0, function* () {
                     if (err) {
@@ -53,14 +54,15 @@ let FileUploadService = class FileUploadService {
                             }
                         }));
                     }
-                    /*   //importar nós
-                       let nodes = objects.getElementsByTagName("Nodes");
-                       for (var i = 0; i < nodes.length; i++) {
-                           parser.parseString(nodes[i], (err, result) => {
-                               console.log(result);
-                               nodeService.createNode(result as INodeDTO);
-                           });
-                       } */
+                    //importar nós
+                    let nodes = objects.getElementsByTagName("Nodes");
+                    console.log(nodes);
+                    for (var i = 0; i < nodes.length; i++) {
+                        parser.parseString(nodes[i], (err, result) => {
+                            console.log(result);
+                            node.createNode(result);
+                        });
+                    }
                 });
             });
         });

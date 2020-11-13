@@ -4,6 +4,7 @@ import IVehicleTypeService from "./interface/IVehicleTypeService";
 import IVehicleTypeDTO from "../dto/VehicleTypeDTO/IVehicleTypeDTO";
 import INodeService from "./interface/INodeService";
 import config from "../config";
+import INodeDTO from "../dto/NodeDTO/INodeDTO";
 const xml2js = require("xml2js");
 const fs = require("fs");
 const { DOMParser } = require('xmldom');
@@ -17,6 +18,7 @@ export default class FileUploadService implements IFileUploadService {
 
     public async fileUpload(xml) {
         let vehicleType = this.vehicleTypeServiceInstance;
+        let node = this.nodeServiceInstance;
         fs.readFile(xml, 'utf8', async function read(err, data) {
             if (err) {
                 throw err;
@@ -37,14 +39,16 @@ export default class FileUploadService implements IFileUploadService {
                 });
             }
 
-            /*   //importar nós
+               //importar nós
                let nodes = objects.getElementsByTagName("Nodes");
+               console.log(nodes);
+               console.log("ola1");
                for (var i = 0; i < nodes.length; i++) {
                    parser.parseString(nodes[i], (err, result) => {
                        console.log(result);
-                       nodeService.createNode(result as INodeDTO);
+                       node.createNode(result as INodeDTO);
                    });
-               } */
+               } 
 
         });
 
