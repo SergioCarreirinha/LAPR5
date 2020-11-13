@@ -1,5 +1,5 @@
-import {VehicleType} from '../../src/domain/models/VehicleType';
-import IVehicleTypeDTO from '../../src/dto/VehicleTypeDTO/IVehicleTypeDTO';
+import { VehicleType } from "../../domain/models/VehicleType";
+import IVehicleTypeDTO from "../../dto/VehicleTypeDTO/IVehicleTypeDTO";
 import {expect} from 'chai';
 
 describe('Create a valid Vehicle Type', () => {

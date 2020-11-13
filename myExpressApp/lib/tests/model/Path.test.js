@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Path_1 = require("../../src/domain/models/Path");
-const Node_1 = require("../../src/domain/models/Node");
+const Node_1 = require("../../domain/models/Node");
+const Path_1 = require("../../domain/models/Path");
+const PathSegment_1 = require("../../domain/models/PathSegment");
 const chai_1 = require("chai");
-const PathSegment_1 = require("../../src/domain/models/PathSegment");
 const node1 = Node_1.Node.create({
     key: "node1",
     name: "node1",

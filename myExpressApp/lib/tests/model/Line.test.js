@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Line_1 = require("../../src/domain/models/Line");
-const Path_1 = require("../../src/domain/models/Path");
-const Node_1 = require("../../src/domain/models/Node");
-const PathSegment_1 = require("../../src/domain/models/PathSegment");
+const DriverType_1 = require("../../domain/models/DriverType");
+const Line_1 = require("../../domain/models/Line");
+const Node_1 = require("../../domain/models/Node");
+const Path_1 = require("../../domain/models/Path");
+const PathSegment_1 = require("../../domain/models/PathSegment");
+const VehicleType_1 = require("../../domain/models/VehicleType");
 const chai_1 = require("chai");
-const DriverType_1 = require("../../src/domain/models/DriverType");
-const VehicleType_1 = require("../../src/domain/models/VehicleType");
 describe('Create a valid Line', () => {
     let line = Line_1.Line.create({ name: "teste", code: "teste", goPath: null, returnPath: null, emptyPaths: null, endNodes: null, allowedDrivers: null, allowedVehicles: null });
     it("ensure all Parameters are well formed", () => {

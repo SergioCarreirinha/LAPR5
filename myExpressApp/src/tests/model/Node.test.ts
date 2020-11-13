@@ -1,5 +1,5 @@
-import {Node} from '../../src/domain/models/Node';
-import INodeDTO from '../../src/dto/NodeDTO/INodeDTO';
+import { Node } from "../../domain/models/Node";
+import INodeDTO from "../../dto/NodeDTO/INodeDTO";
 import {expect} from 'chai';
 
 describe('Create a valid Driver Type', () => {
