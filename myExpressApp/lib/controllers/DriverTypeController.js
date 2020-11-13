@@ -11,41 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config/");
+const config_1 = __importDefault(require("../config/"));
 const celebrate_1 = require("celebrate");
 let DriverTypeController = class DriverTypeController {
     constructor(driverTypeServiceInstance) {
         this.driverTypeServiceInstance = driverTypeServiceInstance;
     }
-    createDriverType(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            celebrate_1.celebrate({
-                body: celebrate_1.Joi.object({
-                    description: celebrate_1.Joi.string().required()
-                })
-            });
-            try {
-                const callService = yield this.driverTypeServiceInstance.createDriverType(req.body);
-                if (callService.isFailure) {
-                    return res.status(402).send();
-                }
-                return res.status(201).json(callService.getValue());
-            }
-            catch (e) {
-                return next(e);
-            }
+    async createDriverType(req, res, next) {
+        celebrate_1.celebrate({
+            body: celebrate_1.Joi.object({
+                description: celebrate_1.Joi.string().required()
+            })
         });
+        try {
+            const callService = await this.driverTypeServiceInstance.createDriverType(req.body);
+            if (callService.isFailure) {
+                return res.status(402).send();
+            }
+            return res.status(201).json(callService.getValue());
+        }
+        catch (e) {
+            return next(e);
+        }
     }
 };
 DriverTypeController = __decorate([
@@ -53,3 +45,4 @@ DriverTypeController = __decorate([
     __metadata("design:paramtypes", [Object])
 ], DriverTypeController);
 exports.default = DriverTypeController;
+//# sourceMappingURL=DriverTypeController.js.map

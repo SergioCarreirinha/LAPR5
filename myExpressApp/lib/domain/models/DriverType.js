@@ -32,3 +32,4 @@ class DriverType extends AggregateRoot_1.AggregateRoot {
     }
 }
 exports.DriverType = DriverType;
+//# sourceMappingURL=DriverType.js.map

@@ -7,3 +7,4 @@ class UseCaseError {
     }
 }
 exports.UseCaseError = UseCaseError;
+//# sourceMappingURL=UseCaseError.js.map

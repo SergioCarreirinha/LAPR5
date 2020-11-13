@@ -11,3 +11,4 @@ class VehicleID extends Entity_1.Entity {
     }
 }
 exports.VehicleID = VehicleID;
+//# sourceMappingURL=VehicleTypeID.js.map

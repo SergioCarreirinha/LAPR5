@@ -64,3 +64,4 @@ class DomainEvents {
 exports.DomainEvents = DomainEvents;
 DomainEvents.handlersMap = {};
 DomainEvents.markedAggregates = [];
+//# sourceMappingURL=DomainEvents.js.map

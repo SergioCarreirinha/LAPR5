@@ -26,3 +26,4 @@ class Identifier {
     }
 }
 exports.Identifier = Identifier;
+//# sourceMappingURL=Identifier.js.map

@@ -25,3 +25,4 @@ class MockPostToSocial {
     }
 }
 exports.MockPostToSocial = MockPostToSocial;
+//# sourceMappingURL=mockPostToSocial.js.map

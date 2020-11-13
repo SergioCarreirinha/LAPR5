@@ -83,3 +83,4 @@ class Line extends AggregateRoot_1.AggregateRoot {
     }
 }
 exports.Line = Line;
+//# sourceMappingURL=Line.js.map

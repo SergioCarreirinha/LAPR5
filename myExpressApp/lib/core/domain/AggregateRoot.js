@@ -33,3 +33,4 @@ class AggregateRoot extends Entity_1.Entity {
     }
 }
 exports.AggregateRoot = AggregateRoot;
+//# sourceMappingURL=AggregateRoot.js.map

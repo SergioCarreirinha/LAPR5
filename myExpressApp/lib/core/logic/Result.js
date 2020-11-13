@@ -70,3 +70,4 @@ exports.left = (l) => {
 exports.right = (a) => {
     return new Right(a);
 };
+//# sourceMappingURL=Result.js.map

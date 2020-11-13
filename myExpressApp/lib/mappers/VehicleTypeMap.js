@@ -36,3 +36,4 @@ class VehicleTypeMap {
     }
 }
 exports.VehicleTypeMap = VehicleTypeMap;
+//# sourceMappingURL=VehicleTypeMap.js.map

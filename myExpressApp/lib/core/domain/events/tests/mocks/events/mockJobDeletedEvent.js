@@ -11,3 +11,4 @@ class MockJobDeletedEvent {
     }
 }
 exports.MockJobDeletedEvent = MockJobDeletedEvent;
+//# sourceMappingURL=mockJobDeletedEvent.js.map
