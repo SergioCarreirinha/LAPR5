@@ -103,8 +103,8 @@ export class VehicleType extends AggregateRoot<IVehicle>{
         const consumption = vehicleTypeDTO.consumption;
         const emissions = vehicleTypeDTO.emissions;
 
-        if (!!name === false || name.length === 0) {
-            return Result.fail<VehicleType>('Must provide a role name')
+        if (!!key === false || key.length === 0) {
+            return Result.fail<VehicleType>('Must provide a key')
         } else {
             const roleF = new VehicleType({key:key, name:name, autonomy:autonomy, cost:cost, averageSpeed:averageSpeed, energySource:energySource, consumption:consumption,emissions:emissions},id);
             return Result.ok<VehicleType>( roleF );
