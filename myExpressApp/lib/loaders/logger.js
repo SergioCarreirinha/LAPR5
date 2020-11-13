@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const winston = require('winston');
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 const transports = [];
 if (process.env.NODE_ENV !== 'development') {
     transports.push(new winston.transports.Console());
@@ -20,3 +23,4 @@ const LoggerInstance = winston.createLogger({
     transports
 });
 exports.default = LoggerInstance;
+//# sourceMappingURL=logger.js.map

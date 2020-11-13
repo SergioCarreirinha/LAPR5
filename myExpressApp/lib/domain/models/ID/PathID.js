@@ -11,3 +11,4 @@ class PathID extends Entity_1.Entity {
     }
 }
 exports.PathID = PathID;
+//# sourceMappingURL=PathID.js.map

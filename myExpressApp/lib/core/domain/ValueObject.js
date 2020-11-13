@@ -21,3 +21,4 @@ class ValueObject {
     }
 }
 exports.ValueObject = ValueObject;
+//# sourceMappingURL=ValueObject.js.map

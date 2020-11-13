@@ -11,3 +11,4 @@ class LineID extends Entity_1.Entity {
     }
 }
 exports.LineID = LineID;
+//# sourceMappingURL=LineID.js.map

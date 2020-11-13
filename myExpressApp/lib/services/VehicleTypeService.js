@@ -11,41 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 const VehicleType_1 = require("../domain/models/VehicleType");
-const VehicleTypeRepo_1 = require("../repositories/VehicleTypeRepo");
+const VehicleTypeRepo_1 = __importDefault(require("../repositories/VehicleTypeRepo"));
 const VehicleTypeMap_1 = require("../mappers/VehicleTypeMap");
 const Result_1 = require("../core/logic/Result");
 let VehicleTypeService = class VehicleTypeService {
     constructor(vehicleTypeRepo) {
         this.vehicleTypeRepo = vehicleTypeRepo;
     }
-    createVehicleType(vehicleTypeDTO) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const vehicleType = yield VehicleType_1.VehicleType.create(vehicleTypeDTO);
-                if (vehicleType.isFailure) {
-                    return Result_1.Result.fail(vehicleType.errorValue());
-                }
-                yield this.vehicleTypeRepo.save(vehicleType.getValue());
-                const vehicleTypeReturn = VehicleTypeMap_1.VehicleTypeMap.toDTO(vehicleType.getValue());
-                return Result_1.Result.ok(vehicleTypeReturn);
+    async createVehicleType(vehicleTypeDTO) {
+        try {
+            const vehicleType = await VehicleType_1.VehicleType.create(vehicleTypeDTO);
+            if (vehicleType.isFailure) {
+                return Result_1.Result.fail(vehicleType.errorValue());
             }
-            catch (e) {
-                throw e;
-            }
-        });
+            await this.vehicleTypeRepo.save(vehicleType.getValue());
+            const vehicleTypeReturn = VehicleTypeMap_1.VehicleTypeMap.toDTO(vehicleType.getValue());
+            return Result_1.Result.ok(vehicleTypeReturn);
+        }
+        catch (e) {
+            throw e;
+        }
     }
 };
 VehicleTypeService = __decorate([
@@ -54,3 +46,4 @@ VehicleTypeService = __decorate([
     __metadata("design:paramtypes", [VehicleTypeRepo_1.default])
 ], VehicleTypeService);
 exports.default = VehicleTypeService;
+//# sourceMappingURL=VehicleTypeService.js.map

@@ -11,3 +11,4 @@ class DriverTypeID extends Entity_1.Entity {
     }
 }
 exports.DriverTypeID = DriverTypeID;
+//# sourceMappingURL=DriverTypeID.js.map

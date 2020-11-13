@@ -11,3 +11,4 @@ class NodeID extends Entity_1.Entity {
     }
 }
 exports.NodeID = NodeID;
+//# sourceMappingURL=NodeID.js.map

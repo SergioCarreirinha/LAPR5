@@ -11,15 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const mongoose_1 = require("mongoose");
@@ -34,49 +25,45 @@ let LineRepo = class LineRepo {
             where: {},
         };
     }
-    save(line) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = { domainId: line.id.toString() };
-            const document = yield this.LineSchema.findOne(query);
-            try {
-                if (document === null) {
-                    const rawLine = LineMap_1.LineMap.toPersistence(line);
-                    const lineCreated = yield this.LineSchema.create(rawLine);
-                    return LineMap_1.LineMap.toDomain(lineCreated);
-                }
-                else {
-                    document.name = line.name;
-                    document.code = line.code;
-                    document.goPath = line.goPath;
-                    document.returnPath = line.returnPath;
-                    document.emptyPaths = line.emptyPaths;
-                    document.endNodes = line.endNodes;
-                    document.allowedVehicles = line.allowedVehicles;
-                    document.allowedDrivers = line.allowedDrivers;
-                    yield document.save();
-                    return line;
-                }
+    async save(line) {
+        const query = { domainId: line.id.toString() };
+        const document = await this.LineSchema.findOne(query);
+        try {
+            if (document === null) {
+                const rawLine = LineMap_1.LineMap.toPersistence(line);
+                const lineCreated = await this.LineSchema.create(rawLine);
+                return LineMap_1.LineMap.toDomain(lineCreated);
             }
-            catch (e) {
-                throw e;
+            else {
+                document.name = line.name;
+                document.code = line.code;
+                document.goPath = line.goPath;
+                document.returnPath = line.returnPath;
+                document.emptyPaths = line.emptyPaths;
+                document.endNodes = line.endNodes;
+                document.allowedVehicles = line.allowedVehicles;
+                document.allowedDrivers = line.allowedDrivers;
+                await document.save();
+                return line;
             }
-        });
-    }
-    updateLineByName(value, toGo, path) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = { name: value };
-            try {
-                if (toGo) {
-                    var document = yield this.LineSchema.findOneAndUpdate(query, { goPath: path }, { new: true });
-                }
-                else {
-                    var document = yield this.LineSchema.findOneAndUpdate(query, { returnPath: path }, { new: true });
-                }
-                return LineMap_1.LineMap.toDomain(document);
-            }
-            catch (e) { }
+        }
+        catch (e) {
             throw e;
-        });
+        }
+    }
+    async updateLineByName(value, toGo, path) {
+        const query = { name: value };
+        try {
+            if (toGo) {
+                var document = await this.LineSchema.findOneAndUpdate(query, { goPath: path }, { new: true });
+            }
+            else {
+                var document = await this.LineSchema.findOneAndUpdate(query, { returnPath: path }, { new: true });
+            }
+            return LineMap_1.LineMap.toDomain(document);
+        }
+        catch (e) { }
+        throw e;
     }
 };
 LineRepo = __decorate([
@@ -85,3 +72,4 @@ LineRepo = __decorate([
     __metadata("design:paramtypes", [mongoose_1.Model])
 ], LineRepo);
 exports.default = LineRepo;
+//# sourceMappingURL=LineRepo.js.map

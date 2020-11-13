@@ -11,18 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 const xml2js = require("xml2js");
 const fs = require("fs");
 const { DOMParser } = require('xmldom');
@@ -31,38 +25,34 @@ let FileUploadService = class FileUploadService {
         this.vehicleTypeServiceInstance = vehicleTypeServiceInstance;
         this.nodeServiceInstance = nodeServiceInstance;
     }
-    fileUpload(xml) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let vehicleType = this.vehicleTypeServiceInstance;
-            fs.readFile(xml, 'utf8', function read(err, data) {
-                return __awaiter(this, void 0, void 0, function* () {
-                    if (err) {
-                        throw err;
+    async fileUpload(xml) {
+        let vehicleType = this.vehicleTypeServiceInstance;
+        fs.readFile(xml, 'utf8', async function read(err, data) {
+            if (err) {
+                throw err;
+            }
+            const objects = new DOMParser().parseFromString(data);
+            let parser = new xml2js.Parser({ explicitRoot: false, mergeAttrs: true, explicitArray: false, attrNameProcessors: [xml2js.processors.firstCharLowerCase] });
+            //importar VehicleTypes
+            let vehicleTypes = objects.getElementsByTagName("VehicleType");
+            for (var i = 0; i < vehicleTypes.length; i++) {
+                parser.parseString(vehicleTypes[i], async (err, result) => {
+                    try {
+                        await vehicleType.createVehicleType(result);
                     }
-                    const objects = new DOMParser().parseFromString(data);
-                    let parser = new xml2js.Parser({ explicitRoot: false, mergeAttrs: true, explicitArray: false, attrNameProcessors: [xml2js.processors.firstCharLowerCase] });
-                    //importar VehicleTypes
-                    let vehicleTypes = objects.getElementsByTagName("VehicleType");
-                    for (var i = 0; i < vehicleTypes.length; i++) {
-                        parser.parseString(vehicleTypes[i], (err, result) => __awaiter(this, void 0, void 0, function* () {
-                            try {
-                                yield vehicleType.createVehicleType(result);
-                            }
-                            catch (e) {
-                                throw e;
-                            }
-                        }));
+                    catch (e) {
+                        throw e;
                     }
-                    /*   //importar nós
-                       let nodes = objects.getElementsByTagName("Nodes");
-                       for (var i = 0; i < nodes.length; i++) {
-                           parser.parseString(nodes[i], (err, result) => {
-                               console.log(result);
-                               nodeService.createNode(result as INodeDTO);
-                           });
-                       } */
                 });
-            });
+            }
+            /*   //importar nós
+               let nodes = objects.getElementsByTagName("Nodes");
+               for (var i = 0; i < nodes.length; i++) {
+                   parser.parseString(nodes[i], (err, result) => {
+                       console.log(result);
+                       nodeService.createNode(result as INodeDTO);
+                   });
+               } */
         });
     }
 };
@@ -73,3 +63,4 @@ FileUploadService = __decorate([
     __metadata("design:paramtypes", [Object, Object])
 ], FileUploadService);
 exports.default = FileUploadService;
+//# sourceMappingURL=FileUploadService.js.map

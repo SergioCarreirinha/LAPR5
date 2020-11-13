@@ -18,3 +18,4 @@ class MockJobAggregateRoot extends AggregateRoot_1.AggregateRoot {
     }
 }
 exports.MockJobAggregateRoot = MockJobAggregateRoot;
+//# sourceMappingURL=mockJobAggregateRoot.js.map

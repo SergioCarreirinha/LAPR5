@@ -11,18 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 const Path_1 = require("../domain/models/Path");
 const LineMap_1 = require("../mappers/LineMap");
 const Result_1 = require("../core/logic/Result");
@@ -31,22 +25,20 @@ let LinePathsService = class LinePathsService {
         this.pathRepo = pathRepo;
         this.lineRepo = lineRepo;
     }
-    createLinePaths(linePathsDTO) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const path = yield Path_1.Path.create(linePathsDTO);
-                if (path.isFailure) {
-                    return Result_1.Result.fail("Error on line paths");
-                }
-                yield this.pathRepo.save(path.getValue());
-                const savedLine = yield this.lineRepo.updateLineByName(linePathsDTO.line, linePathsDTO.toGo, path.getValue());
-                const lineReturn = LineMap_1.LineMap.toDTO(savedLine);
-                return Result_1.Result.ok(lineReturn);
+    async createLinePaths(linePathsDTO) {
+        try {
+            const path = await Path_1.Path.create(linePathsDTO);
+            if (path.isFailure) {
+                return Result_1.Result.fail("Error on line paths");
             }
-            catch (e) {
-                throw e;
-            }
-        });
+            await this.pathRepo.save(path.getValue());
+            const savedLine = await this.lineRepo.updateLineByName(linePathsDTO.line, linePathsDTO.toGo, path.getValue());
+            const lineReturn = LineMap_1.LineMap.toDTO(savedLine);
+            return Result_1.Result.ok(lineReturn);
+        }
+        catch (e) {
+            throw e;
+        }
     }
 };
 LinePathsService = __decorate([
@@ -56,3 +48,4 @@ LinePathsService = __decorate([
     __metadata("design:paramtypes", [Object, Object])
 ], LinePathsService);
 exports.default = LinePathsService;
+//# sourceMappingURL=LinePathsService.js.map

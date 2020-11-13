@@ -11,15 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const VehicleTypeMap_1 = require("../mappers/VehicleTypeMap");
@@ -33,33 +24,31 @@ let VehicleTypeRepo = class VehicleTypeRepo {
             where: {},
         };
     }
-    save(vehicleType) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = { key: vehicleType.key };
-            const document = yield this.vehicleTypeSchema.findOne(query);
-            try {
-                if (document === null) {
-                    const rawVehicleType = VehicleTypeMap_1.VehicleTypeMap.toPersistence(vehicleType);
-                    const vehicleTypeCreated = yield this.vehicleTypeSchema.create(rawVehicleType);
-                    return VehicleTypeMap_1.VehicleTypeMap.toDomain(vehicleTypeCreated);
-                }
-                else {
-                    document.key = vehicleType.key;
-                    document.name = vehicleType.name;
-                    document.autonomy = vehicleType.autonomy;
-                    document.cost = vehicleType.cost;
-                    document.averageSpeed = vehicleType.averageSpeed;
-                    document.energySource = vehicleType.energySource;
-                    document.consumption = vehicleType.consumption;
-                    document.emissions = vehicleType.emissions;
-                    yield document.save();
-                    return vehicleType;
-                }
+    async save(vehicleType) {
+        const query = { key: vehicleType.key };
+        const document = await this.vehicleTypeSchema.findOne(query);
+        try {
+            if (document === null) {
+                const rawVehicleType = VehicleTypeMap_1.VehicleTypeMap.toPersistence(vehicleType);
+                const vehicleTypeCreated = await this.vehicleTypeSchema.create(rawVehicleType);
+                return VehicleTypeMap_1.VehicleTypeMap.toDomain(vehicleTypeCreated);
             }
-            catch (e) {
-                throw e;
+            else {
+                document.key = vehicleType.key;
+                document.name = vehicleType.name;
+                document.autonomy = vehicleType.autonomy;
+                document.cost = vehicleType.cost;
+                document.averageSpeed = vehicleType.averageSpeed;
+                document.energySource = vehicleType.energySource;
+                document.consumption = vehicleType.consumption;
+                document.emissions = vehicleType.emissions;
+                await document.save();
+                return vehicleType;
             }
-        });
+        }
+        catch (e) {
+            throw e;
+        }
     }
 };
 VehicleTypeRepo = __decorate([
@@ -68,3 +57,4 @@ VehicleTypeRepo = __decorate([
     __metadata("design:paramtypes", [mongoose_1.Model])
 ], VehicleTypeRepo);
 exports.default = VehicleTypeRepo;
+//# sourceMappingURL=VehicleTypeRepo.js.map

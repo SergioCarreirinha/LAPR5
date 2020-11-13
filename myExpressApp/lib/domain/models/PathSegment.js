@@ -49,3 +49,4 @@ class PathSegment extends ValueObject_1.ValueObject {
     }
 }
 exports.PathSegment = PathSegment;
+//# sourceMappingURL=PathSegment.js.map

@@ -13,3 +13,4 @@ class LinePathsMap {
     }
 }
 exports.LinePathsMap = LinePathsMap;
+//# sourceMappingURL=LinePathsMap.js.map
