@@ -1,5 +1,5 @@
-import {DriverType} from '../../src/domain/models/DriverType';
-import IDriverTypeDTO from '../../src/dto/DriverTypeDTO/IDriverTypeDTO';
+import { DriverType } from "../../domain/models/DriverType";
+import IDriverTypeDTO from "../../dto/DriverTypeDTO/IDriverTypeDTO";
 import {expect} from 'chai';
 
 describe('Create a valid Driver Type', () => {

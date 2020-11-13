@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const DriverType_1 = require("../../src/domain/models/DriverType");
+const DriverType_1 = require("../../domain/models/DriverType");
 const chai_1 = require("chai");
 describe('Create a valid Driver Type', () => {
     let driver = DriverType_1.DriverType.create({ description: "Teste" });

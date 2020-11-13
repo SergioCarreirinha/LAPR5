@@ -111,8 +111,8 @@ export class Line extends AggregateRoot<ILine> {
         const allowedDrivers = lineDto.allowedDrivers;
 
 
-        if (!!name === false || name.length === 0) {
-            return Result.fail<Line>('Must provide a description')
+        if (!!name === false || name.length === 0 || !!code === false || code.length === 0) {
+            return Result.fail<Line>('Make sure that name and code are not null')
         } else {
             const roleF = new Line({name: name, code: code, goPath: goPath, returnPath: returnPath, emptyPaths: emptyPaths, endNodes: endNodes, allowedVehicles: allowedVehicles, allowedDrivers: allowedDrivers}, id);
             return Result.ok<Line>( roleF );

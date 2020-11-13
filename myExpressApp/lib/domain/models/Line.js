@@ -73,8 +73,8 @@ class Line extends AggregateRoot_1.AggregateRoot {
         const endNodes = lineDto.endNodes;
         const allowedVehicles = lineDto.allowedVehicles;
         const allowedDrivers = lineDto.allowedDrivers;
-        if (!!name === false || name.length === 0) {
-            return Result_1.Result.fail('Must provide a description');
+        if (!!name === false || name.length === 0 || !!code === false || code.length === 0) {
+            return Result_1.Result.fail('Make sure that name and code are not null');
         }
         else {
             const roleF = new Line({ name: name, code: code, goPath: goPath, returnPath: returnPath, emptyPaths: emptyPaths, endNodes: endNodes, allowedVehicles: allowedVehicles, allowedDrivers: allowedDrivers }, id);

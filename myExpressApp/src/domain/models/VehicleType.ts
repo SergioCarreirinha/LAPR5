@@ -105,7 +105,28 @@ export class VehicleType extends AggregateRoot<IVehicle>{
 
         if (!!key === false || key.length === 0) {
             return Result.fail<VehicleType>('Must provide a key')
-        } else {
+        }else if(!!name === false || name.length === 0){
+            return Result.fail<VehicleType>('Must provide a name')
+        }
+        else if(!!autonomy === false || autonomy < 0){
+            return Result.fail<VehicleType>('Must provide a valid autonomy')
+        }
+        else if(!!cost === false || cost < 0){
+            return Result.fail<VehicleType>('Must provide a valid cost')
+        }
+        else if(!!averageSpeed === false || averageSpeed < 0){
+            return Result.fail<VehicleType>('Must provide a valid averageSpeed')
+        }
+        else if(!!energySource === false || energySource < 0){
+            return Result.fail<VehicleType>('Must provide a valid energySource')
+        }
+        else if(!!consumption === false || consumption < 0){
+            return Result.fail<VehicleType>('Must provide a valid consumption')
+        }
+        else if(!!emissions === false || emissions < 0){
+            return Result.fail<VehicleType>('Must provide a valid emission rate')
+        }
+        else {
             const roleF = new VehicleType({key:key, name:name, autonomy:autonomy, cost:cost, averageSpeed:averageSpeed, energySource:energySource, consumption:consumption,emissions:emissions},id);
             return Result.ok<VehicleType>( roleF );
         }
