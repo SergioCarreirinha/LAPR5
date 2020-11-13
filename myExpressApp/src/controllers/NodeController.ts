@@ -32,7 +32,7 @@ export default class NodeController implements INodeController {
 
         try {
             console.log(config.services.Node.name)
-            const callService = await new INodeService(new NodeRepo(NodeSchema)).createNode(req.body as INodeDTO) as Result<INodeDTO>;
+            const callService = await this.nodeServiceInstance.createNode(req.body as INodeDTO) as Result<INodeDTO>;
 
             if (callService.isFailure) {
                 return res.status(402).send();

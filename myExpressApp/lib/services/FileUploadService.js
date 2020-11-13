@@ -45,7 +45,6 @@ let FileUploadService = class FileUploadService {
                     let vehicleTypes = objects.getElementsByTagName("VehicleType");
                     for (var i = 0; i < vehicleTypes.length; i++) {
                         parser.parseString(vehicleTypes[i], (err, result) => __awaiter(this, void 0, void 0, function* () {
-                            console.log(result);
                             try {
                                 yield vehicleType.createVehicleType(result);
                             }

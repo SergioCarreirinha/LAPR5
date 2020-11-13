@@ -46,7 +46,7 @@ let NodeController = class NodeController {
             });
             try {
                 console.log(config_1.default.services.Node.name);
-                const callService = yield new NodeService_1.default(new NodeRepo_1.default(NodeSchema_1.default)).createNode(req.body);
+                const callService = yield this.nodeServiceInstance.createNode(req.body);
                 if (callService.isFailure) {
                     return res.status(402).send();
                 }

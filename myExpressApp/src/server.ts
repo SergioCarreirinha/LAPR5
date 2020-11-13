@@ -9,7 +9,6 @@ async function startServer() {
   const app = express();
 
   await require('./loaders').default({ expressApp: app });
-
   app.listen(config.port, err => {
     if (err) {
       Logger.error(err);
@@ -23,5 +22,4 @@ async function startServer() {
     );
   });
 }
-
 startServer();
