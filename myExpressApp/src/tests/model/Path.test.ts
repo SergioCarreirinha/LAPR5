@@ -1,9 +1,9 @@
-import {Path} from '../../src/domain/models/Path';
-import ILinePathsDTO from '../../src/dto/LinePathsDTO/ILinePathsDTO';
-import INodeDTO from '../../src/dto/NodeDTO/INodeDTO';
-import {Node} from '../../src/domain/models/Node';
+import { Node } from "../../domain/models/Node";
+import { Path } from "../../domain/models/Path";
+import { PathSegment } from "../../domain/models/PathSegment";
+import ILinePathsDTO from "../../dto/LinePathsDTO/ILinePathsDTO";
+import INodeDTO from "../../dto/NodeDTO/INodeDTO";
 import {expect} from 'chai';
-import { PathSegment } from '../../src/domain/models/PathSegment';
 
 const node1 = Node.create({
     key: "node1",

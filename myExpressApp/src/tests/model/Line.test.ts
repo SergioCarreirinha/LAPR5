@@ -1,15 +1,15 @@
-import {Line} from '../../src/domain/models/Line';
-import {Path} from '../../src/domain/models/Path';
-import {Node} from '../../src/domain/models/Node';
-import {PathSegment} from '../../src/domain/models/PathSegment';
-import ILineDTO from '../../src/dto/LineDTO/ILineDTO';
-import ILinePathsDTO from '../../src/dto/LinePathsDTO/ILinePathsDTO';
-import INodeDTO from '../../src/dto/NodeDTO/INodeDTO';
+import { DriverType } from "../../domain/models/DriverType";
+import { Line } from "../../domain/models/Line";
+import { Node } from "../../domain/models/Node";
+import { Path } from "../../domain/models/Path";
+import { PathSegment } from "../../domain/models/PathSegment";
+import { VehicleType } from "../../domain/models/VehicleType";
+import IDriverTypeDTO from "../../dto/DriverTypeDTO/IDriverTypeDTO";
 import {expect} from 'chai';
-import { DriverType } from '../../src/domain/models/DriverType';
-import { VehicleType } from '../../src/domain/models/VehicleType';
-import IVehicleTypeDTO from '../../src/dto/VehicleTypeDTO/IVehicleTypeDTO';
-import IDriverTypeDTO from '../../src/dto/DriverTypeDTO/IDriverTypeDTO';
+import INodeDTO from "../../dto/NodeDTO/INodeDTO";
+import ILineDTO from "../../dto/LineDTO/ILineDTO";
+import ILinePathsDTO from "../../dto/LinePathsDTO/ILinePathsDTO";
+import IVehicleTypeDTO from "../../dto/VehicleTypeDTO/IVehicleTypeDTO";
 
 describe('Create a valid Line', () => {
 
