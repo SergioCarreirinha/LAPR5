@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Node_1 = require("../../domain/models/Node");
 const chai_1 = require("chai");
-describe('Create a valid Driver Type', () => {
+describe('Create a valid Node', () => {
     let node = Node_1.Node.create({
         "id": "8ecc1fc0-2cfb-451d-87ee-c7164bbf2ab2",
         "key": "Teste",
@@ -18,7 +18,7 @@ describe('Create a valid Driver Type', () => {
         chai_1.expect(node.getValue().props.key).to.equal("Teste");
     });
 });
-describe('Create a invalid Driver Type', () => {
+describe('Create a invalid Node', () => {
     let node = Node_1.Node.create({ key: "" });
     it("ensure all Parameters are well formed", () => {
         chai_1.expect(node.error).to.equal("Must provide a key");

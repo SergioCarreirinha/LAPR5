@@ -2,7 +2,7 @@ import { Node } from "../../domain/models/Node";
 import INodeDTO from "../../dto/NodeDTO/INodeDTO";
 import {expect} from 'chai';
 
-describe('Create a valid Driver Type', () => {
+describe('Create a valid Node', () => {
 
     let node = Node.create({ 
         "id": "8ecc1fc0-2cfb-451d-87ee-c7164bbf2ab2",
@@ -21,7 +21,7 @@ describe('Create a valid Driver Type', () => {
     });
 });
 
-describe('Create a invalid Driver Type', () => {
+describe('Create a invalid Node', () => {
 
     let node = Node.create({key: ""} as INodeDTO);
 
