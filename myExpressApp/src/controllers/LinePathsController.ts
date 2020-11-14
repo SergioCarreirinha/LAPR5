@@ -3,12 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 import config from '../config';
 
 import ILinePathsController from './interface/ILinePathsController'
-import LinePathsService from '../services/LinePathsService';
 import ILinePathsService from '../services/interface/ILinePathsService';
 import ILineDTO from '../dto/LineDTO/ILineDTO';
 import NodeService from '../services/NodeService';
 
-import { celebrate, Joi } from 'celebrate';
+import { celebrate, CelebrateError, Joi } from 'celebrate';
 import { Result } from '../core/logic/Result';
 
 import PathRepo from '../repositories/PathRepo';
@@ -17,8 +16,7 @@ import NodeRepo from '../repositories/NodeRepo';
 import NodeSchema from '../dataschemas/NodeSchema';
 import { PathSegment } from '../domain/models/PathSegment';
 import { LinePathsMap } from '../mappers/LinePathsMap';
-import LineRepo from '../repositories/LineRepo';
-import LineSchema from '../dataschemas/LineSchema';
+import { stringify } from 'querystring';
 
 export default class LinePathsController implements ILinePathsController {
     constructor(
@@ -26,6 +24,16 @@ export default class LinePathsController implements ILinePathsController {
     ) { }
 
     public async createLinePaths(req: Request, res: Response, next: NextFunction) {
+
+        celebrate({
+            body: Joi.object({
+                line: Joi.string().required(),
+                toGo: Joi.boolean().required(),
+                description: Joi.string().required(),
+                isEmpty: Joi.boolean().required(),
+                segments: Joi.array()
+            })
+        });
 
         try {
             const nodeService = new NodeService(new NodeRepo(NodeSchema));
