@@ -4,12 +4,10 @@ import config from '../config/';
 
 import IVehicleTypeController from './interface/IVehicleTypeController'
 import IVehicleTypeDTO from '../dto/VehicleTypeDTO/IVehicleTypeDTO';
-import IVehicleTypeService from '../services/VehicleTypeService';
+import IVehicleTypeService from '../services/interface/IVehicleTypeService';
 
 import {celebrate, Joi} from 'celebrate';
 import { Result } from '../core/logic/Result';
-import VehicleTypeRepo from '../repositories/VehicleTypeRepo';
-import VehicleTypeSchema from '../dataschemas/VehicleTypeSchema';
 
 export default class VehicleTypeController implements IVehicleTypeController{
     constructor(
@@ -21,7 +19,7 @@ export default class VehicleTypeController implements IVehicleTypeController{
             body: Joi.object({
                 key: Joi.string().required(),
                 name: Joi.string().required(),
-                fuelType: Joi.number().required(),
+                autonomy: Joi.number().required(),
                 cost: Joi.number().required(),
                 averageSpeed: Joi.number().required(),
                 energySource: Joi.number().required(),

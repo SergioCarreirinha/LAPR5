@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "de2e778c-dd75-4cdc-b94d-1fddb89ca404",
+		"name": "ProjectTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateNodeTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0054d2c-57e9-476c-bf87-735bd182b799",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"key\": \"Node:123\",\r\n        \"name\": \"Valavadores\",\r\n        \"latitude\": 46.254,\r\n        \"longitude\": 50.1204,\r\n        \"shortName\": \"LAVDRS\",\r\n        \"isDepot\": \"true\",\r\n        \"isReliefPoint\": \"true\",\r\n        \"capacities\": 30 \r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/node",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"node"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListAllNodesTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b363f07-47bd-4c17-9605-b6cfb6aec95e",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/node",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"node"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://postman-echo.com/get?foo1=bar1&foo2=bar2",
+							"protocol": "https",
+							"host": [
+								"postman-echo",
+								"com"
+							],
+							"path": [
+								"get"
+							],
+							"query": [
+								{
+									"key": "foo1",
+									"value": "bar1"
+								},
+								{
+									"key": "foo2",
+									"value": "bar2"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 15 Nov 2018 22:21:20 GMT"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1cd-LkUKVugbVYQuMcTU7OTzmp77cMo\""
+						},
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Content-Length",
+							"value": "348"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"args\": {\n        \"foo1\": \"bar1\",\n        \"foo2\": \"bar2\"\n    },\n    \"headers\": {\n        \"x-forwarded-proto\": \"https\",\n        \"host\": \"postman-echo.com\",\n        \"accept\": \"*/*\",\n        \"accept-encoding\": \"gzip, deflate\",\n        \"cache-control\": \"no-cache\",\n        \"cookie\": \"sails.sid=s%3AK8csWt5VZ3Oalv85HiBtffDcrSOJ-RiP.V14RjjJqkOv8%2BLXuHRmZ9l50G8S6eU16yLU%2F3N%2F0dKU\",\n        \"postman-token\": \"c6b9bca5-7369-4da8-a539-6c906d1133f2\",\n        \"user-agent\": \"PostmanRuntime/7.3.0\",\n        \"x-forwarded-port\": \"443\"\n    },\n    \"url\": \"https://postman-echo.com/get?foo1=bar1&foo2=bar2\"\n}"
+				}
+			]
+		},
+		{
+			"name": "CreateVehicleTypeTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61511c92-83e5-4044-8c89-c299236514f9",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"key\": \"VehicleType1\",\r\n    \"name\": \"Valavadores\",\r\n    \"autonomy\": 46.254,\r\n    \"cost\": 50.1204,\r\n    \"averageSpeed\": 123,\r\n    \"energySource\": 123,\r\n    \"consumption\": 123,\r\n    \"emissions\": 30 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/vehicleType",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"vehicleType"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListAllLinesTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f00a9fe-3efc-46ea-a5e5-6abce26874d8",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/line",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"line"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
