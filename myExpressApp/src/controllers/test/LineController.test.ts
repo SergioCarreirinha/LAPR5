@@ -48,5 +48,4 @@ describe('Line Controller', function () {
         sinon.assert.calledWith(mock, sinon.match({ "name": req.body.name, "code": req.body.code, "goPath": req.body.goPath, "returnPath": req.body.returnPath, "emptyPaths": req.body.emptyPaths, "endNodes": req.body.endNodes, "allowedVehicles": req.body.allowedVehicles, "allowedDrivers": req.body.allowedDrivers}));
         mock.restore();
     });
-
 });

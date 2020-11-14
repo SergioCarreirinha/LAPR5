@@ -42,53 +42,20 @@ export default class NodeService implements INodeService {
 
     public async findAll(req: Request): Promise<Result<Array<Node>>> {
         try {
-            const nodes = await this.nodeRepo.findAll();
-            const result = nodes.getValue();
+            const result = await this.nodeRepo.findAll();
+            const nodes = result.getValue();
 
             if (req.body.orderByName && req.body.orderByCode) {
-                result.sort(function (a, b) {
-                    if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                        return -1;
-                    }
-                    else if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                        return 1;
-                    }
-                    else {
-                        if (a.key < b.key) {
-                            return -1;
-                        } else if (a.key > b.key) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                });
+                this.orderByNameAndKey(nodes);
             } else if (req.body.orderByName) {
-                result.sort(function (a, b) {
-                    if (a.name.toLowerCase() < b.name.toLowerCase()) {
-                        return -1;
-                    }
-                    else if (a.name.toLowerCase() > b.name.toLowerCase()) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                });
+                this.orderByName(nodes);
 
             } else if (req.body.orderByCode) {
-                result.sort(function (a, b) {
-                    if (a.key < b.key) {
-                        return -1;
-                    } else if (a.key > b.key) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                });
+                this.orderByKey(nodes);
             }
             
             function filterItems(query) {
-                return result.filter(function (el) {
+                return nodes.filter(function (el) {
                     return el.name.toLowerCase().indexOf(query.toLowerCase()) > -1 || el.key.toLowerCase().indexOf(query.toLowerCase()) > -1;
                 })
             }
@@ -96,9 +63,54 @@ export default class NodeService implements INodeService {
             if(req.body.search){
                 return Result.ok<Array<Node>>(filterItems(req.body.search));
             }
-            return Result.ok<Array<Node>>(result);
+            return Result.ok<Array<Node>>(nodes);
         } catch (e) {
             throw e;
         }
+    }
+
+    private orderByNameAndKey(nodes: Node[]) {
+        nodes.sort(function (a, b) {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1;
+            }
+            else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            }
+            else {
+                if (a.key < b.key) {
+                    return -1;
+                } else if (a.key > b.key) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        })
+    }
+
+    private orderByName(nodes: Node[]) {
+        nodes.sort(function (a, b) {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1;
+            }
+            else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+    }
+
+    private orderByKey(nodes: Node[]) {
+        nodes.sort(function (a, b) {
+            if (a.key < b.key) {
+                return -1;
+            } else if (a.key > b.key) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
     }
 }
