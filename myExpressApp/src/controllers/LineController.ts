@@ -33,4 +33,19 @@ export default class LineController implements ILineController {
             return next(e);
         }
     }
+
+    public async getAllLines(req: Request, res: Response, next: NextFunction) {
+        try {
+            const callService = await new LineService(new LineRepo(LineSchema)).getAllLines(req);
+
+            if (callService.isFailure) {
+                return res.status(402).send();
+            }
+
+            return res.status(201).json(callService.getValue());
+
+        } catch (e) {
+            return next(e);
+        }
+    }
 }
