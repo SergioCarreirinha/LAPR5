@@ -4,7 +4,7 @@ import config from '../config/';
 
 import INodeController from './interface/INodeController';
 import INodeDTO from '../dto/NodeDTO/INodeDTO';
-import INodeService from '../services/NodeService';
+import INodeService from '../services/interface/INodeService';
 
 import { celebrate, Joi } from 'celebrate';
 import { Result } from '../core/logic/Result';
@@ -47,7 +47,7 @@ export default class NodeController implements INodeController {
 
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const callService = await new INodeService(new NodeRepo(NodeSchema)).findAll(req);
+            const callService = await this.nodeServiceInstance.findAll(req);
 
             if (callService.isFailure) {
                 return res.status(402).send();
