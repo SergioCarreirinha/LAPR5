@@ -58,6 +58,16 @@ export default class NodeRepo implements INodeRepo{
             return Result.ok<Node>(NodeMap.toDomain(document));
         }
     }
+    public async deleteByKey(value: string){
+        const query = {key:value};
+        await this.NodeSchema.deleteOne(query);
+        const document = await this.NodeSchema.findOne(query);
+        if(document === null) {
+            return Result.ok<Node>(NodeMap.toDomain(document));
+        } else {
+            return Result.fail<Node>('Node is found!');
+        }
+    }
 
     public async findAll(): Promise<Result<Array<Node>>> {
         var document = await this.NodeSchema.find();

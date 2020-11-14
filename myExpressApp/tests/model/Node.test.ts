@@ -11,8 +11,8 @@ describe('Create a valid Node', () => {
         "latitude": 46.254,
         "longitude": 50.1204,
         "shortName": "LAVDRS",
-        "isDepot": true,
-        "isReliefPoint": true,
+        "isDepot": "true",
+        "isReliefPoint": "true",
         "capacities": 30 
     }as INodeDTO);
 

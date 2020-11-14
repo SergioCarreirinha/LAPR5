@@ -11,8 +11,8 @@ const node1 = Node.create({
     latitude: 1,
     longitude: 1,
     shortName: "1",
-    isDepot: true,
-    isReliefPoint: false,
+    isDepot: "true",
+    isReliefPoint: "false",
     capacities: 1
    } as INodeDTO);
 
@@ -22,8 +22,8 @@ const node1 = Node.create({
     latitude: 2,
     longitude: 2,
     shortName: "2",
-    isDepot: false,
-    isReliefPoint: false,
+    isDepot: "false",
+    isReliefPoint: "false",
     capacities: 2
    } as INodeDTO);
 
@@ -33,8 +33,8 @@ const node1 = Node.create({
     latitude: 3,
     longitude: 3,
     shortName: "3",
-    isDepot: true,
-    isReliefPoint: true,
+    isDepot: "true",
+    isReliefPoint: "true",
     capacities: 3
    } as INodeDTO);
 
