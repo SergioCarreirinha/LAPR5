@@ -4,7 +4,7 @@ export default interface INodeDTO {
     latitude: Number;
     longitude: Number;
     shortName: string;
-    isDepot: Boolean;
-    isReliefPoint: Boolean;
+    isDepot: string;
+    isReliefPoint: string;
     capacities: Number;
 }

@@ -26,11 +26,11 @@ const NodeSchema = new mongoose.Schema(
         required: true
     },
     isDepot: {
-        type: Boolean,
+        type: String,
         required: true
     },
     isReliefPoint: {
-        type: Boolean,
+        type: String,
         required: true
     },
     capacities: {
