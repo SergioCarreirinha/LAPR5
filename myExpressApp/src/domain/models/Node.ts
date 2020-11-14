@@ -42,11 +42,11 @@ export class Node extends AggregateRoot<INode>{
         return this.props.shortName;
     }
 
-    get isDepot(): Boolean {
+    get isDepot(): string {
         return this.props.isDepot;
     }
 
-    get isReliefPoint(): Boolean {
+    get isReliefPoint(): string {
         return this.props.isReliefPoint;
     }
     
@@ -81,11 +81,11 @@ export class Node extends AggregateRoot<INode>{
         this.props.shortName = value;
     }
 
-    set isDepot(value: Boolean) {
+    set isDepot(value: string) {
         this.props.isDepot = value;
     }
 
-    set isReliefPoint(value: Boolean) {
+    set isReliefPoint(value: string) {
         this.props.isReliefPoint = value;
     }
     set capacities(value: Number) {

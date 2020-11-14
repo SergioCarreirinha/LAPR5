@@ -5,4 +5,5 @@ export default interface INodeRepo{
     save(node: Node): Promise<Node>
     findByName(value: string): Promise<Result<Node>>;
     findAll(): Promise<Result<Array<Node>>>;
+    deleteByKey(value: string): Promise<Result<Node>>;
 }

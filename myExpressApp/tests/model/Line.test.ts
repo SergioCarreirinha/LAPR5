@@ -51,9 +51,9 @@ describe('Create a invalid Line', () => {
 });
 
 describe('Create a valid Line with args', () => {
-    let node1 = Node.create({key: "123134", name: "Valavadores", latitude: 46.254, longitude: 50.1204, shortName: "LAVDRS", isDepot: true,isReliefPoint: true,capacities: 30 } as INodeDTO);
-    let node2 = Node.create({key: "123", name: "Vals", latitude: 46.254, longitude: 50.1204, shortName: "VALDS", isDepot: true,isReliefPoint: true,capacities: 30 } as INodeDTO);
-    let node3 = Node.create({key: "134", name: "Vadores", latitude: 46.254, longitude: 50.1204, shortName: "VDRS", isDepot: true,isReliefPoint: true,capacities: 30 } as INodeDTO);
+    let node1 = Node.create({key: "123134", name: "Valavadores", latitude: 46.254, longitude: 50.1204, shortName: "LAVDRS", isDepot: "true",isReliefPoint: "true",capacities: 30 } as INodeDTO);
+    let node2 = Node.create({key: "123", name: "Vals", latitude: 46.254, longitude: 50.1204, shortName: "VALDS", isDepot: "true",isReliefPoint: "true",capacities: 30 } as INodeDTO);
+    let node3 = Node.create({key: "134", name: "Vadores", latitude: 46.254, longitude: 50.1204, shortName: "VDRS", isDepot: "true",isReliefPoint: "true",capacities: 30 } as INodeDTO);
     let pathSegment1 = PathSegment.create(6,9,node1.getValue(), node2.getValue(),1);
     let pathSegment2 = PathSegment.create(6,9,node2.getValue(), node3.getValue(),2);
     let pathSegments = new Array<PathSegment>();
