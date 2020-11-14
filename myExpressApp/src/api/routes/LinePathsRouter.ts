@@ -12,4 +12,6 @@ export default (app: Router) => {
     const crtl = Container.get(config.controllers.LinePaths.name) as ILinePathsController;
 
     route.post('', (req, res, next) => crtl.createLinePaths(req, res, next));
+
+    route.get('', (req, res, next) => crtl.getLinePaths(req, res, next));
 }
