@@ -12,5 +12,7 @@ export default (app: Router) => {
     const crtl = Container.get(config.controllers.Line.name) as ILineController;
 
     route.post('', (req, res, next) => crtl.createLine(req, res, next));
+
+    route.get('', (req,res,next) => crtl.getAllLines(req,res,next));
 }
 

@@ -6,6 +6,7 @@ import { ILinePersistence } from '../persistence/interface/ILinePersistence';
 import { LineMap } from '../mappers/LineMap';
 import { Path } from '../domain/models/Path';
 import e = require('express');
+import { Result } from '../core/logic/Result';
 
 
 @Service()
@@ -16,7 +17,7 @@ export default class LineRepo implements ILineRepo{
     constructor(
         @Inject('LineSchema') private LineSchema : Model<ILinePersistence & Document>
     ){}
-    
+       
     private createBaseQuery (): any {
         return {
             where: {},
@@ -62,6 +63,20 @@ export default class LineRepo implements ILineRepo{
         } catch(e){}
             throw e;    
         }
+
+        public async getAllLines(): Promise<Result<Line[]>> {
+            var document = await this.LineSchema.find();
+            var lines = [];
+
+            for(var i=0;i<document.length;i++){
+                lines.push(LineMap.toDomain(document[i]));
+            }
+
+            if(document === null) {
+                return Result.fail<Array<Line>>('No Lines found!');
+            } else {
+               return Result.ok<Array<Line>>(lines);
+        }
     }
 
-
+}
