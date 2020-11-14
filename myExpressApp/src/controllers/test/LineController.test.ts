@@ -15,7 +15,8 @@ describe('Line Controller', function () {
 	beforeEach(function() {
     });
 
-    afterEach(function() {    
+    afterEach(function() { 
+        sinon.restore();   
     });
 
     it('createLine: returns json with line values', async function() {
