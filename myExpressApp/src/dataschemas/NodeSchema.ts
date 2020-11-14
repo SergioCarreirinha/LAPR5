@@ -35,7 +35,6 @@ const NodeSchema = new mongoose.Schema(
     },
     capacities: {
         type: Number,
-        required: true
     }
   }
 );

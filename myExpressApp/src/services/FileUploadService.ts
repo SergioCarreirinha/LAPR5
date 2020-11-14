@@ -25,7 +25,7 @@ export default class FileUploadService implements IFileUploadService {
             }
             const objects = new DOMParser().parseFromString(data);
 
-            let parser = new xml2js.Parser({ explicitRoot: false, mergeAttrs: true, explicitArray: false, attrNameProcessors: [xml2js.processors.firstCharLowerCase] });
+            let parser = new xml2js.Parser({ explicitRoot: false, mergeAttrs: true, explicitArray: false, attrNameProcessors: [xml2js.processors.firstCharLowerCase], tagNameProcessors: [xml2js.processors.firstCharLowerCase] });
 
             //importar VehicleTypes
             let vehicleTypes = objects.getElementsByTagName("VehicleType");
@@ -33,22 +33,25 @@ export default class FileUploadService implements IFileUploadService {
                 parser.parseString(vehicleTypes[i], async (err, result) => {
                     try {
                         await vehicleType.createVehicleType(result as IVehicleTypeDTO);
-                    }catch (e){
+                    } catch (e) {
                         throw e;
                     }
                 });
             }
 
-               //importar nós
-               let nodes = objects.getElementsByTagName("Nodes");
-               console.log(nodes);
-               console.log("ola1");
-               for (var i = 0; i < nodes.length; i++) {
-                   parser.parseString(nodes[i], (err, result) => {
-                       console.log(result);
-                       node.createNode(result as INodeDTO);
-                   });
-               } 
+            //importar nós
+            let nodes = objects.getElementsByTagName("Node");
+            console.log("ola1");
+            for (var i = 0; i < nodes.length; i++) {
+                parser.parseString(nodes[i], async (err, result) => {
+                    console.log(result);
+                    try {
+                        await node.createNode(result as INodeDTO);
+                    } catch (e) {
+                        throw e;
+                    }
+                });
+            }
 
         });
 

@@ -3,15 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 import config from '../config/';
 import IFileUploadService from '../services/FileUploadService';
 import IFileUploadController from './interface/IFileUploadController';
-import { Container } from 'winston';
-import FileUploadService from '../services/FileUploadService';
-import { Result } from '../core/logic/Result';
-import VehicleTypeRepo from '../repositories/VehicleTypeRepo';
-import VehicleTypeSchema from '../dataschemas/VehicleTypeSchema';
-import VehicleTypeService from '../services/VehicleTypeService';
-import NodeService from '../services/NodeService';
-import NodeRepo from '../repositories/NodeRepo';
-import NodeSchema from '../dataschemas/NodeSchema';
 
 export default class FileUploadController implements IFileUploadController {
     constructor(
@@ -25,8 +16,6 @@ export default class FileUploadController implements IFileUploadController {
 
                 //vai buscar o path do ficheiro temporario
                 let xml = req.files.xml.tempFilePath;
-                console.log("ola");
-
                 call=await this.fileUploadServiceInstance.fileUpload(xml);
 
             } else {
