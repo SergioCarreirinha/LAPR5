@@ -73,7 +73,7 @@ describe('Create a valid Path', () => {
 
     it("ensure all Parameters are well formed", () => {
         expect(path.getValue().props.key).to.equal("teste");
-        expect(path.getValue().props.isEmpty).to.equal(true);
+        expect(path.getValue().props.isEmpty).to.equal(false);
         expect(path.getValue().props.pathNodes[0]).to.equal(seg1);
         expect(path.getValue().props.pathNodes[1]).to.equal(seg2);
         expect(path.getValue().props.pathNodes[2]).to.equal(seg3);

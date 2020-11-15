@@ -12,15 +12,16 @@ describe('LinePathsController', function () {
     });
 
     afterEach(function () {
+        sinon.restore();
     });
 
     it('createLinePaths: returns json with line values(including paths)', async function () {
         let body = {
-            "line": "t",
+            "line": "Paredes_Aguiar",
             "toGo": true,
-            "description": "linha vazia",
+            "key": "path",
             "isEmpty": false,
-            "segments": [["node1", "node2", 2, 4], ["node2", "node3", 4, 5]]
+            "pathNodes": [["PathNode1","Aguiar de Sousa"], ["PathNode2", "Baltar",4,5],["PathNode3", "Besteiros",4,5]]        
         };
         let req: Partial<Request> = {};
         req.body = body;
@@ -38,9 +39,9 @@ describe('LinePathsController', function () {
         const mock = sinon.stub(linePathsServiceInstance, "createLinePaths").returns(Result.ok<ILinePathsDTO>({
             "line": req.body.line,
             "toGo": req.body.toGo,
-            "description": req.body.description,
+            "key": req.body.key,
             "isEmpty": req.body.isEmpty,
-            "segments": req.body.segments
+            "pathNodes": req.body.pathNodes
         }));
         const ctrl = new LinePathsController(linePathsServiceInstance as ILinePathsService);
 
@@ -50,11 +51,10 @@ describe('LinePathsController', function () {
         sinon.assert.calledWith(mock, sinon.match({
             "line": req.body.line,
             "toGo": req.body.toGo,
-            "description": req.body.description,
+            "key": req.body.key,
             "isEmpty": req.body.isEmpty,
-            "segments": req.body.segments
+            "pathNodes": req.body.pathNodes
         }));
-        mock.restore();
     });
 
 });
