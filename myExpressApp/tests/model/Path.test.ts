@@ -3,7 +3,7 @@ import ILinePathsDTO from '../../src/dto/LinePathsDTO/ILinePathsDTO';
 import INodeDTO from '../../src/dto/NodeDTO/INodeDTO';
 import {Node} from '../../src/domain/models/Node';
 import {expect} from 'chai';
-import { PathSegment } from '../../src/domain/models/PathSegment';
+import { PathNode } from '../../src/domain/models/PathNode';
 
 const node1 = Node.create({
     key: "node1",
@@ -38,20 +38,25 @@ const node1 = Node.create({
     capacities: 3
    } as INodeDTO);
 
-   const seg1 = PathSegment.create(
-        12, //duration
-        12, //distance
-        node1.getValue(), //startNode
-        node2.getValue(), //endNode
-        1 //sequence
+   const seg1 = PathNode.create(
+        "pn1", //key
+        node1.getValue().key, //node
+        0, //duration
+        0 //distance
     ).getValue();
 
-    const seg2 = PathSegment.create(
-        23, //duration
-        23, //distance
-        node2.getValue(), //startNode
-        node3.getValue(), //endNode
-        2 //sequence
+    const seg2 = PathNode.create(
+        "pn2", //key
+        node2.getValue().key, //node
+        5, //duration
+        5 //distance
+    ).getValue();
+
+    const seg3 = PathNode.create(
+        "pn3", //key
+        node3.getValue().key, //node
+        5, //duration
+        5 //distance
     ).getValue();
 
 describe('Create a valid Path', () => {
@@ -59,53 +64,57 @@ describe('Create a valid Path', () => {
     const dto={
         line: "2",
         toGo: true,
-        description: "teste",
+        key: "teste",
         isEmpty: false,
-        segments: [seg1,seg2]
+        pathNodes: [seg1,seg2,seg3]
         } as ILinePathsDTO;
 
     let path = Path.create(dto);
 
     it("ensure all Parameters are well formed", () => {
-        expect(path.getValue().props.description).to.equal("teste");
-        expect(path.getValue().props.isEmpty).to.equal(false);
-        expect(path.getValue().props.segments[0]).to.equal(seg1);
-        expect(path.getValue().props.segments[1]).to.equal(seg2);
-        expect(path.getValue().props.totalDist).to.equal(35);
-        expect(path.getValue().props.totalDur).to.equal(35);
+        expect(path.getValue().props.key).to.equal("teste");
+        expect(path.getValue().props.isEmpty).to.equal(true);
+        expect(path.getValue().props.pathNodes[0]).to.equal(seg1);
+        expect(path.getValue().props.pathNodes[1]).to.equal(seg2);
+        expect(path.getValue().props.pathNodes[2]).to.equal(seg3);
+        expect(path.getValue().props.totalDur).to.equal(10);
+        expect(path.getValue().props.totalDist).to.equal(10);
+
+
+
     });
 });
 
-describe('Cant create an invalid Path with empty description', () => {
+describe('Cant create an invalid Path with empty key', () => {
 
     const dtoFail={
         line: "2",
         toGo: true,
-        description: "",
+        key: "",
         isEmpty: false,
-        segments: [seg1,seg2]
+        pathNodes: [seg1,seg2,seg3]
         } as ILinePathsDTO;
 
     let path = Path.create(dtoFail);
 
     it("ensure it fails with an invalid path", () => {
-        expect(path.error).to.equal("Must provide a path description");
+        expect(path.error).to.equal("Must provide a path key");
     });
 });
 
-describe('Cant create an invalid Path with null description', () => {
+describe('Cant create an invalid Path with null key', () => {
 
     const dtoFail={
         line: "2",
         toGo: true,
-        description: null,
+        key: null,
         isEmpty: false,
-        segments: [seg1,seg2]
+        pathNodes: [seg1,seg2,seg3]
         } as ILinePathsDTO;
 
     let path = Path.create(dtoFail);
 
     it("ensure it fails with an invalid path", () => {
-        expect(path.error).to.equal("Must provide a path description");
+        expect(path.error).to.equal("Must provide a path key");
     });
 });

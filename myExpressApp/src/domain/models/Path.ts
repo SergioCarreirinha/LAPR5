@@ -77,7 +77,7 @@ export class Path extends AggregateRoot<IPath>{
         const totalDist = this.getTotalDist(linePathsDTO.pathNodes);
 
         if(!!key === false || key.length === 0){
-            return Result.fail<Path>('Must provide a path description');
+            return Result.fail<Path>('Must provide a path key');
         }else{
             const path = new Path({key: key, isEmpty: isEmpty, pathNodes: pathNodes, totalDur: totalDur, totalDist: totalDist},id);
             return Result.ok<Path>(path)
