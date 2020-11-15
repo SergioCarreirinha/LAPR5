@@ -8,8 +8,6 @@ import INodeService from '../services/interface/INodeService';
 
 import { celebrate, Joi } from 'celebrate';
 import { Result } from '../core/logic/Result';
-import NodeRepo from '../repositories/NodeRepo';
-import NodeSchema from '../dataschemas/NodeSchema';
 
 export default class NodeController implements INodeController {
     constructor(
@@ -31,7 +29,6 @@ export default class NodeController implements INodeController {
         });
 
         try {
-            console.log(config.services.Node.name)
             const callService = await this.nodeServiceInstance.createNode(req.body as INodeDTO) as Result<INodeDTO>;
 
             if (callService.isFailure) {
