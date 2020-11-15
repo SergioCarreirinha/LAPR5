@@ -18,7 +18,7 @@ describe('Line Controller', function () {
     });
 
     it('createLine: returns json with line values', async function() {
-        let body = {"key": "teste", "name": "teste", "color": "RGB(0,0,0)", "linePath":null, "allowedVehicles":null, "allowedDrivers":null };
+        let body = {"key": "teste", "name": "teste", "color": "RGB(0,0,0)", "linePath": "line1", "allowedVehicles":null, "allowedDrivers":null };
         let req: Partial<Request> = {};
 		req.body = body;
 
@@ -37,7 +37,7 @@ describe('Line Controller', function () {
             "key": req.body.key, 
             "name": req.body.name,
             "color": req.body.color,
-            "linePath": req.body.linePath,
+            "linePaths": req.body.linePaths,
             "allowedVehicles": req.body.allowedVehicles,
             "allowedDrivers": req.body.allowedDrivers
         }));
@@ -51,7 +51,7 @@ describe('Line Controller', function () {
             "key": req.body.key, 
             "name": req.body.name,
             "color": req.body.color,
-            "linePath": req.body.linePath,
+            "linePaths": req.body.linePaths,
             "allowedVehicles": req.body.allowedVehicles,
             "allowedDrivers": req.body.allowedDrivers
         }));

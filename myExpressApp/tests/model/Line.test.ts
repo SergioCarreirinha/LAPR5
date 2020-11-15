@@ -4,7 +4,7 @@ import {expect} from 'chai';
 
 describe('Create a valid Line', () => {
 
-    let line = Line.create({key: "teste", name: "teste", color: "RGB(0,0,0)", linePath: null, allowedVehicles: null, allowedDrivers: null} as ILineDTO);
+    let line = Line.create({key: "teste", name: "teste", color: "RGB(0,0,0)", linePaths: null, allowedVehicles: null, allowedDrivers: null} as ILineDTO);
 
     it("Key", () => {
         expect(line.getValue().props.key).to.equal("teste");
@@ -16,7 +16,7 @@ describe('Create a valid Line', () => {
         expect(line.getValue().props.color).to.equal("RGB(0,0,0)");
     });
     it("Line Path", () => {
-        expect(line.getValue().props.linePath).to.equal(null);
+        expect(line.getValue().props.linePaths).to.equal(null);
     });
     it("Allowed Drivers", () => {
         expect(line.getValue().props.allowedDrivers).to.equal(null);
@@ -28,7 +28,7 @@ describe('Create a valid Line', () => {
 
 describe('Create a invalid Line', () => {
 
-    let line = Line.create({key: "", name: "", color: "RGB(0,0,0)", linePath: null, allowedVehicles: null, allowedDrivers: null} as ILineDTO);
+    let line = Line.create({key: "", name: "", color: "RGB(0,0,0)", linePaths: null, allowedVehicles: null, allowedDrivers: null} as ILineDTO);
 
     it("ensure all Parameters are well formed", () => {
         expect(line.error).to.equal("Make sure that name and key are not null");
