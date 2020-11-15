@@ -1,15 +1,12 @@
-import { Node } from '../../domain/models/Node';
-import { Path } from '../../domain/models/Path';
 import { VehicleType } from '../../domain/models/VehicleType';
 import { DriverType } from '../../domain/models/DriverType';
+import { LinePath } from '../../domain/models/LinePath';
 
 export default interface ILineDTO {
+    key: string;
     name: string;
-    code: string;
-    goPath: Path;
-    returnPath: Path;
-    emptyPaths: Array<Path>;
-    endNodes: Array<Node>;
+    color: string;
+    linePath: Array<LinePath>;
     allowedVehicles: Array<VehicleType>;
     allowedDrivers: Array<DriverType>;
 }

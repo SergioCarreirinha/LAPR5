@@ -1,1 +1,0 @@
-{"version":3,"file":"VehicleTypeID.js","sourceRoot":"","sources":["../../../../src/domain/models/ID/VehicleTypeID.ts"],"names":[],"mappings":";;;AAAA,wDAAqD;AAGrD,MAAa,SAAU,SAAQ,eAAW;IAExC,IAAI,EAAE;QACJ,OAAO,IAAI,CAAC,GAAG,CAAC;IAClB,CAAC;IAEM,MAAM,CAAC,MAAM,CAAE,EAAmB;QACvC,OAAO,IAAI,SAAS,CAAC,EAAE,CAAC,CAAC;IAC3B,CAAC;CACF;AATD,8BASC"}

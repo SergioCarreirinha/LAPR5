@@ -5,7 +5,6 @@ import { Line } from "../domain/models/Line";
 import { ILinePersistence } from "../persistence/interface/ILinePersistence";
 import { LineMap } from "../mappers/LineMap";
 import { Path } from "../domain/models/Path";
-import e = require("express");
 import { Result } from "../core/logic/Result";
 
 @Service()
@@ -14,7 +13,7 @@ export default class LineRepo implements ILineRepo {
 
   constructor(
     @Inject("LineSchema") private LineSchema: Model<ILinePersistence & Document>
-  ) {}
+  ) { }
 
   private createBaseQuery(): any {
     return {
@@ -31,12 +30,10 @@ export default class LineRepo implements ILineRepo {
         const lineCreated = await this.LineSchema.create(rawLine);
         return LineMap.toDomain(lineCreated);
       } else {
+        document.key = line.key;
         document.name = line.name;
-        document.code = line.code;
-        document.goPath = line.goPath;
-        document.returnPath = line.returnPath;
-        document.emptyPaths = line.emptyPaths;
-        document.endNodes = line.endNodes;
+        document.color = line.color;
+        document.linePaths = line.linePaths;
         document.allowedVehicles = line.allowedVehicles;
         document.allowedDrivers = line.allowedDrivers;
         await document.save();
@@ -47,29 +44,15 @@ export default class LineRepo implements ILineRepo {
     }
   }
 
-  public async updateLineByName(
-    value: string,
-    toGo: boolean,
-    path: Path
-  ): Promise<Line> {
+  public async updateLineByName(value: string, toGo: boolean, path: Path): Promise<Line> {
     const query = { name: value };
-
     try {
       if (toGo) {
-        var document = await this.LineSchema.findOneAndUpdate(
-          query,
-          { goPath: path },
-          { new: true }
-        );
+        var document = await this.LineSchema.findOneAndUpdate(query,{ goPath: path },{ new: true });
       } else {
-        var document = await this.LineSchema.findOneAndUpdate(
-          query,
-          { returnPath: path },
-          { new: true }
-        );
+        var document = await this.LineSchema.findOneAndUpdate(query,{ returnPath: path },{ new: true });
       }
-
-      return LineMap.toDomain(document);
+        return LineMap.toDomain(document);
     } catch (e) {
       throw e;
     }

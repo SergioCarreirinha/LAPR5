@@ -3,19 +3,18 @@ import { AggregateRoot } from "../../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
 import { Node } from './Node';
 import { Path } from './Path';
-import { LineID} from './ID/LineID'
+import { LineID } from './ID/LineID'
 import { VehicleType } from './VehicleType';
 import { DriverType } from './DriverType';
 import ILineDTO from '../../dto/LineDTO/ILineDTO';
+import { LinePath } from './LinePath';
 
 
 interface ILine {
+    key: string;
     name: string;
-    code: string;
-    goPath: Path;
-    returnPath: Path;
-    emptyPaths: Array<Path>;
-    endNodes: Array<Node>;
+    color: string;
+    linePath: Array<LinePath>;
     allowedVehicles: Array<VehicleType>;
     allowedDrivers: Array<DriverType>;
 }
@@ -35,28 +34,20 @@ export class Line extends AggregateRoot<ILine> {
         return this._id;
     }
 
+    get key(): string {
+        return this.props.key;
+    }
+
     get name(): string {
         return this.props.name;
     }
 
-    get code(): string {
-        return this.props.code;
+    get color(): string {
+        return this.props.color;
     }
 
-    get goPath(): Path {
-        return this.props.goPath;
-    }
-
-    get returnPath(): Path {
-        return this.props.returnPath;
-    }
-
-    get emptyPaths(): Array<Path> {
-        return this.props.emptyPaths;
-    }
-
-    get endNodes(): Array<Node> {
-        return this.props.endNodes;
+    get linePaths(): Array<LinePath> {
+        return this.props.linePath;
     }
 
     get allowedVehicles(): Array<VehicleType> {
@@ -72,24 +63,16 @@ export class Line extends AggregateRoot<ILine> {
         this.props.name = value;
     }
 
-    set code(value: string){
-        this.props.code = value;
+    set key(value: string){
+        this.props.key = value;
     }
 
-    set goPath(value: Path){
-        this.props.goPath = value;
+    set color(value: string){
+        this.props.color = value;
     }
 
-    set returnPath(value: Path){
-        this.props.returnPath = value;
-    }
-
-    set emptyPaths(value: Array<Path>){
-        this.props.emptyPaths = value;
-    }
-
-    set endNodes(value: Array<Node>){
-        this.props.endNodes = value;
+    set linePaths(value: Array<LinePath>){
+        this.props.linePath = value;
     }
 
     set allowedVehicles(value: Array<VehicleType>){
@@ -102,20 +85,18 @@ export class Line extends AggregateRoot<ILine> {
 
     static create(lineDto: ILineDTO, id ?: UniqueEntityID): Result<Line>{
         const name = lineDto.name;
-        const code = lineDto.code;
-        const goPath = lineDto.goPath;
-        const returnPath = lineDto.returnPath;
-        const emptyPaths = lineDto.emptyPaths;
-        const endNodes = lineDto.endNodes;
+        const key = lineDto.key;
+        const color = lineDto.color;
+        const linePath = lineDto.linePath;
         const allowedVehicles = lineDto.allowedVehicles;
         const allowedDrivers = lineDto.allowedDrivers;
 
 
-        if (!!name === false || name.length === 0 || !!code === false || code.length === 0) {
-            return Result.fail<Line>('Make sure that name and code are not null')
+        if (!!name === false || name.length === 0 || !!key === false || key.length === 0) {
+            return Result.fail<Line>('Make sure that name and key are not null')
         } else {
-            const roleF = new Line({name: name, code: code, goPath: goPath, returnPath: returnPath, emptyPaths: emptyPaths, endNodes: endNodes, allowedVehicles: allowedVehicles, allowedDrivers: allowedDrivers}, id);
-            return Result.ok<Line>( roleF );
+            const lineF = new Line({key: key, name: name, color: color, linePath: linePath, allowedVehicles: allowedVehicles, allowedDrivers: allowedDrivers}, id);
+            return Result.ok<Line>( lineF );
         }
     }
 }

@@ -1,10 +1,8 @@
 import { ILinePersistence } from '../persistence/interface/ILinePersistence';
 import * as mongoose from 'mongoose';
-import { Path } from '../domain/models/Path';
-import { Node } from '../domain/models/Node';
 import { DriverType } from '../domain/models/DriverType';
 import { VehicleType } from '../domain/models/VehicleType';
-var pathSchema = require('./PathSchema');
+import { LinePath } from '../domain/models/LinePath';
 
 const LineSchema = new mongoose.Schema(
   {
@@ -12,24 +10,18 @@ const LineSchema = new mongoose.Schema(
         type: String,
         unique: true
     },
+    key: {
+        type: String
+    },
     name: { 
         type: String, 
         unique: true,
-    }, 
-    code: { 
+    },
+    color: {
         type: String
     },
-    goPath: {
-        type: pathSchema,
-    },
-    returnPath: {
-        type: pathSchema,
-    },
-    emptyPaths: {
-        type: Array<Path>()
-    },
-    endNodes: {
-        type: Array<Node>()
+    linePaths: {
+        type: Array<LinePath>()
     },
     allowedVehicles: {
         type: Array<VehicleType>()

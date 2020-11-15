@@ -50,7 +50,7 @@ export default class LineService implements ILineService {
 
             function filterItems(query) {
                 return lines.filter(function (el) {
-                    return el.name.toLowerCase().indexOf(query.toLowerCase()) > -1 || el.code.toLowerCase().indexOf(query.toLowerCase()) > -1;
+                    return el.name.toLowerCase().indexOf(query.toLowerCase()) > -1 || el.key.toLowerCase().indexOf(query.toLowerCase()) > -1;
                 })
             }
 
@@ -74,9 +74,9 @@ export default class LineService implements ILineService {
                 return 1;
             }
             else {
-                if (a.code < b.code) {
+                if (a.key < b.key) {
                     return -1;
-                } else if (a.code > b.code) {
+                } else if (a.key > b.key) {
                     return 1;
                 } else {
                     return 0;
@@ -100,9 +100,9 @@ export default class LineService implements ILineService {
 
     private orderByCode(lines: Line[]) {
         lines.sort(function (a, b) {
-            if (a.code < b.code) {
+            if (a.key < b.key) {
                 return -1;
-            } else if (a.code > b.code) {
+            } else if (a.key > b.key) {
                 return 1;
             } else {
                 return 0;

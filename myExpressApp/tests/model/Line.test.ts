@@ -1,56 +1,41 @@
 import {Line} from '../../src/domain/models/Line';
-import {Path} from '../../src/domain/models/Path';
-import {Node} from '../../src/domain/models/Node';
-import {PathSegment} from '../../src/domain/models/PathSegment';
 import ILineDTO from '../../src/dto/LineDTO/ILineDTO';
-import ILinePathsDTO from '../../src/dto/LinePathsDTO/ILinePathsDTO';
-import INodeDTO from '../../src/dto/NodeDTO/INodeDTO';
 import {expect} from 'chai';
-import { DriverType } from '../../src/domain/models/DriverType';
-import { VehicleType } from '../../src/domain/models/VehicleType';
-import IVehicleTypeDTO from '../../src/dto/VehicleTypeDTO/IVehicleTypeDTO';
-import IDriverTypeDTO from '../../src/dto/DriverTypeDTO/IDriverTypeDTO';
 
 describe('Create a valid Line', () => {
 
-    let line = Line.create({name: "teste", code:"teste", goPath: null, returnPath: null, emptyPaths: null, endNodes: null, allowedDrivers: null, allowedVehicles: null} as ILineDTO);
+    let line = Line.create({key: "teste", name: "teste", color: "RGB(0,0,0)", linePath: null, allowedVehicles: null, allowedDrivers: null} as ILineDTO);
 
-    it("ensure all Parameters are well formed", () => {
+    it("Key", () => {
+        expect(line.getValue().props.key).to.equal("teste");
+    });
+    it("Name", () => {
         expect(line.getValue().props.name).to.equal("teste");
     });
-    it("ensure all Parameters are well formed", () => {
-        expect(line.getValue().props.code).to.equal("teste");
+    it("Color", () => {
+        expect(line.getValue().props.color).to.equal("RGB(0,0,0)");
     });
-    it("ensure all Parameters are well formed", () => {
-        expect(line.getValue().props.goPath).to.equal(null);
+    it("Line Path", () => {
+        expect(line.getValue().props.linePath).to.equal(null);
     });
-    it("ensure all Parameters are well formed", () => {
-        expect(line.getValue().props.returnPath).to.equal(null);
-    });
-    it("ensure all Parameters are well formed", () => {
-        expect(line.getValue().props.emptyPaths).to.equal(null);
-    });
-    it("ensure all Parameters are well formed", () => {
-        expect(line.getValue().props.endNodes).to.equal(null);
-    });
-    it("ensure all Parameters are well formed", () => {
+    it("Allowed Drivers", () => {
         expect(line.getValue().props.allowedDrivers).to.equal(null);
     });
-    it("ensure all Parameters are well formed", () => {
+    it("Allowed Vehicles", () => {
         expect(line.getValue().props.allowedVehicles).to.equal(null);
     });
 });
 
 describe('Create a invalid Line', () => {
 
-    let line = Line.create({name: "", code:"", goPath: null, returnPath: null, emptyPaths: null, endNodes: null, allowedDrivers: null, allowedVehicles: null} as ILineDTO);
+    let line = Line.create({key: "", name: "", color: "RGB(0,0,0)", linePath: null, allowedVehicles: null, allowedDrivers: null} as ILineDTO);
 
     it("ensure all Parameters are well formed", () => {
-        expect(line.error).to.equal("Make sure that name and code are not null");
+        expect(line.error).to.equal("Make sure that name and key are not null");
     });
 });
 
-describe('Create a valid Line with args', () => {
+/*describe('Create a valid Line with args', () => {
     let node1 = Node.create({key: "123134", name: "Valavadores", latitude: 46.254, longitude: 50.1204, shortName: "LAVDRS", isDepot: "true",isReliefPoint: "true",capacities: 30 } as INodeDTO);
     let node2 = Node.create({key: "123", name: "Vals", latitude: 46.254, longitude: 50.1204, shortName: "VALDS", isDepot: "true",isReliefPoint: "true",capacities: 30 } as INodeDTO);
     let node3 = Node.create({key: "134", name: "Vadores", latitude: 46.254, longitude: 50.1204, shortName: "VDRS", isDepot: "true",isReliefPoint: "true",capacities: 30 } as INodeDTO);
@@ -88,4 +73,4 @@ describe('Create a valid Line with args', () => {
     it("ensure all Parameters are well formed", () => {
         expect(line.getValue().props.allowedVehicles).to.equal(allowedVehicles);
     });
-});
+});*/
