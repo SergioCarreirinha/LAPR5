@@ -14,7 +14,7 @@ interface ILine {
     key: string;
     name: string;
     color: string;
-    linePath: Array<LinePath>;
+    linePaths: Array<LinePath>;
     allowedVehicles: Array<VehicleType>;
     allowedDrivers: Array<DriverType>;
 }
@@ -47,7 +47,7 @@ export class Line extends AggregateRoot<ILine> {
     }
 
     get linePaths(): Array<LinePath> {
-        return this.props.linePath;
+        return this.props.linePaths;
     }
 
     get allowedVehicles(): Array<VehicleType> {
@@ -72,7 +72,7 @@ export class Line extends AggregateRoot<ILine> {
     }
 
     set linePaths(value: Array<LinePath>){
-        this.props.linePath = value;
+        this.props.linePaths = value;
     }
 
     set allowedVehicles(value: Array<VehicleType>){
@@ -87,7 +87,7 @@ export class Line extends AggregateRoot<ILine> {
         const name = lineDto.name;
         const key = lineDto.key;
         const color = lineDto.color;
-        const linePath = lineDto.linePath;
+        const linePaths = lineDto.linePaths;
         const allowedVehicles = lineDto.allowedVehicles;
         const allowedDrivers = lineDto.allowedDrivers;
 
@@ -95,7 +95,7 @@ export class Line extends AggregateRoot<ILine> {
         if (!!name === false || name.length === 0 || !!key === false || key.length === 0) {
             return Result.fail<Line>('Make sure that name and key are not null')
         } else {
-            const lineF = new Line({key: key, name: name, color: color, linePath: linePath, allowedVehicles: allowedVehicles, allowedDrivers: allowedDrivers}, id);
+            const lineF = new Line({key: key, name: name, color: color, linePaths: linePaths, allowedVehicles: allowedVehicles, allowedDrivers: allowedDrivers}, id);
             return Result.ok<Line>( lineF );
         }
     }

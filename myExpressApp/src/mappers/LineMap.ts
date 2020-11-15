@@ -10,7 +10,7 @@ export class LineMap {
         key: line.key,
         name: line.name,
         color: line.color,
-        linePath: line.linePaths,
+        linePaths: line.linePaths,
         allowedVehicles: line.allowedVehicles, 
         allowedDrivers: line.allowedDrivers
     } as ILineDTO;
@@ -31,7 +31,7 @@ export class LineMap {
         key: line.key,
         name: line.name,
         color: line.color,
-        linePath: line.linePaths,
+        linePaths: line.linePaths,
         allowedVehicles: line.allowedVehicles, 
         allowedDrivers: line.allowedDrivers
     }

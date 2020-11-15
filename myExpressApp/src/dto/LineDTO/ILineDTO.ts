@@ -6,7 +6,7 @@ export default interface ILineDTO {
     key: string;
     name: string;
     color: string;
-    linePath: Array<LinePath>;
+    linePaths: Array<LinePath>;
     allowedVehicles: Array<VehicleType>;
     allowedDrivers: Array<DriverType>;
 }

@@ -63,7 +63,7 @@ export default class LinePathsController implements ILinePathsController {
         const callService = await this.linePathsServiceInstance.getLinePaths(req.body.line);
 
         if (callService.isFailure) {
-            return res.status(402).send();
+            return res.status(404).send(callService.error);
         }
 
         return res.status(201).json(callService.getValue());

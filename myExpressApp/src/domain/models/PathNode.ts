@@ -45,9 +45,7 @@ export class PathNode extends ValueObject<IPathNode>{
     }
 
     static create(key: string, node: Node,duration: number, distance: number): Result<PathNode>{
-        if(!!key === false || !!node === false ||
-           !!duration === false || duration == 0 ||
-           !!distance === false || distance == 0   
+        if(!!key === false || !!node === false
            ){
             return Result.fail<PathNode>('Must valid segment info');
         }else{

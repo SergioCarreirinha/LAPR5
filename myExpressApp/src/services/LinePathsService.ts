@@ -12,6 +12,7 @@ import ILinePathsService from "./interface/ILinePathsService";
 
 import { LineMap } from "../mappers/LineMap";
 import { Result } from "../core/logic/Result";
+import { LinePath } from "../domain/models/LinePath";
 
 @Service()
 export default class LinePathsService implements ILinePathsService {
@@ -20,9 +21,8 @@ export default class LinePathsService implements ILinePathsService {
     @Inject(config.repositories.Line.name) private lineRepo: ILineRepo
   ) { }
 
-  public async createLinePaths(
-    linePathsDTO: ILinePathsDTO
-  ): Promise<Result<ILineDTO>> {
+  public async createLinePaths(linePathsDTO: ILinePathsDTO ): Promise<Result<ILineDTO>> {
+    
     try {
       const path = await Path.create(linePathsDTO);
 
@@ -30,13 +30,15 @@ export default class LinePathsService implements ILinePathsService {
         return Result.fail<ILineDTO>("Error on line paths");
       }
 
-      await this.pathRepo.save(path.getValue());
+      const a = await this.pathRepo.save(path.getValue());
 
-      const savedLine = await this.lineRepo.updateLineByName(
-        linePathsDTO.line,
-        linePathsDTO.toGo,
-        path.getValue()
-      );
+      if (linePathsDTO.toGo) {
+        var linePath = LinePath.create("Line" + path.getValue().key, path.getValue(), "Go").getValue();
+      }else {
+        var linePath = LinePath.create("Line" + path.getValue().key, path.getValue(), "Return").getValue();
+      }
+
+      const savedLine = await this.lineRepo.updateLineByName(linePathsDTO.line, linePath);
 
       const lineReturn = LineMap.toDTO(savedLine) as ILineDTO;
       return Result.ok<ILineDTO>(lineReturn);
@@ -45,20 +47,14 @@ export default class LinePathsService implements ILinePathsService {
     }
   }
 
-  public async getLinePaths(line: string): Promise<Result<Array<Path>>> {
+  public async getLinePaths(line: string): Promise<Result<Array<LinePath>>> {
     try {
-      const returned = await (await this.lineRepo.getLineByName(line)).getValue();
-      const array = Array<Path>();
-      array.push(returned.goPath, returned.returnPath);
-      const emptyPath = returned.emptyPaths;
+      const returned =await this.lineRepo.getLineByName(line);
 
-      if (emptyPath !== null) {
-        for (let i = 0; i < emptyPath.length; i++) {
-          array.push(emptyPath[i]);
-        }
+      if(returned.isFailure){
+        return Result.fail<Array<LinePath>>("Line not found!");
       }
-
-      return Result.ok<Array<Path>>(array);
+      return Result.ok<Array<LinePath>>(returned.getValue().linePaths);
     } catch (e) {
       throw e;
     }

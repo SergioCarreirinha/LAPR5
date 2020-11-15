@@ -38,13 +38,13 @@ export default class LineService implements ILineService {
             const lines = (await this.lineRepo.getAllLines()).getValue();
 
             if (req.body.orderByName && req.body.orderByCode) {
-                this.orderByNameAndCode(lines);
+                this.orderByNameAndKey(lines);
 
             } else if (req.body.orderByName) {
                 this.orderByName(lines);
 
             } else if (req.body.orderByCode) {
-                this.orderByCode(lines);
+                this.orderByKey(lines);
 
             }
 
@@ -65,7 +65,7 @@ export default class LineService implements ILineService {
 
     }
 
-    private orderByNameAndCode(lines: Line[]) {
+    private orderByNameAndKey(lines: Line[]) {
         lines.sort(function (a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
                 return -1;
@@ -98,7 +98,7 @@ export default class LineService implements ILineService {
         });
     }
 
-    private orderByCode(lines: Line[]) {
+    private orderByKey(lines: Line[]) {
         lines.sort(function (a, b) {
             if (a.key < b.key) {
                 return -1;

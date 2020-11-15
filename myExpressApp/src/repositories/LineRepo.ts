@@ -6,6 +6,7 @@ import { ILinePersistence } from "../persistence/interface/ILinePersistence";
 import { LineMap } from "../mappers/LineMap";
 import { Path } from "../domain/models/Path";
 import { Result } from "../core/logic/Result";
+import { LinePath } from "../domain/models/LinePath";
 
 @Service()
 export default class LineRepo implements ILineRepo {
@@ -44,15 +45,21 @@ export default class LineRepo implements ILineRepo {
     }
   }
 
-  public async updateLineByName(value: string, toGo: boolean, path: Path): Promise<Line> {
+  public async updateLineByName(value: string, linePath: LinePath): Promise<Line> {
     const query = { name: value };
+
     try {
-      if (toGo) {
-        var document = await this.LineSchema.findOneAndUpdate(query,{ goPath: path },{ new: true });
-      } else {
-        var document = await this.LineSchema.findOneAndUpdate(query,{ returnPath: path },{ new: true });
+      var line = await this.LineSchema.findOne(query);
+      var lp = line.linePaths;
+      
+      if(lp == null){
+          lp=new Array<LinePath>();
       }
-        return LineMap.toDomain(document);
+
+      lp.push(linePath);
+      var document = await this.LineSchema.findOneAndUpdate(query,{ linePaths: lp },{ new: true });
+
+      return LineMap.toDomain(document);
     } catch (e) {
       throw e;
     }

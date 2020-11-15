@@ -14,9 +14,9 @@ export class PathMap {
 
   public static toPersistence (path: Path): any {
     return {
-      description : path.description,
+      key : path.key,
       isEmpty : path.isEmpty,
-      segments : path.segments,
+      pathNodes : path.pathNodes,
       totalDur : path.totalDur,
       totalDist : path.totalDist
     }
