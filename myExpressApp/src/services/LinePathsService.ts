@@ -13,6 +13,7 @@ import ILinePathsService from "./interface/ILinePathsService";
 import { LineMap } from "../mappers/LineMap";
 import { Result } from "../core/logic/Result";
 import { LinePath } from "../domain/models/LinePath";
+import { PathNode } from "../domain/models/PathNode";
 
 @Service()
 export default class LinePathsService implements ILinePathsService {

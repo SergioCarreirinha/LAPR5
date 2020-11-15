@@ -1,17 +1,15 @@
 import { ValueObject } from '../../core/domain/ValueObject';
 import { Result } from '../../core/logic/Result';
-import { Node } from './Node';
 
 interface IPathNode{
     key: string;
-    node: Node;
+    node: string;
     duration: number;
     distance: number;   
 }
 
 export class PathNode extends ValueObject<IPathNode>{
     
-
     private constructor(inter: IPathNode){
         super(inter);
     }
@@ -20,7 +18,7 @@ export class PathNode extends ValueObject<IPathNode>{
         return this.props.key;
     }
 
-    get node(): Node{
+    get node(): string{
         return this.props.node;
     }
 
@@ -32,7 +30,7 @@ export class PathNode extends ValueObject<IPathNode>{
         return this.props.distance;
     }
 
-    set node(value: Node){
+    set node(value: string){
         this.props.node = value;
     }
 
@@ -44,7 +42,7 @@ export class PathNode extends ValueObject<IPathNode>{
         this.props.distance = value;
     }
 
-    static create(key: string, node: Node,duration: number, distance: number): Result<PathNode>{
+    static create(key: string, node: string,duration: number, distance: number): Result<PathNode>{
         if(!!key === false || !!node === false
            ){
             return Result.fail<PathNode>('Must valid segment info');

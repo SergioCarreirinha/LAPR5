@@ -56,7 +56,6 @@ export class Path extends AggregateRoot<IPath>{
     private static getTotalDur(segments: PathNode[]): number {
         var dur = 0;
         for(var i=0;i<segments.length;i++){
-            console.log(segments[i]);
             dur+=segments[i].duration;
         }
         return dur;
