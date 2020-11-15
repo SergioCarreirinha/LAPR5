@@ -1,8 +1,13 @@
 import { NextFunction, Request, Response } from "express";
+
 import * as sinon from 'sinon';
+
 import { Container } from "typedi";
+
 import config from "../../config";
+
 import { Result } from "../../core/logic/Result";
+
 import ILinePathsDTO from "../../dto/LinePathsDTO/ILinePathsDTO";
 import ILinePathsService from "../../services/interface/ILinePathsService";
 import LinePathsController from "../LinePathsController";
@@ -12,7 +17,6 @@ describe('LinePathsController', function () {
     });
 
     afterEach(function () {
-        sinon.restore();
     });
 
     it('createLinePaths: returns json with line values(including paths)', async function () {
@@ -21,7 +25,7 @@ describe('LinePathsController', function () {
             "toGo": true,
             "key": "path",
             "isEmpty": false,
-            "pathNodes": [["PathNode1","Aguiar de Sousa"], ["PathNode2", "Baltar",4,5],["PathNode3", "Besteiros",4,5]]        
+            "pathNodes": [["PathNode1","Aguiar de Sousa"], ["PathNode2", "Baltar",4,5]]        
         };
         let req: Partial<Request> = {};
         req.body = body;

@@ -14,18 +14,35 @@ import { LineMap } from "../mappers/LineMap";
 import { Result } from "../core/logic/Result";
 import { LinePath } from "../domain/models/LinePath";
 import { PathNode } from "../domain/models/PathNode";
+import INodeRepo from "../repositories/interface/INodeRepo";
+import NodeService from "./NodeService";
+import { LinePathsMap } from "../mappers/LinePathsMap";
 
 @Service()
 export default class LinePathsService implements ILinePathsService {
   constructor(
     @Inject(config.repositories.Path.name) private pathRepo: IPathRepo,
-    @Inject(config.repositories.Line.name) private lineRepo: ILineRepo
+    @Inject(config.repositories.Line.name) private lineRepo: ILineRepo,
+    @Inject(config.repositories.Node.name) private nodeRepo: INodeRepo,
   ) { }
 
-  public async createLinePaths(linePathsDTO: ILinePathsDTO ): Promise<Result<ILineDTO>> {
-    
+  public async createLinePaths(linePathsDTO: ILinePathsDTO): Promise<Result<ILineDTO>> {
+
+    const pathNodes = new Array<PathNode>();
+    const reqlength = Object.keys(linePathsDTO.pathNodes).length;
+    const forLoop = linePathsDTO.pathNodes;
+
+    const firstPathNode = PathNode.create(forLoop[0][0], (await this.nodeRepo.findByName(forLoop[0][1])).getValue().key, 0, 0).getValue();
+    pathNodes.push(firstPathNode);
+
+    for (let index = 1; index < reqlength; index++) {
+      const pathNode = PathNode.create(forLoop[index][0], (await this.nodeRepo.findByName(forLoop[index][1])).getValue().key, forLoop[index][2], forLoop[index][3]).getValue();
+      pathNodes.push(pathNode);
+    };
+    const dto = LinePathsMap.toDTO(linePathsDTO.line, linePathsDTO.toGo, linePathsDTO.key, linePathsDTO.isEmpty, pathNodes);
+
     try {
-      const path = await Path.create(linePathsDTO);
+      const path = await Path.create(dto);
 
       if (path.isFailure) {
         return Result.fail<ILineDTO>("Error on line paths");
@@ -35,7 +52,7 @@ export default class LinePathsService implements ILinePathsService {
 
       if (linePathsDTO.toGo) {
         var linePath = LinePath.create("Line" + path.getValue().key, path.getValue().key, "Go").getValue();
-      }else {
+      } else {
         var linePath = LinePath.create("Line" + path.getValue().key, path.getValue().key, "Return").getValue();
       }
 
@@ -50,9 +67,9 @@ export default class LinePathsService implements ILinePathsService {
 
   public async getLinePaths(line: string): Promise<Result<Array<LinePath>>> {
     try {
-      const returned =await this.lineRepo.getLineByName(line);
+      const returned = await this.lineRepo.getLineByName(line);
 
-      if(returned.isFailure){
+      if (returned.isFailure) {
         return Result.fail<Array<LinePath>>("Line not found!");
       }
       return Result.ok<Array<LinePath>>(returned.getValue().linePaths);
@@ -61,14 +78,14 @@ export default class LinePathsService implements ILinePathsService {
     }
   }
 
-  public async createPaths(linePathsDTO: ILinePathsDTO ) : Promise<Result<Path>>{
-      const path = await Path.create(linePathsDTO);
+  public async createPaths(linePathsDTO: ILinePathsDTO): Promise<Result<Path>> {
+    const path = await Path.create(linePathsDTO);
 
-      if (path.isFailure) {
-        return Result.fail<Path>("Error on creating a Path");
-      }
-      const a = await this.pathRepo.save(path.getValue());
+    if (path.isFailure) {
+      return Result.fail<Path>("Error on creating a Path");
+    }
+    const a = await this.pathRepo.save(path.getValue());
 
-      return Result.ok<Path>(a);
+    return Result.ok<Path>(a);
   }
 }
