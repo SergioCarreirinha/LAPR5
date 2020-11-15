@@ -66,7 +66,7 @@ export default class FileUploadService implements IFileUploadService {
                 });
             }
 
-            /*//importar linhas
+            //importar linhas
             let lines = objects.getElementsByTagName("Line");
             for (var i = 0; i < lines.length; i++) {
                 parser.parseString(lines[i], async (err, result) => {
@@ -76,9 +76,9 @@ export default class FileUploadService implements IFileUploadService {
                         throw e;
                     }
                 });
-            }*/
+            }
 
-            //importar linhas
+            //importar paths
             let paths = objects.getElementsByTagName("Path");
             for (var i = 0; i < paths.length; i++) {
                 parser.parseString(paths[i], async (err, result) => {
