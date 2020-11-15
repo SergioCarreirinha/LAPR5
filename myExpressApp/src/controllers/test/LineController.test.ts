@@ -18,7 +18,7 @@ describe('Line Controller', function () {
     });
 
     it('createLine: returns json with line values', async function() {
-        let body = {"name": "teste", "code": "teste", "goPath": null, "returnPath":null, "emptyPaths": null, "endNodes":null, "allowedVehicles":null, "allowedDrivers":null };
+        let body = {"key": "teste", "name": "teste", "color": "RGB(0,0,0)", "linePath":null, "allowedVehicles":null, "allowedDrivers":null };
         let req: Partial<Request> = {};
 		req.body = body;
 
@@ -32,20 +32,29 @@ describe('Line Controller', function () {
 		Container.set(config.services.Line.name, lineServiceInstance);
 
 		lineServiceInstance = Container.get(config.services.Line.name);
-        const mock = sinon.stub(lineServiceInstance, "createLine").returns(Result.ok<ILineDTO>({ "name": req.body.name, 
-                                                                                    "code": req.body.code,
-                                                                                    "goPath": req.body.goPath,
-                                                                                    "returnPath": req.body.returnPath,
-                                                                                    "emptyPaths": req.body.emptyPaths,
-                                                                                    "endNodes": req.body.endNodes,
-                                                                                    "allowedVehicles": req.body.allowedVehicles,
-                                                                                    "allowedDrivers": req.body.allowedDrivers}));
+        const mock = sinon.stub(lineServiceInstance, "createLine").returns(Result.ok<ILineDTO>
+        ({ 
+            "key": req.body.key, 
+            "name": req.body.name,
+            "color": req.body.color,
+            "linePath": req.body.linePath,
+            "allowedVehicles": req.body.allowedVehicles,
+            "allowedDrivers": req.body.allowedDrivers
+        }));
 		const ctrl = new LineController(lineServiceInstance as ILineService);
 
         await ctrl.createLine(<Request>req, <Response>res, <NextFunction>next);
 
 		sinon.assert.calledOnce(mock);
-        sinon.assert.calledWith(mock, sinon.match({ "name": req.body.name, "code": req.body.code, "goPath": req.body.goPath, "returnPath": req.body.returnPath, "emptyPaths": req.body.emptyPaths, "endNodes": req.body.endNodes, "allowedVehicles": req.body.allowedVehicles, "allowedDrivers": req.body.allowedDrivers}));
+        sinon.assert.calledWith(mock, sinon.match
+        ({ 
+            "key": req.body.key, 
+            "name": req.body.name,
+            "color": req.body.color,
+            "linePath": req.body.linePath,
+            "allowedVehicles": req.body.allowedVehicles,
+            "allowedDrivers": req.body.allowedDrivers
+        }));
         mock.restore();
     });
 });

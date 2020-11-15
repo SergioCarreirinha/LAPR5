@@ -15,7 +15,6 @@ describe('LinePathsController', function () {
     });
 
     it('createLinePaths: returns json with line values(including paths)', async function () {
-        this.timeout(50000);
         let body = {
             "line": "t",
             "toGo": true,

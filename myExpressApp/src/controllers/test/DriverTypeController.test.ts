@@ -9,9 +9,8 @@ import { Result } from '../../core/logic/Result';
 import IDriverTypeDTO from '../../dto/DriverTypeDTO/IDriverTypeDTO';
 import DriverTypeController from '../../controllers/DriverTypeController';
 import IDriverTypeService from '../../services/interface/IDriverTypeService';
-import { DriverType } from '../../domain/models/DriverType';
 
-describe('Line Controller', function () {
+describe('Driver Type Controller', function () {
 	beforeEach(function() {
     });
 

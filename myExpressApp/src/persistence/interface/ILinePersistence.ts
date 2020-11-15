@@ -1,16 +1,13 @@
 import { DriverType } from "../../domain/models/DriverType";
-import { Node } from "../../domain/models/Node";
-import { Path } from "../../domain/models/Path";
+import { LinePath } from "../../domain/models/LinePath";
 import { VehicleType } from "../../domain/models/VehicleType";
 
 export interface ILinePersistence {
     domainId: string;
+    key: string;
     name: string;
-    code: string;
-    goPath: Path;
-    returnPath: Path;
-    emptyPaths: Array<Path>;
-    endNodes: Array<Node>;
+    color: string;
+    linePaths: Array<LinePath>;
     allowedVehicles: Array<VehicleType>;
     allowedDrivers: Array<DriverType>;
 }

@@ -7,12 +7,10 @@ export class LineMap {
 
   public static toDTO(line: Line) : ILineDTO {
     return {
-        name: line.name, 
-        code: line.code, 
-        goPath: line.goPath, 
-        returnPath: line.returnPath, 
-        emptyPaths: line.emptyPaths, 
-        endNodes: line.endNodes, 
+        key: line.key,
+        name: line.name,
+        color: line.color,
+        linePath: line.linePaths,
         allowedVehicles: line.allowedVehicles, 
         allowedDrivers: line.allowedDrivers
     } as ILineDTO;
@@ -30,12 +28,10 @@ export class LineMap {
   public static toPersistence (line: Line): any {
     return {
         domainId: line.id.toString(),
-        name: line.name, 
-        code: line.code, 
-        goPath: line.goPath, 
-        returnPath: line.returnPath, 
-        emptyPaths: line.emptyPaths, 
-        endNodes: line.endNodes, 
+        key: line.key,
+        name: line.name,
+        color: line.color,
+        linePath: line.linePaths,
         allowedVehicles: line.allowedVehicles, 
         allowedDrivers: line.allowedDrivers
     }
