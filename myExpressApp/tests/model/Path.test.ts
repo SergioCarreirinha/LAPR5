@@ -79,9 +79,6 @@ describe('Create a valid Path', () => {
         expect(path.getValue().props.pathNodes[2]).to.equal(seg3);
         expect(path.getValue().props.totalDur).to.equal(10);
         expect(path.getValue().props.totalDist).to.equal(10);
-
-
-
     });
 });
 
