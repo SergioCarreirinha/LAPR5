@@ -54,7 +54,6 @@ export default class FileUploadService implements IFileUploadService {
 
             //importar nós
             let nodes = objects.getElementsByTagName("Node");
-            console.log("ola1");
             for (var i = 0; i < nodes.length; i++) {
                 parser.parseString(nodes[i], async (err, result) => {
                     try {
@@ -81,7 +80,6 @@ export default class FileUploadService implements IFileUploadService {
             let paths = objects.getElementsByTagName("Path");
             for (var i = 0; i < paths.length; i++) {
                 parser.parseString(paths[i], async (err, result) => {
-                    console.log(result);
                     try {
                         await path.createLinePaths(result as ILinePathsDTO)
                     } catch (e) {
