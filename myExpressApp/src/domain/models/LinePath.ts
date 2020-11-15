@@ -39,8 +39,8 @@ export class LinePath extends ValueObject<ILinePath> {
     }
 
     static create(key: string, path: string, orientation: string): Result<LinePath>{
-        if(!!key === false || key == null || !!path === false || path== null || !!orientation === false || orientation === null ){
-            return Result.fail<LinePath>('Must valid path info');
+        if(key == null ||path== null || orientation === null ){
+            return Result.fail<LinePath>('Must valid line path info');
         }else{
             const linePath = new LinePath({key: key, path: path, orientation: orientation});
             return Result.ok<LinePath>(linePath)
