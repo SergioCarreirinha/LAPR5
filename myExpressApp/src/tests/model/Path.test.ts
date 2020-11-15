@@ -1,6 +1,6 @@
 import { Node } from "../../domain/models/Node";
 import { Path } from "../../domain/models/Path";
-import { PathSegment } from "../../domain/models/PathSegment";
+import { PathSegment } from "../../domain/models/PathNode";
 import ILinePathsDTO from "../../dto/LinePathsDTO/ILinePathsDTO";
 import INodeDTO from "../../dto/NodeDTO/INodeDTO";
 import {expect} from 'chai';

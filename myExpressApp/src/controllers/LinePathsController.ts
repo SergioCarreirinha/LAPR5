@@ -10,13 +10,10 @@ import NodeService from '../services/NodeService';
 import { celebrate, CelebrateError, Joi } from 'celebrate';
 import { Result } from '../core/logic/Result';
 
-import PathRepo from '../repositories/PathRepo';
-import PathSchema from '../dataschemas/PathSchema';
 import NodeRepo from '../repositories/NodeRepo';
 import NodeSchema from '../dataschemas/NodeSchema';
-import { PathSegment } from '../domain/models/PathSegment';
+import { PathNode } from '../domain/models/PathNode';
 import { LinePathsMap } from '../mappers/LinePathsMap';
-import { stringify } from 'querystring';
 
 export default class LinePathsController implements ILinePathsController {
     constructor(
@@ -29,22 +26,26 @@ export default class LinePathsController implements ILinePathsController {
             body: Joi.object({
                 line: Joi.string().required(),
                 toGo: Joi.boolean().required(),
-                description: Joi.string().required(),
+                key: Joi.string().required(),
                 isEmpty: Joi.boolean().required(),
-                segments: Joi.array()
+                pathNodes: Joi.array()
             })
         });
 
         try {
             const nodeService = new NodeService(new NodeRepo(NodeSchema));
-            const pathSegments = new Array<PathSegment>();
-            const reqlength = Object.keys(req.body.segments).length;
-            const forLoop = req.body.segments;
-            for (let index = 0; index < reqlength; index++) {
-                const pathSegment = PathSegment.create(forLoop[index][2], forLoop[index][3], (await nodeService.findByName(forLoop[index][0])).getValue(), (await nodeService.findByName(forLoop[index][1])).getValue(), index + 1).getValue();
-                pathSegments.push(pathSegment);
+            const pathNodes = new Array<PathNode>();
+            const reqlength = Object.keys(req.body.pathNodes).length;
+            const forLoop = req.body.pathNodes;
+
+            const firstPathNode = PathNode.create(forLoop[0][0], (await nodeService.findByName(forLoop[0][1])).getValue(), 0, 0).getValue();
+            pathNodes.push(firstPathNode);
+
+            for (let index = 1; index < reqlength; index++) {
+                const pathNode = PathNode.create(forLoop[index][0], (await nodeService.findByName(forLoop[index][1])).getValue(), forLoop[index][2],forLoop[index][3]).getValue();
+                pathNodes.push(pathNode);
             };
-            const dto = LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.description, req.body.isEmpty, pathSegments);
+            const dto = LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.key, req.body.isEmpty, pathNodes);
             const callService = await this.linePathsServiceInstance.createLinePaths(dto) as Result<ILineDTO>;
 
             if (callService.isFailure) {

@@ -1,9 +1,9 @@
-import { PathSegment } from '../../domain/models/PathSegment';
+import { PathNode } from '../../domain/models/PathNode';
 
 export interface IPathPersistence {
-    description: string,
+    key: string,
     isEmpty: boolean,
+    pathNodes: PathNode[],
     totalDur: Number,
-    totalDist: Number,
-    segments: PathSegment[]
+    totalDist: Number
 }

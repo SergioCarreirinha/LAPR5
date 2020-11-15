@@ -1,6 +1,6 @@
 import { IPathPersistence } from '../persistence/interface/IPathPersistence';
 import * as mongoose from 'mongoose';
-import { PathSegment } from '../domain/models/PathSegment';
+import { PathNode } from '../domain/models/PathNode';
 
 const PathSchema = new mongoose.Schema(
   {
@@ -8,12 +8,15 @@ const PathSchema = new mongoose.Schema(
         type: String,
         unique: true
     },
-    description: { 
+    key: { 
         type: String, 
         unique: true,
     }, 
     isEmpty: { 
         type: Boolean
+    },
+    pathNodes: {
+        type: Array<PathNode>()
     },
     totalDur: {
         type: Number
@@ -21,9 +24,7 @@ const PathSchema = new mongoose.Schema(
     totalDist: {
         type: Number
     },
-    segments: {
-        type: Array<PathSegment>()
-    }
+    
   }
 );
 

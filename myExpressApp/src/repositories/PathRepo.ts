@@ -1,11 +1,9 @@
 import { Service, Inject } from 'typedi';
-import config from '../config';
 import { Path } from "../domain/models/Path";
 import IPathRepo from './interface/IPathRepo';
 import { IPathPersistence } from '../persistence/interface/IPathPersistence';
 import { PathMap } from '../mappers/PathMap';
 import {Document, Model} from 'mongoose';
-import { Double } from 'mongodb';
 
 
 @Service()
@@ -24,7 +22,7 @@ export default class PathRepo implements IPathRepo{
     }
 
     public async save(path: Path): Promise<Path> {
-        const query = {desc: path.description.toString()};
+        const query = {key: path.key.toString()};
         const document = await this.PathSchema.findOne(query);
         try{
             if(document === null) {
@@ -32,11 +30,11 @@ export default class PathRepo implements IPathRepo{
                 const pathCreated = await this.PathSchema.create(rawPath);
                 return PathMap.toDomain(pathCreated);
             }else{
-                document.description = path.description;
+                document.key = path.key;
                 document.isEmpty = path.isEmpty;
-                document.segments = path.segments;
-                document.totalDist = path.totalDist;
+                document.pathNodes = path.pathNodes;
                 document.totalDur = path.totalDur;
+                document.totalDist = path.totalDist;
                 await document.save();
                 return path;
             }

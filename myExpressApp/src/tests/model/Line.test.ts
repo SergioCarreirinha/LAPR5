@@ -2,7 +2,7 @@ import { DriverType } from "../../domain/models/DriverType";
 import { Line } from "../../domain/models/Line";
 import { Node } from "../../domain/models/Node";
 import { Path } from "../../domain/models/Path";
-import { PathSegment } from "../../domain/models/PathSegment";
+import { PathSegment } from "../../domain/models/PathNode";
 import { VehicleType } from "../../domain/models/VehicleType";
 import IDriverTypeDTO from "../../dto/DriverTypeDTO/IDriverTypeDTO";
 import {expect} from 'chai';

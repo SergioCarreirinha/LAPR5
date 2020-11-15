@@ -1,16 +1,15 @@
 import ILinePathsDTO from "../../dto/LinePathsDTO/ILinePathsDTO";
 import { Result } from '../../core/logic/Result';
-import { PathSegment } from './PathSegment';
+import { PathNode } from './PathNode';
 import { AggregateRoot } from "../../core/domain/AggregateRoot";
-import { Node } from '../../domain/models/Node';
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
 import { PathID } from "./ID/PathID";
 
 
 interface IPath{
-    description : string;
+    key : string;
     isEmpty : boolean;
-    segments : PathSegment[];
+    pathNodes : PathNode[];
     totalDur : Number;
     totalDist : Number;
 }
@@ -29,8 +28,8 @@ export class Path extends AggregateRoot<IPath>{
         return this._id;
     }
 
-    get description(): string {
-        return this.props.description;
+    get key(): string {
+        return this.props.key;
     }
 
     get isEmpty(): boolean {
@@ -45,15 +44,15 @@ export class Path extends AggregateRoot<IPath>{
         return this.props.totalDist;
     }
 
-    get segments(): PathSegment[] {
-        return this.props.segments;
+    get pathNodes(): PathNode[] {
+        return this.props.pathNodes;
     }
 
-    set description(value: string) {
-        this.props.description=value;
+    set key(value: string) {
+        this.props.key=value;
     }
 
-    private static getTotalDur(segments: PathSegment[]): number {
+    private static getTotalDur(segments: PathNode[]): number {
         var dur = 0;
         segments.forEach(element => {
             dur += element.duration;
@@ -61,7 +60,7 @@ export class Path extends AggregateRoot<IPath>{
         return dur;
     }
 
-    private static getTotalDist(segments: PathSegment[]): number {
+    private static getTotalDist(segments: PathNode[]): number {
         var dist = 0;
         segments.forEach(element => {
             dist += element.distance;
@@ -70,16 +69,16 @@ export class Path extends AggregateRoot<IPath>{
     }
 
     public static create (linePathsDTO: ILinePathsDTO, id?: UniqueEntityID): Result<Path> {
-        const desc = linePathsDTO.description;
+        const key = linePathsDTO.key;
         const isEmpty = linePathsDTO.isEmpty;
-        const segments = linePathsDTO.segments;
-        const totalDur = this.getTotalDur(linePathsDTO.segments);
-        const totalDist = this.getTotalDist(linePathsDTO.segments);
+        const pathNodes = linePathsDTO.pathNodes;
+        const totalDur = this.getTotalDur(linePathsDTO.pathNodes);
+        const totalDist = this.getTotalDist(linePathsDTO.pathNodes);
 
-        if(!!desc === false || desc.length === 0){
+        if(!!key === false || key.length === 0){
             return Result.fail<Path>('Must provide a path description');
         }else{
-            const path = new Path({description: desc, isEmpty: isEmpty, segments: segments, totalDur: totalDur, totalDist: totalDist},id);
+            const path = new Path({key: key, isEmpty: isEmpty, pathNodes: pathNodes, totalDur: totalDur, totalDist: totalDist},id);
             return Result.ok<Path>(path)
         }
         

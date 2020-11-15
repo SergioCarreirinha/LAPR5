@@ -1,9 +1,9 @@
-import { PathSegment } from "../../domain/models/PathSegment";
+import { PathNode } from "../../domain/models/PathNode";
 
 export default interface ILinePathsDTO {
     line: string,
     toGo: boolean,
-    description: string,
+    key: string,
     isEmpty: boolean,
-    segments: PathSegment[]
+    pathNodes: PathNode[]
 }
