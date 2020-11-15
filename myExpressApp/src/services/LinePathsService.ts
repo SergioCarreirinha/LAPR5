@@ -33,9 +33,9 @@ export default class LinePathsService implements ILinePathsService {
       const a = await this.pathRepo.save(path.getValue());
 
       if (linePathsDTO.toGo) {
-        var linePath = LinePath.create("Line" + path.getValue().key, path.getValue(), "Go").getValue();
+        var linePath = LinePath.create("Line" + path.getValue().key, path.getValue().key, "Go").getValue();
       }else {
-        var linePath = LinePath.create("Line" + path.getValue().key, path.getValue(), "Return").getValue();
+        var linePath = LinePath.create("Line" + path.getValue().key, path.getValue().key, "Return").getValue();
       }
 
       const savedLine = await this.lineRepo.updateLineByName(linePathsDTO.line, linePath);
