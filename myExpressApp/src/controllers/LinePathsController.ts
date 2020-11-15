@@ -38,11 +38,11 @@ export default class LinePathsController implements ILinePathsController {
             const reqlength = Object.keys(req.body.pathNodes).length;
             const forLoop = req.body.pathNodes;
 
-            const firstPathNode = PathNode.create(forLoop[0][0], (await nodeService.findByName(forLoop[0][1])).getValue(), 0, 0).getValue();
+            const firstPathNode = PathNode.create(forLoop[0][0], (await nodeService.findByName(forLoop[0][1])).getValue().key, 0, 0).getValue();
             pathNodes.push(firstPathNode);
 
             for (let index = 1; index < reqlength; index++) {
-                const pathNode = PathNode.create(forLoop[index][0], (await nodeService.findByName(forLoop[index][1])).getValue(), forLoop[index][2],forLoop[index][3]).getValue();
+                const pathNode = PathNode.create(forLoop[index][0], (await nodeService.findByName(forLoop[index][1])).getValue().key, forLoop[index][2],forLoop[index][3]).getValue();
                 pathNodes.push(pathNode);
             };
             const dto = LinePathsMap.toDTO(req.body.line, req.body.toGo, req.body.key, req.body.isEmpty, pathNodes);
