@@ -10,10 +10,6 @@ import NodeService from '../services/NodeService';
 import { celebrate, CelebrateError, Joi } from 'celebrate';
 import { Result } from '../core/logic/Result';
 
-import NodeRepo from '../repositories/NodeRepo';
-import NodeSchema from '../dataschemas/NodeSchema';
-import { PathNode } from '../domain/models/PathNode';
-import { LinePathsMap } from '../mappers/LinePathsMap';
 import ILinePathsDTO from '../dto/LinePathsDTO/ILinePathsDTO';
 
 export default class LinePathsController implements ILinePathsController {
@@ -34,7 +30,6 @@ export default class LinePathsController implements ILinePathsController {
         });
 
         try {
-            
             const callService = await this.linePathsServiceInstance.createLinePaths(req.body as ILinePathsDTO) as Result<ILineDTO>;
 
             if (callService.isFailure) {
