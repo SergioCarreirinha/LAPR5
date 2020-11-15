@@ -1,11 +1,10 @@
 import { ValueObject } from "../../core/domain/ValueObject";
 import { Result } from "../../core/logic/Result";
-import { Line } from "./Line";
 import { Path } from "./Path";
 
 interface ILinePath {
     key: string;
-    path: Path;
+    path: string;
     orientation: string;
 }
 
@@ -19,7 +18,7 @@ export class LinePath extends ValueObject<ILinePath> {
         return this.props.key;
     }
 
-    get path(): Path {
+    get path(): string {
         return this.props.path;
     }
 
@@ -31,7 +30,7 @@ export class LinePath extends ValueObject<ILinePath> {
         this.props.key = value;
     }
 
-    set path(value: Path){
+    set path(value: string){
         this.props.path = value;
     }
 
@@ -39,7 +38,7 @@ export class LinePath extends ValueObject<ILinePath> {
         this.props.orientation = value;
     }
 
-    static create(key: string, path: Path, orientation: string): Result<LinePath>{
+    static create(key: string, path: string, orientation: string): Result<LinePath>{
         if(!!key === false || key == null || !!path === false || path== null || !!orientation === false || orientation === null ){
             return Result.fail<LinePath>('Must valid path info');
         }else{
