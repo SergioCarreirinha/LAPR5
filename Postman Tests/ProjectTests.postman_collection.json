@@ -230,6 +230,233 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "ListAllLinePaths",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "84520587-91c2-4e38-86c6-253c6c568542",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"line\" : \"Lordelo_Parada\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/linePaths",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"linePaths"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListAllLinePaths Fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe29a907-f2ce-4b90-9ec1-f9a8e2256656",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"line\" : \"NAOEXISTE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/linePaths",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"linePaths"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateDriverType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2945078-8a8f-4cdd-81a5-a5edd9dca182",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\":\"1123122340\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/driverType",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"driverType"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateLine",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd1bc114-96b0-4bd5-9a5b-95dd636ce3fe",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"key\": \"teste\",\r\n    \"name\": \"teste\",\r\n    \"color\": \"RGB(0,0,0)\",\r\n    \"linePath\": \"line1\",\r\n    \"allowedVehicles\":null,\r\n    \"allowedDrivers\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/line",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"line"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FileUploadTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52343437-56cf-42f8-9baa-e682aa805a04",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "xml",
+							"type": "file",
+							"src": "/C:/Users/tavar/Downloads/import.glx.xml"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/fileUpload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fileUpload"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
