@@ -14,6 +14,7 @@ export class PathMap {
 
   public static toPersistence (path: Path): any {
     return {
+      domainId: path.id.toString(),
       key : path.key,
       isEmpty : path.isEmpty,
       pathNodes : path.pathNodes,

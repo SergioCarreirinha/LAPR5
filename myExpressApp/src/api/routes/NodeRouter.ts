@@ -14,4 +14,6 @@ export default (app: Router) => {
     route.post('', (req, res, next) => crtl.createNode(req, res, next));
 
     route.get('', (req,res,next) => crtl.findAll(req,res,next));
+
+    //route.delete('', (req,res,next) => crtl.delete(req,res,next));
 }

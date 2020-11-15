@@ -83,7 +83,7 @@ export default class FileUploadService implements IFileUploadService {
             for (var i = 0; i < paths.length; i++) {
                 parser.parseString(paths[i], async (err, result) => {
                     try {
-                        await path.createLinePaths(result as ILinePathsDTO)
+                        await path.createPaths(result as ILinePathsDTO)
                     } catch (e) {
                         throw e;
                     }

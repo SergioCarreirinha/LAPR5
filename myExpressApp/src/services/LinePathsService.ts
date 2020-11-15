@@ -59,4 +59,15 @@ export default class LinePathsService implements ILinePathsService {
       throw e;
     }
   }
+
+  public async createPaths(linePathsDTO: ILinePathsDTO ) : Promise<Result<Path>>{
+      const path = await Path.create(linePathsDTO);
+
+      if (path.isFailure) {
+        return Result.fail<Path>("Error on creating a Path");
+      }
+      const a = await this.pathRepo.save(path.getValue());
+
+      return Result.ok<Path>(a);
+  }
 }
