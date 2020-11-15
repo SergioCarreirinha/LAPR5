@@ -43,9 +43,8 @@ export class PathNode extends ValueObject<IPathNode>{
     }
 
     static create(key: string, node: string,duration: number, distance: number): Result<PathNode>{
-        if(!!key === false || !!node === false
-           ){
-            return Result.fail<PathNode>('Must valid segment info');
+        if(!!key === false || !!node === false){
+            return Result.fail<PathNode>('Must valid pathNode info');
         }else{
             const pathNode = new PathNode({key: key, node : node, duration: duration, distance: distance});
             return Result.ok<PathNode>(pathNode)
