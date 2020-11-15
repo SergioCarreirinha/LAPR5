@@ -38,7 +38,9 @@ export default class FileUploadService implements IFileUploadService {
                 mergeAttrs: true,
                 explicitArray: false,
                 attrNameProcessors: [xml2js.processors.firstCharLowerCase],
-                tagNameProcessors: [xml2js.processors.firstCharLowerCase]});
+                tagNameProcessors: [xml2js.processors.firstCharLowerCase],
+                attrValueProcessors: [xml2js.processors.parseBooleans]
+            });
 
             //importar VehicleTypes
             let vehicleTypes = objects.getElementsByTagName("VehicleType");
@@ -64,7 +66,7 @@ export default class FileUploadService implements IFileUploadService {
                 });
             }
 
-            //importar linhas
+            /*//importar linhas
             let lines = objects.getElementsByTagName("Line");
             for (var i = 0; i < lines.length; i++) {
                 parser.parseString(lines[i], async (err, result) => {
@@ -74,7 +76,7 @@ export default class FileUploadService implements IFileUploadService {
                         throw e;
                     }
                 });
-            }
+            }*/
 
             //importar linhas
             let paths = objects.getElementsByTagName("Path");

@@ -4,6 +4,7 @@ import { PathNode } from './PathNode';
 import { AggregateRoot } from "../../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
 import { PathID } from "./ID/PathID";
+import { ElementFlags } from "typescript";
 
 
 interface IPath{
@@ -54,17 +55,18 @@ export class Path extends AggregateRoot<IPath>{
 
     private static getTotalDur(segments: PathNode[]): number {
         var dur = 0;
-        segments.forEach(element => {
-            dur += element.duration;
-        });
+        for(var i=0;i<segments.length;i++){
+            console.log(segments[i]);
+            dur+=segments[i].duration;
+        }
         return dur;
     }
 
     private static getTotalDist(segments: PathNode[]): number {
         var dist = 0;
-        segments.forEach(element => {
-            dist += element.distance;
-        });
+        for(var i=0;i<segments.length;i++){
+            dist+=segments[i].distance;
+        }
         return dist;
     }
 
