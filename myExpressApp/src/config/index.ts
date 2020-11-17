@@ -37,6 +37,10 @@ export default{
         Path: {
             name: 'PathSchema',
             schema: '../dataschemas/PathSchema'
+        },
+        Driver:{
+            name: 'DriverSchema',
+            schema: '../dataschemas/DriverSchema'
         }
     },
     
@@ -64,6 +68,10 @@ export default{
         Line: {
             name: "LineController",
             path: "../controllers/LineController"
+        },
+        Driver: {
+            name: "DriverController",
+            path: "../controllers/DriverController"
         }
     },
 
@@ -87,6 +95,10 @@ export default{
         Path: {
             name: "PathRepo",
             path: "../repositories/PathRepo"
+        },
+        Driver: {
+            name: "DriverRepo",
+            path: "../repositories/DriverRepo"
         }
     },
 
@@ -114,6 +126,10 @@ export default{
         Line: {
             name: "LineService",
             path: "../services/LineService"
+        },
+        Driver: {
+            name: "DriverService",
+            path: "../services/DriverService"
         }
     }
 }
