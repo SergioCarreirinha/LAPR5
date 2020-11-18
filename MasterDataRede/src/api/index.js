@@ -5,6 +5,8 @@ import fileUpload from './routes/FileUploadRouter';
 import Node from './routes/NodeRouter';
 import Line from './routes/LineRouter';
 import LinePaths from './routes/LinePathsRouter';
+import Driver from './routes/DriverRouter';
+
 
 
 // guaranteed to get dependencies
@@ -16,5 +18,6 @@ export default () => {
 	Node(app);
 	Line(app);
 	LinePaths(app);
+	Driver(app);
 	return app
 }
