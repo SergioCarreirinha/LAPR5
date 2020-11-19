@@ -1,0 +1,39 @@
+
+
+<h1>Node Creation: </h1>
+  <p>
+    Key:
+  </p>
+  <input [(ngModel)]="node.key" placeholder="Node:1"/>
+  <p>
+    Name:
+  </p>
+  <input [(ngModel)]="node.name" placeholder="Valadares"/>
+  <p>
+    Latitude:
+  </p>
+  <input [(ngModel)]="node.latitude"/>
+  <p>
+    Longitude:
+  </p>
+  <input [(ngModel)]="node.longitude"/>
+  <p>
+    Abbreviation:
+  </p>
+  <input [(ngModel)]="node.shortName" placeholder="Val"/>
+  <p>
+    Is Depot?
+  </p>
+  <input [(ngModel)]="node.isDepot" placeholder="true"/>
+  <p>
+    Is Relief Point?
+  </p>
+  <input [(ngModel)]="node.isReliefPoint" placeholder="false"/>
+  <p>
+    Capacity:
+  </p>
+  <input [(ngModel)]="node.capacities"/>
+  
+  <p>
+    <button (click)="onClick()">Create Node</button>
+  </p>
