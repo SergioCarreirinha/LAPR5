@@ -48,3 +48,12 @@ Thumbs.db
 *.mov
 *.wmv
 
+# VisualParadigm
+.vpprefdata/
+*.vpp~*
+*.vpp
+*.vpp.bak~*
+*.vpp.working
+*.vpp.working-journal
+*.lock
+tmp/*
