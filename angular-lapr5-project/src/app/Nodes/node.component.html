@@ -34,6 +34,4 @@
   </p>
   <input [(ngModel)]="node.capacities"/>
   
-  <p>
-    <button (click)="onClick()">Create Node</button>
-  </p>
+    <button (click)="onClick(node.key, node.name,node.latitude,node.longitude,node.shortName,node.isDepot,node.isReliefPoint,node.capacities)">Create Node</button>

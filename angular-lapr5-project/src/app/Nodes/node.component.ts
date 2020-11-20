@@ -20,14 +20,13 @@ export class NodeComponent implements OnInit {
       isReliefPoint: "",
       capacities: 0
   };
-  constructor(
-    //@Inject('NodeSchema') private NodeSchema : Model<INodePersistence & Document>
-  ){}
+  constructor(){}
   
   ngOnInit(): void {
   }
-  onClick() {
-    console.log('FILHO DA PUTA');
+
+  public onClick(key:string, name:string, latitude:Number, longitude:Number, shortName: string, isDepot:string, isReliefPoint:string, capacities:Number): void {
+    console.log(key,name,latitude,longitude,shortName,isDepot,isReliefPoint,capacities);
   }
 
 }
