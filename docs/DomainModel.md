@@ -1,2 +1,2 @@
 # Domain Model
-![Domain Model](Domain Model.svg)
+![Domain Model](DomainModel.svg)

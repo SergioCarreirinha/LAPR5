@@ -1,7 +1,7 @@
 # Context (lvl 1)
 
 ## Scenario View
-![Scenario View](Use Case Diagram.svg)
+![Scenario View](UseCaseDiagram.svg)
 
 ## Process View
 ![System Context Process View](ContextProcessView.svg)
