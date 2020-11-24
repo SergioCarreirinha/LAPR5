@@ -38,4 +38,18 @@ export default class DriverTypeController implements IDriverTypeController {
             return next(e);
         }
     }
+
+    public async findAll(req: Request, res: Response, next: NextFunction) {
+        try{
+            const callService = await this.driverTypeServiceInstance.findAll();
+            
+            if(callService.isFailure) {
+                return res.status(404).send();
+            }
+            return res.status(200).json(callService.getValue());
+
+        } catch (e) {
+            return next(e);
+        }
+    }
 }

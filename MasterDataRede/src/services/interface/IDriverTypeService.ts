@@ -3,4 +3,5 @@ import { Result } from '../../core/logic/Result';
 
 export default interface IDriverTypeService {
     createDriverType(driverTypeDTO : IDriverTypeDTO): Promise<Result<IDriverTypeDTO>>;
+    findAll(): Promise<Result<Array<IDriverTypeDTO>>>;
 }

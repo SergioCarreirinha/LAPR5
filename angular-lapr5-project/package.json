@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.0.1",
     "@angular/router": "~11.0.1",
     "@types/mongoose": "^5.10.1",
+    "axios": "^0.21.0",
     "mongoose": "^5.10.15",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

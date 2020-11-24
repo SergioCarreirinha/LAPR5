@@ -5,6 +5,8 @@ import IDriverTypeRepo from './interface/IDriverTypeRepo';
 import { IDriverTypePersistence } from '../persistence/interface/IDriverTypePersistence';
 import { DriverTypeMap } from '../mappers/DriverTypeMap';
 import {Document, Model} from 'mongoose';
+import { Driver } from '../domain/models/Driver';
+import { Result } from '../core/logic/Result';
 
 
 @Service()
@@ -37,6 +39,20 @@ export default class DriverTypeRepo implements IDriverTypeRepo{
             }
         } catch(e){
             throw e;
+        }
+    }
+
+    public async findAll(): Promise<Result<Array<DriverType>>> {
+        var document = await this.DriverTypeSchema.find();
+        var driverTypes=[];
+        for(var i=0;i<document.length;i++){
+            driverTypes.push(DriverTypeMap.toDomain(document[i]));
+        }
+
+        if(document === null) {
+            return Result.fail<Array<DriverType>>('No Node found!');
+        } else {
+           return Result.ok<Array<DriverType>>(driverTypes);
         }
     }
 
