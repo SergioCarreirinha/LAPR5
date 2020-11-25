@@ -15,7 +15,7 @@ export class DriverTypeComponent implements OnInit {
   constructor(private service: DriverTypeService, private location: Location) { }
 
   ngOnInit(): void {
-    console.log(this.getDriverTypes());
+    this.getDriverTypes();
   }
 
   getDriverTypes() {
