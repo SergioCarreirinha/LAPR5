@@ -7,6 +7,7 @@ import { LineMap } from "../mappers/LineMap";
 import { Path } from "../domain/models/Path";
 import { Result } from "../core/logic/Result";
 import { LinePath } from "../domain/models/LinePath";
+import ILineDTO from "../dto/LineDTO/ILineDTO";
 
 @Service()
 export default class LineRepo implements ILineRepo {
@@ -65,18 +66,18 @@ export default class LineRepo implements ILineRepo {
     }
   }
 
-  public async getAllLines(): Promise<Result<Line[]>> {
+  public async getAllLines(): Promise<Result<ILineDTO[]>> {
     var document = await this.LineSchema.find();
     var lines = [];
 
     for (var i = 0; i < document.length; i++) {
-      lines.push(LineMap.toDomain(document[i]));
+      lines.push(LineMap.toDTO(LineMap.toDomain(document[i])));
     }
 
     if (document === null) {
-      return Result.fail<Array<Line>>("No Lines found!");
+      return Result.fail<Array<ILineDTO>>("No Lines found!");
     } else {
-      return Result.ok<Array<Line>>(lines);
+      return Result.ok<Array<ILineDTO>>(lines);
     }
   }
 

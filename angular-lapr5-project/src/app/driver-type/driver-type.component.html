@@ -1,6 +1,11 @@
-<h2>Driver Types</h2>
-<ul class="">
-  <li *ngFor="let driverType of driverTypes">
-      {{driverType.description}}
-  </li>
-</ul>
+<div>
+  <div>
+    <h1>Driver Type</h1>
+
+    <label> Description
+      <input #driverType />
+    </label>
+  </div>
+  <button type="button" class="btn btn-primary">Create</button>
+
+</div>

@@ -11,6 +11,8 @@ import { PathComponent } from './path/path.component';
 import { LineComponent } from './line/line.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { ImportComponent } from './import/import.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { ImportComponent } from './import/import.component';
     PathComponent,
     LineComponent,
     VehicleTypeComponent,
-    ImportComponent
+    ImportComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
