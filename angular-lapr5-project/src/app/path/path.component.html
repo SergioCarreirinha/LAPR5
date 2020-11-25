@@ -1,1 +1,53 @@
-<p>path works!</p>
+<h1>Path</h1>
+
+<h2>Create a path</h2>
+
+<div *ngIf="path">
+    <label>Add path in wich line?
+      <input #line />
+    </label>
+    <br>
+    <label>Path key:
+      <input #pathKey />
+    </label>
+    <br>
+    <label>To Go?
+      <input #toGo type=checkbox> 
+    </label>
+    <br>
+    <label>Is Empty?
+        <input #isEmpty type=checkbox> 
+    </label>
+    <br>
+    <br>
+    
+    <h4>PathNodes</h4>
+    <div>
+      <label>PathNode key:
+        <input #pathNodeKey />
+      </label>
+      <br>
+      <label>Node:
+        <input #node />
+      </label>
+      <br>
+      <label>duration:
+        <input #duration />
+      </label>
+      <br>
+      <label>distance:
+        <input #distance />
+      </label>
+      <br>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; node.value=''; duration.value=''; distance.value='';"> 
+        add PathNode
+      </button>
+      
+    </div>
+
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked);line.value=''; pathKey.value=''">
+      add Path
+    </button> 
+  </div>
