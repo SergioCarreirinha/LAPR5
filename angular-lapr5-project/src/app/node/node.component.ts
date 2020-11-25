@@ -22,17 +22,17 @@ export class NodeComponent implements OnInit {
     this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
-  addNode(nodeKey: string,nodeName:string,nodeLatitude:number,nodeLongitude:number,nodeShortName:string,nodeIsDepot:string,nodeIsReliefPoint:string,nodeCapacities:number) {
+  addNode(nodeKey: string,nodeName:string,nodeLatitude:string,nodeLongitude:string,nodeShortName:string,nodeIsDepot:string,nodeIsReliefPoint:string,nodeCapacities:string) {
     console.log(nodeKey)
     this.nodeService.addNode({
       key: nodeKey,
       name: nodeName,
-      latitude: nodeLatitude,
-      longitude: nodeLongitude,
+      latitude: parseInt(nodeLatitude),
+      longitude: parseInt(nodeLongitude),
       shortName: nodeShortName,
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
-      capacities: nodeCapacities
+      capacities: parseInt(nodeCapacities)
     }as INode).subscribe(node => this.nodes.push(node));
   }
 
