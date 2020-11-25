@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { ILine } from '../interfaces/ILine';
+import { LineService } from '../services/line.service';
 
 @Component({
   selector: 'app-line',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LineComponent implements OnInit {
 
-  constructor() { }
+  lines: ILine[] = [];
+
+  constructor(private service: LineService, private location: Location) { }
 
   ngOnInit(): void {
+    this.getLines();
   }
 
+  getLines() {
+    this.service.getLines().subscribe(line => this.lines = line);
+  }
+
+  addLine(key: string, name: string, color: string){
+    this.service.addLine({key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: []} as ILine).subscribe(line => this.lines.push(line))
+  }
 }
