@@ -32,7 +32,7 @@ export default class LineService implements ILineService {
         }
     }
 
-    public async getAllLines(req: Request): Promise<Result<Array<Line>>> {
+    public async getAllLines(req: Request): Promise<Result<Array<ILineDTO>>> {
 
         try {
             const lines = (await this.lineRepo.getAllLines()).getValue();
@@ -55,9 +55,9 @@ export default class LineService implements ILineService {
             }
 
             if (req.body.search) {
-                return Result.ok<Array<Line>>(filterItems(req.body.search));
+                return Result.ok<Array<ILineDTO>>(filterItems(req.body.search));
             }
-            return Result.ok<Array<Line>>(lines);
+            return Result.ok<Array<ILineDTO>>(lines);
 
         } catch (e) {
             throw (e);
@@ -65,7 +65,7 @@ export default class LineService implements ILineService {
 
     }
 
-    private orderByNameAndKey(lines: Line[]) {
+    private orderByNameAndKey(lines: ILineDTO[]) {
         lines.sort(function (a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
                 return -1;
@@ -85,7 +85,7 @@ export default class LineService implements ILineService {
         })
     }
 
-    private orderByName(lines: Line[]) {
+    private orderByName(lines: ILineDTO[]) {
         lines.sort(function (a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
                 return -1;
@@ -98,7 +98,7 @@ export default class LineService implements ILineService {
         });
     }
 
-    private orderByKey(lines: Line[]) {
+    private orderByKey(lines: ILineDTO[]) {
         lines.sort(function (a, b) {
             if (a.key < b.key) {
                 return -1;
