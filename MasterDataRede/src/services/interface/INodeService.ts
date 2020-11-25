@@ -6,5 +6,5 @@ import { Request } from 'express';
 export default interface INodeService {
     createNode(nodeDTO : INodeDTO): Promise<Result<INodeDTO>>;
     findByName(value: string): Promise<Result<Node>>;
-    findAll(req: Request): Promise<Result<Array<Node>>>;
+    findAll(req: Request): Promise<Result<Array<INodeDTO>>>;
 }
