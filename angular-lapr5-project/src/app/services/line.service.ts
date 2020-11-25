@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { IDriverType } from '../interfaces/IDriverType';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { ILine } from '../interfaces/ILine';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DriverTypeService {
-
-  private driverTypeURL = 'http://localhost:8080/api/driverType';  // URL to web api
+export class LineService {
+  private lineURL = 'http://localhost:8080/api/line';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,19 +16,25 @@ export class DriverTypeService {
 
   constructor(private http: HttpClient) { }
 
-  getDriverTypes(): Observable<IDriverType[]> {
-    return this.http.get<IDriverType[]>(this.driverTypeURL)
-      .pipe(
-        catchError(this.handleError<IDriverType[]>('getDriverTypes', []))
-      );
+  getLines(): Observable<ILine[]>{
+    return this.http.get<ILine[]>(this.lineURL)
+    .pipe(
+      catchError(this.handleError<ILine[]>('getLines', []))
+    );
+  }
+
+  addLine(value: ILine): Observable<ILine>{
+    return this.http.post<ILine>(this.lineURL, value, this.httpOptions).pipe(
+      catchError(this.handleError('addLine', value))
+    );
   }
 
   /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
