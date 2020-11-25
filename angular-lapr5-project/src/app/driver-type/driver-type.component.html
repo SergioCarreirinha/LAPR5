@@ -1,6 +1,10 @@
-<h2>Driver Types</h2>
-<ul class="">
-  <li *ngFor="let driverType of driverTypes">
-      {{driverType.description}}
-  </li>
-</ul>
+<div>
+  <h1>Driver Type</h1>
+  <label> Description
+    <input #heroName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input 
+  <button (click)="add(heroName.value); heroName.value=''">
+    add
+  </button>-->
+</div>

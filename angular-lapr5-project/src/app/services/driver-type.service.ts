@@ -19,17 +19,17 @@ export class DriverTypeService {
 
   getDriverTypes(): Observable<IDriverType[]> {
     return this.http.get<IDriverType[]>(this.driverTypeURL)
-    .pipe(
-      catchError(this.handleError<IDriverType[]>('getDriverTypes', []))
-    );
+      .pipe(
+        catchError(this.handleError<IDriverType[]>('getDriverTypes', []))
+      );
   }
 
-    /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
+  /**
+ * Handle Http operation that failed.
+ * Let the app continue.
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+ */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
