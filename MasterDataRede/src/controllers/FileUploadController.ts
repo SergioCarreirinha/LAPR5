@@ -14,9 +14,15 @@ export default class FileUploadController implements IFileUploadController {
             let call;
             if (req.files) {
 
-                //vai buscar o path do ficheiro temporario
+                //vai buscar o path do ficheiro temporarios
+;
                 let xml = req.files.xml.tempFilePath;
                 call=await this.fileUploadServiceInstance.fileUpload(xml);
+                res.send({
+                    status: true,
+                    message: 'File uploaded',
+                    errors: call
+                })
 
             } else {
                 //se nao existir nada dentro do req quer dizer que o cliente não deu upload do ficheiro
@@ -25,12 +31,6 @@ export default class FileUploadController implements IFileUploadController {
                     message: 'Error uploanding file'
                 })
             }
-            
-            res.send({
-                status: true,
-                message: 'File uploaded',
-                errors: call
-            })
 
         } catch (err) {
             console.log(err);
