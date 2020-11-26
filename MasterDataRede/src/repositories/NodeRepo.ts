@@ -6,6 +6,7 @@ import { INodePersistence } from '../persistence/interface/INodePersistence';
 import { NodeMap } from '../mappers/NodeMap';
 import {Document, Model} from 'mongoose';
 import { Result } from '../core/logic/Result';
+import INodeDTO from '../dto/NodeDTO/INodeDTO';
 
 
 @Service()
@@ -69,17 +70,17 @@ export default class NodeRepo implements INodeRepo{
         }
     }
 
-    public async findAll(): Promise<Result<Array<Node>>> {
+    public async findAll(): Promise<Result<Array<INodeDTO>>> {
         var document = await this.NodeSchema.find();
         var nodes=[];
         for(var i=0;i<document.length;i++){
-            nodes.push(NodeMap.toDomain(document[i]));
+            nodes.push(NodeMap.toDTO(NodeMap.toDomain(document[i])));
         }
 
         if(document === null) {
-            return Result.fail<Array<Node>>('No Node found!');
+            return Result.fail<Array<INodeDTO>>('No Node found!');
         } else {
-           return Result.ok<Array<Node>>(nodes);
+           return Result.ok<Array<INodeDTO>>(nodes);
         }
     }
 }

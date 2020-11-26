@@ -40,7 +40,7 @@ export default class NodeService implements INodeService {
         }
     }
 
-    public async findAll(req: Request): Promise<Result<Array<Node>>> {
+    public async findAll(req: Request): Promise<Result<Array<INodeDTO>>> {
         try {
             const result = await this.nodeRepo.findAll();
             const nodes = result.getValue();
@@ -61,9 +61,9 @@ export default class NodeService implements INodeService {
             }
 
             if(req.body.search){
-                return Result.ok<Array<Node>>(filterItems(req.body.search));
+                return Result.ok<Array<INodeDTO>>(filterItems(req.body.search));
             }
-            return Result.ok<Array<Node>>(nodes);
+            return Result.ok<Array<INodeDTO>>(nodes);
         } catch (e) {
             throw e;
         }

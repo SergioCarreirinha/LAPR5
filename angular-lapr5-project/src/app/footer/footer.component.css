@@ -1,0 +1,11 @@
+div.bottom{
+    position:absolute;
+    bottom: 0;
+}
+
+div.c{
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 120px;
+}

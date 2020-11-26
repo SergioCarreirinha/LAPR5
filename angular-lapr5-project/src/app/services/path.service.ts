@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { INode } from '../interfaces/INode';
+import { HttpClient, HttpHeaders} from '@angular/common/http'
 import { Observable, of } from 'rxjs';
+import { IPath } from '../interfaces/IPath';
 import { catchError, map, tap } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NodeService {
-  private NodeURL = 'http://localhost:8080/api/node';  // URL to web api
+
+export class PathService {
+
+  private pathUrl = 'http://localhost:8080/api/linePaths';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,18 +18,21 @@ export class NodeService {
 
   constructor(private http: HttpClient) { }
 
-  getNodes(): Observable<INode[]> {
-    return this.http.get<INode[]>(this.NodeURL)
+  getPaths(line: string): Observable<IPath[]>{
+    return this.http.get<IPath[]>(this.pathUrl)
     .pipe(
-      catchError(this.handleError<INode[]>('getNodes', []))
+      tap(_ => console.log('fetched paths')),
+      catchError(this.handleError<IPath[]>('getPaths', []))
     );
   }
-  addNode(node: INode): Observable<INode>{
-    return this.http.post<INode>(this.NodeURL, node, this.httpOptions)
-    .pipe(
-      catchError(this.handleError('addNode', node))
-    );
+
+  addPath(path: IPath): Observable<IPath> {
+    return this.http.post<IPath>(this.pathUrl, path, this.httpOptions).pipe(
+      tap((newPath: IPath) => console.log(`Path with key=${newPath.key} added`)),
+      catchError(this.handleError<IPath>('addPath'))
+    )
   }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
