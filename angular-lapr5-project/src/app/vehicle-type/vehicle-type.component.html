@@ -1,12 +1,60 @@
 <div>
+    <h1>Vehicle Type</h1>
     <div>
-        <h1>Vehicle Type</h1>
         <label>
-            Description
-            <input #vehicleType />
+            Key
+            <input #vehicleTypeKey />
         </label>
     </div>
     <div>
-        <button type="button" class="btn btn-primary">Create</button>
+        <label>
+            Name
+            <input #vehicleTypeName />
+        </label>
+    </div>
+    <div>
+        <label>
+            Autonomy
+            <input #vehicleTypeAutonomy />
+        </label>
+    </div>
+    <div>
+        <label>
+            Cost
+            <input #vehicleTypeCost />
+        </label>
+    </div>
+    <div>
+        <label>
+            Average Speed
+            <input #vehicleTypeAvgSpeed />
+        </label>
+    </div>
+    <div>
+        <label>
+            Energy Source
+            <input #vehicleTypeEnrgSource />
+        </label>
+    </div>
+    <div>
+        <label>
+            Consumption
+            <input #vehicleTypeConsumption />
+        </label>
+    </div>
+    <div>
+        <label>
+            Emissions
+            <input #vehicleTypeEmissions />
+        </label>
+    </div>
+    <div>
+        <button (click)="addVehicleType(vehicleTypeKey.value, vehicleTypeName.value, 
+        vehicleTypeAutonomy.value, vehicleTypeCost.value, vehicleTypeAvgSpeed.value, 
+        vehicleTypeEnrgSource.value, vehicleTypeConsumption.value, vehicleTypeEmissions.value); 
+        vehicleTypeKey.value=''; vehicleTypeName.value=''; vehicleTypeAutonomy.value='';
+        vehicleTypeCost.value=''; vehicleTypeAvgSpeed.value=''; vehicleTypeEnrgSource.value='';
+        vehicleTypeConsumption.value=''; vehicleTypeEmissions.value=''; " type=" button"
+            class="btn btn-primary">Create</button>
     </div>
 </div>
