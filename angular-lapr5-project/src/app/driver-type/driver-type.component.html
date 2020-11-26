@@ -3,9 +3,10 @@
     <h1>Driver Type</h1>
 
     <label> Description
-      <input #driverType />
+      <input #driverTypeDescription />
     </label>
   </div>
-  <button type="button" class="btn btn-primary">Create</button>
+  <button (click)="addDriverType(driverTypeDescription.value); driverTypeDescription.value=''" type="button"
+    class="btn btn-primary">Create</button>
 
 </div>

@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { IDriverType } from '../interfaces/IDriverType';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { IDriverType } from '../interfaces/IDriverType';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DriverTypeService {
-
   private driverTypeURL = 'http://localhost:8080/api/driverType';  // URL to web api
 
   httpOptions = {
@@ -24,6 +23,11 @@ export class DriverTypeService {
       );
   }
 
+  addDriverType(value: IDriverType): Observable<IDriverType> {
+    return this.http.post<IDriverType>(this.driverTypeURL, value, this.httpOptions).pipe(
+      catchError(this.handleError('addDriverType', value))
+    );
+  }
   /**
  * Handle Http operation that failed.
  * Let the app continue.
