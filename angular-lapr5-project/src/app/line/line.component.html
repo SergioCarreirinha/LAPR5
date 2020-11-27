@@ -1,27 +1,31 @@
-<h2>Lines</h2>
-<ul class="">
-  <li *ngFor="let line of lines">
-      {{line.key}}:{{line.name}}:{{line.color}}
-  </li>
-</ul>
-
 <div>
-  <label>Line key:
-    <input #lineKey />
-  </label>
-  <br>
-  <label>Line Name:
-    <input #lineName />
-  </label>
-  <br>
-  <label>Line Color:
-    <input #lineColor />
-  </label>
-  <br>
-  <button (click)="addLine(lineKey.value, lineName.value, lineColor.value); lineKey.value=''; lineName.value=''; lineColor.value=''">
-    add
-  </button>
-  <button (click)="goBack()">
-    Back
-  </button>
+  <h2>Create Line</h2>
+  <div>
+    <ul class="">
+      <li *ngFor="let line of lines">
+        {{line.key}}:{{line.name}}:{{line.color}}
+      </li>
+    </ul>
+
+    <div>
+      <label>Key
+        <input #lineKey />
+      </label>
+      <br>
+      <label>Name
+        <input #lineName />
+      </label>
+      <br>
+      <label>Color
+        <input #lineColor />
+      </label>
+      <br>
+      <button
+        (click)="addLine(lineKey.value, lineName.value, lineColor.value); lineKey.value=''; lineName.value=''; lineColor.value=''"
+        class="btn btn-primary">
+        Create
+      </button>
+
+    </div>
+  </div>
 </div>
