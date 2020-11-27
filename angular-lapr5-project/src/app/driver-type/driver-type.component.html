@@ -6,8 +6,8 @@
       <input #driverTypeDescription />
     </label>
   </div>
-  <button (click)="addDriverType(driverTypeDescription.value); driverTypeDescription.value=''" type="button"
-    class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create</button>
+  <button (click)="addDriverType(driverTypeDescription.value);" type="button" class="btn btn-primary"
+    data-toggle="modal" data-target="#myModal">Create</button>
 
   <!-- The Modal -->
   <div class="modal fade" id="myModal">
@@ -26,7 +26,8 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          <button (click)="driverTypeDescription.value=''" type="button" class="btn btn-primary"
+            data-dismiss="modal">Close</button>
         </div>
 
       </div>
