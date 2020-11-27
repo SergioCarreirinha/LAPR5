@@ -1,0 +1,51 @@
+plan_mud_mot('ESTPA','CRIST',LCaminho_menostrocas).
+
+nos(rendicao) - 11
+linhas - 16
+
+Numero de Solucoes:3126
+Tempo de geracao da solucao:0.2366030216217041
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'PARAD', 3),  ('PARAD', 'CRIST', 26)]
+
+-------------------------------------
+nos(rendicao) - 11
+linhas - 18
+
+Numero de Solucoes:6974
+Tempo de geracao da solucao:0.8720018863677979
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'PARAD', 3),  ('PARAD', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 12
+linhas - 18
+
+Numero de Solucoes:10313
+Tempo de geracao da solucao:1.3676130771636963
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'PARAD', 3),  ('PARAD', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 13
+linhas - 18
+
+Numero de Solucoes:31939
+Tempo de geracao da solucao:6.501266002655029
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'PARAD', 3),  ('PARAD', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 14
+linhas - 18
+
+Numero de Solucoes:174056
+Tempo de geracao da solucao:30.205322980880737
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'NO2', 8),  ('NO2', 'CRIST', 20)].
+
+-------------------------------------
+nos(rendicao) - 15
+linhas - 18
+
+ERROR: Stack limit (1.0Gb) exceeded
+ERROR:   Stack sizes: local: 39.7Mb, global: 0.6Gb, trail: 0Kb
+ERROR:   Stack depth: 347,336, last-call: 0%, Choice points: 3
+ERROR:   Possible non-terminating recursion:
+ERROR:     [347,336] user:menor([length:351,696], _165576864)
+ERROR:     [347,335] user:menor([length:351,697], _165576890)
