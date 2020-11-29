@@ -1,4 +1,4 @@
-import { Service, Inject} from 'typedi';
+import { Service, Inject } from 'typedi';
 import config from "../config";
 import IVehicleTypeDTO from '../dto/VehicleTypeDTO/IVehicleTypeDTO';
 import { VehicleType } from '../domain/models/VehicleType';
@@ -10,14 +10,15 @@ import { Result } from '../core/logic/Result';
 @Service()
 export default class VehicleTypeService implements IVehicleTypeService {
     constructor(
-        @Inject(config.repositories.VehicleType.name) private vehicleTypeRepo :  IVehicleTypeRepo
-    ){}
+        @Inject(config.repositories.VehicleType.name) private vehicleTypeRepo: IVehicleTypeRepo
+    ) { }
 
-    public async createVehicleType(vehicleTypeDTO : IVehicleTypeDTO): Promise<Result<IVehicleTypeDTO>> {
+    public async createVehicleType(vehicleTypeDTO: IVehicleTypeDTO): Promise<Result<IVehicleTypeDTO>> {
         try {
+
             const vehicleType = await VehicleType.create(vehicleTypeDTO);
 
-            if(vehicleType.isFailure) {
+            if (vehicleType.isFailure) {
                 return Result.fail<IVehicleTypeDTO>(vehicleType.errorValue());
             }
 

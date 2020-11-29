@@ -1,4 +1,18 @@
-div.bottom{
-    position:absolute;
-    bottom: 0;
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  padding: 0 30px;
 }
+
+.c{
+    width: 100%;
+    display: flex;
+   justify-content: space-between;
+}
+
+
+
+

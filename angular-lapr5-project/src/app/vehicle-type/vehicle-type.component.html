@@ -1,12 +1,83 @@
 <div>
+    <h2>Create Vehicle Type</h2>
     <div>
-        <h1>Vehicle Type</h1>
         <label>
-            Description
-            <input #vehicleType />
+            Key
+            <input #vehicleTypeKey />
         </label>
     </div>
     <div>
-        <button type="button" class="btn btn-primary">Create</button>
+        <label>
+            Name
+            <input #vehicleTypeName />
+        </label>
+    </div>
+    <div>
+        <label>
+            Autonomy
+            <input #vehicleTypeAutonomy />
+        </label>
+    </div>
+    <div>
+        <label>
+            Cost
+            <input #vehicleTypeCost />
+        </label>
+    </div>
+    <div>
+        <label>
+            Average Speed
+            <input #vehicleTypeAvgSpeed />
+        </label>
+    </div>
+    <div>
+        <label>
+            Energy Source
+            <input #vehicleTypeEnrgSource />
+        </label>
+    </div>
+    <div>
+        <label>
+            Consumption
+            <input #vehicleTypeConsumption />
+        </label>
+    </div>
+    <div>
+        <label>
+            Emissions
+            <input #vehicleTypeEmissions />
+        </label>
+    </div>
+    <div>
+        <button (click)="addVehicleType(vehicleTypeKey.value, vehicleTypeName.value, 
+        vehicleTypeAutonomy.value, vehicleTypeCost.value, vehicleTypeAvgSpeed.value, 
+        vehicleTypeEnrgSource.value, vehicleTypeConsumption.value, vehicleTypeEmissions.value)" type=" button"
+            class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create</button>
+    </div>
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" style="text-align:center">
+                    Vehicle Type Created!
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button (click)="vehicleTypeKey.value=''; vehicleTypeName.value=''; vehicleTypeAutonomy.value='';
+          vehicleTypeCost.value=''; vehicleTypeAvgSpeed.value=''; vehicleTypeEnrgSource.value='';
+          vehicleTypeConsumption.value=''; vehicleTypeEmissions.value='' " type="button" class="btn btn-primary"
+                        data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>

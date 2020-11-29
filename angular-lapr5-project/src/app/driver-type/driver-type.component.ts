@@ -22,8 +22,8 @@ export class DriverTypeComponent implements OnInit {
     this.service.getDriverTypes().subscribe(driverType => this.driverTypes = driverType);
   }
 
-  addDriverType() {
-
+  addDriverType(description: string) {
+    this.service.addDriverType({ description: description } as IDriverType).subscribe(driverType => this.driverTypes.push(driverType))
   }
 
   goBack(): void {
