@@ -1,62 +1,95 @@
-<h2>Nodes:</h2>
-<ul class="">
-    <li *ngFor="let node of nodes">
-        {{node.key}}
-    </li>
-</ul>
+<div class="jumbotron">
+    <h2>Create Node</h2>
+    <br>
+    <ul class="">
+        <li *ngFor="let node of nodes">
+            {{node.key}}
+        </li>
+    </ul>
 
-<div>
-    <label>Key:
-        <input #nodeKey />
-    </label>
+    <div class="textfield">
+        <label>Key
+            <br>
+            <input #nodeKey />
+        </label>
+        <br>
+        <label>Name
+            <br>
+            <input #nodeName />
+        </label>
+        <br>
+        <label>Latitude
+            <br>
+            <input #nodeLatitude />
+        </label>
+        <br>
+        <label>Longitude
+            <br>
+            <input #nodeLongitude />
+        </label>
+        <br>
+        <label>Short Name
+            <br>
+            <input #nodeShortName />
+        </label>
+        <br>
+        <label for="isDepot">
+            Is Depot:
+        </label>
+        <br>
+        <select name="isDepot" #nodeIsDepot>
+            <option value='true'>True</option>
+            <option value='false'>False</option>
+        </select>
+        <br>
+        <label for="isReliefPoint">
+            Is Relief Point:
+        </label>
+        <br>
+        <select name="isReliefPoint" #nodeIsReliefPoint>
+            <option value='true'>True</option>
+            <option value='false'>False</option>
+        </select>
+        <br>
+        <label>Capacities
+            <br>
+            <input #nodeCapacities />
+        </label>
+        <br>
+        <button (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
+        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);" class="btn btn-primary" data-toggle="modal"
+            data-target="#myModal">
+            Create
+        </button>
+
+
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body" style="text-align:center">
+                        Node Created!
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button
+                            (click)="nodeKey.value=''; nodeName.value=''; nodeLatitude.value=''; nodeLongitude.value=''; 
+                            nodeShortName.value=''; nodeIsDepot.value=''; nodeIsReliefPoint.value=''; nodeCapacities.value=''"
+                            type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
-    <label>Name:
-        <input #nodeName />
-    </label>
-    <br>
-    <label>Latitude:
-        <input #nodeLatitude />
-    </label>
-    <br>
-    <label>Longitude:
-        <input #nodeLongitude />
-    </label>
-    <br>
-    <label>Short Name:
-        <input #nodeShortName />
-    </label>
-    <br>
-    <label for="isDepot">
-        Is Depot: 
-    </label>
-    <select name="isDepot" #nodeIsDepot>
-        <option value='true'>True</option>
-        <option value='false'>False</option>
-    </select>
-    <br>
-    <label for="isReliefPoint">
-        Is Relief Point:  
-    </label> 
-    <select name="isReliefPoint" #nodeIsReliefPoint>
-        <option value='true'>True</option>
-        <option value='false'>False</option>
-    </select>
-    <br>
-    <label>Capacities:
-        <input #nodeCapacities />
-    </label>
-    <br>
-    <button (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);
-    nodeKey.value='';
-    nodeName.value='';
-    nodeLatitude.value='';
-    nodeLongitude.value='';
-    nodeShortName.value='';
-    nodeIsDepot.value='';
-    nodeIsReliefPoint.value='';
-    nodeCapacities.value=''">
-        Add Node
-    </button>
 </div>
-<br>
-<button (click)="goBack()">Back!</button>
+   

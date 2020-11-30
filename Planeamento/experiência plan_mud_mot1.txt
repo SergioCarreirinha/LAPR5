@@ -1,0 +1,56 @@
+plan_mud_mot1('ESTPA','CRIST',LCaminho_menostrocas).
+
+nos(rendicao) - 11
+linhas - 16
+
+Tempo de geracao da solucao:0.2307729721069336
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)]
+
+-------------------------------------
+nos(rendicao) - 11
+linhas - 18
+
+Tempo de geracao da solucao:0.9738352298736572
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 12
+linhas - 18
+
+Tempo de geracao da solucao:1.180264949798584
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)]
+
+-------------------------------------
+nos(rendicao) - 13
+linhas - 18
+
+Tempo de geracao da solucao:4.329193115234375
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 14
+linhas - 18
+
+Tempo de geracao da solucao:32.40713906288147
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)]
+
+-------------------------------------
+nos(rendicao) - 15
+linhas - 18
+
+Tempo de geracao da solucao:150.54855799674988
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 16
+linhas - 18
+
+Tempo de geracao da solucao:154.48010301589966
+LCaminho_menostrocas = [('ESTPA', 'PARED', 38),  ('PARED', 'BALTR', 8),  ('BALTR', 'CRIST', 26)].
+
+-------------------------------------
+nos(rendicao) - 16
+linhas - 19
+
+Tempo de geracao da solucao:939.1938140392303
+LCaminho_menostrocas = [('ESTPA', 'MOURZ', 40),  ('MOURZ', 'CRIST', 20)].
