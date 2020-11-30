@@ -13,6 +13,7 @@ import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { ImportComponent } from './import/import.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     VehicleTypeComponent,
     ImportComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

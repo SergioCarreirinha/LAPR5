@@ -4,10 +4,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DriverTypeComponent } from './driver-type/driver-type.component';
 import { ImportComponent } from './import/import.component';
 import { LineComponent } from './line/line.component';
+import { MapComponent } from './map/map.component';
 import { NodeComponent } from './node/node.component';
 import { PathComponent } from './path/path.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
-
+ 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'line', component: LineComponent},
   { path: 'path', component: PathComponent},
   { path: 'vehicleType', component: VehicleTypeComponent},
-  { path: 'import', component: ImportComponent}
+  { path: 'import', component: ImportComponent},
+  { path: 'view', component: MapComponent}
 ];
 
 @NgModule({
