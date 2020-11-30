@@ -1,35 +1,42 @@
-<div>
+<div class="jumbotron">
     <h2>Create Node</h2>
+    <br>
     <ul class="">
         <li *ngFor="let node of nodes">
             {{node.key}}
         </li>
     </ul>
 
-    <div>
+    <div class="textfield">
         <label>Key
+            <br>
             <input #nodeKey />
         </label>
         <br>
         <label>Name
+            <br>
             <input #nodeName />
         </label>
         <br>
         <label>Latitude
+            <br>
             <input #nodeLatitude />
         </label>
         <br>
         <label>Longitude
+            <br>
             <input #nodeLongitude />
         </label>
         <br>
         <label>Short Name
+            <br>
             <input #nodeShortName />
         </label>
         <br>
         <label for="isDepot">
             Is Depot:
         </label>
+        <br>
         <select name="isDepot" #nodeIsDepot>
             <option value='true'>True</option>
             <option value='false'>False</option>
@@ -38,12 +45,14 @@
         <label for="isReliefPoint">
             Is Relief Point:
         </label>
+        <br>
         <select name="isReliefPoint" #nodeIsReliefPoint>
             <option value='true'>True</option>
             <option value='false'>False</option>
         </select>
         <br>
         <label>Capacities
+            <br>
             <input #nodeCapacities />
         </label>
         <br>
@@ -52,6 +61,7 @@
             data-target="#myModal">
             Create
         </button>
+
 
         <!-- The Modal -->
         <div class="modal fade" id="myModal">
@@ -82,3 +92,4 @@
     </div>
     <br>
 </div>
+   
