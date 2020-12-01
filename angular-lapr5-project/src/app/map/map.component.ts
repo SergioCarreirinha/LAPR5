@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as THREE from  'three';
-import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
-import { TransformControls } from "three/examples/jsm/controls/TransformControls";
-import { ILine } from '../interfaces/ILine';
-import { INode } from '../interfaces/INode';
-import { IPath } from '../interfaces/IPath';
-import { LineService } from '../services/line.service';
-import { NodeService } from '../services/node.service';
-import { PathService } from '../services/path.service';
-
-declare var Mappa: any;
-declare var harp: any;
+import * as THREE from 'three';
+import * as Mappa from 'mappa-mundi';
 
 @Component({
   selector: 'app-map',
@@ -18,33 +8,37 @@ declare var harp: any;
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-  
-  private map: any;
-  private mapControls: any;
 
-  public constructor(private nodeServ: NodeService, private lineServ: LineService, private pathServ: PathService) { }
+  public constructor() { }
 
-  public ngOnInit() { }
-
-  public ngAfterViewInit() {
+  public ngOnInit() { 
     this.createMap();
   }
 
-  createMap(){
-    const canvas = document.getElementById("map") as HTMLCanvasElement;
-    this.map = new harp.MapView({
-      canvas: canvas,
-      theme: "https://unpkg.com/@here/harp-map-theme@0.3.3/resources/berlin_tilezen_base.json",
-    });
 
-    const omvDataSource = new harp.OmvDataSource({
-      authenticationCode: "tG0O7q7DN0IW9BjSznkxfInoA_EjFKr8Sxx4m8TEPEs",
-    });
+  createMap(){
     
-    this.map.setCameraGeolocationAndZoom(new harp.GeoCoordinates(Number(41.14961), Number(-8.61099)), 15);
-    this.mapControls = new harp.MapControls(this.map, );
-    this.mapControls.enabled = true;
-    this.map.addDataSource(omvDataSource);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera();
+    const canvas = document.getElementById("map") as HTMLCanvasElement;
+    const renderer = new THREE.WebGLRenderer({ alpha: true, canvas: canvas });
+    const key = "pk.eyJ1IjoiY3VuaGFhcyIsImEiOiJja2k0eXFsaDEwMXFvMnJucTlzOTE4bjk3In0.1BWcHMvsWG8bpgOSa2LNng";
+    const options = {
+      lat: 41.14961, 
+      lng: -8.61099,
+      zoom: 13,
+    }
+    scene.add(camera);
+    renderer.setSize(window.innerWidth-60, window.innerHeight-150);
+    // Light
+    const light = new THREE.PointLight(0xffffff, 1.2);
+    light.position.set(0, 0, 6);
+    scene.add(light);
+
+    const mappa = new Mappa('MapboxGL', key);
+    const myMap = mappa.tileMap(options);
+    myMap.overlay(canvas);
     
   }
+
 }
