@@ -31,7 +31,6 @@ export default class LinePathsService implements ILinePathsService {
     const reqlength = Object.keys(linePathsDTO.pathNodes).length;
     const forLoop = linePathsDTO.pathNodes;
 
-    if (forLoop.length !== 0) {
       const firstPathNode = PathNode.create(forLoop[0][0], (await this.nodeRepo.findByName(forLoop[0][1])).getValue().key, 0, 0).getValue();
       pathNodes.push(firstPathNode);
 
@@ -39,7 +38,6 @@ export default class LinePathsService implements ILinePathsService {
         const pathNode = PathNode.create(forLoop[index][0], (await this.nodeRepo.findByName(forLoop[index][1])).getValue().key, forLoop[index][2], forLoop[index][3]).getValue();
         pathNodes.push(pathNode);
       };
-    }
 
     const dto = LinePathsMap.toDTO(linePathsDTO.line, linePathsDTO.toGo, linePathsDTO.key, linePathsDTO.isEmpty, pathNodes);
 
@@ -63,7 +61,6 @@ export default class LinePathsService implements ILinePathsService {
       const lineReturn = LineMap.toDTO(savedLine) as ILineDTO;
       return Result.ok<ILineDTO>(lineReturn);
     } catch (e) {
-      console.log("ERRO PATH");
       throw e;
     }
   }
@@ -82,7 +79,7 @@ export default class LinePathsService implements ILinePathsService {
   }
 
   public async createPaths(linePathsDTO: ILinePathsDTO): Promise<Result<Path>> {
-    const path = await Path.create(linePathsDTO);
+    const path = Path.create(linePathsDTO);
 
     if (path.isFailure) {
       return Result.fail<Path>("Error on creating a Path");

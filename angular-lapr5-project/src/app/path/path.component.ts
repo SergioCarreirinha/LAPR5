@@ -51,7 +51,7 @@ export class PathComponent implements OnInit {
     line = line.trim();
     key = key.trim();
 
-    if (!line || !key || !this.pathNodes || (this.pathNodes.length === 0 && isEmpty===false)) {
+    if (!line || !key || !this.pathNodes || this.pathNodes.length === 0 ) {
       console.log('Invalid Paramaters. Path wasnt added');
       return;
     }
@@ -64,10 +64,6 @@ export class PathComponent implements OnInit {
 
     this.pathService.addPath(this.path)
       .subscribe(path => { this.paths.push(path) });
-
-      if(this.pathNodes.length === 0){
-        console.log("Empty path added");
-      }
 
     //reset the array when the path is added
     this.pathNodes = [];
