@@ -15,7 +15,6 @@ import { Result } from "../core/logic/Result";
 import { LinePath } from "../domain/models/LinePath";
 import { PathNode } from "../domain/models/PathNode";
 import INodeRepo from "../repositories/interface/INodeRepo";
-import NodeService from "./NodeService";
 import { LinePathsMap } from "../mappers/LinePathsMap";
 
 @Service()
@@ -32,17 +31,20 @@ export default class LinePathsService implements ILinePathsService {
     const reqlength = Object.keys(linePathsDTO.pathNodes).length;
     const forLoop = linePathsDTO.pathNodes;
 
-    const firstPathNode = PathNode.create(forLoop[0][0], (await this.nodeRepo.findByName(forLoop[0][1])).getValue().key, 0, 0).getValue();
-    pathNodes.push(firstPathNode);
+    if (forLoop.length !== 0) {
+      const firstPathNode = PathNode.create(forLoop[0][0], (await this.nodeRepo.findByName(forLoop[0][1])).getValue().key, 0, 0).getValue();
+      pathNodes.push(firstPathNode);
 
-    for (let index = 1; index < reqlength; index++) {
-      const pathNode = PathNode.create(forLoop[index][0], (await this.nodeRepo.findByName(forLoop[index][1])).getValue().key, forLoop[index][2], forLoop[index][3]).getValue();
-      pathNodes.push(pathNode);
-    };
+      for (let index = 1; index < reqlength; index++) {
+        const pathNode = PathNode.create(forLoop[index][0], (await this.nodeRepo.findByName(forLoop[index][1])).getValue().key, forLoop[index][2], forLoop[index][3]).getValue();
+        pathNodes.push(pathNode);
+      };
+    }
+
     const dto = LinePathsMap.toDTO(linePathsDTO.line, linePathsDTO.toGo, linePathsDTO.key, linePathsDTO.isEmpty, pathNodes);
 
     try {
-      const path = await Path.create(dto);
+      const path = Path.create(dto);
 
       if (path.isFailure) {
         return Result.fail<ILineDTO>("Error on line paths");
@@ -61,6 +63,7 @@ export default class LinePathsService implements ILinePathsService {
       const lineReturn = LineMap.toDTO(savedLine) as ILineDTO;
       return Result.ok<ILineDTO>(lineReturn);
     } catch (e) {
+      console.log("ERRO PATH");
       throw e;
     }
   }
