@@ -33,7 +33,37 @@ export class NodeComponent implements OnInit {
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
       capacities: parseInt(nodeCapacities)
-    }as INode).subscribe(node => this.nodes.push(node));
+    }as INode).subscribe(node => this.getNodes());
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+}
+@Component({
+  selector: 'app-createNode',
+  templateUrl: './createNode.component.html',
+  styleUrls: ['./node.component.css']
+})
+export class CreateNodeComponent implements OnInit {
+
+  constructor(private nodeService : NodeService, private location : Location) { }
+
+  ngOnInit(): void {
+  }
+
+  addNode(nodeKey: string,nodeName:string,nodeLatitude:string,nodeLongitude:string,nodeShortName:string,nodeIsDepot:string,nodeIsReliefPoint:string,nodeCapacities:string) {
+    console.log(nodeKey)
+    this.nodeService.addNode({
+      key: nodeKey,
+      name: nodeName,
+      latitude: parseInt(nodeLatitude),
+      longitude: parseInt(nodeLongitude),
+      shortName: nodeShortName,
+      isDepot: nodeIsDepot,
+      isReliefPoint: nodeIsReliefPoint,
+      capacities: parseInt(nodeCapacities)
+    }as INode).subscribe();
   }
 
   goBack(): void {
