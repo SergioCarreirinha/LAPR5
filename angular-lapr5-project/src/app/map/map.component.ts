@@ -37,6 +37,7 @@ export class MapComponent implements OnInit {
     });
 
     this.mapControls = new MapControls(this.mapView);
+    this.mapControls.tiltEnabled = false;
 
     const startLocation = new GeoCoordinates(41.187208, -8.375702);
     this.mapView.lookAt({ target: startLocation, zoomLevel: 11.5 });
