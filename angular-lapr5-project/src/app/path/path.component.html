@@ -1,46 +1,41 @@
-<div class="jumbotron">
+<div>
   <h2>Create Path</h2>
 
   <div *ngIf="path">
     <label>Add path in which line?
-      <br>
       <input #line />
     </label>
     <br>
     <label>Path Key
-      <br>
       <input #pathKey />
     </label>
     <br>
-    <label>To Go? 
+    <label>To Go?
       <input #toGo type=checkbox>
     </label>
     <br>
-    <label>Is Empty?  
+    <label>Is Empty?
       <input #isEmpty type=checkbox>
     </label>
+    <br>
     <br>
 
     <h4>Path Node</h4>
     <div>
       <label>Path Node Key
-        <br>
         <input #pathNodeKey />
       </label>
       <br>
       <label>Node
-        <br>
         <input #node />
       </label>
       <br>
       <label>Duration
-        <br>
-        <input #duration />
+        <input type="number" min=0 #duration />
       </label>
       <br>
       <label>Distance
-        <br>
-        <input #distance />
+        <input type="number" min=0 #distance />
       </label>
       <br>
       <!-- (click) passes input value to add() and then clears the input -->
@@ -49,9 +44,9 @@
         class="btn btn-primary">
         Add Path Node
       </button>
-      <br>
+
     </div>
-    <br>
+
     <!-- (click) passes input value to add() and then clears the input -->
     <button (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked);line.value=''; pathKey.value=''"
       class="btn btn-primary">

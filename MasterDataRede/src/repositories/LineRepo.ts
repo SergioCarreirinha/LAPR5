@@ -4,7 +4,6 @@ import ILineRepo from "./interface/ILineRepo";
 import { Line } from "../domain/models/Line";
 import { ILinePersistence } from "../persistence/interface/ILinePersistence";
 import { LineMap } from "../mappers/LineMap";
-import { Path } from "../domain/models/Path";
 import { Result } from "../core/logic/Result";
 import { LinePath } from "../domain/models/LinePath";
 import ILineDTO from "../dto/LineDTO/ILineDTO";
