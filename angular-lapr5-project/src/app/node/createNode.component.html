@@ -13,12 +13,12 @@
         <br>
         <label>Latitude
             <br>
-            <input #nodeLatitude />
+            <input type="number" min=0 #nodeLatitude />
         </label>
         <br>
         <label>Longitude
             <br>
-            <input #nodeLongitude />
+            <input type="number" min=0 #nodeLongitude />
         </label>
         <br>
         <label>Short Name
@@ -46,7 +46,7 @@
         <br>
         <label>Capacities
             <br>
-            <input #nodeCapacities />
+            <input type="number" min=0 #nodeCapacities />
         </label>
         <br>
         <button (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
