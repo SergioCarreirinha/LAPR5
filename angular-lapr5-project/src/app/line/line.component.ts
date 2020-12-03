@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ILine } from '../interfaces/ILine';
 import { LineService } from '../services/line.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-line',
@@ -24,6 +25,15 @@ export class LineComponent implements OnInit {
 
   addLine(key: string, name: string, color: string) {
     this.service.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe(line => this.lines.push(line))
+    Swal.fire({
+      title: 'Success!',
+      text: 'success',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
+
   }
 
   goBack(): void {

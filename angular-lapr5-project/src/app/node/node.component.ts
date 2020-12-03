@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { INode } from '../interfaces/INode';
 import { NodeService } from '../services/node.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-node',
@@ -63,7 +64,15 @@ export class CreateNodeComponent implements OnInit {
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
       capacities: parseInt(nodeCapacities)
-    } as INode).subscribe();
+    } as INode).subscribe()
+    Swal.fire({
+      title: 'Success!',
+      text: 'success',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
   }
 
   goBack(): void {

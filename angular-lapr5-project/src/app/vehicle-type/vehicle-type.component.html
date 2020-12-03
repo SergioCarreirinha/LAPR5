@@ -60,32 +60,6 @@
         <button (click)="addVehicleType(vehicleTypeKey.value, vehicleTypeName.value, 
         vehicleTypeAutonomy.value, vehicleTypeCost.value, vehicleTypeAvgSpeed.value, 
         vehicleTypeEnrgSource.value, vehicleTypeConsumption.value, vehicleTypeEmissions.value)" type=" button"
-            class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create</button>
-    </div>
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body" style="text-align:center">
-                    Vehicle Type Created!
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button (click)="vehicleTypeKey.value=''; vehicleTypeName.value=''; vehicleTypeAutonomy.value='';
-          vehicleTypeCost.value=''; vehicleTypeAvgSpeed.value=''; vehicleTypeEnrgSource.value='';
-          vehicleTypeConsumption.value=''; vehicleTypeEmissions.value='' " type="button" class="btn btn-primary"
-                        data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
+            class="btn btn-primary">Create</button>
     </div>
 </div>
