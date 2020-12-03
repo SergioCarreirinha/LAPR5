@@ -19,14 +19,14 @@ export class MapComponent implements OnInit {
   mapView: MapView;
   mapControls: MapControls;
   constructor(private service: NodeService) {
-    
+
   }
 
   ngOnInit() {
     this.createMap();
   }
 
-  createMap(){
+  createMap() {
     const canvas = document.getElementById('map') as HTMLCanvasElement;
     this.mapView = new MapView({
       canvas,
@@ -42,34 +42,34 @@ export class MapComponent implements OnInit {
     const startLocation = new GeoCoordinates(41.187208, -8.375702);
     this.mapView.lookAt({ target: startLocation, zoomLevel: 11.5 });
 
-    this.mapView.resize(window.innerWidth-60, window.innerHeight-150);
+    this.mapView.resize(window.innerWidth - 60, window.innerHeight - 150);
     window.addEventListener('resize', () => {
-      this.mapView.resize(window.innerWidth-60, window.innerHeight-150);
+      this.mapView.resize(window.innerWidth - 60, window.innerHeight - 150);
     });
 
     const omvDataSource = new OmvDataSource({
       apiFormat: APIFormat.XYZOMV,
       styleSetName: "tilezen",
-  
+
       baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
       authenticationCode: "tG0O7q7DN0IW9BjSznkxfInoA_EjFKr8Sxx4m8TEPEs",
       authenticationMethod: {
-          method: AuthenticationMethod.QueryString,
-          name: "apikey"
+        method: AuthenticationMethod.QueryString,
+        name: "apikey"
       },
       decoder: new OmvTileDecoder()
     });
-  
+
     this.mapView.addDataSource(omvDataSource);
     this.service.getNodes().subscribe(node => {
       this.nodes = node;
       console.log(this.nodes);
-      for(let i = 0; i< this.nodes.length; i++) {
+      for (let i = 0; i < this.nodes.length; i++) {
         const geoPosition = new GeoCoordinates(this.nodes[i].latitude, this.nodes[i].longitude);
         if (geoPosition === null) {
-            return;
+          return;
         }
-        
+
         const cube = this.createPoint();
         cube.anchor = geoPosition;
         this.mapView.mapAnchors.add(cube);
@@ -78,10 +78,10 @@ export class MapComponent implements OnInit {
     });
   }
 
-  createPoint(): MapAnchor<THREE.Object3D>{
+  createPoint(): MapAnchor<THREE.Object3D> {
     const cube = new THREE.Object3D();
     const geometry = new THREE.CircleGeometry(350, 30);
-    const material = new THREE.MeshStandardMaterial({ color: "rgb(255,0,0)"});
+    const material = new THREE.MeshStandardMaterial({ color: "rgb(255,0,0)" });
     const prePassMaterial = new THREE.MeshStandardMaterial({
       color: "rgb(255,0,0)",
       opacity: 0.3,
@@ -97,5 +97,5 @@ export class MapComponent implements OnInit {
     cube.add(mesh);
     return cube;
   }
-  
+
 }

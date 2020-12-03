@@ -22,8 +22,8 @@ export class LineComponent implements OnInit {
     this.service.getLines().subscribe(line => this.lines = line);
   }
 
-  addLine(key: string, name: string, color: string){
-    this.service.addLine({key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: []} as ILine).subscribe(line => this.lines.push(line))
+  addLine(key: string, name: string, color: string) {
+    this.service.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe(line => this.lines.push(line))
   }
 
   goBack(): void {

@@ -9,18 +9,18 @@ import { NodeComponent } from './node/node.component';
 import { CreateNodeComponent } from './node/node.component';
 import { PathComponent } from './path/path.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
- 
+
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'driverType', component: DriverTypeComponent },
-  { path: 'node', component: NodeComponent},
-  { path: 'createNode', component: CreateNodeComponent},
-  { path: 'line', component: LineComponent},
-  { path: 'path', component: PathComponent},
-  { path: 'vehicleType', component: VehicleTypeComponent},
-  { path: 'import', component: ImportComponent},
-  { path: 'view', component: MapComponent}
+  { path: 'createDriverType', component: DriverTypeComponent },
+  { path: 'listNode', component: NodeComponent },
+  { path: 'createNode', component: CreateNodeComponent },
+  { path: 'createLine', component: LineComponent },
+  { path: 'createPath', component: PathComponent },
+  { path: 'createVehicleType', component: VehicleTypeComponent },
+  { path: 'import', component: ImportComponent },
+  { path: 'view', component: MapComponent }
 ];
 
 @NgModule({
