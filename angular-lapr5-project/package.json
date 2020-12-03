@@ -37,6 +37,7 @@
     "mappa-mundi": "0.0.5",
     "mongoose": "^5.10.15",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^10.11.1",
     "three": "^0.123.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { DriverTypeService } from '../services/driver-type.service';
 import { IDriverType } from '../interfaces/IDriverType';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-driver-type',
@@ -24,6 +25,14 @@ export class DriverTypeComponent implements OnInit {
 
   addDriverType(description: string) {
     this.service.addDriverType({ description: description } as IDriverType).subscribe(driverType => this.driverTypes.push(driverType))
+    Swal.fire({
+      title: 'Success!',
+      text: 'success',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
   }
 
   goBack(): void {

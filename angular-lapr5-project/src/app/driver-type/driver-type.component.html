@@ -1,38 +1,11 @@
 <div class="jumbotron">
   <h2>Create Driver Type</h2>
   <div>
-
     <label> Description
       <br>
-      <input #driverTypeDescription />
+      <input id="description" type="text" #driverTypeDescription />
     </label>
   </div>
-  <button (click)="addDriverType(driverTypeDescription.value);" type="button" class="btn btn-primary"
-    data-toggle="modal" data-target="#myModal">Create</button>
-
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-
-        <!-- Modal body -->
-        <div class="modal-body" style="text-align:center">
-          Driver Type Created!
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button (click)="driverTypeDescription.value=''" type="button" class="btn btn-primary"
-            data-dismiss="modal">Close</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
+  <button id="createButton" (click)="addDriverType(driverTypeDescription.value);" type="button"
+    class="btn btn-primary">Create</button>
 </div>

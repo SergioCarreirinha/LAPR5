@@ -13,12 +13,12 @@
         <br>
         <label>Latitude
             <br>
-            <input #nodeLatitude />
+            <input type="number" min=0 #nodeLatitude />
         </label>
         <br>
         <label>Longitude
             <br>
-            <input #nodeLongitude />
+            <input type="number" min=0 #nodeLongitude />
         </label>
         <br>
         <label>Short Name
@@ -46,42 +46,15 @@
         <br>
         <label>Capacities
             <br>
-            <input #nodeCapacities />
+            <input type="number" min=0 #nodeCapacities />
         </label>
         <br>
         <button (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
-        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);" class="btn btn-primary" data-toggle="modal"
-            data-target="#myModal">
+        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);" class="btn btn-primary">
             Create
         </button>
 
 
-        <!-- The Modal -->
-        <div class="modal fade" id="myModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body" style="text-align:center">
-                        Node Created!
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button
-                            (click)="nodeKey.value=''; nodeName.value=''; nodeLatitude.value=''; nodeLongitude.value=''; 
-                            nodeShortName.value=''; nodeIsDepot.value=''; nodeIsReliefPoint.value=''; nodeCapacities.value=''"
-                            type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
     <br>
 </div>

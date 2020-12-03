@@ -34,14 +34,14 @@ export class PathComponent implements OnInit {
       return;
     }
 
-      if (this.pathNodes.length === 0) {
-        const pathNode = [key, node];
-        this.pathNodes.push(pathNode);
+    if (this.pathNodes.length === 0) {
+      const pathNode = [key, node];
+      this.pathNodes.push(pathNode);
 
-      } else {
-        const pathNode = [key, node, parseInt(duration), parseInt(distance)];
-        this.pathNodes.push(pathNode);
-      }
+    } else {
+      const pathNode = [key, node, parseInt(duration), parseInt(distance)];
+      this.pathNodes.push(pathNode);
+    }
 
     console.log(this.pathNodes.length + ' pathNodes added');
     console.log(this.pathNodes);
@@ -51,7 +51,7 @@ export class PathComponent implements OnInit {
     line = line.trim();
     key = key.trim();
 
-    if (!line || !key || !this.pathNodes || this.pathNodes.length === 0 ) {
+    if (!line || !key || !this.pathNodes || this.pathNodes.length === 0) {
       console.log('Invalid Paramaters. Path wasnt added');
       return;
     }

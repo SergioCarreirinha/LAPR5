@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { INode } from '../interfaces/INode';
 import { NodeService } from '../services/node.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-node',
@@ -10,9 +11,9 @@ import { NodeService } from '../services/node.service';
 })
 export class NodeComponent implements OnInit {
 
-  nodes : INode[] = [];
+  nodes: INode[] = [];
 
-  constructor(private nodeService : NodeService, private location : Location) { }
+  constructor(private nodeService: NodeService, private location: Location) { }
 
   ngOnInit(): void {
     this.getNodes();
@@ -22,18 +23,18 @@ export class NodeComponent implements OnInit {
     this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
-  addNode(nodeKey: string,nodeName:string,nodeLatitude:string,nodeLongitude:string,nodeShortName:string,nodeIsDepot:string,nodeIsReliefPoint:string,nodeCapacities:string) {
+  addNode(nodeKey: string, nodeName: string, nodeLatitude: string, nodeLongitude: string, nodeShortName: string, nodeIsDepot: string, nodeIsReliefPoint: string, nodeCapacities: string) {
     console.log(nodeKey)
     this.nodeService.addNode({
       key: nodeKey,
       name: nodeName,
-      latitude: parseInt(nodeLatitude),
-      longitude: parseInt(nodeLongitude),
+      latitude: parseFloat(nodeLatitude),
+      longitude: parseFloat(nodeLongitude),
       shortName: nodeShortName,
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
       capacities: parseInt(nodeCapacities)
-    }as INode).subscribe(node => this.getNodes());
+    } as INode).subscribe(node => this.getNodes());
   }
 
   goBack(): void {
@@ -47,12 +48,12 @@ export class NodeComponent implements OnInit {
 })
 export class CreateNodeComponent implements OnInit {
 
-  constructor(private nodeService : NodeService, private location : Location) { }
+  constructor(private nodeService: NodeService, private location: Location) { }
 
   ngOnInit(): void {
   }
 
-  addNode(nodeKey: string,nodeName:string,nodeLatitude:string,nodeLongitude:string,nodeShortName:string,nodeIsDepot:string,nodeIsReliefPoint:string,nodeCapacities:string) {
+  addNode(nodeKey: string, nodeName: string, nodeLatitude: string, nodeLongitude: string, nodeShortName: string, nodeIsDepot: string, nodeIsReliefPoint: string, nodeCapacities: string) {
     console.log(nodeKey)
     this.nodeService.addNode({
       key: nodeKey,
@@ -63,7 +64,15 @@ export class CreateNodeComponent implements OnInit {
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
       capacities: parseInt(nodeCapacities)
-    }as INode).subscribe();
+    } as INode).subscribe()
+    Swal.fire({
+      title: 'Success!',
+      text: 'success',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
   }
 
   goBack(): void {

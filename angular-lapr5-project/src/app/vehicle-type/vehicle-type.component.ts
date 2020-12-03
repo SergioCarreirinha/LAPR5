@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { VehicleTypeService } from '../services/vehicle-type.service';
 import { IVehicleType } from '../interfaces/IVehicleType';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vehicle-type',
@@ -24,6 +25,14 @@ export class VehicleTypeComponent implements OnInit {
 
   addVehicleType(key: string, name: string, autonomy: string, cost: string, averageSpeed: string, energySource: string, consumption: string, emissions: string) {
     this.service.addVehicleType({ key: key, name: name, autonomy: parseInt(autonomy), cost: parseInt(cost), averageSpeed: parseInt(averageSpeed), energySource: parseInt(energySource), consumption: parseInt(consumption), emissions: parseInt(emissions) } as IVehicleType).subscribe(vehicleType => this.vehicleTypes.push(vehicleType))
+    Swal.fire({
+      title: 'Success!',
+      text: 'success',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
   }
 
   goBack(): void {
