@@ -1,4 +1,20 @@
-<div class="jumbotron">
+<div class="jumbotron">~
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Short Name</th>
+      <th>Is Depot</th>
+      <th>Is Relief Point</th>
+      <th>Capacities</th>
+    </tr>
+    <tr *ngFor="let path of paths">
+        <td>{{path.key}}</td>
+        <td>{{path.name}}</td>
+    </tr>
+  </table>
   <h2>Create Path</h2>
 
   <div *ngIf="path">

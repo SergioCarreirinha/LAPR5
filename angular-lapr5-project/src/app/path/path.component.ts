@@ -18,11 +18,11 @@ export class PathComponent implements OnInit {
   constructor(private pathService: PathService) { }
 
   ngOnInit(): void {
-
+    this.getPaths();
   }
 
-  getPaths(line: string): void {
-    this.pathService.getPaths(line).subscribe(paths => this.paths = paths)
+  getPaths(): void {
+    this.pathService.getPaths().subscribe(paths => this.paths = paths)
   }
 
 

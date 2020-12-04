@@ -11,6 +11,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class PathService {
 
   private pathUrl = 'http://localhost:8080/api/linePaths';
+  private getPathURL = 'http://localhost:8080/api/paths';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,8 +19,8 @@ export class PathService {
 
   constructor(private http: HttpClient) { }
 
-  getPaths(line: string): Observable<IPath[]>{
-    return this.http.get<IPath[]>(this.pathUrl)
+  getPaths(): Observable<IPath[]>{
+    return this.http.get<IPath[]>(this.getPathURL)
     .pipe(
       tap(_ => console.log('fetched paths')),
       catchError(this.handleError<IPath[]>('getPaths', []))

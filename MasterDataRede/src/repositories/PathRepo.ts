@@ -1,5 +1,6 @@
 import { Service, Inject } from 'typedi';
 import { Path } from "../domain/models/Path";
+import { IPathDTO }  from '../dto/PathDTO/IPathDTO';
 import IPathRepo from './interface/IPathRepo';
 import { IPathPersistence } from '../persistence/interface/IPathPersistence';
 import { PathMap } from '../mappers/PathMap';
@@ -44,17 +45,17 @@ export default class PathRepo implements IPathRepo{
         }
     }
 
-    public async getPaths(): Promise<Result<Array<Path>>> {
+    public async getPaths(): Promise<Result<Array<IPathDTO>>> {
         var document = await this.PathSchema.find();
         var paths=[];
         for(var i=0;i<document.length;i++){
-            paths.push(PathMap.toDomain(document[i]));
+            paths.push(PathMap.toDTO(PathMap.toDomain(document[i])));
         }
 
         if(document === null) {
-            return Result.fail<Array<Path>>('No Paths found!');
+            return Result.fail<Array<IPathDTO>>('No Paths found!');
         } else {
-           return Result.ok<Array<Path>>(paths);
+           return Result.ok<Array<IPathDTO>>(paths);
         }
     }
 
