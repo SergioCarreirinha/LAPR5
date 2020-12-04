@@ -12,7 +12,7 @@ import { ILine } from '../interfaces/ILine';
 import { ILinePath } from '../interfaces/ILinePath';
 import { PathService } from '../services/path.service';
 import { IPath } from '../interfaces/IPath';
-import { Scene } from 'three';
+import { Scene, Vec2 } from 'three';
 
 @Component({
   selector: 'app-map',
@@ -71,7 +71,6 @@ export class MapComponent implements OnInit {
     this.mapView.addDataSource(omvDataSource);
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
-      console.log(this.nodes);
       for (let i = 0; i < this.nodes.length; i++) {
         const geoPosition = new GeoCoordinates(this.nodes[i].latitude, this.nodes[i].longitude);
         if (geoPosition === null) {
@@ -84,7 +83,15 @@ export class MapComponent implements OnInit {
         this.mapView.update();
       }
     });
-
+    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+    const points : THREE.Vector2[] = [];
+    points.push( new THREE.Vector2(41.2452627470645,-8.42293614720057 ) );
+    points.push( new THREE.Vector2( 41.1937898023744, -8.38716802227697) );
+    const geometry = new THREE.BufferGeometry().setFromPoints( points );
+    
+    const lineDraw = new THREE.Line( geometry, material );
+    this.mapView.scene.add( lineDraw );
+    this.mapView.renderer.render( this.mapView.scene,this.mapView.camera );
     this.lineService.getLines().subscribe(line => {
       this.lines = line;
 
