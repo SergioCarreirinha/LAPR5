@@ -7,7 +7,12 @@ import { MapControls } from '@here/harp-map-controls';
 import * as THREE from 'three';
 import { NodeService } from '../services/node.service';
 import { INode } from '../interfaces/INode';
-import { RGBADepthPacking } from 'three';
+import { LineService } from '../services/line.service';
+import { ILine } from '../interfaces/ILine';
+import { ILinePath } from '../interfaces/ILinePath';
+import { PathService } from '../services/path.service';
+import { IPath } from '../interfaces/IPath';
+import { Scene } from 'three';
 
 @Component({
   selector: 'app-map',
@@ -15,10 +20,13 @@ import { RGBADepthPacking } from 'three';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-  nodes: INode[] = [];
+  nodes: any[] = [];
+  lines: any[] = [];
+  linePath: any[] = [];
+  paths: any[] = [];
   mapView: MapView;
   mapControls: MapControls;
-  constructor(private service: NodeService) {
+  constructor(private nodeService: NodeService, private lineService: LineService, private pathService: PathService) {
 
   }
 
@@ -61,7 +69,7 @@ export class MapComponent implements OnInit {
     });
 
     this.mapView.addDataSource(omvDataSource);
-    this.service.getNodes().subscribe(node => {
+    this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
       console.log(this.nodes);
       for (let i = 0; i < this.nodes.length; i++) {
@@ -76,7 +84,55 @@ export class MapComponent implements OnInit {
         this.mapView.update();
       }
     });
+
+    this.lineService.getLines().subscribe(line => {
+      this.lines = line;
+
+      for (let i = 0; i < this.lines.length; i++) {
+        var pathLine: any;
+        if (this.lines[i].linePaths != undefined) {
+          pathLine = this.lines[i].linePaths[0].linePath;
+        }
+
+        this.pathService.getPaths().subscribe(path => {
+          this.paths = path;
+          var nodePath: any;
+          if (this.paths[i].pathNodes != undefined) {
+            nodePath = this.paths[i].pathNodes[0].pathNode;
+          }
+
+          for (let j = 0; j < nodePath.length; j++) {
+            this.nodeService.getNodes().subscribe(node => {
+              this.nodes = node;
+
+              var nodesToLine:any[]=[];
+              const material = new THREE.LineBasicMaterial({color:line[i].color.toLowerCase()});
+              const geometry=new THREE.Geometry();
+
+              for (let k = 0; k < this.nodes.length; k++) {
+                if (nodePath[j].node == this.nodes[k].key) {
+                  nodesToLine.push(node[k]);
+                }
+              }
+              
+              for (let k = 0; k < nodesToLine.length; k++) {
+                var lat=nodesToLine[k].latitude;
+                var long=nodesToLine[k].longitude;
+                geometry.vertices.push(lat,long);
+              }
+
+              
+              var lineToDraw = new THREE.Line(geometry,material);
+              this.mapView.scene.add(lineToDraw);
+              this.mapView.renderer.render(this.mapView.scene,this.mapView.camera);
+            });
+          }
+
+        });
+      }
+    });
   }
+
 
   createPoint(): MapAnchor<THREE.Object3D> {
     const cube = new THREE.Object3D();
