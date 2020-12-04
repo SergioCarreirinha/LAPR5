@@ -6,6 +6,7 @@ import Node from './routes/NodeRouter';
 import Line from './routes/LineRouter';
 import LinePaths from './routes/LinePathsRouter';
 import Driver from './routes/DriverRouter';
+import Path from './routes/PathRouter';
 
 
 
@@ -19,5 +20,6 @@ export default () => {
 	Line(app);
 	LinePaths(app);
 	Driver(app);
+	Path(app);
 	return app
 }

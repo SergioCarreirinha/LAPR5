@@ -4,6 +4,7 @@ import IPathRepo from './interface/IPathRepo';
 import { IPathPersistence } from '../persistence/interface/IPathPersistence';
 import { PathMap } from '../mappers/PathMap';
 import {Document, Model} from 'mongoose';
+import { Result } from '../core/logic/Result';
 
 
 @Service()
@@ -43,5 +44,18 @@ export default class PathRepo implements IPathRepo{
         }
     }
 
+    public async getPaths(): Promise<Result<Array<Path>>> {
+        var document = await this.PathSchema.find();
+        var paths=[];
+        for(var i=0;i<document.length;i++){
+            paths.push(PathMap.toDomain(document[i]));
+        }
+
+        if(document === null) {
+            return Result.fail<Array<Path>>('No Paths found!');
+        } else {
+           return Result.ok<Array<Path>>(paths);
+        }
+    }
 
 }

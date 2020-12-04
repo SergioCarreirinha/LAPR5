@@ -69,6 +69,10 @@ export default{
             name: "LineController",
             path: "../controllers/LineController"
         },
+        Path: {
+            name: "PathController",
+            path:"../controllers/PathController"
+        },
         Driver: {
             name: "DriverController",
             path: "../controllers/DriverController"
@@ -126,6 +130,10 @@ export default{
         Line: {
             name: "LineService",
             path: "../services/LineService"
+        },
+        Path: {
+            name: "PathService",
+            path: "../services/PathService"
         },
         Driver: {
             name: "DriverService",
