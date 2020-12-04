@@ -8,7 +8,7 @@ import { IDriverType } from '../interfaces/IDriverType';
   providedIn: 'root'
 })
 export class DriverTypeService {
-  private driverTypeURL = 'http://localhost:8080/api/driverType';  // URL to web api
+  private driverTypeURL = 'http://10.9.10.25:8080/api/driverType';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

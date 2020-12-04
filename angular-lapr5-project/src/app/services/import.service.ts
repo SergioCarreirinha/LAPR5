@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 })
 export class ImportService {
 
-  private importURL = 'http://localhost:8080/api/fileUpload';  // URL to web api
+  private importURL = 'http://10.9.10.25:8080/api/fileUpload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 
