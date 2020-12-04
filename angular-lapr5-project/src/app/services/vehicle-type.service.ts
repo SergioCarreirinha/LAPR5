@@ -8,7 +8,7 @@ import { IVehicleType } from '../interfaces/IVehicleType';
     providedIn: 'root'
 })
 export class VehicleTypeService {
-    private vehicleTypeURL = 'http://localhost:8080/api/vehicleType';  // URL to web api
+    private vehicleTypeURL = 'http://10.9.10.25:8080/api/vehicleType';  // URL to web api
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
