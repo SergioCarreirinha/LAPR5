@@ -10,8 +10,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 export class PathService {
 
-  private pathUrl = 'http://10.9.10.25:8080/api/linePaths';
-  private getPathURL = 'http://10.9.10.25:8080/api/paths';
+  private pathUrl = 'http://10.9.10.25/api/linePaths';
+  private getPathURL = 'http://10.9.10.25/api/paths';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
