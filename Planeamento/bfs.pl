@@ -1,4 +1,4 @@
-% N�s
+% Nós
 no('Aguiar de Sousa', 'AGUIA', t, f, -8.4464785432391, 41.1293363229325).
 no('Baltar', 'BALTR', t, f, -8.38716802227697, 41.1937898023744).
 no('Besteiros', 'BESTR', f, f, -8.34043029659082, 41.217018845589).
@@ -27,7 +27,7 @@ linha('Lordelo_Parada', 26, ['PARAD', 'BALTR', 'VCCAR', 'CRIST', 'DIGRJ', 'LORDL
 linha('Sobrosa_Cete', 22, ['SOBRO', 'CRIST', 'BESTR', 'VCCAR', 'MOURZ', 'CETE'], 23, 11500).
 linha('Sobrosa_Cete', 20, ['CETE', 'MOURZ', 'VCCAR', 'BESTR', 'CRIST', 'SOBRO'], 23, 11500).
 
-% Hor�rios
+% Horários
 horario(1,[36000,36540,36840,37140,37620]).
 horario(1,[37800,38340,38640,38940,39420]).
 horario(1,[39600,40140,40440,40740,41220]).
@@ -83,86 +83,40 @@ gera_ligacoes:- retractall(liga(_,_,_)),
 ordem_membros(No1,No2,[No1|L]):- member(No2,L),!.
 ordem_membros(No1,No2,[_|L]):- ordem_membros(No1,No2,L).
 
-%Gerador de todas as solu��es com findall
-plan_mud_mot(Noi,Nof,LCaminho_menostrocas):-
-    get_time(Ti),
-    findall(LCaminho,caminho(Noi,Nof,LCaminho),LLCaminho),
-    menor(LLCaminho,LCaminho_menostrocas),
-    get_time(Tf),
-    length(LLCaminho,NSol),
-    TSol is Tf-Ti,
-    write('Numero de Solucoes:'),write(NSol),nl,
-    write('Tempo de geracao da solucao:'),write(TSol),nl.
-
-menor([H],H):-!.
-menor([H|T],Hmenor):-menor(T,L1),length(H,C),length(L1,C1),
-    ((C<C1,!,Hmenor=H);Hmenor=L1).
-
-
-%Gerador de todas as solu��es sem findall
-:- dynamic melhor_sol_ntrocas/2.
-plan_mud_mot1(Noi,Nof,LCaminho_menostrocas):-
-    get_time(Ti),
-    (melhor_caminho(Noi,Nof);true),
-    retract(melhor_sol_ntrocas(LCaminho_menostrocas,_)),
-    get_time(Tf),
-    TSol is Tf-Ti,
-    write('Tempo de geracao da solucao:'),write(TSol),nl.
-
-melhor_caminho(Noi,Nof):-
-    asserta(melhor_sol_ntrocas(_,10000)),
-    caminho(Noi,Nof,LCaminho),
-    atualiza_melhor(LCaminho),
-    fail.
-
-caminho(Noi,Nof,LCaminho):-caminho(Noi,Nof,[],LCaminho).
-
-caminho(No,No,Lusadas,Lfinal):-reverse(Lusadas,Lfinal).
-caminho(No1,Nof,Lusadas,Lfinal):-
-    liga(No1,No2,N),
-    \+member((_,_,N),Lusadas),
-    \+member((No2,_,_),Lusadas),
-    \+member((_,No2,_),Lusadas),
-    caminho(No2,Nof,[(No1,No2,N)|Lusadas],Lfinal).
-
-atualiza_melhor(LCaminho):-
-    melhor_sol_ntrocas(_,N),
-    length(LCaminho,C),
-    C<N,retract(melhor_sol_ntrocas(_,_)),
-    asserta(melhor_sol_ntrocas(LCaminho,C)).
-
-:- dynamic melhor_sol_tempo/2.
-caminho_mais_rapido(H,Noi,Nof,Lc,Hc):-
-    get_time(Ti),
-    (melhor_caminho(Noi,Nof,H);true),
-    retract(melhor_sol_tempo(Lc,Hc)),
-    get_time(Tf),
-    TSol is Tf-Ti,
-    write('Tempo de geracao da solucao:'),write(TSol),nl.
-
-melhor_caminho(Noi,Nof,H):-
-    asserta(melhor_sol_tempo(_,86400)), % 24h = 86400 s
-    caminho(Noi,Nof,LCaminho),
-    atualiza_melhor(LCaminho, H),
-    fail.
-
-atualiza_melhor(LCaminho, H):-
-    melhor_sol_tempo(_,N),
-    calc_tempo(LCaminho,H,T),
-    T<N,retract(melhor_sol_tempo(_,_)),
-    asserta(melhor_sol_tempo(LCaminho,T)).
-
-calc_tempo([],H,H):-!.
-%ultimo caso
-calc_tempo([(No1,No2,Linha)|LCaminho],H,T):-
-    proximo_horario_no(Linha,No1,HoraI),
-    proximo_horario_no(Linha,No2,Hora),
-    HoraI>=H,
-    HoraI=<Hora,
-    calc_tempo(LCaminho,Hora,T).
+calcular_tempo(Act,X,Linha, HoraInicial, HoraParagem):-
+    proximo_horario_no(Linha,Act,HoraI),
+    proximo_horario_no(Linha,X,HoraParagem),
+    HoraI>=HoraInicial,
+    HoraI=<HoraParagem.
 
 proximo_horario_no(Linha,No,Horario):-
     linha(_,Linha,Per,_,_),
     nth1(Pos,Per,No),              % posicao do no na linha
     horario(Linha,Horarios),       % horarios da lina
     nth1(Pos,Horarios,Horario),!.  % hora do no em questao
+
+
+bestfs(Orig,Dest,Cam,HoraInicial, HoraChegada):-
+    bestfs2(Dest,(HoraInicial,[Orig]),Cam,HoraChegada).
+
+bestfs2(Dest,(Hora,[Dest|T]),Cam,Hora):-
+    !,
+    reverse([Dest|T],Cam).
+
+bestfs2(Dest,(HoraInicial,LA),Cam,HoraChegada):-
+    LA=[Act|_],
+    findall((EstX,CaX,[X|LA]),
+    (liga(Act,X,CX),\+member(X,LA),estimativa(X,Dest,EstX),
+    calcular_tempo(Act,X,CX, HoraInicial, HoraParagem),
+    CaX is HoraParagem),Novos),
+    sort(Novos,NovosOrd),
+    NovosOrd = [(_,CM,Melhor)|_],
+    bestfs2(Dest,(CM,Melhor),Cam,HoraChegada).
+
+estimativa(No1,No2, Estimativa):-
+    no(_,No1,_,_,Lat1,Long1),
+    no(_,No2,_,_,Lat2,Long2),
+    % ref to : http://users.on.br/jlkm/geopath/
+    Graus is pi / 180,
+    Arco is acos(sin(Lat1*Graus)*sin(Lat2*Graus) + cos(Lat1*Graus)*cos(Lat2*Graus)*cos(Long2*Graus-Long1*Graus)) * 6371000,
+    Estimativa is Arco/8.89. % 8.89 = velocidade media de um veiculo.
