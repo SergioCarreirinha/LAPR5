@@ -67,7 +67,7 @@ export class CreateNodeComponent implements OnInit {
     } as INode).subscribe()
     Swal.fire({
       title: 'Success!',
-      text: 'success',
+      text: 'Node Created',
       icon: 'success',
       confirmButtonText: 'Ok',
       timer: 2500,

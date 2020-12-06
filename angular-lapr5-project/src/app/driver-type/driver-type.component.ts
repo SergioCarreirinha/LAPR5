@@ -24,10 +24,10 @@ export class DriverTypeComponent implements OnInit {
   }
 
   addDriverType(description: string) {
-    this.service.addDriverType({ description: description } as IDriverType).subscribe(driverType => this.driverTypes.push(driverType))
+    this.service.addDriverType({ description: description } as IDriverType).subscribe(driverType => this.driverTypes.push(driverType));
     Swal.fire({
       title: 'Success!',
-      text: 'success',
+      text: 'Driver Type Created',
       icon: 'success',
       confirmButtonText: 'Ok',
       timer: 2500,

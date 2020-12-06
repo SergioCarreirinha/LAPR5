@@ -27,7 +27,7 @@ export class VehicleTypeComponent implements OnInit {
     this.service.addVehicleType({ key: key, name: name, autonomy: parseInt(autonomy), cost: parseInt(cost), averageSpeed: parseInt(averageSpeed), energySource: parseInt(energySource), consumption: parseInt(consumption), emissions: parseInt(emissions) } as IVehicleType).subscribe(vehicleType => this.vehicleTypes.push(vehicleType))
     Swal.fire({
       title: 'Success!',
-      text: 'success',
+      text: 'Vehicle Type Created',
       icon: 'success',
       confirmButtonText: 'Ok',
       timer: 2500,
