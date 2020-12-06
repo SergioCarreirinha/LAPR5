@@ -82,16 +82,16 @@ export class MapComponent implements OnInit {
   async drawLines(){
       var coords:Array<any> = [];
       for (let i = 0; i < this.lines.length; i++) {
-        var pathLine: any[]=[];
+        var pathLine: any;
         if (this.lines[i].linePaths != undefined) {
           pathLine = this.lines[i].linePaths[0].linePath;
         }
         for(let z=0;z<pathLine.length;z++){
           var nodePath: any[] =[];
-          
-          if (pathLine[z].pathNodes != undefined) {
-            nodePath = pathLine[z].pathNodes[0].pathNode;
-            console.log(pathLine[z]);
+          for(let pa = 0; pa < this.paths.length; pa++){
+            if(pathLine[z].path == this.paths[pa].key){
+              nodePath = this.paths[pa].pathNodes[0].pathNode;
+            }
           }
           for (let j = 0; j < nodePath.length; j++) {
               var nodesToLine:any[]=[];
@@ -143,7 +143,6 @@ export class MapComponent implements OnInit {
     var red = parseInt(r[0].replace('RGB(',''));
     var green = parseInt(r[1]);
     var blue = parseInt(r[2].replace(')',''));
-    console.log(red,green,blue);
 
     return "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
   }
