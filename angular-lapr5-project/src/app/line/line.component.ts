@@ -27,7 +27,7 @@ export class LineComponent implements OnInit {
     this.service.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe(line => this.lines.push(line))
     Swal.fire({
       title: 'Success!',
-      text: 'success',
+      text: 'Line Created',
       icon: 'success',
       confirmButtonText: 'Ok',
       timer: 2500,
