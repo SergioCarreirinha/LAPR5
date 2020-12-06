@@ -1,18 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { GeoCoordinates } from '@here/harp-geoutils';
-import { OmvTileDecoder } from "@here/harp-omv-datasource/index-worker";
-import { MapAnchor, MapView } from "@here/harp-mapview";
-import { APIFormat, AuthenticationMethod, OmvDataSource } from "@here/harp-omv-datasource";
-import { MapControls } from '@here/harp-map-controls';
-import * as THREE from 'three';
+import * as mapboxgl from 'mapbox-gl';
 import { NodeService } from '../services/node.service';
-import { INode } from '../interfaces/INode';
 import { LineService } from '../services/line.service';
-import { ILine } from '../interfaces/ILine';
-import { ILinePath } from '../interfaces/ILinePath';
 import { PathService } from '../services/path.service';
-import { IPath } from '../interfaces/IPath';
-import { Scene, Vec2 } from 'three';
+import { environment } from 'src/environments/environment';
+import { exit } from 'process';
 
 @Component({
   selector: 'app-map',
@@ -24,141 +16,136 @@ export class MapComponent implements OnInit {
   lines: any[] = [];
   linePath: any[] = [];
   paths: any[] = [];
-  mapView: MapView;
-  mapControls: MapControls;
-  constructor(private nodeService: NodeService, private lineService: LineService, private pathService: PathService) {
 
+  map!: mapboxgl.Map;
+  style = 'mapbox://styles/mapbox/streets-v11';
+  lat = 41.187208;
+  lng = -8.3757027;
+  constructor(private nodeService: NodeService, private lineService: LineService, private pathService: PathService) {
   }
 
   ngOnInit() {
-    this.createMap();
+    Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(environment.mapbox.accesstoken);
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: this.style,
+      zoom: 13,
+      center: [this.lng, this.lat],
+    });
+    this.setArrayNodes();
+    this.setArrayPaths();
+    this.setArrayLines();
+    // Add map controls
+    this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.dragRotate.disable();
+
+    this.map.on('load', () => {
+      this.drawNodes();
+      this.drawLines();
+    });
   }
-
-  createMap() {
-    const canvas = document.getElementById('map') as HTMLCanvasElement;
-    this.mapView = new MapView({
-      canvas,
-      theme:
-        'https://unpkg.com/@here/harp-map-theme/resources/berlin_tilezen_base.json',
-      maxVisibleDataSourceTiles: 40,
-      tileCacheSize: 100
-    });
-
-    this.mapControls = new MapControls(this.mapView);
-    this.mapControls.tiltEnabled = false;
-
-    const startLocation = new GeoCoordinates(41.187208, -8.375702);
-    this.mapView.lookAt({ target: startLocation, zoomLevel: 11.5 });
-
-    this.mapView.resize(window.innerWidth - 60, window.innerHeight - 150);
-    window.addEventListener('resize', () => {
-      this.mapView.resize(window.innerWidth - 60, window.innerHeight - 150);
-    });
-
-    const omvDataSource = new OmvDataSource({
-      apiFormat: APIFormat.XYZOMV,
-      styleSetName: "tilezen",
-
-      baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
-      authenticationCode: "tG0O7q7DN0IW9BjSznkxfInoA_EjFKr8Sxx4m8TEPEs",
-      authenticationMethod: {
-        method: AuthenticationMethod.QueryString,
-        name: "apikey"
-      },
-      decoder: new OmvTileDecoder()
-    });
-
-    this.mapView.addDataSource(omvDataSource);
+  drawNodes(){
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
-      for (let i = 0; i < this.nodes.length; i++) {
-        const geoPosition = new GeoCoordinates(this.nodes[i].latitude, this.nodes[i].longitude);
-        if (geoPosition === null) {
-          return;
-        }
-
-        const cube = this.createPoint();
-        cube.anchor = geoPosition;
-        this.mapView.mapAnchors.add(cube);
-        this.mapView.update();
+      for (var i =0;i<this.nodes.length;i++){
+        
+        new mapboxgl.Marker({color:'red', scale:1 }).setLngLat([this.nodes[i].longitude, this.nodes[i].latitude]).setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setText(
+            this.nodes[i].key + ' name:' +
+            this.nodes[i].name +
+              ' Lat: ' +
+              this.nodes[i].latitude +
+              '   Lon: ' +
+              this.nodes[i].longitude,
+          ),
+        ).addTo(this.map);
       }
+    })
+  }
+  setArrayLines() {
+    this.lineService.getLines().subscribe(lines => {
+      this.lines= lines;
     });
-    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-    const points : THREE.Vector2[] = [];
-    points.push( new THREE.Vector2(41.2452627470645,-8.42293614720057 ) );
-    points.push( new THREE.Vector2( 41.1937898023744, -8.38716802227697) );
-    const geometry = new THREE.BufferGeometry().setFromPoints( points );
-    
-    const lineDraw = new THREE.Line( geometry, material );
-    this.mapView.scene.add( lineDraw );
-    this.mapView.renderer.render( this.mapView.scene,this.mapView.camera );
-    this.lineService.getLines().subscribe(line => {
-      this.lines = line;
+  }
 
+  setArrayPaths() {
+    this.pathService.getPaths().subscribe(paths => {
+      this.paths = paths;
+    });
+  }
+
+  setArrayNodes() {
+    this.nodeService.getNodes().subscribe(node => {
+      this.nodes = node;
+    });
+  }
+  async drawLines(){
+      var coords:Array<any> = [];
       for (let i = 0; i < this.lines.length; i++) {
-        var pathLine: any;
+        var pathLine: any[]=[];
         if (this.lines[i].linePaths != undefined) {
           pathLine = this.lines[i].linePaths[0].linePath;
         }
-
-        this.pathService.getPaths().subscribe(path => {
-          this.paths = path;
-          var nodePath: any;
-          if (this.paths[i].pathNodes != undefined) {
-            nodePath = this.paths[i].pathNodes[0].pathNode;
+        for(let z=0;z<pathLine.length;z++){
+          var nodePath: any[] =[];
+          
+          if (pathLine[z].pathNodes != undefined) {
+            nodePath = pathLine[z].pathNodes[0].pathNode;
+            console.log(pathLine[z]);
           }
-
           for (let j = 0; j < nodePath.length; j++) {
-            this.nodeService.getNodes().subscribe(node => {
-              this.nodes = node;
-
               var nodesToLine:any[]=[];
-              const material = new THREE.LineBasicMaterial({color:line[i].color.toLowerCase()});
-              const geometry=new THREE.Geometry();
-
               for (let k = 0; k < this.nodes.length; k++) {
                 if (nodePath[j].node == this.nodes[k].key) {
-                  nodesToLine.push(node[k]);
+                  nodesToLine.push(this.nodes[k]);
                 }
               }
-              
               for (let k = 0; k < nodesToLine.length; k++) {
                 var lat=nodesToLine[k].latitude;
                 var long=nodesToLine[k].longitude;
-                geometry.vertices.push(lat,long);
+                coords.push([long,lat]);
               }
-
-              
-              var lineToDraw = new THREE.Line(geometry,material);
-              this.mapView.scene.add(lineToDraw);
-              this.mapView.renderer.render(this.mapView.scene,this.mapView.camera);
-            });
           }
-
-        });
+        }
+        this.drawLine(coords,this.lines[i].name,this.rgbToHex(this.lines[i].color));
+        coords = [];
+        
       }
-    });
   }
-
-
-  createPoint(): MapAnchor<THREE.Object3D> {
-    const cube = new THREE.Object3D();
-    const geometry = new THREE.CircleGeometry(350, 30);
-    const material = new THREE.MeshStandardMaterial({ color: "rgb(255,0,0)" });
-    const prePassMaterial = new THREE.MeshStandardMaterial({
-      color: "rgb(255,0,0)",
-      opacity: 0.3,
-      depthTest: false,
-      transparent: true
+  drawLine(coord:Array<any>, name:string,color:string){
+    this.map.addSource(name, {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'LineString',
+          coordinates: coord,
+        },
+      },
     });
-    const prePassMesh = new THREE.Mesh(geometry, prePassMaterial);
-    prePassMesh.renderOrder = Number.MAX_SAFE_INTEGER - 1;
-    cube.add(prePassMesh);
-
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.renderOrder = Number.MAX_SAFE_INTEGER;
-    cube.add(mesh);
-    return cube;
+    this.map.addLayer({
+      id: name,
+      type: 'line',
+      source: name,
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+      },
+      paint: {
+        'line-color': color,
+        'line-width': 3,
+      },
+    }); 
   }
+  rgbToHex(st:string) {
+    var r = st.split(",");
+    var red = parseInt(r[0].replace('RGB(',''));
+    var green = parseInt(r[1]);
+    var blue = parseInt(r[2].replace(')',''));
+    console.log(red,green,blue);
 
+    return "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
+  }
 }
+

@@ -5,10 +5,6 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
         </div>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01" #import>Choose file</label>
-        </div>
     </div>
     <div>
         <!-- <input type="file" (change)="importFile($event)"/> -->
@@ -17,6 +13,7 @@
     <br>
     <button (click)="importFile(import)" class="btn btn-primary" data-toggle="modal"
         data-target="#myModal">Import</button>
+        
     <!-- The Modal -->
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
