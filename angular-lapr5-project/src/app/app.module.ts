@@ -14,6 +14,7 @@ import { ImportComponent } from './import/import.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MapComponent } from './map/map.component';
+import { SolutionsComponent } from './solutions/solutions.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { MapComponent } from './map/map.component';
     ImportComponent,
     NavbarComponent,
     FooterComponent,
-    MapComponent
+    MapComponent,
+    SolutionsComponent
   ],
   imports: [
     BrowserModule,

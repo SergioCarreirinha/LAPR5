@@ -1,26 +1,30 @@
 <div class="jumbotron">
     <h2>Current Nodes already on the system</h2>
-    <table >
+    <table class="table">
+      <thead>
         <tr>
-          <th>Key</th>
-          <th>Name</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
-          <th>Short Name</th>
-          <th>Is Depot</th>
-          <th>Is Relief Point</th>
-          <th>Capacities</th>
+          <th scope="col">Key</th>
+          <th scope="col">Name</th>
+          <th scope="col">Latitude</th>
+          <th scope="col">Longitude</th>
+          <th scope="col">Short Name</th>
+          <th scope="col">Is Depot</th>
+          <th scope="col">Is Relief Point</th>
+          <th scope="col">Capacities</th>
         </tr>
+      </thead>
+      <tbody>
         <tr *ngFor="let node of nodes">
-            <td>{{node.key}}</td>
-            <td>{{node.name}}</td>
-            <td>{{node.latitude}}</td>
-            <td>{{node.longitude}}</td>
-            <td>{{node.shortName}}</td>
-            <td>{{node.isDepot}}</td>
-            <td>{{node.isReliefPoint}}</td>
-            <td>{{node.capacities}}</td>
+          <td>{{node.key}}</td>
+          <td>{{node.name}}</td>
+          <td>{{node.latitude}}</td>
+          <td>{{node.longitude}}</td>
+          <td>{{node.shortName}}</td>
+          <td>{{node.isDepot}}</td>
+          <td>{{node.isReliefPoint}}</td>
+          <td>{{node.capacities}}</td>
         </tr>
-      </table>
+      </tbody>
+    </table>
 </div>
    

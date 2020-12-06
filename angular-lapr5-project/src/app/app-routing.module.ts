@@ -8,6 +8,7 @@ import { MapComponent } from './map/map.component';
 import { NodeComponent } from './node/node.component';
 import { CreateNodeComponent } from './node/node.component';
 import { PathComponent } from './path/path.component';
+import { SolutionsComponent } from './solutions/solutions.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'createPath', component: PathComponent },
   { path: 'createVehicleType', component: VehicleTypeComponent },
   { path: 'import', component: ImportComponent },
-  { path: 'view', component: MapComponent }
+  { path: 'view', component: MapComponent },
+  { path: 'planning', component: SolutionsComponent }
 ];
 
 @NgModule({
