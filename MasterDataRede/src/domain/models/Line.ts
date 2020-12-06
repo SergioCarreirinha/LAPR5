@@ -1,8 +1,6 @@
 import { Result } from '../../core/logic/Result';
 import { AggregateRoot } from "../../core/domain/AggregateRoot";
 import { UniqueEntityID } from "../../core/domain/UniqueEntityID";
-import { Node } from './Node';
-import { Path } from './Path';
 import { LineID } from './ID/LineID'
 import { VehicleType } from './VehicleType';
 import { DriverType } from './DriverType';

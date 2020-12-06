@@ -41,6 +41,10 @@ export default{
         Driver:{
             name: 'DriverSchema',
             schema: '../dataschemas/DriverSchema'
+        },
+        Solution: {
+            name: "SolutionSchema",
+            schema: '../dataschemas/SolutionSchema'
         }
     },
     
@@ -76,6 +80,10 @@ export default{
         Driver: {
             name: "DriverController",
             path: "../controllers/DriverController"
+        },
+        Planning: {
+            name: "PlanningController",
+            path: "../controllers/PlanningController"
         }
     },
 
@@ -103,6 +111,10 @@ export default{
         Driver: {
             name: "DriverRepo",
             path: "../repositories/DriverRepo"
+        },
+        Planning: {
+            name: "PlanningRepo",
+            path: "../repositories/PlanningRepo"
         }
     },
 
@@ -138,6 +150,10 @@ export default{
         Driver: {
             name: "DriverService",
             path: "../services/DriverService"
+        },
+        Planning: {
+            name: "PlanningService",
+            path: "../services/PlanningService"
         }
     }
 }

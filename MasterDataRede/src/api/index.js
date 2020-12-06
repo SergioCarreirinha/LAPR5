@@ -7,6 +7,7 @@ import Line from './routes/LineRouter';
 import LinePaths from './routes/LinePathsRouter';
 import Driver from './routes/DriverRouter';
 import Path from './routes/PathRouter';
+import Planning from './routes/PlanningRouter';
 
 
 
@@ -21,5 +22,6 @@ export default () => {
 	LinePaths(app);
 	Driver(app);
 	Path(app);
+	Planning(app);
 	return app
 }
