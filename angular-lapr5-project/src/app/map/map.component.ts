@@ -80,8 +80,9 @@ export class MapComponent implements OnInit {
     });
   }
   async drawLines(){
-      var coords:Array<any> = [];
+    
       for (let i = 0; i < this.lines.length; i++) {
+        var coords:any[] = [];
         var pathLine: any;
         if (this.lines[i].linePaths != undefined) {
           pathLine = this.lines[i].linePaths[0].linePath;
@@ -93,18 +94,22 @@ export class MapComponent implements OnInit {
               nodePath = this.paths[pa].pathNodes[0].pathNode;
             }
           }
-          for (let j = 0; j < nodePath.length; j++) {
-              var nodesToLine:any[]=[];
-              for (let k = 0; k < this.nodes.length; k++) {
-                if (nodePath[j].node == this.nodes[k].key) {
-                  nodesToLine.push(this.nodes[k]);
+          console.log(nodePath);
+          if(pathLine[z].orientation == "Go"){
+            for (let j = 0; j < nodePath.length; j++) {
+                var nodesToLine:any[]=[];
+                for (let k = 0; k < this.nodes.length; k++) {
+                  if (nodePath[j].node == this.nodes[k].key) {
+                    nodesToLine.push(this.nodes[k]);
+                  }
                 }
-              }
-              for (let k = 0; k < nodesToLine.length; k++) {
-                var lat=nodesToLine[k].latitude;
-                var long=nodesToLine[k].longitude;
-                coords.push([long,lat]);
-              }
+            
+                for (let k = 0; k < nodesToLine.length; k++) {
+                  var lat=nodesToLine[k].latitude;
+                  var long=nodesToLine[k].longitude;
+                  coords.push([long,lat]);
+                }
+            }
           }
         }
         this.drawLine(coords,this.lines[i].name,this.rgbToHex(this.lines[i].color));
