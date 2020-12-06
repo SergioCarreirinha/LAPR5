@@ -27,7 +27,7 @@ export class SolutionMap {
   
     public static toPersistence (solution: Solution): any {
       return {
-        omainId: solution.id.toString(),
+        domainId: solution.id.toString(),
         source : solution.source,
         destination : solution.destination,
         path : solution.path,
