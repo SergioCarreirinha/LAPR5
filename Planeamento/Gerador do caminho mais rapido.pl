@@ -158,11 +158,11 @@ calc_tempo([(No1,No2,Linha)|LCaminho],H,T):-
     proximo_horario_no(Linha,No1,HoraI),
     proximo_horario_no(Linha,No2,Hora),
     HoraI>=H,
-    HoraI=<Hora,
+    HoraI<Hora,
     calc_tempo(LCaminho,Hora,T),!.
 
 proximo_horario_no(Linha,No,Horario):-
     linha(_,Linha,Per,_,_),
     nth1(Pos,Per,No),              % posicao do no na linha
-    horario(Linha,Horarios),       % horarios da lina
-    nth1(Pos,Horarios,Horario).  % hora do no em questao
+    horario(Linha,Horarios),       % horarios da linha
+    nth1(Pos,Horarios,Horario).    % hora do no em questao
