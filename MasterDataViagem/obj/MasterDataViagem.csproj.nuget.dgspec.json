@@ -36,6 +36,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+<<<<<<< HEAD
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore.InMemory": {
@@ -43,6 +44,14 @@
               "version": "[5.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
+=======
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+>>>>>>> a1e247e04024912c11e53e6ada6da3453c7dc193
               "target": "Package",
               "version": "[5.0.1, )"
             }
