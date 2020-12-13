@@ -1,5 +1,5 @@
 .sticky {
-   z-index: 10000;
+   z-index: 100;
     position: -webkit-sticky;
     background-color: white;
     border: 1;
