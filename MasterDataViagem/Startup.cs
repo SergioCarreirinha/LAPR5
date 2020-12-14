@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using TodoApi.Models;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using MasterDataViagem.Infrastructure;
+using MasterDataViagem.Infrastructure.Trips;
+using MasterDataViagem.Infrastructure.Shared;
+using MasterDataViagem.Domain.Shared;
+using MasterDataViagem.Domain.Trip;
 
 namespace MasterDataViagem
 {
@@ -27,9 +25,12 @@ namespace MasterDataViagem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt =>
-                opt.UseInMemoryDatabase("TodoList"));
-            services.AddControllers();
+            services.AddDbContext<MDVDbContext>(opt => 
+                opt.UseInMemoryDatabase("Database").ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
+
+            ConfigureMyServices(services);
+
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +51,14 @@ namespace MasterDataViagem
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureMyServices(IServiceCollection services)
+        {
+            services.AddTransient<IUnitOfWork,UnitOfWork>();
+
+            services.AddTransient<ITripRepository,TripRepository>();
+            services.AddTransient<TripService>();
         }
     }
 }

@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/Users/franciscojosemoreiratavares/lapr5-g025/MasterDataViagem/MasterDataViagem.csproj": {}
+    "D:\\ISEP\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {}
   },
   "projects": {
-    "/Users/franciscojosemoreiratavares/lapr5-g025/MasterDataViagem/MasterDataViagem.csproj": {
+    "D:\\ISEP\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/franciscojosemoreiratavares/lapr5-g025/MasterDataViagem/MasterDataViagem.csproj",
+        "projectUniqueName": "D:\\ISEP\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
         "projectName": "MasterDataViagem",
-        "projectPath": "/Users/franciscojosemoreiratavares/lapr5-g025/MasterDataViagem/MasterDataViagem.csproj",
-        "packagesPath": "/Users/franciscojosemoreiratavares/.nuget/packages/",
-        "outputPath": "/Users/franciscojosemoreiratavares/lapr5-g025/MasterDataViagem/obj/",
+        "projectPath": "D:\\ISEP\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
+        "packagesPath": "C:\\Users\\Joca\\.nuget\\packages\\",
+        "outputPath": "D:\\ISEP\\LAPR5\\MasterDataViagem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/franciscojosemoreiratavares/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Joca\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "netcoreapp5.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net5.0": {
+            "targetAlias": "netcoreapp5.0",
             "projectReferences": {}
           }
         },
@@ -35,25 +35,37 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-<<<<<<< HEAD
-          "targetAlias": "netcoreapp3.1",
+        "net5.0": {
+          "targetAlias": "netcoreapp5.0",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore.InMemory": {
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.0, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-=======
-          "dependencies": {
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
->>>>>>> a1e247e04024912c11e53e6ada6da3453c7dc193
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational.Design": {
+              "target": "Package",
+              "version": "[1.1.6, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.11.5, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
             }
           },
           "imports": [
@@ -66,16 +78,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[3.1.10, 3.1.10]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[3.1.0, 3.1.0]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -84,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
