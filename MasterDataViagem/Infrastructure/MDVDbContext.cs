@@ -6,6 +6,7 @@ namespace MasterDataViagem.Infrastructure
 {
     public class MDVDbContext : DbContext
     {
+
         public DbSet<Trip> Trips { get; set; }
 
         public MDVDbContext(DbContextOptions options) : base(options)
@@ -15,6 +16,8 @@ namespace MasterDataViagem.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new TripEntityTypeConfiguration());
         }
     }

@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/6b7f1829-0963-4953-af60-39c1e96438e1/resourceGroups/mdr/providers/Microsoft.Web/sites/mdr25",
+    "appService.deploySubpath": "."
+}

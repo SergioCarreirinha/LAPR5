@@ -26,7 +26,7 @@ namespace MasterDataViagem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MDVDbContext>(opt => 
-                opt.UseInMemoryDatabase("Database").ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
+                opt.UseSqlServer(Configuration.GetConnectionString("Connection")).ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
 
             ConfigureMyServices(services);
 
