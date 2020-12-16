@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 })
 export class ImportService {
 
-  private importURL = 'http://10.9.10.25/api/fileUpload';  // URL to web api
+  private importURL = 'https://mdr25.azurewebsites.net/api/fileUpload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 

@@ -23,20 +23,6 @@ export class NodeComponent implements OnInit {
     this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
-  addNode(nodeKey: string, nodeName: string, nodeLatitude: string, nodeLongitude: string, nodeShortName: string, nodeIsDepot: string, nodeIsReliefPoint: string, nodeCapacities: string) {
-    console.log(nodeKey)
-    this.nodeService.addNode({
-      key: nodeKey,
-      name: nodeName,
-      latitude: parseFloat(nodeLatitude),
-      longitude: parseFloat(nodeLongitude),
-      shortName: nodeShortName,
-      isDepot: nodeIsDepot,
-      isReliefPoint: nodeIsReliefPoint,
-      capacities: parseInt(nodeCapacities)
-    } as INode).subscribe(node => this.getNodes());
-  }
-
   goBack(): void {
     this.location.back();
   }
@@ -58,8 +44,8 @@ export class CreateNodeComponent implements OnInit {
     this.nodeService.addNode({
       key: nodeKey,
       name: nodeName,
-      latitude: parseInt(nodeLatitude),
-      longitude: parseInt(nodeLongitude),
+      latitude: parseFloat(nodeLatitude),
+      longitude: parseFloat(nodeLongitude),
       shortName: nodeShortName,
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
