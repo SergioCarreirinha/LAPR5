@@ -7,9 +7,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MasterDataViagem.Infrastructure;
 using MasterDataViagem.Infrastructure.Trips;
+using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Infrastructure.Shared;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
+using MasterDataViagem.Domain.Driver;
 
 namespace MasterDataViagem
 {
@@ -59,6 +61,8 @@ namespace MasterDataViagem
 
             services.AddTransient<ITripRepository,TripRepository>();
             services.AddTransient<TripService>();
+            services.AddTransient<IDriverRepository,DriverRepository>();
+            services.AddTransient<DriverService>();
         }
     }
 }

@@ -9,7 +9,7 @@ import { ISolutions } from '../interfaces/ISolutions';
 })
 export class SolutionsService {
 
-  private planningURL = 'http://10.9.10.25/api/planning';  // URL to web api
+  private planningURL = 'https://mdr25.azurewebsites.net/api/planning';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
