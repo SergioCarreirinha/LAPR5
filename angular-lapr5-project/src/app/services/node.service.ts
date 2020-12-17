@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class NodeService {
-  private NodeURL = 'http://10.9.10.25/api/node';  // URL to web api
+  private NodeURL = 'https://mdr25.azurewebsites.net/api/node';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
