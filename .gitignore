@@ -57,3 +57,4 @@ Thumbs.db
 *.vpp.working-journal
 *.lock
 tmp/*
+MasterDataViagem/obj/Debug/netcoreapp5.0/MasterDataViagem.csprojAssemblyReference.cache
