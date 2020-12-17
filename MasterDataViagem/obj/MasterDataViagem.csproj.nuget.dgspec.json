@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {}
+    "C:\\Users\\Cesar\\Desktop\\LAPR5\\Projeto\\MasterDataViagem\\MasterDataViagem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {
+    "C:\\Users\\Cesar\\Desktop\\LAPR5\\Projeto\\MasterDataViagem\\MasterDataViagem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
+        "projectUniqueName": "C:\\Users\\Cesar\\Desktop\\LAPR5\\Projeto\\MasterDataViagem\\MasterDataViagem.csproj",
         "projectName": "MasterDataViagem",
-        "projectPath": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
-        "packagesPath": "C:\\Users\\tavar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\obj\\",
+        "projectPath": "C:\\Users\\Cesar\\Desktop\\LAPR5\\Projeto\\MasterDataViagem\\MasterDataViagem.csproj",
+        "packagesPath": "C:\\Users\\Cesar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Cesar\\Desktop\\LAPR5\\Projeto\\MasterDataViagem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\tavar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Cesar\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp5.0"
@@ -48,6 +48,10 @@
               "version": "[2.2.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
               "version": "[5.0.1, )"
             },
