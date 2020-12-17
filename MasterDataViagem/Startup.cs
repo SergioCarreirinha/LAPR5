@@ -5,13 +5,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 using MasterDataViagem.Infrastructure;
 using MasterDataViagem.Infrastructure.Trips;
 using MasterDataViagem.Infrastructure.Drivers;
+using MasterDataViagem.Infrastructure.Vehicles;
 using MasterDataViagem.Infrastructure.Shared;
+
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Domain.Driver;
+using MasterDataViagem.Domain.Vehicle;
 
 namespace MasterDataViagem
 {
@@ -59,10 +63,15 @@ namespace MasterDataViagem
         {
             services.AddTransient<IUnitOfWork,UnitOfWork>();
 
+            //Trip
             services.AddTransient<ITripRepository,TripRepository>();
             services.AddTransient<TripService>();
+            //Driver
             services.AddTransient<IDriverRepository,DriverRepository>();
             services.AddTransient<DriverService>();
+            //Vehicle
+            services.AddTransient<IVehicleRepository,VehicleRepository>();
+            services.AddTransient<VehicleService>();
         }
     }
 }

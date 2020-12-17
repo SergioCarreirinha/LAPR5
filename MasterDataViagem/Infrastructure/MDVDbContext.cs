@@ -3,6 +3,8 @@ using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Infrastructure.Trips;
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Infrastructure.Drivers;
+using MasterDataViagem.Domain.Vehicle;
+using MasterDataViagem.Infrastructure.Vehicles;
 
 namespace MasterDataViagem.Infrastructure
 {
@@ -13,6 +15,8 @@ namespace MasterDataViagem.Infrastructure
 
         public DbSet<Driver> Drivers { get; set; }
 
+        public DbSet<Vehicle> Vehicles { get; set; }
+
         public MDVDbContext(DbContextOptions options) : base(options)
         {
 
@@ -22,8 +26,12 @@ namespace MasterDataViagem.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
+            //Trip
             modelBuilder.ApplyConfiguration(new TripEntityTypeConfiguration());
+            //Driver
             modelBuilder.ApplyConfiguration(new DriverEntityTypeConfiguration());
+            //Vehicle
+            modelBuilder.ApplyConfiguration(new VehicleEntityTypeConfiguration());
         }
     }
 }
