@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IDriver } from '../interfaces/IDriver';
+import { DriverService } from '../services/driver.service';
 
 @Component({
   selector: 'app-driver',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DriverComponent implements OnInit {
 
-  constructor() { }
+  constructor(private driverService: DriverService) { }
 
   ngOnInit(): void {
   }
 
+  createDriver(name: string, birthdate: Date, driverLicenseNum: string, licenseExpiration: Date){
+    this.driverService.createDriver({
+      name: name,
+      birthdate: birthdate,
+      driverLicenseNum: parseInt(driverLicenseNum),
+      licenseExpiration: licenseExpiration
+    } as IDriver).subscribe()
+  }
 }
