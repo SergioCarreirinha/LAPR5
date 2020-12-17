@@ -50,7 +50,7 @@ export class CreateNodeComponent implements OnInit {
       isDepot: nodeIsDepot,
       isReliefPoint: nodeIsReliefPoint,
       capacities: parseInt(nodeCapacities)
-    } as INode).subscribe()
+    } as INode).subscribe();
     Swal.fire({
       title: 'Success!',
       text: 'Node Created',

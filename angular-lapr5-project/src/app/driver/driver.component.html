@@ -1,3 +1,27 @@
 <div class=jumbotron>
-    
+    <h2>Create Driver</h2>
+    <div class="textfield">
+        <label>Name
+            <br>
+            <input #name />
+        </label>
+        <br>
+        <label>BirthDate
+            <br>
+            <input type="datetime-local" #birthdate />
+        </label>
+        <br>
+        <label>Driver License Number
+            <br>
+            <input type="number" #driverLicenseNum />
+        </label>
+        <br>
+        <label>License Expiration
+            <br>
+            <input type="datetime-local" #licenseExpiration />
+        </label>
+        <br>
+        <button (click)="createDriver(name.value,birthdate.value,driverLicenseNum.value,licenseExpiration.value);" class="btn btn-primary">
+            Create
+        </button>
 </div>
