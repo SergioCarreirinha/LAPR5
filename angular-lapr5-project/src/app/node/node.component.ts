@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { INode } from '../interfaces/INode';
 import { NodeService } from '../services/node.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-node',
@@ -40,25 +41,37 @@ export class CreateNodeComponent implements OnInit {
   }
 
   addNode(nodeKey: string, nodeName: string, nodeLatitude: string, nodeLongitude: string, nodeShortName: string, nodeIsDepot: string, nodeIsReliefPoint: string, nodeCapacities: string) {
-    console.log(nodeKey)
-    this.nodeService.addNode({
-      key: nodeKey,
-      name: nodeName,
-      latitude: parseFloat(nodeLatitude),
-      longitude: parseFloat(nodeLongitude),
-      shortName: nodeShortName,
-      isDepot: nodeIsDepot,
-      isReliefPoint: nodeIsReliefPoint,
-      capacities: parseInt(nodeCapacities)
-    } as INode).subscribe();
-    Swal.fire({
-      title: 'Success!',
-      text: 'Node Created',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: false,
-    })
+    if(nodeKey != '' && nodeLatitude != '' && nodeLongitude !='' && nodeShortName != '' && nodeIsDepot != '' && nodeIsReliefPoint != '' && parseFloat(nodeLatitude) <90 && parseFloat(nodeLatitude) > -90 && parseFloat(nodeLongitude) < 90 && parseFloat(nodeLongitude) > -90 ){
+      this.nodeService.addNode({
+        key: nodeKey,
+        name: nodeName,
+        latitude: parseFloat(nodeLatitude),
+        longitude: parseFloat(nodeLongitude),
+        shortName: nodeShortName,
+        isDepot: nodeIsDepot,
+        isReliefPoint: nodeIsReliefPoint,
+        capacities: parseInt(nodeCapacities)
+      } as INode).subscribe();
+      Swal.fire({
+        title: 'Success!',
+        text: 'Node Created',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    }else{
+      Swal.fire({
+        title: 'ERROR!',
+        text: 'Node Couldnt be Created',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    }
+
+
   }
 
   goBack(): void {

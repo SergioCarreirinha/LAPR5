@@ -8,7 +8,7 @@ import { ILine } from '../interfaces/ILine';
   providedIn: 'root'
 })
 export class LineService {
-  private lineURL = 'https://mdr25.azurewebsites.net/api/line';  // URL to web api
+  private lineURL = 'http://10.9.10.25/api/line';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

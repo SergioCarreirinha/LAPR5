@@ -1,6 +1,10 @@
 import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
+import { ILine } from '../interfaces/ILine';
+import { INode } from '../interfaces/INode';
 import { IPath } from '../interfaces/IPath';
+import { LineService } from '../services/line.service';
+import { NodeService } from '../services/node.service';
 import { PathService } from '../services/path.service';
 
 @Component({
@@ -13,12 +17,24 @@ export class PathComponent implements OnInit {
   paths: IPath[] = [];
   pathNodes: any[][] = [];
   path: IPath = { line: '', key: '', toGo: true, isEmpty: false, pathNodes: [] };
+  nodes: INode[] = [];
+  lines: ILine[] = [];
 
 
-  constructor(private pathService: PathService) { }
+  constructor(private serviceLine: LineService,private nodeService: NodeService,private pathService: PathService) { }
 
   ngOnInit(): void {
     this.getPaths();
+    this.getNodes();
+    this.getLines();
+  }
+
+  getLines() {
+    this.serviceLine.getLines().subscribe(line => this.lines = line);
+  }
+
+  getNodes() {
+    this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
   getPaths(): void {

@@ -3,11 +3,13 @@
 
   <div *ngIf="path">
     <label>Add path in which line?
-      <input #line />
+      <select #line>
+        <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
+      </select>
     </label>
     <br>
     <label>Path Key
-      <input #pathKey />
+      <input #pathKey/>
     </label>
     <br>
     <label>To Go?
@@ -27,7 +29,9 @@
       </label>
       <br>
       <label>Node
-        <input #node />
+        <select #node>
+          <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+        </select>
       </label>
       <br>
       <label>Duration
