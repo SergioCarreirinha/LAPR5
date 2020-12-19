@@ -6,6 +6,7 @@ import { IPath } from '../interfaces/IPath';
 import { LineService } from '../services/line.service';
 import { NodeService } from '../services/node.service';
 import { PathService } from '../services/path.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-path',
@@ -44,12 +45,43 @@ export class PathComponent implements OnInit {
 
   addPathNode(key: string, node: string, duration: string, distance: string) {
 
+    //PathNode Parameter verification
     if (((!key || !node || !duration || !distance) && this.pathNodes.length !== 0) ||
       ((!key || !node) && this.pathNodes.length === 0)) {
-      console.log('Invalid Paramaters. PathNode wasnt added');
+      console.log("Invalid Paramaters. PathNode wasn't added");
+
+      Swal.fire({
+        title: 'Warning!',
+        text: "ParthNode couldn't be added. Invalid Paramaters.",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
       return;
     }
 
+    //Verify if node already exists in path
+    for(var i=0; i<this.pathNodes.length;i++){
+      console.log(this.pathNodes[i][1]+'='+node);
+      if(this.pathNodes[i][1] === node){
+        console.log('Node already exists in path.');
+
+        Swal.fire({
+          title: 'Warning!',
+          text: "ParthNode couldn't be added. Node already exists in path.",
+          icon: 'warning',
+          confirmButtonText: 'Ok',
+          timer: 2500,
+          showConfirmButton: false,
+        })
+        return;
+      }
+
+    }
+
+    //Adding pathNodes
     if (this.pathNodes.length === 0) {
       const pathNode = [key, node];
       this.pathNodes.push(pathNode);
@@ -59,8 +91,27 @@ export class PathComponent implements OnInit {
       this.pathNodes.push(pathNode);
     }
 
+    //Printing on console
     console.log(this.pathNodes.length + ' pathNodes added');
     console.log(this.pathNodes);
+
+
+    //Path Success Message
+    var text = '';
+    if(this.pathNodes.length===1){
+      text = this.pathNodes.length+' pathNode added.';
+    }else{
+      text = this.pathNodes.length+' pathNodes added.';
+    }
+
+    Swal.fire({
+      title: 'Success!',
+      text: text,
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
   }
 
   addPath(line: string, key: string, toGo: boolean, isEmpty: boolean): void {
@@ -69,6 +120,30 @@ export class PathComponent implements OnInit {
 
     if (!line || !key || !this.pathNodes || this.pathNodes.length === 0) {
       console.log('Invalid Paramaters. Path wasnt added');
+
+      Swal.fire({
+        title: 'Warning!',
+        text: "Path couldn't be added. Invalid Paramaters.",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+      return;
+    }
+
+    if(this.pathNodes.length === 1){
+      
+      Swal.fire({
+        title: 'Warning!',
+        text: "Path couldn't be added. It should have more than one node!",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
       return;
     }
 
@@ -84,6 +159,15 @@ export class PathComponent implements OnInit {
     //reset the array when the path is added
     this.pathNodes = [];
     console.log(this.pathNodes);
+
+    Swal.fire({
+      title: 'Success!',
+      text: 'Node Created',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: false,
+    })
   }
 
 }

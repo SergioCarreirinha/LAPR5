@@ -1,14 +1,51 @@
 <div class="jumbotron">
+  <h2>Which PathNodes passes through?</h2>
+    <div>
+      <label>PathNode Key
+        <br>
+        <input #pathNodeKey />
+      </label>
+      <br>
+      <label>Node
+        <br>
+        <select #node>
+          <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+        </select>
+      </label>
+      <br>
+      <label>Duration
+        <br>
+        <input type="number" min=0 #duration />
+      </label>
+      <br>
+      <label>Distance
+        <br>
+        <input type="number" min=0 #distance />
+      </label>
+      <br>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button
+        (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; duration.value=''; distance.value='';"
+        class="btn btn-primary">
+        Add Path Node
+      </button>
+
+    </div>
+    <br>
+    <br>
+
   <h2>Create Path</h2>
 
   <div *ngIf="path">
-    <label>Add path in which line?
+    <label>In which line?
+      <br>
       <select #line>
         <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
       </select>
     </label>
     <br>
     <label>Path Key
+      <br>
       <input #pathKey/>
     </label>
     <br>
@@ -18,41 +55,11 @@
     <br>
     <label>Is Empty?
       <input #isEmpty type=checkbox>
-    </label>
+    </label>    
     <br>
-    <br>
-
-    <h4>Path Node</h4>
-    <div>
-      <label>Path Node Key
-        <input #pathNodeKey />
-      </label>
-      <br>
-      <label>Node
-        <select #node>
-          <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
-        </select>
-      </label>
-      <br>
-      <label>Duration
-        <input type="number" min=0 #duration />
-      </label>
-      <br>
-      <label>Distance
-        <input type="number" min=0 #distance />
-      </label>
-      <br>
-      <!-- (click) passes input value to add() and then clears the input -->
-      <button
-        (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; node.value=''; duration.value=''; distance.value='';"
-        class="btn btn-primary">
-        Add Path Node
-      </button>
-
-    </div>
 
     <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked);line.value=''; pathKey.value=''"
+    <button (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked); pathKey.value=''"
       class="btn btn-primary">
       Create Path
     </button>

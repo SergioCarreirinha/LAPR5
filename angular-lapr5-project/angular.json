@@ -17,10 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "lodash"
-           ],
-            "outputPath": "dist/angular-lapr5-project",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -28,12 +25,7 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "decoder.bundle.js",
-                "input": "./",
-                "output": "./"
-              }
+              "src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -136,8 +128,5 @@
       }
     }
   },
-  "defaultProject": "angular-lapr5-project",
-  "cli": {
-    "analytics": "4706df77-4e2e-4913-a065-18db155901c1"
-  }
+  "defaultProject": "angular-lapr5-project"
 }
