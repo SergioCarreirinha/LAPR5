@@ -15,5 +15,7 @@ export default (app: Router) => {
 
     route.get('', (req,res,next) => crtl.findAll(req,res,next));
 
+    route.get('/findNode',(req,res,next) => crtl.findByKey(req,res,next));
+
     //route.delete('', (req,res,next) => crtl.delete(req,res,next));
 }

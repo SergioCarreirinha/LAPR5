@@ -41,7 +41,20 @@ export default class NodeController implements INodeController {
             return next(e);
         }
     }
+    public async findByKey(req: Request, res: Response, next: NextFunction) {
+        try {
+            const callService = await this.nodeServiceInstance.findByKey(req.body.key);
 
+            if (callService.isFailure) {
+                return res.status(402).send();
+            }
+
+            return res.status(201).json(callService.getValue());
+
+        } catch (e) {
+            return next(e);
+        }
+    }
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const callService = await this.nodeServiceInstance.findAll(req);

@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { INode } from '../interfaces/INode';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NodeService {
   private NodeURL = 'http://10.9.10.25/api/node';  // URL to web api
+  
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   constructor(private http: HttpClient) { }
@@ -20,6 +21,13 @@ export class NodeService {
     return this.http.get<INode[]>(this.NodeURL)
     .pipe(
       catchError(this.handleError<INode[]>('getNodes', []))
+    );
+  }
+  getNodeByKey(value:string): Observable<INode> {
+    const params = new HttpParams().append('param', value);
+    return this.http.get<INode>(this.NodeURL+"/findNode", {params})
+    .pipe(
+      catchError(this.handleError<INode>('getNodeByKey'))
     );
   }
   addNode(node: INode): Observable<INode>{

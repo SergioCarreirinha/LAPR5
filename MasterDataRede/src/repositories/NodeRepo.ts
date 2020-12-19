@@ -49,8 +49,8 @@ export default class NodeRepo implements INodeRepo{
         }
     }
 
-    public async findByName(value: string): Promise<Result<Node>> {
-        const query = {name: value};
+    public async findByKey(value: string): Promise<Result<Node>> {
+        const query = {key: value};
         const document = await this.NodeSchema.findOne(query);
 
         if(document === null) {

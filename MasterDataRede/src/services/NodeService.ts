@@ -30,15 +30,16 @@ export default class NodeService implements INodeService {
         }
     }
 
-    public async findByName(value: string): Promise<Result<Node>> {
+    public async findByKey(value: string): Promise<Result<Node>> {
+        console.log(value);
         try {
-            const nodeToReturn = await this.nodeRepo.findByName(value);
-
+            const nodeToReturn = await this.nodeRepo.findByKey(value);
             return nodeToReturn;
         } catch (e) {
             throw e;
         }
     }
+
 
     public async findAll(req: Request): Promise<Result<Array<INodeDTO>>> {
         try {
@@ -69,7 +70,7 @@ export default class NodeService implements INodeService {
         }
     }
 
-    private orderByNameAndKey(nodes: Node[]) {
+    private orderByNameAndKey(nodes: INodeDTO[]) {
         nodes.sort(function (a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
                 return -1;
@@ -89,7 +90,7 @@ export default class NodeService implements INodeService {
         })
     }
 
-    private orderByName(nodes: Node[]) {
+    private orderByName(nodes: INodeDTO[]) {
         nodes.sort(function (a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
                 return -1;
@@ -102,7 +103,7 @@ export default class NodeService implements INodeService {
         });
     }
 
-    private orderByKey(nodes: Node[]) {
+    private orderByKey(nodes: INodeDTO[]) {
         nodes.sort(function (a, b) {
             if (a.key < b.key) {
                 return -1;

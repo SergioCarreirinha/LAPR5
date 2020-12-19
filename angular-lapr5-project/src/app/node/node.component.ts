@@ -34,10 +34,17 @@ export class NodeComponent implements OnInit {
   styleUrls: ['./node.component.css']
 })
 export class CreateNodeComponent implements OnInit {
+  nodes: INode[] = [];
+
 
   constructor(private nodeService: NodeService, private location: Location) { }
 
   ngOnInit(): void {
+    this.getNodes();
+  }
+
+  getNodes() {
+    this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
   addNode(nodeKey: string, nodeName: string, nodeLatitude: string, nodeLongitude: string, nodeShortName: string, nodeIsDepot: string, nodeIsReliefPoint: string, nodeCapacities: string) {
@@ -58,7 +65,7 @@ export class CreateNodeComponent implements OnInit {
         icon: 'success',
         confirmButtonText: 'Ok',
         timer: 2500,
-        showConfirmButton: false,
+        showConfirmButton: true,
       })
     }else{
       Swal.fire({
@@ -70,8 +77,43 @@ export class CreateNodeComponent implements OnInit {
         showConfirmButton: false,
       })
     }
-
-
+  }
+  checkValues(nodeKey: string){
+    let count=0;
+    for(let i =0;i<this.nodes.length;i++){
+      if(this.nodes[i].key == nodeKey){
+          count+=1;
+      }
+    }
+    if(count != 0){
+      Swal.fire({
+        title: 'NODE EXISTS!',
+        text: 'Values will be updated if you continue.',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        timer: 7500,
+        showConfirmButton: true,
+      })
+    }else{
+      Swal.fire({
+        title: 'Values are Valid!',
+        text: 'Values will be inserted.',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 7500,
+        showConfirmButton: true,
+      })
+    }
+    if(nodeKey==''){
+      Swal.fire({
+        title: 'EMPTY KEY!',
+        text: 'INSERT VALUE.',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        timer: 7500,
+        showConfirmButton: true,
+      })
+    }
   }
 
   goBack(): void {
