@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "angular-lapr5-project"
+  "defaultProject": "angular-lapr5-project",
+  "cli": {
+    "analytics": "e9674223-9da6-4c36-9c36-541a9e51d5af"
+  }
 }
