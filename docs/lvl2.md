@@ -1,10 +1,16 @@
 # Containers (lvl 2)
 
-## Logical View
+## Logical View - MDR
 ![Container Component Diagram](ContainerComponentDiagram.svg)
 
-## Phisical View
+## Logical View - SPA
+![Container Component Diagram SPA](Logical_View_SPA.svg)
+
+## Phisical View - MDR
 ![Container Deployment Diagram](ContainerDeploymentDiagram.svg)
+
+## Phisical View - SPA
+![Container Deployment Diagram SPA](Phisical_View_SPA.svg)
 
 ## Process View
 ![GETALL](GetAll.svg)

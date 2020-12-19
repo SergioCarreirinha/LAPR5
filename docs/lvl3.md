@@ -1,6 +1,6 @@
 # Components (lvl 3)
 
-## Logical View
+## Logical View 
 ![Component Diagram](ComponentDiagram.svg)
 
 ## Process View
