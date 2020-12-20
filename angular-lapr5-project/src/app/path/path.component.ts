@@ -1,4 +1,3 @@
-import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
 import { ILine } from '../interfaces/ILine';
 import { INode } from '../interfaces/INode';
@@ -185,16 +184,25 @@ export class PathComponent implements OnInit {
 })
 
 export class ListPathsComponent implements OnInit {
+  
   linePaths: IPath[] = [];
+  selectLine: ILine[] = [];
 
 
-  constructor(private pathService: PathService, private location: Location) { }
+  constructor(private pathService: PathService,private serviceLine: LineService, private location: Location) { }
 
   ngOnInit(): void {
+    this.getLines();
+    console.log(this.selectLine);
+    //this.linePaths.push({ line: '1', key: '1', toGo: true, isEmpty: false, pathNodes: [], totalDur: 0, totalDist: 0 } as IPath);
+  }
+
+  getLines() {
+    this.serviceLine.getLines().subscribe(line => this.selectLine = line);
   }
 
   getLinePaths(line: string) {
-    this.pathService.getLinePaths(line).subscribe(paths => this.linePaths = paths);
+    this.pathService.getLinePaths(line.trim()).subscribe(paths => this.linePaths = paths);
     console.log(this.linePaths);
   }
 
