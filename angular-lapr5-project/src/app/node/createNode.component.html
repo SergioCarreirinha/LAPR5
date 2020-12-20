@@ -49,13 +49,13 @@
             <input type="number" min=0 #nodeCapacities />
         </label>
         <br>
-        <button (click)="checkValues(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
-        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);" class="btn btn-primary">
+        <button (click)="checkValues(nodeKey.value);" class="btn btn-primary">
             Check Key
         </button>
         <br>
         <br>
-        <button (click)="addNode(nodeKey.value);" class="btn btn-primary">
+        <button (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
+        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);" class="btn btn-primary">
             Create
         </button>
     </div>
