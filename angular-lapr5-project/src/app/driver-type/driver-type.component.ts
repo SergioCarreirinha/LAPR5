@@ -24,15 +24,28 @@ export class DriverTypeComponent implements OnInit {
   }
 
   addDriverType(description: string) {
-    this.service.addDriverType({ description: description } as IDriverType).subscribe(driverType => this.driverTypes.push(driverType));
-    Swal.fire({
-      title: 'Success!',
-      text: 'Driver Type Created',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: false,
-    })
+    if (description != '') {
+      this.service.addDriverType({ description: description } as IDriverType).subscribe(driverType => this.driverTypes.push(driverType));
+      Swal.fire({
+        title: 'Success!',
+        text: 'Driver Type Created',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 3000,
+        showConfirmButton: false,
+      })
+
+    } else {
+      Swal.fire({
+        title: 'Warning!',
+        text: "Driver Type couldn't be created. Invalid parameters",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 3000,
+        showConfirmButton: false,
+      })
+    }
+
   }
 
   goBack(): void {
