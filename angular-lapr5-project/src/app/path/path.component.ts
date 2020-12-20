@@ -7,6 +7,7 @@ import { LineService } from '../services/line.service';
 import { NodeService } from '../services/node.service';
 import { PathService } from '../services/path.service';
 import Swal from 'sweetalert2';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-path',
@@ -17,12 +18,12 @@ export class PathComponent implements OnInit {
 
   paths: IPath[] = [];
   pathNodes: any[][] = [];
-  path: IPath = { line: '', key: '', toGo: true, isEmpty: false, pathNodes: [] };
+  path: IPath = { line: '', key: '', toGo: true, isEmpty: false, pathNodes: [], totalDur: 0, totalDist: 0 };
   nodes: INode[] = [];
   lines: ILine[] = [];
 
 
-  constructor(private serviceLine: LineService,private nodeService: NodeService,private pathService: PathService) { }
+  constructor(private serviceLine: LineService,private nodeService: NodeService,private pathService: PathService, private location: Location) { }
 
   ngOnInit(): void {
     this.getPaths();
@@ -52,7 +53,7 @@ export class PathComponent implements OnInit {
 
       Swal.fire({
         title: 'Warning!',
-        text: "ParthNode couldn't be added. Invalid Paramaters.",
+        text: "PathNode couldn't be added. Invalid Paramaters.",
         icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
@@ -70,7 +71,7 @@ export class PathComponent implements OnInit {
 
         Swal.fire({
           title: 'Warning!',
-          text: "ParthNode couldn't be added. Node already exists in path.",
+          text: "PathNode couldn't be added. Node already exists in path.",
           icon: 'warning',
           confirmButtonText: 'Ok',
           timer: 2500,
@@ -112,6 +113,7 @@ export class PathComponent implements OnInit {
       timer: 2500,
       showConfirmButton: false,
     })
+    
   }
 
   addPath(line: string, key: string, toGo: boolean, isEmpty: boolean): void {
@@ -162,7 +164,7 @@ export class PathComponent implements OnInit {
 
     Swal.fire({
       title: 'Success!',
-      text: 'Node Created',
+      text: 'Path Created',
       icon: 'success',
       confirmButtonText: 'Ok',
       timer: 2500,
@@ -170,4 +172,33 @@ export class PathComponent implements OnInit {
     })
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
+}
+
+@Component({
+  selector: 'app-listLinePaths',
+  templateUrl: './listLinePaths.component.html',
+  styleUrls: ['./path.component.css']
+})
+
+export class ListPathsComponent implements OnInit {
+  linePaths: IPath[] = [];
+
+
+  constructor(private pathService: PathService, private location: Location) { }
+
+  ngOnInit(): void {
+  }
+
+  getLinePaths(line: string) {
+    this.pathService.getLinePaths(line).subscribe(paths => this.linePaths = paths);
+    console.log(this.linePaths);
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
 }

@@ -1,0 +1,40 @@
+<div class="jumbotron">
+    <h2>List Line Paths</h2>
+    <div>
+        <label>From wich line?
+            <br>
+            <input #line />
+          </label>
+          <br>
+          <button
+            (click)="getLinePaths(line.value); line.value='';"
+            class="btn btn-primary">
+            List Paths
+          </button>
+    </div>
+    <br>
+
+    <h2>Paths:</h2> 
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Key</th>
+            <th scope="col">ToGo</th>
+            <th scope="col">IsEmpty</th>
+            <!-- <th scope="col">Nodes</th> -->
+            <th scope="col">Total Duration</th>
+            <th scope="col">Total Distance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let path of linePaths">
+            <td>{{path.key}}</td>
+            <td>{{path.toGo}}</td>
+            <td>{{path.isEmpty}}</td>
+            <!-- <td>{{path.pathNodes}}</td> -->
+            <td>{{path.totalDur}}</td>
+            <td>{{path.totalDist}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>

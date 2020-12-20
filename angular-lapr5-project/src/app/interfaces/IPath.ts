@@ -4,4 +4,6 @@ export interface IPath {
     toGo : boolean
     isEmpty : boolean;
     pathNodes : any[][];
+    totalDur : number,
+    totalDist : number
 }

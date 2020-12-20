@@ -47,4 +47,12 @@ export class PathService {
       return of(result as T);
     };
   }
+
+  getLinePaths(line: string): Observable<IPath[]>{
+    const body = [{"line": line}];
+    return this.http.get<IPath[]>(this.getPathURL + '?line='+ line)
+    .pipe( tap(_ => console.log('fetched linePaths')),
+      catchError(this.handleError<IPath[]>('getLinePaths', []))
+    ); 
+  }
 }

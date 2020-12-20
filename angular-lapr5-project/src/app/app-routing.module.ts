@@ -8,7 +8,7 @@ import { LineComponent } from './line/line.component';
 import { MapComponent } from './map/map.component';
 import { NodeComponent } from './node/node.component';
 import { CreateNodeComponent } from './node/node.component';
-import { PathComponent } from './path/path.component';
+import { ListPathsComponent, PathComponent } from './path/path.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 
@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'view', component: MapComponent },
   { path: 'planning', component: SolutionsComponent },
   { path: 'createDriver', component: DriverComponent },
+  { path: 'listLinePaths', component: ListPathsComponent}
 ];
 
 @NgModule({
