@@ -3,12 +3,13 @@ import { INode } from '../interfaces/INode';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NodeService {
-  private NodeURL = 'http://10.9.10.25/api/node';  // URL to web api
+  private NodeURL = environment.url.mdr+'api/node';  // URL to web api
   
 
   httpOptions = {

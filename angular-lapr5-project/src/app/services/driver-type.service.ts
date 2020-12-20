@@ -3,12 +3,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { IDriverType } from '../interfaces/IDriverType';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DriverTypeService {
-  private driverTypeURL = 'http://10.9.10.25/api/driverType';  // URL to web api
+  private driverTypeURL = environment.url.mdr+'api/driverType';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

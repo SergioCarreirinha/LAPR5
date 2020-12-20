@@ -3,13 +3,14 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ISolutions } from '../interfaces/ISolutions';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolutionsService {
 
-  private planningURL = 'https://mdr25.azurewebsites.net/api/planning';  // URL to web api
+  private planningURL = environment.url.mdr+'api/planning';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

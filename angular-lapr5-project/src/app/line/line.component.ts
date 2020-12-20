@@ -23,8 +23,35 @@ export class LineComponent implements OnInit {
     this.service.getLines().subscribe(line => this.lines = line);
   }
 
+
+  
+
+  goBack(): void {
+    this.location.back();
+  }
+}
+
+@Component({
+  selector: 'app-createLine',
+  templateUrl: './createLine.component.html',
+  styleUrls: ['./line.component.css']
+})
+export class CreateLineComponent implements OnInit {
+
+  lines: ILine[] = [];
+
+  constructor(private lineService: LineService) { }
+
+  ngOnInit(): void {
+    this.getLines();
+  }
+
+  getLines() {
+    this.lineService.getLines().subscribe(line => this.lines = line);
+  }
+
   addLine(key: string, name: string, color: string) {
-    this.service.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe(line => this.lines.push(line))
+    this.lineService.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe()
     Swal.fire({
       title: 'Success!',
       text: 'Line Created',
@@ -36,7 +63,4 @@ export class LineComponent implements OnInit {
 
   }
 
-  goBack(): void {
-    this.location.back();
-  }
 }

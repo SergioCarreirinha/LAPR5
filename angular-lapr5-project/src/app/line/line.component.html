@@ -1,31 +1,19 @@
 <div class="jumbotron">
-  <h2>Create Line</h2>
-  <div>
-    <ul class="">
-      <li *ngFor="let line of lines">
-        {{line.key}}:{{line.name}}:{{line.color}}
-      </li>
-    </ul>
-
-    <div>
-      <label>Key
-        <br>
-        <input #lineKey />
-      </label>
-      <br>
-      <label>Name
-        <br>
-        <input #lineName />
-      </label>
-      <br>
-      <label>Color
-        <br>
-        <input #lineColor />
-      </label>
-      <br>
-      <button (click)="addLine(lineKey.value, lineName.value, lineColor.value)" class="btn btn-primary">
-        Create
-      </button>
-    </div>
-  </div>
+  <h2>Lines</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Key</th>
+        <th scope="col">Name</th>
+        <th scope="col">Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let line of lines">
+        <td>{{line.key}}</td>
+        <td>{{line.name}}</td>
+        <td>{{line.color}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

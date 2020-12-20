@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DriverTypeComponent } from './driver-type/driver-type.component';
 import { DriverComponent } from './driver/driver.component';
 import { ImportComponent } from './import/import.component';
-import { LineComponent } from './line/line.component';
+import { LineComponent, CreateLineComponent } from './line/line.component';
 import { MapComponent } from './map/map.component';
 import { NodeComponent } from './node/node.component';
 import { CreateNodeComponent } from './node/node.component';
@@ -18,14 +18,15 @@ const routes: Routes = [
   { path: 'createDriverType', component: DriverTypeComponent },
   { path: 'listNode', component: NodeComponent },
   { path: 'createNode', component: CreateNodeComponent },
-  { path: 'createLine', component: LineComponent },
+  { path: 'listLine', component: LineComponent },
   { path: 'createPath', component: PathComponent },
   { path: 'createVehicleType', component: VehicleTypeComponent },
   { path: 'import', component: ImportComponent },
   { path: 'view', component: MapComponent },
   { path: 'planning', component: SolutionsComponent },
   { path: 'createDriver', component: DriverComponent },
-  { path: 'listLinePaths', component: ListPathsComponent}
+  { path: 'listLinePaths', component: ListPathsComponent},
+  { path: 'createLine', component: CreateLineComponent},
 ];
 
 @NgModule({

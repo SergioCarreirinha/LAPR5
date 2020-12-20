@@ -3,12 +3,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ILine } from '../interfaces/ILine';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LineService {
-  private lineURL = 'http://10.9.10.25/api/line';  // URL to web api
+  private lineURL = environment.url.mdr+'api/line';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

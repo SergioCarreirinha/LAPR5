@@ -1,0 +1,25 @@
+<div class="jumbotron">
+  <h2>Create Line</h2>
+  <div>
+    <div>
+      <label>Key
+        <br>
+        <input #lineKey />
+      </label>
+      <br>
+      <label>Name
+        <br>
+        <input #lineName />
+      </label>
+      <br>
+      <label>Color
+        <br>
+        <input #lineColor />
+      </label>
+      <br>
+      <button (click)="addLine(lineKey.value, lineName.value, lineColor.value)" class="btn btn-primary">
+        Create
+      </button>
+    </div>
+  </div>
+</div>

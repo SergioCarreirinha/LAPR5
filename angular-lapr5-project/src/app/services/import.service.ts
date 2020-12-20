@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportService {
 
-  private importURL = 'http://10.9.10.25/api/fileUpload';  // URL to web api
+  private importURL = environment.url.mdr+'api/fileUpload';  // URL to web api
 
   constructor(private http: HttpClient) { }
 

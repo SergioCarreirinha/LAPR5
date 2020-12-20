@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http'
 import { Observable, of } from 'rxjs';
 import { IPath } from '../interfaces/IPath';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 export class PathService {
 
-  private pathUrl = 'http://10.9.10.25/api/linePaths';
-  private getPathURL = 'http://10.9.10.25/api/paths';
+  private pathUrl = environment.url.mdr+'api/linePaths';
+  private getPathURL = environment.url.mdr+'api/paths';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
