@@ -55,4 +55,11 @@ export class PathService {
       catchError(this.handleError<IPath[]>('getLinePaths', []))
     ); 
   }
+
+  getPathByKey(key: string): Observable<IPath>{
+    return this.http.get<IPath>(this.getPathURL + '/pathByKey?key='+ key)
+    .pipe( tap(_ => console.log('fetched Path')),
+      catchError(this.handleError<IPath>('getPathByKey'))
+    );
+  }
 }

@@ -21,9 +21,8 @@
         <thead>
           <tr>
             <th scope="col">Key</th>
-            <th scope="col">ToGo</th>
             <th scope="col">IsEmpty</th>
-             <th scope="col">Nodes</th>
+            <th scope="col">Nodes</th>
             <th scope="col">Total Duration</th>
             <th scope="col">Total Distance</th>
           </tr>
@@ -31,9 +30,16 @@
         <tbody>
           <tr *ngFor="let path of linePaths">
             <td>{{path.key}}</td>
-            <td>{{path.toGo}}</td>
             <td>{{path.isEmpty}}</td>
-            <td>{{path.pathNodes}}</td>
+            <td>
+              <table class="table">
+                <tbody>
+                  <tr *ngFor="let node of path.pathNodes">
+                    <td>{{node.pathNode}}</td>
+                    <td>{{node.props}}</td>
+                </tr></tbody>
+              </table>
+            </td>
             <td>{{path.totalDur}}</td>
             <td>{{path.totalDist}}</td>
           </tr>
