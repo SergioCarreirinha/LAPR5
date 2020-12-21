@@ -23,4 +23,17 @@ export default class PathService implements IPathService {
             throw e;
         }
     }
+
+    public async getPathByKey(key: string): Promise<Result<IPathDTO>> {
+        try {
+            const returned = await this.pathRepo.getPathByKey(key);
+
+            if (returned.isFailure) {
+                return Result.fail<IPathDTO>("Path not found!");
+            }
+            return Result.ok<IPathDTO>(returned.getValue());
+        } catch (e) {
+            throw e;
+        }
+    }
 }

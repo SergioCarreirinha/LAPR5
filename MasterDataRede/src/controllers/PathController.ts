@@ -24,4 +24,19 @@ export default class PathController implements IPathController {
             return next(e);
         }
     }
+
+    public async getPathByKey(req: Request, res: Response, next: NextFunction){
+        try {
+            const callService = await this.pathService.getPathByKey(req.query.key as string);
+
+            if (callService.isFailure) {
+                return res.status(404).send();
+            }
+
+            return res.status(200).json(callService.getValue());
+
+        } catch (e) {
+            return next(e);
+        }
+    }
 }

@@ -12,4 +12,6 @@ export default (app: Router) => {
     const crtl = Container.get(config.controllers.Path.name) as IPathController;
 
     route.get('', (req, res, next) => crtl.getPaths(req, res, next));
+
+    route.get('/pathByKey', (req, res, next) => crtl.getPathByKey(req, res, next));
 }
