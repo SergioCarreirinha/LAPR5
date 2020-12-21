@@ -59,4 +59,15 @@ export default class PathRepo implements IPathRepo{
         }
     }
 
+    public async getPathByKey(key: string): Promise<Result<IPathDTO>> {
+        const query = {key: key};
+        const document = await this.PathSchema.findOne(query);
+
+        if(document === null) {
+            return Result.fail<IPathDTO>('No Path found!');
+        } else {
+           return Result.ok<IPathDTO>(document);
+        }
+    }
+
 }

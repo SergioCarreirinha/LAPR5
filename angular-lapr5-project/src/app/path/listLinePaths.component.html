@@ -4,7 +4,7 @@
       <label>Which line?
         <br>
         <select #line>
-          <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
+          <option *ngFor="let line of selectLine" value={{line.name}}>{{line.name}}</option>
         </select>
       </label>
       <br>
@@ -17,13 +17,12 @@
     <br>
 
     <h2>Paths:</h2> 
-    <!-- <table class="table">
+    <table class="table">
         <thead>
           <tr>
             <th scope="col">Key</th>
-            <th scope="col">ToGo</th>
             <th scope="col">IsEmpty</th>
-             <th scope="col">Nodes</th>
+            <th scope="col">Nodes</th>
             <th scope="col">Total Duration</th>
             <th scope="col">Total Distance</th>
           </tr>
@@ -31,12 +30,19 @@
         <tbody>
           <tr *ngFor="let path of linePaths">
             <td>{{path.key}}</td>
-            <td>{{path.toGo}}</td>
             <td>{{path.isEmpty}}</td>
-            <td>{{path.pathNodes}}</td>
+            <td>
+              <table class="table">
+                <tbody>
+                  <tr *ngFor="let node of path.pathNodes">
+                    <td>{{node.pathNode}}</td>
+                    <td>{{node.props}}</td>
+                </tr></tbody>
+              </table>
+            </td>
             <td>{{path.totalDur}}</td>
             <td>{{path.totalDist}}</td>
           </tr>
         </tbody>
-      </table> -->
+      </table>
 </div>

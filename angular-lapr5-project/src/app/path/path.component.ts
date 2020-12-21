@@ -187,14 +187,13 @@ export class ListPathsComponent implements OnInit {
   
   linePaths: IPath[] = [];
   selectLine: ILine[] = [];
+  res: any[] = [];
 
 
   constructor(private pathService: PathService,private serviceLine: LineService, private location: Location) { }
 
   ngOnInit(): void {
     this.getLines();
-    console.log(this.selectLine);
-    //this.linePaths.push({ line: '1', key: '1', toGo: true, isEmpty: false, pathNodes: [], totalDur: 0, totalDist: 0 } as IPath);
   }
 
   getLines() {
@@ -202,8 +201,28 @@ export class ListPathsComponent implements OnInit {
   }
 
   getLinePaths(line: string) {
-    this.pathService.getLinePaths(line.trim()).subscribe(paths => this.linePaths = paths);
+    this.linePaths=[];
+    this.pathService.getLinePaths(line).subscribe(paths => this.res = paths);
+    this.getPathsInfo();
+  }
+
+  private getPathsInfo(){
+    for(let i=0; i<this.res.length; i++){
+      if(this.res[i].linePath != undefined){
+          for(let j=0; j< this.res[i].linePath.length; j++){
+            const key = this.res[i].linePath[j].path;
+            this.getPathByKey(key);
+          }
+      }else{
+        this.getPathByKey(this.res[i].props.path)
+      }
+    }
+    console.log("Paths:");
     console.log(this.linePaths);
+  }
+
+  private getPathByKey(key: string){
+    this.pathService.getPathByKey(key).subscribe(p => this.linePaths.push(p));
   }
 
   goBack(): void {

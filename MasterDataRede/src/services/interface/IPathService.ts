@@ -3,4 +3,5 @@ import { IPathDTO } from "../../dto/PathDTO/IPathDTO";
 
 export default interface IPathService {
     getPaths(): Promise<Result<Array<IPathDTO>>>;
+    getPathByKey(key: string): Promise<Result<IPathDTO>> 
 }
