@@ -4,7 +4,7 @@
       <label>Which line?
         <br>
         <select #line>
-          <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
+          <option *ngFor="let line of selectLine" value={{line.name}}>{{line.name}}</option>
         </select>
       </label>
       <br>
@@ -17,7 +17,7 @@
     <br>
 
     <h2>Paths:</h2> 
-    <!-- <table class="table">
+    <table class="table">
         <thead>
           <tr>
             <th scope="col">Key</th>
@@ -38,5 +38,5 @@
             <td>{{path.totalDist}}</td>
           </tr>
         </tbody>
-      </table> -->
+      </table>
 </div>

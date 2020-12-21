@@ -193,8 +193,6 @@ export class ListPathsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLines();
-    console.log(this.selectLine);
-    //this.linePaths.push({ line: '1', key: '1', toGo: true, isEmpty: false, pathNodes: [], totalDur: 0, totalDist: 0 } as IPath);
   }
 
   getLines() {
@@ -202,6 +200,7 @@ export class ListPathsComponent implements OnInit {
   }
 
   getLinePaths(line: string) {
+    console.log(line);
     this.pathService.getLinePaths(line.trim()).subscribe(paths => this.linePaths = paths);
     console.log(this.linePaths);
   }

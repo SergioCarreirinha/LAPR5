@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { NodeComponent } from './node/node.component';
 import { DriverTypeComponent } from './driver-type/driver-type.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { PathComponent } from './path/path.component';
+import { PathComponent, ListPathsComponent } from './path/path.component';
 import { LineComponent } from './line/line.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { ImportComponent } from './import/import.component';
@@ -32,7 +32,8 @@ import { DriverComponent } from './driver/driver.component';
     FooterComponent,
     MapComponent,
     SolutionsComponent,
-    DriverComponent
+    DriverComponent,
+    ListPathsComponent
   ],
   imports: [
     BrowserModule,
