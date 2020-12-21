@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace MasterDataViagem.Controllers {
 
         // GET: api/Trip
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ITripDTO>>> GetAll()
         {
             return await _service.Get();
@@ -26,6 +28,7 @@ namespace MasterDataViagem.Controllers {
 
         // GET: api/Trip/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ITripDTO>> GetGetById(Guid id)
         {
             var cat = await _service.GetById(new TripId(id));
@@ -40,6 +43,7 @@ namespace MasterDataViagem.Controllers {
 
         // POST: api/Trip
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ITripDTO>> Create(ITripDTO dto)
         {
             var cat = await _service.Create(dto);
@@ -50,6 +54,7 @@ namespace MasterDataViagem.Controllers {
         
         // DELETE: api/Trip/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<ITripDTO>> HardDelete(Guid id)
         {
             try

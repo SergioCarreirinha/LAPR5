@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Driver;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MasterDataViagem.Controllers {
     
@@ -19,6 +20,7 @@ namespace MasterDataViagem.Controllers {
 
         // GET: api/Driver
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<IDriverDTO>>> GetAll()
         {
             return await _service.Get();
@@ -26,6 +28,7 @@ namespace MasterDataViagem.Controllers {
 
         // GET: api/Driver/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<IDriverDTO>> GetGetById(Guid id)
         {
             var cat = await _service.GetById(new DriverId(id));
@@ -40,6 +43,7 @@ namespace MasterDataViagem.Controllers {
 
         // POST: api/Driver
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<IDriverDTO>> Create(IDriverDTO dto)
         {
             var cat = await _service.Create(dto);
@@ -50,6 +54,7 @@ namespace MasterDataViagem.Controllers {
         
         // DELETE: api/Driver/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<IDriverDTO>> HardDelete(Guid id)
         {
             try

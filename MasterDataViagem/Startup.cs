@@ -5,6 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 using MasterDataViagem.Infrastructure;
 using MasterDataViagem.Infrastructure.Trips;
@@ -16,12 +20,13 @@ using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Domain.Vehicle;
+using MasterDataViagem.Domain.User;
 
 namespace MasterDataViagem
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,16 +37,41 @@ namespace MasterDataViagem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-        {
-            options.AddPolicy(name: MyAllowSpecificOrigins,
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:4200"/*, para mais urls */).AllowAnyHeader().AllowAnyMethod();
-                });
-            });
             services.AddDbContext<MDVDbContext>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("Connection")).ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
+
+            services.AddIdentity<User, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<MDVDbContext>();
+
+            var applicationSettings = Configuration.GetSection("ApplicationSettings");
+            services.Configure<ApplicationSettings>(applicationSettings);
+
+            var appSettings = applicationSettings.Get<ApplicationSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.AddAuthentication( x => 
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer( x => 
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             ConfigureMyServices(services);
 
@@ -60,7 +90,9 @@ namespace MasterDataViagem
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -68,6 +100,8 @@ namespace MasterDataViagem
             {
                 endpoints.MapControllers();
             });
+
+            app.ApplyMigrations();
         }
 
         public void ConfigureMyServices(IServiceCollection services)

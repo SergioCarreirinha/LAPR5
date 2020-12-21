@@ -5,10 +5,12 @@ using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Domain.Vehicle;
 using MasterDataViagem.Infrastructure.Vehicles;
+using MasterDataViagem.Domain.User;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MasterDataViagem.Infrastructure
 {
-    public class MDVDbContext : DbContext
+    public class MDVDbContext : IdentityDbContext<User>
     {
 
         public DbSet<Trip> Trips { get; set; }
