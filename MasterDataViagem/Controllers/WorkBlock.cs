@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
-using MasterDataViagem.Domain.WorkBlock;
+using MasterDataViagem.Domain.WorkBlocks;
 
 namespace MasterDataViagem.Controllers
 {

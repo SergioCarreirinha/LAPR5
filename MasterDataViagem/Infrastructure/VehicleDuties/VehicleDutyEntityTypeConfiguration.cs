@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MasterDataViagem.Domain.WorkBlocks;
+using MasterDataViagem.Domain.VehicleDuties;
 
-namespace MasterDataViagem.Infrastructure.WorkBlocks
+namespace MasterDataViagem.Infrastructure.VehicleDuties
 {
-    internal class WorkBlockEntityTypeConfiguration : IEntityTypeConfiguration<WorkBlock>
+    internal class VehicleDutyEntityTypeConfiguration : IEntityTypeConfiguration<VehicleDuty>
     {
-        public void Configure(EntityTypeBuilder<WorkBlock> builder)
+        public void Configure(EntityTypeBuilder<VehicleDuty> builder)
         {
             //builder.ToTable("Categories", SchemaNames.DDDSample1);
             builder.HasKey(b => b.Id);

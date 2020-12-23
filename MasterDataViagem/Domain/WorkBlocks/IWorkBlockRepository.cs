@@ -1,6 +1,6 @@
 using MasterDataViagem.Domain.Shared;
 
-namespace MasterDataViagem.Domain.WorkBlock
+namespace MasterDataViagem.Domain.WorkBlocks
 {
     public interface IWorkBlockRepository : IRepository<WorkBlock, WorkBlockId>
     {

@@ -1,4 +1,4 @@
-using MasterDataViagem.Domain.WorkBlock;
+using MasterDataViagem.Domain.WorkBlocks;
 using MasterDataViagem.Infrastructure.Shared;
 
 namespace MasterDataViagem.Infrastructure.WorkBlocks

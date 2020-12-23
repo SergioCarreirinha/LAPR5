@@ -1,7 +1,7 @@
 using System;
 using MasterDataViagem.Domain.PassingTime;
 using System.Collections.Generic;
-namespace MasterDataViagem.Domain.WorkBlock
+namespace MasterDataViagem.Domain.WorkBlocks
 {
     public class IWorkBlockDTO
     {

@@ -2,7 +2,7 @@ using System;
 using MasterDataViagem.Domain.Shared;
 using Newtonsoft.Json;
 
-namespace MasterDataViagem.Domain.WorkBlock
+namespace MasterDataViagem.Domain.WorkBlocks
 {
     public class WorkBlockId : EntityId
     {
