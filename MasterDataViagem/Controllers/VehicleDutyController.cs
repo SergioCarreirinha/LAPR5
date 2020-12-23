@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
-using MasterDataViagem.Domain.VehicleDuty;
+using MasterDataViagem.Domain.VehicleDuties;
+using MasterDataViagem.Domain.WorkBlocks;
 using Microsoft.AspNetCore.Authorization;
 
 namespace MasterDataViagem.Controllers {
@@ -26,20 +27,12 @@ namespace MasterDataViagem.Controllers {
             return await _service.Get();
         }
 
-        // GET: api/vehicleDutyWorkBlock
-        [HttpGet]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<IWorkBlockDTO>>> GetAllWorkBlocks()
-        {
-            return await _service.GetWorkBlocks();
-        }
-
         // GET: api/vehicleDuty/5
         [HttpGet("{id}")]
         [Authorize]
         public async Task<ActionResult<IVehicleDutyDTO>> GetGetById(Guid id)
         {
-            var cat = await _service.GetById(new VehicleId(id));
+            var cat = await _service.GetById(new VehicleDutyId(id));
 
             if (cat == null)
             {
