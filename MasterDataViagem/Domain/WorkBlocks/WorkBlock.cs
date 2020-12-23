@@ -3,7 +3,7 @@ using MasterDataViagem.Domain.Shared;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.PassingTime;
 
-namespace MasterDataViagem.Domain.WorkBlock
+namespace MasterDataViagem.Domain.WorkBlocks
 {
     public class WorkBlock : Entity<WorkBlockId>, IAggregateRoot
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTime;
 
-namespace MasterDataViagem.Domain.WorkBlock
+namespace MasterDataViagem.Domain.WorkBlocks
 {
     public class WorkBlockService
     {
@@ -55,9 +55,8 @@ namespace MasterDataViagem.Domain.WorkBlock
         }
         public async Task<IWorkBlockDTO> Create(IWorkBlockDTO workBlock)
         {
-            var obj = new WorkBlock(key = workBlock.key, startTime = workBlock.startTime,
-            endTime = workBlock.endTime, startNode = workBlock.startNode, endNode = workBlock.endNode,
-            isCrewTravelTime = workBlock.isCrewTravelTime, isActive = workBlock.isActive);
+            var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime, 
+            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive);
 
             await this._repo.AddAsync(obj);
 

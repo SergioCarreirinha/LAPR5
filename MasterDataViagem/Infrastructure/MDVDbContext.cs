@@ -6,6 +6,11 @@ using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Domain.Vehicle;
 using MasterDataViagem.Infrastructure.Vehicles;
 using MasterDataViagem.Domain.User;
+using MasterDataViagem.Domain.VehicleDuties;
+using MasterDataViagem.Infrastructure.VehicleDuties;
+using MasterDataViagem.Domain.WorkBlocks;
+using MasterDataViagem.Infrastructure.WorkBlocks;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MasterDataViagem.Infrastructure
@@ -18,6 +23,10 @@ namespace MasterDataViagem.Infrastructure
         public DbSet<Driver> Drivers { get; set; }
 
         public DbSet<Vehicle> Vehicles { get; set; }
+        
+        public DbSet<VehicleDuty> VehicleDuties { get; set; }
+
+        public DbSet<WorkBlock> WorkBlocks { get; set; }
 
         public MDVDbContext(DbContextOptions options) : base(options)
         {
@@ -34,6 +43,10 @@ namespace MasterDataViagem.Infrastructure
             modelBuilder.ApplyConfiguration(new DriverEntityTypeConfiguration());
             //Vehicle
             modelBuilder.ApplyConfiguration(new VehicleEntityTypeConfiguration());
+            //VehicleDuty
+            modelBuilder.ApplyConfiguration(new VehicleDutyEntityTypeConfiguration());
+            //WorkBlock
+            modelBuilder.ApplyConfiguration(new WorkBlockEntityTypeConfiguration());
         }
     }
 }
