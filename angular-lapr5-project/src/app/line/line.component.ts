@@ -24,7 +24,7 @@ export class LineComponent implements OnInit {
   }
 
 
-  
+
 
   goBack(): void {
     this.location.back();
@@ -51,15 +51,26 @@ export class CreateLineComponent implements OnInit {
   }
 
   addLine(key: string, name: string, color: string) {
-    this.lineService.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe()
-    Swal.fire({
-      title: 'Success!',
-      text: 'Line Created',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: false,
-    })
+    if (key != '' && name != '' && color != '') {
+      this.lineService.addLine({ key: key, name: name, color: color, linePaths: [], allowedDrivers: [], allowedVehicles: [] } as ILine).subscribe()
+      Swal.fire({
+        title: 'Success!',
+        text: 'Line Created',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 3000,
+        showConfirmButton: false,
+      })
+    } else {
+      Swal.fire({
+        title: 'Warning!',
+        text: "Line couldn't be created. Invalid parameters.",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 3000,
+        showConfirmButton: false,
+      })
+    }
 
   }
 
