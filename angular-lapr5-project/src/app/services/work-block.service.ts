@@ -17,12 +17,19 @@ export class WorkBlockService {
 
     constructor(private http: HttpClient) { }
 
-    createDriver(workBlock: IWorkBlock): Observable<IWorkBlock> {
-        return this.http.post<IWorkBlock>(this.WorkBlockURL, workBlock, this.httpOptions)
+    getWorkBlocks(): Observable<IWorkBlock[]> {
+        return this.http.get<IWorkBlock[]>(this.WorkBlockURL)
             .pipe(
-                catchError(this.handleError('createWorkBlock', workBlock))
+                catchError(this.handleError<IWorkBlock[]>('getWorkBlocks', []))
             );
     }
+
+    addWorkBlock(value: IWorkBlock): Observable<IWorkBlock> {
+        return this.http.post<IWorkBlock>(this.WorkBlockURL, value, this.httpOptions).pipe(
+            catchError(this.handleError('addWorkBlock', value))
+        );
+    }
+
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
 
