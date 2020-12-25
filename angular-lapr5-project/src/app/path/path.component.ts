@@ -7,7 +7,6 @@ import { NodeService } from '../services/node.service';
 import { PathService } from '../services/path.service';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
-import { SelectMultipleControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'app-path',
@@ -18,7 +17,6 @@ export class PathComponent implements OnInit {
 
   paths: IPath[] = [];
   pathNodes: any[][] = [];
-  path: IPath = { line: '', key: '', toGo: true, isEmpty: false, pathNodes: [], totalDur: 0, totalDist: 0 };
   nodes: INode[] = [];
   lines: ILine[] = [];
 
@@ -149,13 +147,12 @@ export class PathComponent implements OnInit {
       return;
     }
 
-    this.path.line = line;
-    this.path.key = key;
-    this.path.toGo = toGo;
-    this.path.isEmpty = isEmpty;
-    this.path.pathNodes = this.pathNodes;
-
-    this.pathService.addPath(this.path)
+    this.pathService.addPath({
+      line: line,
+      key: key,
+      toGo: toGo,
+      isEmpty: isEmpty,
+      pathNodes: this.pathNodes} as IPath)
       .subscribe(path => { this.paths.push(path) });
 
     //reset the array when the path is added
