@@ -30,4 +30,14 @@ export default class VehicleTypeService implements IVehicleTypeService {
             throw e;
         }
     }
+
+    public async getAllVehicleTypes(): Promise<Result<IVehicleTypeDTO[]>>{
+        try{
+
+            const vehicleTypes = (await this.vehicleTypeRepo.getAllVehicleTypes()).getValue();
+            return Result.ok<Array<IVehicleTypeDTO>>(vehicleTypes); 
+        }catch(e){
+            throw e;
+        }
+    }
 }

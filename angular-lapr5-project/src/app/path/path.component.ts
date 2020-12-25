@@ -17,7 +17,6 @@ export class PathComponent implements OnInit {
 
   paths: IPath[] = [];
   pathNodes: any[][] = [];
-  path: IPath = { line: '', key: '', toGo: true, isEmpty: false, pathNodes: [], totalDur: 0, totalDist: 0 };
   nodes: INode[] = [];
   lines: ILine[] = [];
 
@@ -148,13 +147,12 @@ export class PathComponent implements OnInit {
       return;
     }
 
-    this.path.line = line;
-    this.path.key = key;
-    this.path.toGo = toGo;
-    this.path.isEmpty = isEmpty;
-    this.path.pathNodes = this.pathNodes;
-
-    this.pathService.addPath(this.path)
+    this.pathService.addPath({
+      line: line,
+      key: key,
+      toGo: toGo,
+      isEmpty: isEmpty,
+      pathNodes: this.pathNodes} as IPath)
       .subscribe(path => { this.paths.push(path) });
 
     //reset the array when the path is added
@@ -188,7 +186,7 @@ export class ListPathsComponent implements OnInit {
   linePaths: IPath[] = [];
   selectLine: ILine[] = [];
   res: any[] = [];
-
+  //nodes: string[][]=[];
 
   constructor(private pathService: PathService,private serviceLine: LineService, private location: Location) { }
 
@@ -202,28 +200,49 @@ export class ListPathsComponent implements OnInit {
 
   getLinePaths(line: string) {
     this.linePaths=[];
-    this.pathService.getLinePaths(line).subscribe(paths => this.res = paths);
-    this.getPathsInfo();
+    this.res = [];
+    this.pathService.getLinePaths(line).subscribe(paths => this.getPathsInfo(paths));
+
+    /*console.log("Nodes:");
+    console.log(this.nodes);*/
   }
 
-  private getPathsInfo(){
-    for(let i=0; i<this.res.length; i++){
-      if(this.res[i].linePath != undefined){
-          for(let j=0; j< this.res[i].linePath.length; j++){
-            const key = this.res[i].linePath[j].path;
+  private getPathsInfo(p: any[]){
+    for(let i=0; i<p.length; i++){
+
+      if(p[i].linePath != undefined){
+
+          for(let j=0; j< p[i].linePath.length; j++){
+            const key = p[i].linePath[j].path;
             this.getPathByKey(key);
           }
+
       }else{
-        this.getPathByKey(this.res[i].props.path)
+        this.getPathByKey(p[i].props.path)
       }
     }
-    console.log("Paths:");
-    console.log(this.linePaths);
   }
 
   private getPathByKey(key: string){
     this.pathService.getPathByKey(key).subscribe(p => this.linePaths.push(p));
   }
+
+/*   private getPathNodes(path: IPath) : IPath{
+    var x=0;
+    for(let i=0; i<path.pathNodes.length;i++){
+
+      if(path.pathNodes[i].pathNode != undefined){
+
+        for(let j=0; j<path.pathNodes[i].pathNode.length; j++){
+            this.nodes[i][j]=path.pathNodes[i].pathNode[j].node;
+        }
+
+      } else {
+        this.nodes[i][x]=path.pathNodes[i].node;
+      }
+    }
+    return path;
+  } */
 
   goBack(): void {
     this.location.back();

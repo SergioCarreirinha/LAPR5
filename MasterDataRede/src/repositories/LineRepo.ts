@@ -69,13 +69,14 @@ export default class LineRepo implements ILineRepo {
     var document = await this.LineSchema.find();
     var lines = [];
 
-    for (var i = 0; i < document.length; i++) {
-      lines.push(LineMap.toDTO(LineMap.toDomain(document[i])));
-    }
-
     if (document === null) {
       return Result.fail<Array<ILineDTO>>("No Lines found!");
     } else {
+      
+      for (var i = 0; i < document.length; i++) {
+        lines.push(LineMap.toDTO(LineMap.toDomain(document[i])));
+      }
+
       return Result.ok<Array<ILineDTO>>(lines);
     }
   }

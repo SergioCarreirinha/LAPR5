@@ -17,6 +17,7 @@ import { MapComponent } from './map/map.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { DriverComponent } from './driver/driver.component';
 import { ServiceDutyComponent } from './service-duty/service-duty.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ServiceDutyComponent } from './service-duty/service-duty.component';
     SolutionsComponent,
     DriverComponent,
     ListPathsComponent,
-    ServiceDutyComponent
+    ServiceDutyComponent,
+    VehicleComponent
   ],
   imports: [
     BrowserModule,

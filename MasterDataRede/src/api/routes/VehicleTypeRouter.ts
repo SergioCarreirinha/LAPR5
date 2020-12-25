@@ -12,4 +12,6 @@ export default (app: Router) => {
     const crtl = Container.get(config.controllers.VehicleType.name) as IVehicleTypeController;
 
     route.post('', (req, res, next) => crtl.createVehicleType(req, res, next));
+
+    route.get('',(req, res, next) => crtl.getAllVehicleTypes(req,res,next));
 }
