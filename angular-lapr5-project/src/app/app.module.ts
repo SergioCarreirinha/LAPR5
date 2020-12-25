@@ -16,6 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MapComponent } from './map/map.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { DriverComponent } from './driver/driver.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { DriverComponent } from './driver/driver.component';
     MapComponent,
     SolutionsComponent,
     DriverComponent,
-    ListPathsComponent
+    ListPathsComponent,
+    VehicleComponent
   ],
   imports: [
     BrowserModule,
