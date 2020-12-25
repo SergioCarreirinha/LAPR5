@@ -5,6 +5,8 @@ import IVehicleTypeRepo from './interface/IVehicleTypeRepo';
 import { IVehicleTypePersistence } from '../persistence/interface/IVehicleTypePersistence';
 import { VehicleTypeMap } from '../mappers/VehicleTypeMap';
 import {Document, Model} from 'mongoose';
+import { Result } from '../core/logic/Result';
+import IVehicleTypeDTO from '../dto/VehicleTypeDTO/IVehicleTypeDTO';
 
 
 @Service()
@@ -45,5 +47,21 @@ export default class VehicleTypeRepo implements IVehicleTypeRepo{
         } catch(e){
             throw e;
         }
+    }
+
+    public async getAllVehicleTypes(): Promise<Result<IVehicleTypeDTO[]>>{
+        const document = await this.vehicleTypeSchema.find();
+        var vehicleTypes = [];
+
+        if (document === null) {
+            return Result.fail<Array<IVehicleTypeDTO>>("No Vehicle Types found!");
+          } else {
+              
+            for(var i=0; i<document.length; i++){
+                vehicleTypes.push(VehicleTypeMap.toDTO(VehicleTypeMap.toDomain(document[i])));
+            }
+
+            return Result.ok<Array<IVehicleTypeDTO>>(vehicleTypes);
+          }
     }
 }

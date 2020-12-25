@@ -42,4 +42,19 @@ export default class VehicleTypeController implements IVehicleTypeController{
             return next(e);
         }
     }
+
+    public async getAllVehicleTypes(req: Request, res: Response, next: NextFunction){
+        try {
+            const callService = await this.vehicleTypeServiceInstance.getAllVehicleTypes();
+
+            if (callService.isFailure) {
+                return res.status(402).send();
+            }
+
+            return res.status(201).json(callService.getValue());
+
+        } catch (e) {
+            return next(e);
+        }
+    }
 }
