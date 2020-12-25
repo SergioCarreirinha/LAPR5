@@ -8,7 +8,7 @@
         <br>
         <label>BirthDate
             <br>
-            <input type="datetime-local" #birthdate />
+            <input type="date" #birthdate />
         </label>
         <br>
         <label>Driver License Number
@@ -18,7 +18,7 @@
         <br>
         <label>License Expiration
             <br>
-            <input type="datetime-local" #licenseExpiration />
+            <input type="date" #licenseExpiration />
         </label>
         <br>
         <button (click)="createDriver(name.value,birthdate.value,driverLicenseNum.value,licenseExpiration.value);
