@@ -16,6 +16,7 @@ export class MapComponent implements OnInit {
   lines: any[] = [];
   linePath: any[] = [];
   paths: any[] = [];
+  toggle = false;
 
   map!: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
@@ -169,45 +170,55 @@ export class MapComponent implements OnInit {
     return "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
   }
 
+  twoDimentionalMap(){
+
+  }
   //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
   threeDimentionalMap() {
-    this.map.dragRotate.enable();
-    this.map.addLayer(
-      {
-        'id': '3d-buildings',
-        'source': 'composite',
-        'source-layer': 'building',
-        'filter': ['==', 'extrude', 'true'],
-        'type': 'fill-extrusion',
-        'minzoom': 15,
-        'paint': {
-          'fill-extrusion-color': '#aaa',
-
-          // use an 'interpolate' expression to add a smooth transition effect to the
-          // buildings as the user zooms in
-          'fill-extrusion-height': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            15,
-            0,
-            15.05,
-            ['get', 'height']
-          ],
-          'fill-extrusion-base': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            15,
-            0,
-            15.05,
-            ['get', 'min_height']
-          ],
-          'fill-extrusion-opacity': 0.6
-        }
-      },
-
-    );
+    if(!this.toggle){
+      this.toggle=true;
+      this.map.dragRotate.enable();
+      this.map.addLayer(
+        {
+          'id': '3d-buildings',
+          'source': 'composite',
+          'source-layer': 'building',
+          'filter': ['==', 'extrude', 'true'],
+          'type': 'fill-extrusion',
+          'minzoom': 15,
+          'paint': {
+            'fill-extrusion-color': '#aaa',
+  
+            // use an 'interpolate' expression to add a smooth transition effect to the
+            // buildings as the user zooms in
+            'fill-extrusion-height': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              15,
+              0,
+              15.05,
+              ['get', 'height']
+            ],
+            'fill-extrusion-base': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              15,
+              0,
+              15.05,
+              ['get', 'min_height']
+            ],
+            'fill-extrusion-opacity': 0.6
+          }
+        },
+      );
+    }
+    else{
+      this.map.removeLayer('3d-buildings');
+      this.map.dragRotate.disable();
+      this.toggle=false;
+    }
   }
 }
 
