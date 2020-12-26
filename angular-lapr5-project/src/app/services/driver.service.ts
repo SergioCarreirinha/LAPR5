@@ -1,23 +1,30 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { IDriver } from '../interfaces/IDriver';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DriverService {
-  private DriverURL = 'https://localhost:5001/api/driver';  // URL to web api
-  
+  private DriverURL = environment.url.mdv+'api/driver';  // URL to web api
+
+  constructor(private http: HttpClient, private injector: Injector) {}
+
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 
+      'Content-Type': 'application/json', 
+      'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
+    })
   };
 
-  constructor(private http: HttpClient) { }
 
   createDriver(driver: IDriver) :Observable<IDriver>{
-    return this.http.post<IDriver>(this.DriverURL,driver , this.httpOptions)
+    console.log(this.httpOptions);
+    return this.http.post<IDriver>(this.DriverURL, driver , this.httpOptions)
     .pipe(
       catchError(this.handleError('createDriver', driver))
     );

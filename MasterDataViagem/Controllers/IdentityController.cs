@@ -41,7 +41,7 @@ namespace MasterDataViagem.Controllers {
         }
 
         [Route(nameof(Login))]
-        public async Task<ActionResult<string>> Login([FromBody]LoginUser model)
+        public async Task<ActionResult<Token>> Login([FromBody]LoginUser model)
         {
             var user = await this.userManager.FindByNameAsync(model.UserName);
             if( user == null)
@@ -66,8 +66,8 @@ namespace MasterDataViagem.Controllers {
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptedToken = tokenHandler.WriteToken(token);
-
-            return encryptedToken;
+            var toReturn = new Token(encryptedToken);
+            return toReturn;
         }
     }
 }

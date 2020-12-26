@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MasterDataViagem.Domain.LoginUser {
 
-    public class LoginUser
+    public class Token
     {
         [Required]
-        public string UserName { get; set; }
+        public string token { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+        public Token(string _key) {
+            this.token = _key;
+        }
     }
 
 }

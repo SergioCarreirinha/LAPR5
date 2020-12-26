@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { IWorkBlock } from '../interfaces/IWorkBlock';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,11 +12,14 @@ import { environment } from 'src/environments/environment';
 export class WorkBlockService {
     private WorkBlockURL = environment.url.mdr + 'api/workBlock';  // URL to web api
 
-    httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
+    constructor(private http: HttpClient, private injector: Injector) {}
 
-    constructor(private http: HttpClient) { }
+    httpOptions = {
+        headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
+        })
+    };
 
     getWorkBlocks(): Observable<IWorkBlock[]> {
         return this.http.get<IWorkBlock[]>(this.WorkBlockURL)

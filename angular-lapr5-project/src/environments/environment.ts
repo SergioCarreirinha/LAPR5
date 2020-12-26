@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   mapbox: {accesstoken:'pk.eyJ1IjoiY3VuaGFhcyIsImEiOiJja2k0eXFsaDEwMXFvMnJucTlzOTE4bjk3In0.1BWcHMvsWG8bpgOSa2LNng'},
-  url: {mdr: 'http://10.9.10.25/'}
+  url: {mdr: 'http://10.9.10.25/', mdv:'https://localhost:5001/'}
 };
 
 /*

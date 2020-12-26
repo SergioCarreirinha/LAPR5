@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { IVehicle } from "../interfaces/IVehicle";
+import { AuthService } from "./auth.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,11 +13,14 @@ export class VehicleService{
 
     private vehicleURL = '';
 
-    httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
+    constructor(private http: HttpClient, private injector: Injector) {}
 
-    constructor(private http: HttpClient) { }
+    httpOptions = {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json', 
+        'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
+      })
+    };
 
     addVehicle(vehicle: IVehicle): Observable<IVehicle>{
         return this.http.post<IVehicle>(this.vehicleURL, vehicle, this.httpOptions).pipe(

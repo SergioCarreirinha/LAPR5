@@ -18,6 +18,10 @@ import { SolutionsComponent } from './solutions/solutions.component';
 import { DriverComponent } from './driver/driver.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -37,15 +41,18 @@ import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
     DriverComponent,
     ListPathsComponent,
     VehicleComponent,
-    VehicleDutyComponent
+    VehicleDutyComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
