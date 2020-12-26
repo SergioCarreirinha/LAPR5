@@ -16,8 +16,8 @@ import { FooterComponent } from './footer/footer.component';
 import { MapComponent } from './map/map.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { DriverComponent } from './driver/driver.component';
-import { ServiceDutyComponent } from './service-duty/service-duty.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
 
 
 @NgModule({
@@ -36,8 +36,8 @@ import { VehicleComponent } from './vehicle/vehicle.component';
     SolutionsComponent,
     DriverComponent,
     ListPathsComponent,
-    ServiceDutyComponent,
-    VehicleComponent
+    VehicleComponent,
+    VehicleDutyComponent
   ],
   imports: [
     BrowserModule,

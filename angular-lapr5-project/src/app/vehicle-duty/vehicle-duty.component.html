@@ -1,0 +1,42 @@
+<div class="jumbotron">
+    <h2>Create Vehicle Duty</h2>
+    <div class="textfield">
+        <label>Key
+            <br>
+            <input #vehicleDutyKey />
+        </label>
+        <br>
+        <label>Name
+            <br>
+            <input #vehicleDutyName />
+        </label>
+        <br>
+        <label>Color
+            <br>
+            <input #vehicleDutyColor />
+        </label>
+        <br>
+        <label>Depots
+            <br>
+            <input #vehicleDutyDepots />
+        </label>
+        <br>
+        <label>WorkBlocks
+            <br>
+            <select #workBlock>
+                <option *ngFor="let workBlock of workBlocks" value={{workBlock.name}}>{{workBlock.name}}</option>
+            </select>
+        </label>
+        <button (click)="addWorkBlock(workBlock.value);" class="btn btn-primary">
+            Create Vehicle Duty
+        </button>
+        <br>
+        <br>
+        <button
+            (click)="addVehicleDuty(vehicleDutyKey.value,vehicleDutyName.value,vehicleDutyColor.value,vehicleDutyDepots.value);"
+            class="btn btn-primary">
+            Create Vehicle Duty
+        </button>
+    </div>
+    <br>
+</div>

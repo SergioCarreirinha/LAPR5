@@ -10,6 +10,7 @@ import { NodeComponent } from './node/node.component';
 import { CreateNodeComponent } from './node/node.component';
 import { ListPathsComponent, PathComponent } from './path/path.component';
 import { SolutionsComponent } from './solutions/solutions.component';
+import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 
@@ -28,7 +29,8 @@ const routes: Routes = [
   { path: 'createDriver', component: DriverComponent },
   { path: 'listLinePaths', component: ListPathsComponent},
   { path: 'createLine', component: CreateLineComponent},
-  { path: 'createVehicle', component: VehicleComponent}
+  { path: 'createVehicle', component: VehicleComponent},
+  { path: 'createvehicleDuty', component: VehicleDutyComponent}
 ];
 
 @NgModule({
