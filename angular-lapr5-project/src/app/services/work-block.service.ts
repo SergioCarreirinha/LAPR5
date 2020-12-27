@@ -10,13 +10,13 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class WorkBlockService {
-    private WorkBlockURL = environment.url.mdr + 'api/workBlock';  // URL to web api
+    private WorkBlockURL = environment.url.mdv + 'api/workBlock';  // URL to web api
 
-    constructor(private http: HttpClient, private injector: Injector) {}
+    constructor(private http: HttpClient, private injector: Injector) { }
 
     httpOptions = {
-        headers: new HttpHeaders({ 
-            'Content-Type': 'application/json', 
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
         })
     };
