@@ -1,0 +1,55 @@
+<div class="jumbotron">
+    <h2>Criar Bloco de Trabalho</h2>
+    <div>
+        <label>
+            Chave
+            <br>
+            <input #key />
+        </label>
+    </div>
+    <div>
+        <label>
+            Tempo de Início
+            <br>
+            <input type="number" #startTime />
+        </label>
+    </div>
+    <div>
+        <label>
+            Tempo Final
+            <br>
+            <input type="number" #endTime />
+        </label>
+    </div>
+    <div>
+        <label>
+            Nó de Início
+            <br>
+            <input #startNode />
+        </label>
+    </div>
+    <div>
+        <label>
+            Nó Final
+            <br>
+            <input #endNode />
+        </label>
+    </div>
+    <div>
+        <label>
+            Tempo de Viagem de Tripulante?
+            <input #isCrewTravelTime type=checkbox />
+        </label>
+    </div>
+    <div>
+        <label>
+            Activo?
+            <input #isActive type=checkbox />
+        </label>
+    </div>
+    <div>
+        <button (click)="addWorkBlock(key.value, startTime.value, 
+        endTime.value, startNode.value, endNode.value, 
+        isCrewTravelTime.value, isActive.value)" type=" button" class="btn btn-primary">Criar</button>
+    </div>
+</div>
