@@ -4,8 +4,8 @@ export interface IWorkBlock {
     key: string;
     startTime: Number;
     endTime: Number;
-    startNode: Array<INode>;
-    endNode: Array<INode>;
+    startNode: string;
+    endNode: string;
     isCrewTravelTime: boolean;
     isActive: boolean;
 }

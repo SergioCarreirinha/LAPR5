@@ -15,10 +15,11 @@ import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { WorkBlockComponent } from './work-block/work-block.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'createDriverType', component: DriverTypeComponent },
@@ -27,14 +28,15 @@ const routes: Routes = [
   { path: 'listLine', component: LineComponent },
   { path: 'createPath', component: PathComponent },
   { path: 'createVehicleType', component: VehicleTypeComponent },
+  { path: 'createWorkBlock', component: WorkBlockComponent },
   { path: 'import', component: ImportComponent },
   { path: 'view', component: MapComponent },
   { path: 'planning', component: SolutionsComponent },
   { path: 'createDriver', component: DriverComponent },
-  { path: 'listLinePaths', component: ListPathsComponent},
-  { path: 'createLine', component: CreateLineComponent},
-  { path: 'createVehicle', component: VehicleComponent},
-  { path: 'createvehicleDuty', component: VehicleDutyComponent}
+  { path: 'listLinePaths', component: ListPathsComponent },
+  { path: 'createLine', component: CreateLineComponent },
+  { path: 'createVehicle', component: VehicleComponent },
+  { path: 'createvehicleDuty', component: VehicleDutyComponent }
 ];
 
 @NgModule({
