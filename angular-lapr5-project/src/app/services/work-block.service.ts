@@ -14,12 +14,6 @@ export class WorkBlockService {
 
     constructor(private http: HttpClient, private injector: Injector) { }
 
-    httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
-        })
-    };
 
     getWorkBlocks(): Observable<IWorkBlock[]> {
         return this.http.get<IWorkBlock[]>(this.WorkBlockURL)
@@ -29,7 +23,7 @@ export class WorkBlockService {
     }
 
     addWorkBlock(value: IWorkBlock): Observable<IWorkBlock> {
-        return this.http.post<IWorkBlock>(this.WorkBlockURL, value, this.httpOptions).pipe(
+        return this.http.post<IWorkBlock>(this.WorkBlockURL, value).pipe(
             catchError(this.handleError('addWorkBlock', value))
         );
     }

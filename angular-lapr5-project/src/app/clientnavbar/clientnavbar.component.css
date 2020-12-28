@@ -1,0 +1,14 @@
+.sticky {
+    z-index: 100;
+     position: -webkit-sticky;
+     background-color: white;
+     border: 1;
+     position: sticky;
+     top: 0;
+   }
+ 
+ .dropdown:hover>.dropdown-menu{
+   display: block;
+ }
+ 
+ 
