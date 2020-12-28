@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterDataViagem.Migrations
 {
     [DbContext(typeof(MDVDbContext))]
-    [Migration("20201220191217_users")]
-    partial class users
+    [Migration("20201227165412_user")]
+    partial class user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,6 +188,64 @@ namespace MasterDataViagem.Migrations
                     b.ToTable("Vehicles");
                 });
 
+            modelBuilder.Entity("MasterDataViagem.Domain.VehicleDuties.VehicleDuty", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("depots")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VehicleDuties");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.WorkBlocks.WorkBlock", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("VehicleDutyId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("endNode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("endTime")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isCrewTravelTime")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("startNode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("startTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleDutyId");
+
+                    b.ToTable("WorkBlocks");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -266,10 +324,12 @@ namespace MasterDataViagem.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -306,10 +366,12 @@ namespace MasterDataViagem.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -324,6 +386,13 @@ namespace MasterDataViagem.Migrations
                     b.HasOne("MasterDataViagem.Domain.Trip.Trip", null)
                         .WithMany("PassingTimes")
                         .HasForeignKey("TripId");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.WorkBlocks.WorkBlock", b =>
+                {
+                    b.HasOne("MasterDataViagem.Domain.VehicleDuties.VehicleDuty", null)
+                        .WithMany("WorkBlocks")
+                        .HasForeignKey("VehicleDutyId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -380,6 +449,11 @@ namespace MasterDataViagem.Migrations
             modelBuilder.Entity("MasterDataViagem.Domain.Trip.Trip", b =>
                 {
                     b.Navigation("PassingTimes");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.VehicleDuties.VehicleDuty", b =>
+                {
+                    b.Navigation("WorkBlocks");
                 });
 #pragma warning restore 612, 618
         }

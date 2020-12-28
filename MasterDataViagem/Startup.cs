@@ -21,12 +21,14 @@ using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Domain.Vehicle;
 using MasterDataViagem.Domain.User;
+using System;
+using System.Threading.Tasks;
 
 namespace MasterDataViagem
 {
     public class Startup
     {
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,7 +39,7 @@ namespace MasterDataViagem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MDVDbContext>(opt => 
+            services.AddDbContext<MDVDbContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("Connection")).ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
 
             services.AddIdentity<User, IdentityRole>(opt =>
@@ -55,23 +57,23 @@ namespace MasterDataViagem
             var appSettings = applicationSettings.Get<ApplicationSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
-            services.AddAuthentication( x => 
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer( x => 
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.AddAuthentication(x =>
+           {
+               x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+               x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+           })
+            .AddJwtBearer(x =>
+           {
+               x.RequireHttpsMetadata = false;
+               x.SaveToken = true;
+               x.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(key),
+                   ValidateIssuer = false,
+                   ValidateAudience = false
+               };
+           });
 
             ConfigureMyServices(services);
 
@@ -79,7 +81,7 @@ namespace MasterDataViagem
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -102,21 +104,39 @@ namespace MasterDataViagem
             });
 
             app.ApplyMigrations();
+
+            CreateRoles(serviceProvider).Wait();
         }
 
         public void ConfigureMyServices(IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork,UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             //Trip
-            services.AddTransient<ITripRepository,TripRepository>();
+            services.AddTransient<ITripRepository, TripRepository>();
             services.AddTransient<TripService>();
             //Driver
-            services.AddTransient<IDriverRepository,DriverRepository>();
+            services.AddTransient<IDriverRepository, DriverRepository>();
             services.AddTransient<DriverService>();
             //Vehicle
-            services.AddTransient<IVehicleRepository,VehicleRepository>();
+            services.AddTransient<IVehicleRepository, VehicleRepository>();
             services.AddTransient<VehicleService>();
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+            string[] rolesNames = { "Admin", "Client" };
+            IdentityResult result;
+            foreach (var namesRole in rolesNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(namesRole);
+                if (!roleExist)
+                {
+                    result = await roleManager.CreateAsync(new IdentityRole(namesRole));
+                }
+            }
         }
     }
 }

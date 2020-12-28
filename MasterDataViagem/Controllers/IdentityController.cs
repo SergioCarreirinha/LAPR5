@@ -5,11 +5,12 @@ using MasterDataViagem.Domain.RegisterUser;
 using MasterDataViagem.Domain.User;
 using MasterDataViagem.Domain.LoginUser;
 using Microsoft.Extensions.Options;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System;
 
 namespace MasterDataViagem.Controllers {
     
@@ -26,15 +27,16 @@ namespace MasterDataViagem.Controllers {
 
         [Route(nameof(Register))]
         public async Task<IActionResult> Register([FromBody]RegisterUser model){
+            var succeeded = true;
             var user = new User{
                 Email = model.Email,
                 UserName = model.UserName
             };
             
             var result = await this.userManager.CreateAsync(user, model.Password);
-
+            await this.userManager.AddToRoleAsync(user, "Client");
             if(result.Succeeded){
-                return Ok();
+                return Ok(new {succeeded});
             }
 
             return BadRequest(result.Errors);
@@ -43,31 +45,30 @@ namespace MasterDataViagem.Controllers {
         [Route(nameof(Login))]
         public async Task<ActionResult<Token>> Login([FromBody]LoginUser model)
         {
-            var user = await this.userManager.FindByNameAsync(model.UserName);
-            if( user == null)
+            var user = await userManager.FindByNameAsync(model.UserName);
+            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
-                return Unauthorized();
-            }
+                //Get role assigned to the user
+                var role = await userManager.GetRolesAsync(user);
+                IdentityOptions _options = new IdentityOptions();
 
-            var passwordValid = await this.userManager.CheckPasswordAsync(user, model.Password);
-
-            if (!passwordValid)
-            {
-                return Unauthorized();
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserID",user.Id.ToString()),
+                        new Claim(_options.ClaimsIdentity.RoleClaimType,role.FirstOrDefault())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Secret)), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return Ok(new { token });
             }
- 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(this.appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encryptedToken = tokenHandler.WriteToken(token);
-            var toReturn = new Token(encryptedToken);
-            return toReturn;
+            else
+                return BadRequest(new { message = "Username or password is incorrect." });
         }
     }
 }
