@@ -195,10 +195,23 @@ class PitchToggle {
     this._btn = document.createElement("button");
     this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
     this._btn.type = "button";
-    this._btn["aria-label"] = "3D";
+    this._btn.textContent = "3D";
     this._btn.onclick = function() {
+
+      if (map.getPitch() === 0) {
+        let options = { pitch: _this._pitch, bearing: _this._bearing };
+        map.easeTo(options);
+        _this._btn.className =
+          "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+      } else {
+        map.easeTo({ pitch: 0, bearing: 0 });
+        _this._btn.className =
+          "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+      }
+
       //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
       if(!toggle){
+        _this._btn.textContent = "2D";
         toggle=true;
         map.dragRotate.enable();
         map.addLayer(
@@ -238,6 +251,7 @@ class PitchToggle {
         );
       }
       else{
+        _this._btn.textContent = "3D";
         map.removeLayer('3d-buildings');
         map.dragRotate.disable();
         toggle=false;
