@@ -15600,7 +15600,7 @@
     ],
     "CSharpLanguageVersion": 900
   },
-  "RootNamespace": null,
+  "RootNamespace": "MasterDataViagem",
   "Documents": [],
   "SerializationFormat": "0.2"
 }

@@ -9,13 +9,9 @@ namespace MasterDataViagem.Domain.WorkBlocks
     {
 
         public string key { get; set; }
-
         public int startTime { get; set; }
-
         public int endTime { get; set; }
-
         public string startNode { get; set; }
-
         public string endNode { get; set; }
         public Boolean isCrewTravelTime { get; set; }
         public Boolean isActive { get; set; }

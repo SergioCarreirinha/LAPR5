@@ -15,15 +15,8 @@ export class VehicleService{
 
     constructor(private http: HttpClient, private injector: Injector) {}
 
-    httpOptions = {
-      headers: new HttpHeaders({ 
-        'Content-Type': 'application/json', 
-        'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
-      })
-    };
-
     addVehicle(vehicle: IVehicle): Observable<IVehicle>{
-        return this.http.post<IVehicle>(this.vehicleURL, vehicle, this.httpOptions).pipe(
+        return this.http.post<IVehicle>(this.vehicleURL, vehicle).pipe(
             tap((newPath: IVehicle) => console.log(`Vehicle with VIN=${newPath.vin} added`)),
             catchError(this.handleError<IVehicle>('addVehicle')));
     }

@@ -13,6 +13,8 @@ namespace MasterDataViagem.Domain.RegisterUser {
 
         [Required]
         public string Email { get; set; }
+        
+        public string Role { get; set; }
     }
 
 }
