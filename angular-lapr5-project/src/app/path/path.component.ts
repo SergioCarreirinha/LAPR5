@@ -157,7 +157,6 @@ export class PathComponent implements OnInit {
 
     //reset the array when the path is added
     this.pathNodes = [];
-    console.log(this.pathNodes);
 
     Swal.fire({
       title: 'Success!',
