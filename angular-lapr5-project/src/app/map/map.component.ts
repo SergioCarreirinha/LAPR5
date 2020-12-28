@@ -33,6 +33,7 @@ export class MapComponent implements OnInit {
       zoom: 13,
       center: [this.lng, this.lat],
     });
+    this.map.addControl(new PitchToggle({minpitchzoom:10}),'top-left');
 
     this.setArrayNodes();
     this.setArrayPaths();
@@ -169,56 +170,103 @@ export class MapComponent implements OnInit {
 
     return "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
   }
-
-  twoDimentionalMap(){
-
-  }
-  //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
-  threeDimentionalMap() {
-    if(!this.toggle){
-      this.toggle=true;
-      this.map.dragRotate.enable();
-      this.map.addLayer(
-        {
-          'id': '3d-buildings',
-          'source': 'composite',
-          'source-layer': 'building',
-          'filter': ['==', 'extrude', 'true'],
-          'type': 'fill-extrusion',
-          'minzoom': 15,
-          'paint': {
-            'fill-extrusion-color': '#aaa',
   
-            // use an 'interpolate' expression to add a smooth transition effect to the
-            // buildings as the user zooms in
-            'fill-extrusion-height': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              15,
-              0,
-              15.05,
-              ['get', 'height']
-            ],
-            'fill-extrusion-base': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              15,
-              0,
-              15.05,
-              ['get', 'min_height']
-            ],
-            'fill-extrusion-opacity': 0.6
-          }
-        },
-      );
+}
+class PitchToggle {
+
+  _pitch: number;
+  _minpitchzoom: any;
+  _map: any;
+  _btn: HTMLButtonElement;
+  _container: HTMLDivElement;
+  _bearing: number;
+  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }) {
+    this._bearing = bearing;
+    this._pitch = pitch;
+    this._minpitchzoom = minpitchzoom;
+  }
+
+  
+  onAdd(map) {
+    this._map = map;
+    let _this = this;
+    let toggle = false;
+
+    this._btn = document.createElement("button");
+    this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+    this._btn.type = "button";
+    this._btn.textContent = "3D";
+    this._btn.onclick = function() {
+
+      if (map.getPitch() === 0) {
+        let options = { pitch: _this._pitch, bearing: _this._bearing };
+        map.easeTo(options);
+        _this._btn.className =
+          "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+      } else {
+        map.easeTo({ pitch: 0, bearing: 0 });
+        _this._btn.className =
+          "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+      }
+
+      //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
+      if(!toggle){
+        _this._btn.textContent = "2D";
+        toggle=true;
+        map.dragRotate.enable();
+        map.addLayer(
+          {
+            'id': '3d-buildings',
+            'source': 'composite',
+            'source-layer': 'building',
+            'filter': ['==', 'extrude', 'true'],
+            'type': 'fill-extrusion',
+            'minzoom': 15,
+            'paint': {
+              'fill-extrusion-color': '#aaa',
+    
+              // use an 'interpolate' expression to add a smooth transition effect to the
+              // buildings as the user zooms in
+              'fill-extrusion-height': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'height']
+              ],
+              'fill-extrusion-base': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'min_height']
+              ],
+              'fill-extrusion-opacity': 0.6
+            }
+          },
+        );
+      }
+      else{
+        _this._btn.textContent = "3D";
+        map.removeLayer('3d-buildings');
+        map.dragRotate.disable();
+        toggle=false;
     }
-    else{
-      this.map.removeLayer('3d-buildings');
-      this.map.dragRotate.disable();
-      this.toggle=false;
-    }
+  };
+
+    this._container = document.createElement("div");
+    this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+    this._container.appendChild(this._btn);
+
+    return this._container;
+  }
+
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
   }
 }
-
