@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { DriverTypeService } from './driver-type.service';
@@ -6,7 +7,9 @@ describe('DriverTypeService', () => {
   let service: DriverTypeService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
     service = TestBed.inject(DriverTypeService);
   });
 
