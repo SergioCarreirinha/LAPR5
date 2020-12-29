@@ -1,4 +1,9 @@
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LineService } from '../services/line.service';
+import { NodeService } from '../services/node.service';
+import { PathService } from '../services/path.service';
 
 import { PathComponent } from './path.component';
 
@@ -8,7 +13,8 @@ describe('PathComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PathComponent ]
+      declarations: [ PathComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   });
