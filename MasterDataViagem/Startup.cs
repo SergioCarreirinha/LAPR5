@@ -14,12 +14,16 @@ using MasterDataViagem.Infrastructure;
 using MasterDataViagem.Infrastructure.Trips;
 using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Infrastructure.Vehicles;
+using MasterDataViagem.Infrastructure.VehicleDuties;
+using MasterDataViagem.Infrastructure.WorkBlocks;
 using MasterDataViagem.Infrastructure.Shared;
 
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Domain.Vehicle;
+using MasterDataViagem.Domain.VehicleDuties;
+using MasterDataViagem.Domain.WorkBlocks;
 using MasterDataViagem.Domain.User;
 
 namespace MasterDataViagem
@@ -117,6 +121,12 @@ namespace MasterDataViagem
             //Vehicle
             services.AddTransient<IVehicleRepository,VehicleRepository>();
             services.AddTransient<VehicleService>();
+            //VehicleDuty
+            services.AddTransient<IVehicleDutyRepository,VehicleDutyRepository>();
+            services.AddTransient<VehicleDutyService>();
+            //WorkBlock
+            services.AddTransient<IWorkBlockRepository,WorkBlockRepository>();
+            services.AddTransient<WorkBlockService>();
         }
     }
 }
