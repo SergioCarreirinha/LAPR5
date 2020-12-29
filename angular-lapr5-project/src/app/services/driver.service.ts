@@ -14,17 +14,10 @@ export class DriverService {
 
   constructor(private http: HttpClient, private injector: Injector) {}
 
-  httpOptions = {
-    headers: new HttpHeaders({ 
-      'Content-Type': 'application/json', 
-      'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
-    })
-  };
 
 
   createDriver(driver: IDriver) :Observable<IDriver>{
-    console.log(this.httpOptions);
-    return this.http.post<IDriver>(this.DriverURL, driver , this.httpOptions)
+    return this.http.post<IDriver>(this.DriverURL, driver)
     .pipe(
       catchError(this.handleError('createDriver', driver))
     );

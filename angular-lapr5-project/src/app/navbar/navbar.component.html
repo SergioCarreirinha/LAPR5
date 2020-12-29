@@ -89,24 +89,6 @@
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Map
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/view">View Map</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Solutions
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/planning">View Solutions</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Work Block
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -119,7 +101,7 @@
                         Trip
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Create Trip</a>
+                        <a class="dropdown-item" href="/trip">Create Trip</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown active">
@@ -143,8 +125,7 @@
 
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a class="nav-link" href="/login">Login <span class="sr-only">(current) </span></a>
-                <a class="nav-link" href="/register">Register <span class="sr-only">(current)</span></a>
+                <a class="nav-link" (click)="onLogout()">Logout <span class="sr-only">(current) </span></a>
             </form>
         </div>
     </nav>

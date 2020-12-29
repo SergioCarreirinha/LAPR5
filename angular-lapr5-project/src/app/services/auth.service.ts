@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,43 +8,33 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  private authPath = environment.url.mdv;
+  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  private readonly BaseURI = environment.url.mdv;
 
-  constructor(private http: HttpClient) { }
+  formModel = this.fb.group({
+    UserName: ['', Validators.required],
+    Email: ['', Validators.email],
+    Password: ['', [Validators.required, Validators.minLength(4)]]
+  });
 
-  login(data) : Observable<any> {
-    return this.http.post(this.authPath+'login', data)
-    .pipe(
-      catchError(this.handleError('login', data))
-    );
+  register(formData) {
+    console.log(formData);
+    return this.http.post(this.BaseURI + 'register', formData);
   }
 
-  register(data) : Observable<any> {
-    return this.http.post(this.authPath+'register', data)
-    .pipe(
-      catchError(this.handleError('register', data))
-    )
+  login(formData) {
+    return this.http.post(this.BaseURI + 'login', formData);
   }
 
-  saveToken(token){
-    localStorage.setItem('token', token);
-  }
-
-  getToken(){
-    return localStorage.getItem('token');
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  roleMatch(allowedRoles): boolean {
+    var isMatch = false;
+    var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+    var userRole = payLoad.role;
+    allowedRoles.forEach((element: any) => {
+      if (userRole == element) {
+        isMatch = true;
+      }
+    });
+    return isMatch;
   }
 }

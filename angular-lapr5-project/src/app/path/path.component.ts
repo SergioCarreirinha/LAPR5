@@ -29,15 +29,15 @@ export class PathComponent implements OnInit {
     this.getLines();
   }
 
-  getLines() {
+  private getLines() {
     this.serviceLine.getLines().subscribe(line => this.lines = line);
   }
 
-  getNodes() {
+  private getNodes() {
     this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
-  getPaths(): void {
+  private getPaths(): void {
     this.pathService.getPaths().subscribe(paths => this.paths = paths)
   }
 
@@ -157,7 +157,6 @@ export class PathComponent implements OnInit {
 
     //reset the array when the path is added
     this.pathNodes = [];
-    console.log(this.pathNodes);
 
     Swal.fire({
       title: 'Success!',
@@ -194,7 +193,7 @@ export class ListPathsComponent implements OnInit {
     this.getLines();
   }
 
-  getLines() {
+  private getLines() {
     this.serviceLine.getLines().subscribe(line => this.selectLine = line);
   }
 

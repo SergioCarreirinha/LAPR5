@@ -11,8 +11,8 @@ import { environment } from 'src/environments/environment';
 
 export class PathService {
 
-  private pathUrl = environment.url.mdr+'api/linePaths';
-  private getPathURL = environment.url.mdr+'api/paths';
+  pathUrl = environment.url.mdr+'api/linePaths';
+  getPathURL = environment.url.mdr+'api/paths';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

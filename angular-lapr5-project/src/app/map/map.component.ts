@@ -45,7 +45,6 @@ export class MapComponent implements OnInit {
     this.map.on('load', () => {
       this.drawNodes();
       this.drawLines();
-      //this.threeDimentionalMap();
     });
   }
   drawNodes() {
@@ -172,6 +171,8 @@ export class MapComponent implements OnInit {
   }
   
 }
+
+//retirado de https://codepen.io/roblabs/pen/zJjPzX
 class PitchToggle {
 
   _pitch: number;

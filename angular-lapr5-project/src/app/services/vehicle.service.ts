@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, Injector } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 import { IVehicle } from "../interfaces/IVehicle";
 import { AuthService } from "./auth.service";
 
@@ -11,19 +12,12 @@ import { AuthService } from "./auth.service";
 
 export class VehicleService{
 
-    private vehicleURL = '';
+    vehicleURL = environment.url.mdv + 'api/vehicle';
 
     constructor(private http: HttpClient, private injector: Injector) {}
 
-    httpOptions = {
-      headers: new HttpHeaders({ 
-        'Content-Type': 'application/json', 
-        'Authorization': `Bearer ${this.injector.get(AuthService).getToken()}`
-      })
-    };
-
     addVehicle(vehicle: IVehicle): Observable<IVehicle>{
-        return this.http.post<IVehicle>(this.vehicleURL, vehicle, this.httpOptions).pipe(
+        return this.http.post<IVehicle>(this.vehicleURL, vehicle).pipe(
             tap((newPath: IVehicle) => console.log(`Vehicle with VIN=${newPath.vin} added`)),
             catchError(this.handleError<IVehicle>('addVehicle')));
     }
