@@ -63,4 +63,40 @@ describe('NodeService', () => {
         req.event(expectedResponse);
       });
     });
+      describe('#getNodes', () => {
+        let iNodes: INode[];
+    
+        beforeEach(() => {
+          service = TestBed.inject(NodeService);
+          iNodes = [
+            { key: "string",
+            name: "string",
+            latitude:1232,
+            longitude: 1232,
+            shortName: "string",
+            isDepot: "true",
+            isReliefPoint: "false",
+            capacities: 30
+          },
+          { key: "string1",
+          name: "string1",
+          latitude:12321,
+          longitude: 12321,
+          shortName: "string1",
+          isDepot: "true",
+          isReliefPoint: "false",
+          capacities: 301
+          },
+          ] as INode[];
+        });
+
+      it('should return expected nodes', () => {
+        service.getNodes().subscribe(nodes => expect(nodes).toEqual(iNodes,'should return expected nodes'), fail);
+  
+        const req = httpTestingController.expectOne(service.NodeURL);
+        expect(req.request.method).toEqual('GET');
+  
+        req.flush(iNodes);
+      });
+    });
 })
