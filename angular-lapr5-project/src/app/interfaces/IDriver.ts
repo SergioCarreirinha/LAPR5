@@ -1,6 +1,6 @@
 export interface IDriver {
     name: string;
-    birthdate: Date;
+    birthdate: string;
     driverLicenseNum: Number;
-    licenseExpiration: Date;
+    licenseExpiration: string;
 }

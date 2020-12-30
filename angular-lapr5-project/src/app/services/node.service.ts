@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class NodeService {
-  private NodeURL = environment.url.mdr+'api/node';  // URL to web api
+  NodeURL = environment.url.mdr+'api/node';  // URL to web api
   
 
   httpOptions = {

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class LineService {
-  private lineURL = environment.url.mdr+'api/line';  // URL to web api
+  lineURL = environment.url.mdr+'api/line';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
