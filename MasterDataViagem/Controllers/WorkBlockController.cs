@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.WorkBlocks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MasterDataViagem.Controllers
 {
@@ -21,6 +22,7 @@ namespace MasterDataViagem.Controllers
 
         // GET: api/WorkBlock
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<IWorkBlockDTO>>> GetAll()
         {
             return await _service.Get();
@@ -28,6 +30,7 @@ namespace MasterDataViagem.Controllers
 
         // GET: api/WorkBlock/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<IWorkBlockDTO>> GetGetById(Guid id)
         {
             var cat = await _service.GetById(new WorkBlockId(id));
@@ -42,6 +45,7 @@ namespace MasterDataViagem.Controllers
 
         // POST: api/WorkBlock
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<IWorkBlockDTO>> Create(IWorkBlockDTO dto)
         {
             var cat = await _service.Create(dto);
@@ -52,6 +56,7 @@ namespace MasterDataViagem.Controllers
 
         // DELETE: api/WorkBlock/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<IWorkBlockDTO>> HardDelete(Guid id)
         {
             try
