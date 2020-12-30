@@ -5,6 +5,10 @@ import { LineService } from '../services/line.service';
 import { PathService } from '../services/path.service';
 import { environment } from 'src/environments/environment';
 import { exit } from 'process';
+import * as THREEBOX from './threebox-master/src/Threebox';
+import * as THREE from './threebox-master/src/three';
+import { INode } from '../interfaces/INode';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-map',
@@ -17,6 +21,7 @@ export class MapComponent implements OnInit {
   linePath: any[] = [];
   paths: any[] = [];
   toggle = false;
+  coords: any[] = [];
 
   map!: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
@@ -42,30 +47,78 @@ export class MapComponent implements OnInit {
     this.map.addControl(new mapboxgl.NavigationControl());
     this.map.dragRotate.disable();
 
-    this.map.on('load', () => {
-      this.drawNodes();
-      this.drawLines();
-    });
+    this.drawNodes();
+    this.drawLines();
+
   }
+
+
   drawNodes() {
+
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
-      for (var i = 0; i < this.nodes.length; i++) {
 
-        new mapboxgl.Marker({ color: 'red', scale: 1 }).setLngLat([this.nodes[i].longitude, this.nodes[i].latitude]).setPopup(
-          new mapboxgl.Popup({ offset: 25 }).setText(
-            this.nodes[i].key + ' name:' +
-            this.nodes[i].name +
-            ' Lat: ' +
-            this.nodes[i].latitude +
-            '   Lon: ' +
-            this.nodes[i].longitude,
-          ),
-        ).addTo(this.map);
+      let tb:THREEBOX;
+      let map = this.map;
+      let nodesIn = this.nodes;
 
-      }
-    })
+     map.on('load', function () {
+        map.addLayer({
+          id: 'custom_layer',
+          type: 'custom',
+          renderingMode: '3d',
+          onAdd: function (map, mbxContext) {
+
+            tb = new THREEBOX(
+              map,
+              mbxContext,
+              { defaultLights: true }
+            );
+
+            let longitudeAdjustment=0.001;
+            let latitudeAdjustment=0.0007;
+            let pointColor=0xff0000;
+            for (var i = 0; i < nodesIn.length; i++) {
+
+              const material = new THREE.MeshBasicMaterial({ color: pointColor });
+              material.transparent = true;
+              let geo = new THREE.CircleGeometry(3, 32);
+              var nodes = new THREE.Mesh(geo, material);
+
+              nodes = tb.Object3D({ obj: nodes })
+                .setCoords([nodesIn[i].longitude-longitudeAdjustment, nodesIn[i].latitude-latitudeAdjustment, 0.00001]);
+              tb.add(nodes);
+            }
+          },
+          render: function (gl, matrix) {
+            tb.update();
+          }
+          
+        });
+        
+      });
+      
+    });
+
+    // this.nodeService.getNodes().subscribe(node => {
+    //   this.nodes = node;
+    //   for (var i = 0; i < this.nodes.length; i++) {
+
+    //     new mapboxgl.Marker({ color: 'red', scale: 1 }).setLngLat([this.nodes[i].longitude, this.nodes[i].latitude]).setPopup(
+    //       new mapboxgl.Popup({ offset: 25 }).setText(
+    //         this.nodes[i].key + ' name:' +
+    //         this.nodes[i].name +
+    //         ' Lat: ' +
+    //         this.nodes[i].latitude +
+    //         '   Lon: ' +
+    //         this.nodes[i].longitude,
+    //       ),
+    //     ).addTo(this.map);
+
+    //   }
+    // })
   }
+
   setArrayLines() {
     this.lineService.getLines().subscribe(lines => {
       this.lines = lines;
@@ -85,58 +138,93 @@ export class MapComponent implements OnInit {
   }
   async drawLines() {
 
-    for (let i = 0; i < this.lines.length; i++) {
-      var coords: any[] = [];
-      for (let h = 0; h < this.lines[i].linePaths.length; h++) {
-        let contador = 0;
-        var pathLine: any[] = [];
-        if (this.lines[i].linePaths[h].linePath != undefined) {
-          pathLine = this.lines[i].linePaths[0].linePath;
-        } else {
-          pathLine.push(this.lines[i].linePaths[h].props);
-        }
-        if (pathLine.length == undefined) {
-          contador = 1;
-        }
-        else {
-          contador = pathLine.length;
-        }
-        for (let z = 0; z < contador; z++) {
-          var nodePath: any[] = [];
-          for (let pa = 0; pa < this.paths.length; pa++) {
-            if (pathLine[z].path == this.paths[pa].key) {
-              if (this.paths[pa].pathNodes[0].pathNode != undefined) {
-                nodePath = this.paths[pa].pathNodes[0].pathNode;
-              } else {
-                for (let jpa = 0; jpa < this.paths[pa].pathNodes.length; jpa++) {
-                  nodePath.push(this.paths[pa].pathNodes[jpa].props);
+    this.lineService.getLines().subscribe(lines => {
+      this.lines = lines;
+      for (let i = 0; i < this.lines.length; i++) {
+        var coords: any[] = [];
+        for (let h = 0; h < this.lines[i].linePaths.length; h++) {
+          let contador = 0;
+          var pathLine: any[] = [];
+          if (this.lines[i].linePaths[h].linePath != undefined) {
+            pathLine = this.lines[i].linePaths[0].linePath;
+          } else {
+            pathLine.push(this.lines[i].linePaths[h].props);
+          }
+          if (pathLine.length == undefined) {
+            contador = 1;
+          }
+          else {
+            contador = pathLine.length;
+          }
+          for (let z = 0; z < contador; z++) {
+            var nodePath: any[] = [];
+            for (let pa = 0; pa < this.paths.length; pa++) {
+              if (pathLine[z].path == this.paths[pa].key) {
+                if (this.paths[pa].pathNodes[0].pathNode != undefined) {
+                  nodePath = this.paths[pa].pathNodes[0].pathNode;
+                } else {
+                  for (let jpa = 0; jpa < this.paths[pa].pathNodes.length; jpa++) {
+                    nodePath.push(this.paths[pa].pathNodes[jpa].props);
+                  }
+                }
+              }
+            }
+            if (pathLine[z].orientation == "Go") {
+              for (let j = 0; j < nodePath.length; j++) {
+                var nodesToLine: any[] = [];
+                for (let k = 0; k < this.nodes.length; k++) {
+                  if (nodePath[j].node == this.nodes[k].key) {
+                    if (!nodePath.includes(this.nodes[k].key)) nodesToLine.push(this.nodes[k]);
+                  }
+                }
+                for (let k = 0; k < nodesToLine.length; k++) {
+                  var lat = nodesToLine[k].latitude;
+                  var long = nodesToLine[k].longitude;
+                  coords.push([long,lat]);
                 }
               }
             }
           }
-          if (pathLine[z].orientation == "Go") {
-            for (let j = 0; j < nodePath.length; j++) {
-              var nodesToLine: any[] = [];
-              for (let k = 0; k < this.nodes.length; k++) {
-                if (nodePath[j].node == this.nodes[k].key) {
-                  if (!nodePath.includes(this.nodes[k].key)) nodesToLine.push(this.nodes[k]);
-                }
-              }
-              for (let k = 0; k < nodesToLine.length; k++) {
-                var lat = nodesToLine[k].latitude;
-                var long = nodesToLine[k].longitude;
-                coords.push([long, lat]);
-              }
-            }
-          }
         }
+        this.drawLine(coords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
+        coords = [];
       }
-      this.drawLine(coords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
-      coords = [];
-    }
+    });
   }
   drawLine(coord: Array<any>, name: string, color: string) {
-    this.map.addSource(name, {
+    let tb:THREEBOX;
+    console.log(coord);
+    console.log(name);
+    this.map.addLayer({
+      id: name,
+      type: 'custom',
+      renderingMode: '3d',
+      onAdd: function (map, mbxContext) {
+
+        tb = new THREEBOX(
+          map,
+          mbxContext,
+          { defaultLights: true }
+        );
+        var lineOptions = {
+          geometry: coord,
+          color: color, // color based on latitude of endpoint
+          width: 3
+        }
+    
+        let lineMesh = tb.line(lineOptions);
+
+        tb.add(lineMesh)
+      },
+      render: function (gl, matrix) {
+        tb.update();
+      }
+      
+    });
+    
+  }
+
+    /* this.map.addSource(name, {
       type: 'geojson',
       data: {
         type: 'Feature',
@@ -159,8 +247,9 @@ export class MapComponent implements OnInit {
         'line-color': color,
         'line-width': 3,
       },
-    });
-  }
+    }); */
+  
+
   rgbToHex(st: string) {
     var r = st.split(",");
     var red = parseInt(r[0].replace('RGB(', ''));
@@ -186,7 +275,6 @@ class PitchToggle {
     this._pitch = pitch;
     this._minpitchzoom = minpitchzoom;
   }
-
   
   onAdd(map) {
     this._map = map;

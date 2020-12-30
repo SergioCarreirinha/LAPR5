@@ -10,7 +10,6 @@ import { PathComponent } from './path.component';
 describe('PathComponent', () => {
   let component: PathComponent;
   let fixture: ComponentFixture<PathComponent>;
-  //let httpClient: HttpClient;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,7 +23,6 @@ describe('PathComponent', () => {
     fixture = TestBed.createComponent(PathComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    //httpClient = TestBed.inject(HttpClient);
   });
 
   it('should create', () => {
