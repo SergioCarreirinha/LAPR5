@@ -14,7 +14,7 @@ export class DriverComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createDriver(name: string, birthdate: Date, driverLicenseNum: string, licenseExpiration: Date){
+  createDriver(name: string, birthdate: string, driverLicenseNum: string, licenseExpiration: string){
     this.driverService.createDriver({
       name: name,
       birthdate: birthdate,

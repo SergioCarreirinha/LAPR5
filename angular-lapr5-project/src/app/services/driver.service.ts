@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class DriverService {
-  private DriverURL = environment.url.mdv+'api/driver';  // URL to web api
+  DriverURL = environment.url.mdv+'api/driver';  // URL to web api
 
   constructor(private http: HttpClient, private injector: Injector) {}
 

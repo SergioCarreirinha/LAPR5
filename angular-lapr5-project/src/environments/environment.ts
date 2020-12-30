@@ -5,11 +5,7 @@
 export const environment = {
   production: false,
   mapbox: {accesstoken:'pk.eyJ1IjoiY3VuaGFhcyIsImEiOiJja2k0eXFsaDEwMXFvMnJucTlzOTE4bjk3In0.1BWcHMvsWG8bpgOSa2LNng'},
-<<<<<<< HEAD
-  url: {mdr: 'http://10.9.10.25/', mdv:'https://mdv-g25.azurewebsites.net/'}
-=======
   url: {mdr: 'https://mdr25.azurewebsites.net/', mdv:'https://mdv-g25.azurewebsites.net/'}
->>>>>>> d219e4408e9dc64af9e5ee754d088d9960ffda10
 };
 
 /*
