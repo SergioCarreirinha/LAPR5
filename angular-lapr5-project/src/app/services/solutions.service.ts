@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SolutionsService {
 
-  private planningURL = environment.url.mdr+'api/planning';  // URL to web api
+  getPathURL = environment.url.mdr+'api/planning';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,7 +19,7 @@ export class SolutionsService {
   constructor(private http: HttpClient) { }
 
   getSolutions() {
-    return this.http.get<ISolutions[]>(this.planningURL)
+    return this.http.get<ISolutions[]>(this.getPathURL)
     .pipe(
       catchError(this.handleError<ISolutions[]>('getSolutions', []))
     );

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class VehicleTypeService {
-    private vehicleTypeURL = environment.url.mdr+'api/vehicleType';  // URL to web api
+    vehicleTypeURL = environment.url.mdr+'api/vehicleType';  // URL to web api
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
