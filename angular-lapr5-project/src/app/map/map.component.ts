@@ -38,7 +38,7 @@ export class MapComponent implements OnInit {
       zoom: 13,
       center: [this.lng, this.lat],
     });
-    this.map.addControl(new PitchToggle({minpitchzoom:10}),'top-left');
+    this.map.addControl(new PitchToggle({ minpitchzoom: 10 }), 'top-left');
 
     this.setArrayNodes();
     this.setArrayPaths();
@@ -49,6 +49,7 @@ export class MapComponent implements OnInit {
 
     this.drawNodes();
     this.drawLines();
+    this.drawBusStop();
 
   }
 
@@ -58,13 +59,13 @@ export class MapComponent implements OnInit {
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
 
-      let tb:THREEBOX;
+      let tb: THREEBOX;
       let map = this.map;
       let nodesIn = this.nodes;
 
-     map.on('load', function () {
+      map.on('load', function () {
         map.addLayer({
-          id: 'custom_layer',
+          id: 'custom_layer1',
           type: 'custom',
           renderingMode: '3d',
           onAdd: function (map, mbxContext) {
@@ -75,9 +76,9 @@ export class MapComponent implements OnInit {
               { defaultLights: true }
             );
 
-            let longitudeAdjustment=0.001;
-            let latitudeAdjustment=0.0007;
-            let pointColor=0xff0000;
+            let longitudeAdjustment = 0.001;
+            let latitudeAdjustment = 0.0007;
+            let pointColor = 0xff0000;
             for (var i = 0; i < nodesIn.length; i++) {
 
               const material = new THREE.MeshBasicMaterial({ color: pointColor });
@@ -86,18 +87,18 @@ export class MapComponent implements OnInit {
               var nodes = new THREE.Mesh(geo, material);
 
               nodes = tb.Object3D({ obj: nodes })
-                .setCoords([nodesIn[i].longitude-longitudeAdjustment, nodesIn[i].latitude-latitudeAdjustment, 0.00001]);
+                .setCoords([nodesIn[i].longitude - longitudeAdjustment, nodesIn[i].latitude - latitudeAdjustment, 0.00001]);
               tb.add(nodes);
             }
           },
           render: function (gl, matrix) {
             tb.update();
           }
-          
+
         });
-        
+
       });
-      
+
     });
 
     // this.nodeService.getNodes().subscribe(node => {
@@ -117,6 +118,53 @@ export class MapComponent implements OnInit {
 
     //   }
     // })
+  }
+
+  drawBusStop() {
+
+    this.nodeService.getNodes().subscribe(node => {
+      this.nodes = node;
+
+      let tb: THREEBOX;
+      let map = this.map;
+      let nodesIn = this.nodes;
+
+      map.addLayer({
+        id: 'custom_layer2',
+        type: 'custom',
+        renderingMode: '3d',
+        onAdd: function (map, mbxContext) {
+
+          tb = new THREEBOX(
+            map,
+            mbxContext,
+            { defaultLights: true }
+          );
+
+          let longitudeAdjustment = 0.001;
+          let latitudeAdjustment = 0.0007;
+
+         // for (let point of nodesIn) {
+            var busStop3D = {
+              obj: '../../assets/3DModel/Project.obj',
+              mtl: '../../assets/3DModel/Project.mtl',
+              type: 'mtl'
+            }
+            let busStop;
+            tb.loadObj(busStop3D, function (model) {
+
+              busStop = model.setCoords(-8.583618392634595, 41.16150946022855, 0.001);
+              tb.add(busStop);
+            });
+          //}
+        },
+        render: function (gl, matrix) {
+          tb.update();
+        }
+
+      });
+    });
+
   }
 
   setArrayLines() {
@@ -180,7 +228,7 @@ export class MapComponent implements OnInit {
                 for (let k = 0; k < nodesToLine.length; k++) {
                   var lat = nodesToLine[k].latitude;
                   var long = nodesToLine[k].longitude;
-                  coords.push([long,lat]);
+                  coords.push([long, lat]);
                 }
               }
             }
@@ -192,9 +240,7 @@ export class MapComponent implements OnInit {
     });
   }
   drawLine(coord: Array<any>, name: string, color: string) {
-    let tb:THREEBOX;
-    console.log(coord);
-    console.log(name);
+    let tb: THREEBOX;
     this.map.addLayer({
       id: name,
       type: 'custom',
@@ -211,7 +257,7 @@ export class MapComponent implements OnInit {
           color: color, // color based on latitude of endpoint
           width: 3
         }
-    
+
         let lineMesh = tb.line(lineOptions);
 
         tb.add(lineMesh)
@@ -219,36 +265,36 @@ export class MapComponent implements OnInit {
       render: function (gl, matrix) {
         tb.update();
       }
-      
+
     });
-    
+
   }
 
-    /* this.map.addSource(name, {
-      type: 'geojson',
-      data: {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: coord,
-        },
+  /* this.map.addSource(name, {
+    type: 'geojson',
+    data: {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: coord,
       },
-    });
-    this.map.addLayer({
-      id: name,
-      type: 'line',
-      source: name,
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round',
-      },
-      paint: {
-        'line-color': color,
-        'line-width': 3,
-      },
-    }); */
-  
+    },
+  });
+  this.map.addLayer({
+    id: name,
+    type: 'line',
+    source: name,
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-color': color,
+      'line-width': 3,
+    },
+  }); */
+
 
   rgbToHex(st: string) {
     var r = st.split(",");
@@ -258,7 +304,7 @@ export class MapComponent implements OnInit {
 
     return "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1);
   }
-  
+
 }
 
 //retirado de https://codepen.io/roblabs/pen/zJjPzX
@@ -275,7 +321,7 @@ class PitchToggle {
     this._pitch = pitch;
     this._minpitchzoom = minpitchzoom;
   }
-  
+
   onAdd(map) {
     this._map = map;
     let _this = this;
@@ -285,7 +331,7 @@ class PitchToggle {
     this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
     this._btn.type = "button";
     this._btn.textContent = "3D";
-    this._btn.onclick = function() {
+    this._btn.onclick = function () {
 
       if (map.getPitch() === 0) {
         let options = { pitch: _this._pitch, bearing: _this._bearing };
@@ -299,9 +345,9 @@ class PitchToggle {
       }
 
       //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
-      if(!toggle){
+      if (!toggle) {
         _this._btn.textContent = "2D";
-        toggle=true;
+        toggle = true;
         map.dragRotate.enable();
         map.addLayer(
           {
@@ -313,7 +359,7 @@ class PitchToggle {
             'minzoom': 15,
             'paint': {
               'fill-extrusion-color': '#aaa',
-    
+
               // use an 'interpolate' expression to add a smooth transition effect to the
               // buildings as the user zooms in
               'fill-extrusion-height': [
@@ -339,13 +385,13 @@ class PitchToggle {
           },
         );
       }
-      else{
+      else {
         _this._btn.textContent = "3D";
         map.removeLayer('3d-buildings');
         map.dragRotate.disable();
-        toggle=false;
-    }
-  };
+        toggle = false;
+      }
+    };
 
     this._container = document.createElement("div");
     this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
