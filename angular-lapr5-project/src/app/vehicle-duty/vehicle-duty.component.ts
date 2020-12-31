@@ -16,6 +16,7 @@ export class VehicleDutyComponent implements OnInit {
   workBlocks: IWorkBlock[] = [];
   workBlocksVehicleDuty: IWorkBlock[] = [];
   vehicleDuty: IVehicleDuty[] = [];
+  workBlock: IWorkBlock;
 
 
   constructor(private workBlockService: WorkBlockService, private vehicleDutyService: VehicleDutyService, private location: Location) { }
@@ -34,11 +35,9 @@ export class VehicleDutyComponent implements OnInit {
 
 
   addVehicleDuty(key: string, name: string, color: string, depots: string) {
-
-    //PathNode Parameter verification
-    if (((!key || !name || !color || !depots) && this.workBlocks.length !== 0) ||
-      ((!key || !name) && this.workBlocks.length === 0)) {
-      console.log("Invalid Paramaters. PathNode wasn't added");
+    //VehicleDuty Parameter verification
+    if ( !key || !name || !color || !depots || this.workBlocksVehicleDuty.length === 0) {
+      console.log("Invalid Paramaters. VehicleDuty wasn't added");
 
       Swal.fire({
         title: 'Warning!',
@@ -59,7 +58,7 @@ export class VehicleDutyComponent implements OnInit {
       depots: depots,
       workBlocks: this.workBlocksVehicleDuty
     } as IVehicleDuty)
-      .subscribe(vehicleDuty => { this.vehicleDuty.push(vehicleDuty) });
+      .subscribe(vehicleDuty => { this.vehicleDuty.push(vehicleDuty); console.log(vehicleDuty)});
 
     Swal.fire({
       title: 'Success!',
@@ -72,9 +71,35 @@ export class VehicleDutyComponent implements OnInit {
 
   }
 
-  addWorkBlock(workBlock: IWorkBlock): void {
-    if (this.workBlocksVehicleDuty.length === 0) {
-      this.workBlocksVehicleDuty.push(workBlock);
+  addWorkBlock(id: string): void {
+    console.log(id);
+    if (id) {
+      this.workBlockService.getWorkBlockById(id).subscribe(p =>{ this.workBlocksVehicleDuty.push(p); this.validateWorkBlock();});
+    } else {
+      Swal.fire({
+        title: 'Warning!',
+        text: "Can't add empty WorkBlock",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  validateWorkBlock(){
+    if (this.workBlocksVehicleDuty.length === 1) {
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Work Block Added ',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    } else if (this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length - 2].endTime == this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length-1].startTime) {
 
       Swal.fire({
         title: 'Success!',
@@ -85,28 +110,17 @@ export class VehicleDutyComponent implements OnInit {
         showConfirmButton: false,
       })
 
-    } else{
-      if(this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length-1].endTime == workBlock.startTime){
-        this.workBlocksVehicleDuty.push(workBlock);
+    } else {
+      this.workBlocksVehicleDuty.pop();
+      Swal.fire({
+        title: 'Warning!',
+        text: "WorkBlock needs to be contiguous. Please enter a valid workblock.",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
 
-        Swal.fire({
-          title: 'Success!',
-          text: 'Work Block Added',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          timer: 2500,
-          showConfirmButton: false,
-        })
-      }else{
-        Swal.fire({
-          title: 'Warning!',
-          text: "WorkBlock needs to be contiguous. Please enter a valid workblock.",
-          icon: 'warning',
-          confirmButtonText: 'Ok',
-          timer: 2500,
-          showConfirmButton: false,
-        })
-      }
     }
   }
 

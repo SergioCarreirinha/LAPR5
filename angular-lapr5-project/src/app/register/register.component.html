@@ -28,10 +28,31 @@
                     </div>
                     <div *ngIf="password.touched && password.errors?.required" class="alert alert-danger">This field is
                         required!</div>
-                    <button type="submit" id="submit" class="btn btn-primary">Register</button>
+                    <input type="checkbox"> Li, compreendi e aceito a
+                    <a href="#exampleModal" data-target="#exampleModal" data-toggle="modal">Política de Privacidade.</a>
+                    <br>
+                    <br>
+                    <button type="submit" id="submit" class="btn btn-primary">Registar</button>
                 </form>
             </div>
             <div class="col-lg-4"></div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -21,6 +21,12 @@ export class WorkBlockService {
                 catchError(this.handleError<IWorkBlock[]>('getWorkBlocks', []))
             );
     }
+    
+    getWorkBlockById(id: string): Observable<IWorkBlock> {
+        return this.http.get<IWorkBlock>(this.WorkBlockURL +'/'+ id).pipe( tap(_ => console.log('fetched WorkBlock')),
+        catchError(this.handleError<IWorkBlock>('getWorkBlockById'))
+        );
+    }
 
     addWorkBlock(value: IWorkBlock): Observable<IWorkBlock> {
         return this.http.post<IWorkBlock>(this.WorkBlockURL, value).pipe(

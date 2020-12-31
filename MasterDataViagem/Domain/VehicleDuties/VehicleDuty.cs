@@ -16,13 +16,13 @@ namespace MasterDataViagem.Domain.VehicleDuties {
 
         public List<WorkBlock> WorkBlocks{ get; set; }
 
-        public VehicleDuty(String _key, String _name, String _color, String _depots) {
+        public VehicleDuty(String _key, String _name, String _color, String _depots,List<WorkBlock> _workBlocks) {
             this.Id = new VehicleDutyId(Guid.NewGuid());
             this.key = _key;
             this.name = _name;
             this.color = _color;
             this.depots = _depots;
-            this.WorkBlocks = new List<WorkBlock>();
+            this.WorkBlocks = _workBlocks;
         }
 
         protected VehicleDuty() {

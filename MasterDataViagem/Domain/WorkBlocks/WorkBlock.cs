@@ -15,8 +15,9 @@ namespace MasterDataViagem.Domain.WorkBlocks
         public string endNode { get; set; }
         public Boolean isCrewTravelTime { get; set; }
         public Boolean isActive { get; set; }
+        public string[] trips { get; set; }
 
-        public WorkBlock(string _key, int _startTime, int _endTime, string _startNode, string _endNode, Boolean _isCrewTravelTime, Boolean _isActive)
+        public WorkBlock(string _key, int _startTime, int _endTime, string _startNode, string _endNode, Boolean _isCrewTravelTime, Boolean _isActive, string[] _trips)
         {
             this.Id = new WorkBlockId(Guid.NewGuid());
             this.key = _key;
@@ -26,8 +27,7 @@ namespace MasterDataViagem.Domain.WorkBlocks
             this.endNode = _endNode;
             this.isCrewTravelTime = _isCrewTravelTime;
             this.isActive = _isActive;
-
-
+            this.trips = _trips;
         }
 
         protected WorkBlock()
