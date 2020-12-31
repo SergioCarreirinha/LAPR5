@@ -22,10 +22,10 @@ export class CreateNodePage {
     return element(by.name('nodeShortName'));
   }
   getIsDepot() {
-    return element(by.name('nodeIsDepot'));
+    return element(by.name('isDepot'));
   }
   getIsReliefPoint() {
-    return element(by.name('nodeIsReliefPoint'));
+    return element(by.name('isReliefPoint'));
   }
   getCapacities() {
     return element(by.name('nodeCapacities'));
