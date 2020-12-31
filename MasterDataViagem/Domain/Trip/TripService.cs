@@ -52,7 +52,7 @@ namespace MasterDataViagem.Domain.Trip
 
         public async Task<ITripDTO> Create(ITripDTO trip)
         {
-            var obj = new Trip(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated);
+            var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated);
 
             await this._repo.AddAsync(obj);
 

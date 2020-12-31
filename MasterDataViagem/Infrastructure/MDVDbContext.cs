@@ -18,7 +18,7 @@ namespace MasterDataViagem.Infrastructure
     public class MDVDbContext : IdentityDbContext<User>
     {
 
-        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Tripes> Trips { get; set; }
 
         public DbSet<Driver> Drivers { get; set; }
 

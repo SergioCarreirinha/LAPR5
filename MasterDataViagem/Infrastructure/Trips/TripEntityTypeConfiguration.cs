@@ -4,9 +4,9 @@ using MasterDataViagem.Domain.Trip;
 
 namespace MasterDataViagem.Infrastructure.Trips
 {
-    internal class TripEntityTypeConfiguration : IEntityTypeConfiguration<Trip>
+    internal class TripEntityTypeConfiguration : IEntityTypeConfiguration<Tripes>
     {
-        public void Configure(EntityTypeBuilder<Trip> builder)
+        public void Configure(EntityTypeBuilder<Tripes> builder)
         {
             //builder.ToTable("Categories", SchemaNames.DDDSample1);
             builder.HasKey(b => b.Id);

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MasterDataViagem.Migrations
 {
-    public partial class vehicleduties : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,23 +59,6 @@ namespace MasterDataViagem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Drivers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Trips",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsEmpty = table.Column<bool>(type: "bit", nullable: false),
-                    Orientation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Line = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsGenerated = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Trips", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,29 +198,6 @@ namespace MasterDataViagem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PassingTimes",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Node = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
-                    IsReliefPoint = table.Column<bool>(type: "bit", nullable: false),
-                    TripId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PassingTimes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PassingTimes_Trips_TripId",
-                        column: x => x.TripId,
-                        principalTable: "Trips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "WorkBlocks",
                 columns: table => new
                 {
@@ -258,6 +218,53 @@ namespace MasterDataViagem.Migrations
                         name: "FK_WorkBlocks_VehicleDuties_VehicleDutyId",
                         column: x => x.VehicleDutyId,
                         principalTable: "VehicleDuties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trips",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsEmpty = table.Column<bool>(type: "bit", nullable: false),
+                    Orientation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Line = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsGenerated = table.Column<bool>(type: "bit", nullable: false),
+                    WorkBlockId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trips", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Trips_WorkBlocks_WorkBlockId",
+                        column: x => x.WorkBlockId,
+                        principalTable: "WorkBlocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PassingTimes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Node = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
+                    IsReliefPoint = table.Column<bool>(type: "bit", nullable: false),
+                    TripesId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PassingTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PassingTimes_Trips_TripesId",
+                        column: x => x.TripesId,
+                        principalTable: "Trips",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -302,9 +309,14 @@ namespace MasterDataViagem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PassingTimes_TripId",
+                name: "IX_PassingTimes_TripesId",
                 table: "PassingTimes",
-                column: "TripId");
+                column: "TripesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trips_WorkBlockId",
+                table: "Trips",
+                column: "WorkBlockId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkBlocks_VehicleDutyId",
@@ -339,9 +351,6 @@ namespace MasterDataViagem.Migrations
                 name: "Vehicles");
 
             migrationBuilder.DropTable(
-                name: "WorkBlocks");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -349,6 +358,9 @@ namespace MasterDataViagem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Trips");
+
+            migrationBuilder.DropTable(
+                name: "WorkBlocks");
 
             migrationBuilder.DropTable(
                 name: "VehicleDuties");

@@ -34,7 +34,7 @@ namespace MasterDataViagem.Controllers {
             };
             
             var result = await this.userManager.CreateAsync(user, model.Password);
-            await this.userManager.AddToRoleAsync(user, "Client");
+            await this.userManager.AddToRoleAsync(user, "Admin");
             if(result.Succeeded){
                 return Ok(new {succeeded});
             }

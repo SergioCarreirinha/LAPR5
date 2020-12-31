@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MasterDataViagem.Domain.PassingTime;
 
 namespace MasterDataViagem.Domain.Trip {
-    public class Trip : Entity<TripId>, IAggregateRoot {
+    public class Tripes : Entity<TripId>, IAggregateRoot {
 
         public string key { get; set; }
 
@@ -20,7 +20,7 @@ namespace MasterDataViagem.Domain.Trip {
 
         public List<PassingTimes> PassingTimes { get; set; }
 
-        public Trip(string _key, bool _isEmpty, string _orientation, string _line, string _path, bool _isGenerated) {
+        public Tripes(string _key, bool _isEmpty, string _orientation, string _line, string _path, bool _isGenerated) {
             this.Id = new TripId(Guid.NewGuid());
             this.key = _key;
             this.IsEmpty = _isEmpty;
@@ -31,7 +31,7 @@ namespace MasterDataViagem.Domain.Trip {
             this.PassingTimes = new List<PassingTimes>();
         }
 
-        protected Trip() {
+        protected Tripes() {
             //ORM
         }
     }

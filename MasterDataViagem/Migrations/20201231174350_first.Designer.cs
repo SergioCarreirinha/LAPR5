@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterDataViagem.Migrations
 {
     [DbContext(typeof(MDVDbContext))]
-    [Migration("20201230222838_vehicleduties")]
-    partial class vehicleduties
+    [Migration("20201231174350_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,7 +60,7 @@ namespace MasterDataViagem.Migrations
                     b.Property<string>("Time")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TripId")
+                    b.Property<string>("TripesId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("key")
@@ -68,12 +68,12 @@ namespace MasterDataViagem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TripId");
+                    b.HasIndex("TripesId");
 
                     b.ToTable("PassingTimes");
                 });
 
-            modelBuilder.Entity("MasterDataViagem.Domain.Trip.Trip", b =>
+            modelBuilder.Entity("MasterDataViagem.Domain.Trip.Tripes", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -93,10 +93,15 @@ namespace MasterDataViagem.Migrations
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("WorkBlockId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("key")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("WorkBlockId");
 
                     b.ToTable("Trips");
                 });
@@ -379,9 +384,16 @@ namespace MasterDataViagem.Migrations
 
             modelBuilder.Entity("MasterDataViagem.Domain.PassingTime.PassingTimes", b =>
                 {
-                    b.HasOne("MasterDataViagem.Domain.Trip.Trip", null)
+                    b.HasOne("MasterDataViagem.Domain.Trip.Tripes", null)
                         .WithMany("PassingTimes")
-                        .HasForeignKey("TripId");
+                        .HasForeignKey("TripesId");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.Trip.Tripes", b =>
+                {
+                    b.HasOne("MasterDataViagem.Domain.WorkBlocks.WorkBlock", null)
+                        .WithMany("trips")
+                        .HasForeignKey("WorkBlockId");
                 });
 
             modelBuilder.Entity("MasterDataViagem.Domain.WorkBlocks.WorkBlock", b =>
@@ -442,7 +454,7 @@ namespace MasterDataViagem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MasterDataViagem.Domain.Trip.Trip", b =>
+            modelBuilder.Entity("MasterDataViagem.Domain.Trip.Tripes", b =>
                 {
                     b.Navigation("PassingTimes");
                 });
@@ -450,6 +462,11 @@ namespace MasterDataViagem.Migrations
             modelBuilder.Entity("MasterDataViagem.Domain.VehicleDuties.VehicleDuty", b =>
                 {
                     b.Navigation("WorkBlocks");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.WorkBlocks.WorkBlock", b =>
+                {
+                    b.Navigation("trips");
                 });
 #pragma warning restore 612, 618
         }

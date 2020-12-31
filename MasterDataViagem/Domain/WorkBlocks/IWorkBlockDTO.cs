@@ -1,5 +1,5 @@
 using System;
-using MasterDataViagem.Domain.PassingTime;
+using MasterDataViagem.Domain.Trip;
 using System.Collections.Generic;
 namespace MasterDataViagem.Domain.WorkBlocks
 {
@@ -21,7 +21,7 @@ namespace MasterDataViagem.Domain.WorkBlocks
 
         public Boolean isActive { get; set; }
 
-        public string[] trips { get; set; }
+        public Tripes[] trips { get; set; }
 
     }
 }
