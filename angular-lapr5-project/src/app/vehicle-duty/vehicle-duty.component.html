@@ -27,12 +27,12 @@
                 <label>WorkBlocks
                     <br>
                     <select #workBlock>
-                        <option *ngFor="let workBlock of workBlocks" value={{workBlock.name}}>{{workBlock.name}}
+                        <option *ngFor="let workBlock of workBlocks" value={{workBlock.id}}>{{workBlock.key}}
                         </option>
                     </select>
                 </label>
                 <button (click)="addWorkBlock(workBlock.value);" class="btn btn-primary">
-                    Create Vehicle Duty
+                    Add WorkBlock
                 </button>
                 <br>
                 <br>
@@ -48,14 +48,14 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Name</th>
+                        <th scope="col">Key</th>
                         <th scope="col">Start Time</th>
                         <th scope="col">End Time</th>
                     </tr>
                 </thead>
                  <tbody>
                     <tr *ngFor="let workBlockVehicleDuty of workBlocksVehicleDuty">
-                        <td>{{workBlockVehicleDuty.name}}</td>
+                        <td>{{workBlockVehicleDuty.key}}</td>
                         <td>{{workBlockVehicleDuty.startTime}}</td>
                         <td>{{workBlockVehicleDuty.endTime}}</td>
                     </tr>

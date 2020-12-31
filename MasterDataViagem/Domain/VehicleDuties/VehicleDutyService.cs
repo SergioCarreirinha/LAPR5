@@ -47,7 +47,7 @@ namespace MasterDataViagem.Domain.VehicleDuties
 
         public async Task<IVehicleDutyDTO> Create(IVehicleDutyDTO vehicleDuty)
         {
-            var obj = new VehicleDuty(vehicleDuty.key, vehicleDuty.name, vehicleDuty.color, vehicleDuty.depots);
+            var obj = new VehicleDuty(vehicleDuty.key, vehicleDuty.name, vehicleDuty.color, vehicleDuty.depots, vehicleDuty.WorkBlock);
 
             await this._repo.AddAsync(obj);
 
