@@ -4,11 +4,9 @@ import { NodeService } from '../services/node.service';
 import { LineService } from '../services/line.service';
 import { PathService } from '../services/path.service';
 import { environment } from 'src/environments/environment';
-import { exit } from 'process';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
-import { INode } from '../interfaces/INode';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 @Component({
   selector: 'app-map',
@@ -144,19 +142,20 @@ export class MapComponent implements OnInit {
           let longitudeAdjustment = 0.001;
           let latitudeAdjustment = 0.0007;
 
-         // for (let point of nodesIn) {
+         for (let point of nodesIn) {
             var busStop3D = {
-              obj: '../../assets/3DModel/Project.obj',
-              mtl: '../../assets/3DModel/Project.mtl',
-              type: 'mtl'
+              obj: '../../assets/3DModel/Paragem.obj',
+              mtl: '../../assets/3DModel/Paragem.mtl',
+              scale: 0.1,
+              rotation: { x: 90, y: 180, z: 0 }
             }
             let busStop;
             tb.loadObj(busStop3D, function (model) {
 
-              busStop = model.setCoords(-8.583618392634595, 41.16150946022855, 0.001);
+              busStop = model.setCoords([point.longitude, point.latitude, 0]);
               tb.add(busStop);
             });
-          //}
+          }
         },
         render: function (gl, matrix) {
           tb.update();
@@ -349,6 +348,7 @@ class PitchToggle {
         _this._btn.textContent = "2D";
         toggle = true;
         map.dragRotate.enable();
+        
         map.addLayer(
           {
             'id': '3d-buildings',

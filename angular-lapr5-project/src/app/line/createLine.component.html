@@ -5,20 +5,20 @@
     <div>
       <label>Key
         <br>
-        <input #lineKey />
+        <input name="lineKey" #lineKey />
       </label>
       <br>
       <label>Name
         <br>
-        <input #lineName />
+        <input name="lineName" #lineName />
       </label>
       <br>
       <label>Color
         <br>
-        <input #lineColor />
+        <input name="color" #lineColor />
       </label>
       <br>
-      <button (click)="addLine(lineKey.value, lineName.value, lineColor.value)" class="btn btn-primary">
+      <button id="submit" (click)="addLine(lineKey.value, lineName.value, lineColor.value)" class="btn btn-primary">
         Create
       </button>
     </div>

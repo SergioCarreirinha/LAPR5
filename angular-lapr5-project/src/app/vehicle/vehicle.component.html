@@ -5,19 +5,19 @@
     <div>
         <label>License Plate
             <br>
-            <input #licensePlate />
+            <input name="licensePlate" #licensePlate />
         </label>
         <br>
 
         <label>Vehicle Identification Number
             <br>
-            <input #vin />
+            <input name="vin" #vin />
         </label>
         <br>
 
         <label>Vehicle Type
             <br>
-            <select #vehicleType>
+            <select name="vehicleType" #vehicleType>
                 <option *ngFor="let type of vehicleTypes" value={{type.name}}>{{type.name}}</option>
               </select>
         </label>
@@ -25,13 +25,14 @@
 
         <label>First Service Date
             <br>
-            <input type="date" #firstServiceDate />
+            <input name="firstServiceDate" type="date" #firstServiceDate />
         </label>
 
         <br>
         <br>
         <!-- (click) passes input value to add() and then clears the input -->
         <button
+            id="submit"
             (click)="addVehicle(licensePlate.value, vin.value, vehicleType.value, firstServiceDate.value); licensePlate.value =''; vin.value =''; firstServiceDate.value ='';"
             class="btn btn-primary">
             Add Vehicle
