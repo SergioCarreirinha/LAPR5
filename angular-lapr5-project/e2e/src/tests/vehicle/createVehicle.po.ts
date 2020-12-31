@@ -3,23 +3,23 @@ import { browser, by, element } from 'protractor';
 export class CreateVehiclePage {
 
   async navigateTo(): Promise<unknown> {
-    return browser.get('api/createVehicle');
+    return browser.get('/createVehicle');
   }
 
   getLicensePlate() {
-    return element(by.id('licensePlate'));
+    return element(by.name('licensePlate'));
   }
   getVin() {
-    return element(by.id('vin'));
+    return element(by.name('vin'));
   }
   getVehicleType() {
-    return element(by.id('vehicleType'));
+    return element(by.name('vehicleType'));
   }
   getFirstServiceDate() {
-    return element(by.id('firstServiceDate'));
+    return element(by.name('firstServiceDate'));
   }
 
   getAddButton() {
-    return element(by.id('addButton'));
+    return element(by.id('submit'));
   }
 }
