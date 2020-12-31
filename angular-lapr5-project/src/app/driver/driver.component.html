@@ -1,29 +1,30 @@
 <app-navbar></app-navbar>
 <div class=jumbotron>
     <h2>Create Driver</h2>
-    <div class="textfield">
+    <div>
         <label>Name
             <br>
-            <input #name />
+            <input name="name" #name/>
         </label>
         <br>
         <label>BirthDate
             <br>
-            <input type="date" #birthdate />
+            <input type="date" name="birthdate" #birthdate/>
         </label>
         <br>
         <label>Driver License Number
             <br>
-            <input type="number" #driverLicenseNum />
+            <input type="number" name="driverLicenseNum" #driverLicenseNum/>
         </label>
         <br>
         <label>License Expiration
             <br>
-            <input type="date" #licenseExpiration />
+            <input type="date" name="licenseExpiration" #licenseExpiration />
         </label>
         <br>
-        <button (click)="createDriver(name.value,birthdate.value,driverLicenseNum.value,licenseExpiration.value);
+        <button id="submit" (click)="createDriver(name.value,birthdate.value,driverLicenseNum.value,licenseExpiration.value);
         name.value='';birthdate.value='';driverLicenseNum.value='';licenseExpiration.value='';" class="btn btn-primary">
             Create
         </button>
+    </div>
 </div>

@@ -3,34 +3,34 @@ import { browser, by, element } from 'protractor';
 export class CreateNodePage {
 
   async navigateTo(): Promise<unknown> {
-    return browser.get('api/node');
+    return browser.get('/createNode');
   }
 
   getKey() {
-    return element(by.id('nodeKey'));
+    return element(by.name('nodeKey'));
   }
   getName() {
-    return element(by.id('nodeName'));
+    return element(by.name('nodeName'));
   }
   getLatitude() {
-    return element(by.id('nodeLatitude'));
+    return element(by.name('nodeLatitude'));
   }
   getLongitude() {
-    return element(by.id('nodeLongitude'));
+    return element(by.name('nodeLongitude'));
   }
   getShortName() {
-    return element(by.id('nodeShortName'));
+    return element(by.name('nodeShortName'));
   }
   getIsDepot() {
-    return element(by.id('nodeIsDepot'));
+    return element(by.name('nodeIsDepot'));
   }
   getIsReliefPoint() {
-    return element(by.id('nodeIsReliefPoint'));
+    return element(by.name('nodeIsReliefPoint'));
   }
   getCapacities() {
-    return element(by.id('nodeCapacities'));
+    return element(by.name('nodeCapacities'));
   }
   getAddButton() {
-    return element(by.id('addButton'));
+    return element(by.id('submit'));
   }
 }
