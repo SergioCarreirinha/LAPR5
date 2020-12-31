@@ -1,30 +1,29 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
     <h2>Create Node</h2>
-    <div class="textfield">
         <label>Key
             <br>
-            <input #nodeKey />
+            <input name="nodeKey" #nodeKey/>
         </label>
         <br>
         <label>Name
             <br>
-            <input #nodeName />
+            <input name="nodeName" #nodeName />
         </label>
         <br>
         <label>Latitude
             <br>
-            <input type="number" min=-90 max=90 #nodeLatitude />
+            <input type="number" min=-90 max=90 name="nodeLatitude" #nodeLatitude />
         </label>
         <br>
         <label>Longitude
             <br>
-            <input type="number" min=-90 max=90 #nodeLongitude />
+            <input type="number" min=-90 max=90 name="nodeLongitude" #nodeLongitude/>
         </label>
         <br>
         <label>Short Name
             <br>
-            <input #nodeShortName />
+            <input name="nodeShortName" #nodeShortName />
         </label>
         <br>
         <label for="isDepot">
@@ -47,7 +46,7 @@
         <br>
         <label>Capacities
             <br>
-            <input type="number" min=0 #nodeCapacities />
+            <input type="number" min=0 name="nodeCapacities" #nodeCapacities />
         </label>
         <br>
         <button (click)="checkValues(nodeKey.value);" class="btn btn-primary">
@@ -55,10 +54,9 @@
         </button>
         <br>
         <br>
-        <button (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
-        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);" class="btn btn-primary">
+        <button id="submit" (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
+        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);nodeKey.value =''; nodeName.value =''; nodeLatitude.value = 0;nodeLongitude.value =0; nodeShortName.value = '';nodeIsDepot.value =''; nodeIsReliefPoint.value = '';nodeCapacities.value=0;" class="btn btn-primary">
             Create
         </button>
-    </div>
     <br>
 </div>

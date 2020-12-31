@@ -1,37 +1,32 @@
-import { browser, logging } from 'protractor';
+import { browser, by, element, logging } from 'protractor';
 import { CreateDriverPage } from './driver.po';
 
-describe('workspace-project App', () => {
+describe('Driver Tests', () => {
   let page: CreateDriverPage;
-
-  beforeEach(() => {
-    page = new CreateDriverPage();
-    page.navigateTo();
+  beforeAll(async () => {
+    browser.executeScript('localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MWFhY2U3NS04YjdjLTRkYWYtYWVkNC01YjY3MmE4MTI0ODgiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDkzNzE1MTIsImV4cCI6MTYwOTQ1NzkxMiwiaWF0IjoxNjA5MzcxNTEyfQ.tHhZHvfCE1Is1XtykTmgyjgSyl7FbOvWiW9m2G8iUKw");');
   });
-
-  it('should add driver', function () {
-
-    page.getName().sendKeys("Roberts");
-
-    page.getBirthDate().sendKeys("2020-12-31");
-
-    page.getDriverLicenseNum().sendKeys(1231241212);
-
-    page.getLicenseExpiration().sendKeys("2021-12-31");
-
-    page.getAddButton().click();
-
-    browser.wait(function () {
-        return browser.switchTo().alert().then(
-            function () { return true; },
-            function () { return false; }
-        );
+  describe('Authenticated Tests', () =>{
+    
+    beforeEach(function(){
+      page = new CreateDriverPage();
     });
 
-    browser.switchTo().alert().then((alert) => {
-        expect(alert.getText()).toString().includes("Invalid Paramaters. Driver wasnt added");
-    alert.dismiss();
-    })
+    it('should add Driver', async () => {
 
-});
+      await page.navigateTo();
+
+      await page.getName().sendKeys("Julia");
+  
+      await page.getBirthDate().sendKeys("12/8/2000");
+  
+      await page.getDriverLicenseNum().sendKeys(123455);
+  
+      await page.getLicenseExpiration().sendKeys("12/8/2030");
+  
+      await page.getAddButton().click();
+
+      expect(await page.getName().getText()).toEqual("");
+    });
+  });
 });
