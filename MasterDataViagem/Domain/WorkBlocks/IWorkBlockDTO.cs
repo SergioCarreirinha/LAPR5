@@ -21,5 +21,7 @@ namespace MasterDataViagem.Domain.WorkBlocks
 
         public Boolean isActive { get; set; }
 
+        public string[] trips { get; set; }
+
     }
 }

@@ -29,7 +29,8 @@ namespace MasterDataViagem.Domain.WorkBlocks
                 startNode = workBlock.startNode,
                 endNode = workBlock.endNode,
                 isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive
+                isActive = workBlock.isActive,
+                trips = workBlock.trips
             });
 
             return listDTO;
@@ -55,8 +56,8 @@ namespace MasterDataViagem.Domain.WorkBlocks
         }
         public async Task<IWorkBlockDTO> Create(IWorkBlockDTO workBlock)
         {
-            var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime, 
-            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive);
+            var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime,
+            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive, workBlock.trips);
 
             await this._repo.AddAsync(obj);
 
@@ -71,7 +72,8 @@ namespace MasterDataViagem.Domain.WorkBlocks
                 startNode = workBlock.startNode,
                 endNode = workBlock.endNode,
                 isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive
+                isActive = workBlock.isActive,
+                trips = workBlock.trips
             };
         }
 
@@ -95,7 +97,8 @@ namespace MasterDataViagem.Domain.WorkBlocks
                 startNode = workBlock.startNode,
                 endNode = workBlock.endNode,
                 isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive
+                isActive = workBlock.isActive,
+                trips = workBlock.trips
             };
         }
     }
