@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   mapbox: {accesstoken:'pk.eyJ1IjoiY3VuaGFhcyIsImEiOiJja2k0eXFsaDEwMXFvMnJucTlzOTE4bjk3In0.1BWcHMvsWG8bpgOSa2LNng'},
-  url: {mdr: 'https://mdr25.azurewebsites.net/', mdv:'https://mdv-g25.azurewebsites.net/'}
+  url: {mdr: 'https://mdr25.azurewebsites.net/', mdv:'http://mdv-g25.azurewebsites.net/'},
+  testing: {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI4MjVkNGMxOC1mNDhiLTQ3OTktYTQ5My1mZWU0NjgyM2FmZTQiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDk1Mjg3ODEsImV4cCI6MTYwOTYxNTE4MSwiaWF0IjoxNjA5NTI4NzgxfQ.Uotr9z0Ewvw2xus7O5Pv6opngPi_j7N_-8PiqkuvnK0'}
 };
 
 /*
