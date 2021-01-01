@@ -28,11 +28,11 @@
                     </div>
                     <div *ngIf="password.touched && password.errors?.required" class="alert alert-danger">This field is
                         required!</div>
-                    <input type="checkbox"> Li, compreendi e aceito a
+                    <input type="checkbox" formControlName="gdprCheck" name="checkRegister"> Li, compreendi e aceito a
                     <a href="#" data-target="#policyModal" data-toggle="modal">Política de Privacidade.</a>
                     <br>
                     <br>
-                    <button type="submit" id="submit" class="btn btn-primary">Registar</button>
+                    <button type="submit" id="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registar</button>
                 </form>
             </div>
             <div class="col-lg-4"></div>

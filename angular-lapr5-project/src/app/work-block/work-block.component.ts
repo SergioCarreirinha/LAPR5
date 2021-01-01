@@ -74,7 +74,7 @@ export class WorkBlockComponent implements OnInit {
     } else {
       Swal.fire({
         title: 'Warning!',
-        text: "Can't add empty WorkBlock",
+        text: "Can't add empty Trip",
         icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
