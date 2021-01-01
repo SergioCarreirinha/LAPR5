@@ -1,5 +1,3 @@
-import { INode } from './INode';
-
 export interface IWorkBlock {
     key: string;
     startTime: Number;

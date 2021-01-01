@@ -30,6 +30,7 @@ import { AdminComponent } from './admin/admin.component';
 import { ClientnavbarComponent } from './clientnavbar/clientnavbar.component';
 import { HomenavbarComponent } from './homenavbar/homenavbar.component';
 import { WorkBlockComponent } from './work-block/work-block.component';
+import { TripComponent } from './trip/trip.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { WorkBlockComponent } from './work-block/work-block.component';
     PathComponent,
     LineComponent,
     VehicleTypeComponent,
+    TripComponent,
     ImportComponent,
     NavbarComponent,
     FooterComponent,

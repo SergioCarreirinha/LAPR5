@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+<div class="jumbotron">
+    <h2>Criar Viagem</h2>
+    <div>
+        <label>
+            Chave
+            <br>
+            <input #key />
+        </label>
+    </div>
+    <div>
+        <label>
+            Está vazia?
+            <input #isEmpty type=checkbox />
+        </label>
+    </div>
+    <div>
+        <label>
+            Orientação
+            <br>
+            <input #orientation />
+        </label>
+    </div>
+    <div>
+        <label>
+            Linha
+            <br>
+            <input #line />
+        </label>
+    </div>
+    <div>
+        <label>
+            Caminho
+            <br>
+            <input #path />
+        </label>
+    </div>
+    <div>
+        <label>
+            Está gerada?
+            <input #isGenerated type=checkbox />
+        </label>
+    </div>
+    <div>
+        <label>
+            Tempos Passados
+            <br>
+            <input #passingTimes />
+        </label>
+    </div>
+    <div>
+        <button (click)="addTrip(key.value, isEmpty.value, 
+        orientation.value, line.value, path.value, 
+        isGenerated.value, passingTimes.value)" type=" button" class="btn btn-primary">Criar</button>
+    </div>
+</div>
