@@ -16,8 +16,6 @@ export class VehicleDutyComponent implements OnInit {
   workBlocks: IWorkBlock[] = [];
   workBlocksVehicleDuty: IWorkBlock[] = [];
   vehicleDuty: IVehicleDuty[] = [];
-  workBlock: IWorkBlock;
-
 
   constructor(private workBlockService: WorkBlockService, private vehicleDutyService: VehicleDutyService, private location: Location) { }
 
@@ -50,22 +48,15 @@ export class VehicleDutyComponent implements OnInit {
 
       return;
     }
-    let workBlockList;
 
-    for(let workBlockId of this.workBlocksVehicleDuty){
-        workBlockList.push(workBlockId);
-    }
-
-
-    console.log(this.workBlocksVehicleDuty)
     this.vehicleDutyService.addVehicleDuty({
       key: key,
       name: name,
       color: color,
       depots: depots,
-      workBlocks: workBlockList,
+      workBlocks: this.workBlocksVehicleDuty
     } as IVehicleDuty)
-      .subscribe(vehicleDuty => {this.vehicleDuty.push(vehicleDuty);workBlockList=[]; console.log(vehicleDuty)});
+      .subscribe(vehicleDuty => {this.vehicleDuty.push(vehicleDuty); console.log(vehicleDuty)});
 
     Swal.fire({
       title: 'Success!',
@@ -79,7 +70,10 @@ export class VehicleDutyComponent implements OnInit {
 
   addWorkBlock(id: string): void {
     if (id) {
-      this.workBlockService.getWorkBlockById(id).subscribe(p =>{ p.isActive=false; this.workBlocksVehicleDuty.push(p); this.validateWorkBlock();});
+      this.workBlockService.getWorkBlockById(id).subscribe(p =>{ 
+        p.isActive=false;
+         this.workBlocksVehicleDuty.push(p); 
+         this.validateWorkBlock(id);});
     } else {
       Swal.fire({
         title: 'Warning!',
@@ -92,7 +86,7 @@ export class VehicleDutyComponent implements OnInit {
     }
   }
 
-  validateWorkBlock(){
+  validateWorkBlock(id:string){
     if (this.workBlocksVehicleDuty.length === 1) {
 
       Swal.fire({

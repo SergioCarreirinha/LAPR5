@@ -5,5 +5,5 @@ export interface IVehicleDuty {
     name: string;
     color: string;
     depots: string;
-    workBlocks: Array<string>;
+    workBlocks: Array<IWorkBlock>;
 }

@@ -16,7 +16,7 @@ namespace MasterDataViagem.Domain.VehicleDuties
 
         public String depots { get; set; }
 
-        public List<String> WorkBlocks{ get; set; }
+        public WorkBlock[] WorkBlocks{ get; set; }
 
     }
 }
