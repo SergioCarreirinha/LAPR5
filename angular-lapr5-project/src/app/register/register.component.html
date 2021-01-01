@@ -28,29 +28,123 @@
                     </div>
                     <div *ngIf="password.touched && password.errors?.required" class="alert alert-danger">This field is
                         required!</div>
-                    <input type="checkbox"> Li, compreendi e aceito a
-                    <a href="#exampleModal" data-target="#exampleModal" data-toggle="modal">Política de Privacidade.</a>
+                    <input type="checkbox" formControlName="gdprCheck" name="checkRegister"> Li, compreendi e aceito a
+                    <a href="#" data-target="#policyModal" data-toggle="modal">Política de Privacidade.</a>
                     <br>
                     <br>
-                    <button type="submit" id="submit" class="btn btn-primary">Registar</button>
+                    <button type="submit" id="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registar</button>
                 </form>
             </div>
             <div class="col-lg-4"></div>
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="policyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Política de Privacidade</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <p>A confidencialidade e a integridade dos seus dados pessoais são uma preocupação da Empresa de
+                        Transporte LDA.</p>
+                    <p>A Empresa de Transporte LDA. cumpre a legislação de proteção de dados pessoais em vigor,
+                        nomeadamente nas relações com os seus utilizadores, fornecedores e subcontratados, em particular
+                        o
+                        Regulamento (UE) 2016/679 do Parlamento Europeu e do Conselho, de 27 de Abril de 2016
+                        (“Regulamento”
+                        ou “RGPD”).</p>
+                    <p>A Empresa de Transporte LDA. compreende e aceita que a utilização dos seus dados pessoais que, no
+                        presente caso, se circunscrevem unicamente àqueles que são necessários à concretização da
+                        transação
+                        comercial subjacente (subscrição e compra de serviços de transportes públicos) requer a sua
+                        prévia
+                        autorização.</p>
+                    <p>A Empresa de Transporte LDA. é responsável pelo tratamento dos seus dados pessoais que nos sejam
+                        disponibilizados no âmbito das transações comerciais realizadas no aplicação.</p>
+                    <p>A Empresa de Transporte LDA. e os seus prestadores de serviços na área da gestão e armazenamento
+                        de
+                        dados, utilizam uma diversidade de medidas de segurança, incluindo encriptação e ferramentas de
+                        autenticação, para ajudar a proteger e manter a segurança dos seus dados pessoais em
+                        conformidade
+                        com os requisitos de proteção de dados aplicáveis.</p>
+                    <p>Os dados que são disponibilizados à Empresa de Transporte LDA. apenas podem ser acedidos por
+                        pessoal
+                        restrito com base na “necessidade de conhecer” e apenas no âmbito das finalidades aqui
+                        comunicadas.
+                        A transferência de dados recolhidos é feita sempre de forma encriptada.</p>
+                    <p>Os dados disponibilizados à Empresa de Transporte LDA. serão usados unicamente durante o período
+                        de
+                        tempo necessário à finalidade para a qual foram disponibilizados, após o que serão destruídos de
+                        forma segura, salvo se, durante esse período, não tenha já retirado o seu consentimento.</p>
+                    <p>Os seus dados pessoais aqui fornecidos, salvo a sua autorização expressa em contrário, não serão
+                        transmitidos a terceiros.</p>
+                    <p>Pode, em qualquer altura, alterar ou retirar o seu consentimento à utilização pela Empresa de
+                        Transporte LDA. dos seus dados pessoais aqui transmitidos, com efeitos para o futuro. Ao
+                        fazê-lo, os
+                        seus dados serão apagados de forma segura.</p>
+                    <p>Para alterar ou retirar o seu consentimento dos dados fornecidos à Empresa de Transporte LDA.
+                        deverá
+                        contactar o Encarregado da Proteção de Dados da Empresa de Transporte LDA. através do endereço
+                        de
+                        email antoniojalmeida@hotmail.com.</p>
+                    <h6>Que dados são recolhidos?</h6>
+                    A Empresa de Transporte LDA. recolhe os seguintes dados:<br>
+                    • Informação de identificação pessoal (Nome, Email);<br><br>
+                    <h6>Como são recolhidos os dados?</h6>
+                    A Empresa de Transporte LDA. recolhe os dados do utilizador e processa-os quando:<br>
+                    • No acto do registo na aplicação.<br><br>
+                    <h6>Como serão usados os dados?</h6>
+                    A Empresa de Transporte LDA. recolhe os dados com o intuito de:<br>
+                    • Criar um novo utilizador da aplicação e devida ficha de cliente;<br>
+                    • Informar o utilizador de actualizações ou oportunidades relacionadas à aplicação.<br><br>
+                    Se aceite, a Empresa de Transporte LDA. irá partilhar a sua informação com o nosso subcontratante
+                    para que também lhe possam informar acerca dos seus serviços:<br>
+                    • OPT (Optimização e Planeamento de Transportes).<br><br>
+                    <h6>Como são armazenados os dados?</h6>
+                    A Empresa de Transporte LDA. armazena os dados em segurança no serviço de base de dados SQL Azure.
+                    Este serviço cloud apresenta vários sistemas de segurança perante os dados guardados:<br>
+                    • Segurança de Rede;<br>
+                    • Gestão de Acesso;<br>
+                    • Proteção de ameaças;<br>
+                    • Proteção de informação.<br><br>
+                    A Empresa de Transporte LDA. irá manter os dados recolhidos até 1 de Fevereiro de 2021. Uma vez que
+                    este periodo seja atingido, a base de dados será apagada com toda a informação sobre o
+                    utilizador.<br><br>
+                    <h6>Quais são os direitos de proteção de dados?</h6>
+                    A Empresa de Transporte LDA. gostaria de informar os seus utilizadores de todos os direitos
+                    relacionados com proteção de dados. Todos os utilizadores terão:<br>
+                    • <b>Direito de Acesso</b> – o utilizador tem o direito de pedir à Empresa de Transporte LDA. uma
+                    cópia dos
+                    seus dados pessoais.<br>
+                    • <b>Direito de retificação</b> – o utilizador tem o direito de pedir à Empresa de Transporte LDA.
+                    uma
+                    retificação dos seus dados pessoais a qualquer momento. O utilizador tem também o direito de pedir
+                    que à Empresa de Transporte LDA. preencha qualquer informação que esteja incompleta.<br>
+                    • <b>Direito de Remoção</b> – o utlizador tem o direito de pedir à Empresa de Transporte LDA. que
+                    apague os
+                    seus dados sobre certas condições.<br>
+                    • <b>Direito de restrição de processamento</b> – o utlizador tem o direito de pedir à Empresa de
+                    Transporte
+                    LDA. que restrinja o processamento dos seus dados, sobre certas condições.<br>
+                    • <b>Direito de protabilidade de dados</b> – o utilizador tem o direito de pedir à Empresa de
+                    Transporte
+                    LDA. que transfira os dados recolhidos para outra organização, ou diretamente para o utilizador,
+                    sobre certas condições.<br><br>
+                    Se o utilizador pretender executar um pedido, a Empresa de Transporte LDA. tem um limite de um mês
+                    para responder. Se pretender contactar a Empresa de Transporte LDA. para exercer algum destes
+                    direitos, por favor contactar:<br>
+                    Ligue-nos em: 22 731 00 94<br>
+                    Escreva-nos em: geral@empresadetransporte.com<br><br>
+                    <h6>Modificações na política de privacidade</h6>
+                    A Empresa de Transporte LDA. mantém a sua política de privacidade regularizada e coloca
+                    actualizações na aplicação. Esta política de privacidade foi alterada pela última vez dia 3 de
+                    Janeiro de 2021.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

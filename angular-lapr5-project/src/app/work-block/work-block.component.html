@@ -49,8 +49,23 @@
         </label>
     </div>
     <div>
+        <label>
+            Viagens
+            <br>
+            <select #trip>
+                <option *ngFor="let trip of trips" value={{trip.id}}>{{trip.key}}
+                </option>
+            </select>
+        </label>
+        <button (click)="addTrip(trip.value);" class="btn btn-primary">
+            Adicionar Viagem
+        </button>
+    </div>
+    <br>
+    <div>
         <button (click)="addWorkBlock(key.value, startTime.value, 
         endTime.value, startNode.value, endNode.value, 
-        isCrewTravelTime.value, isActive.value)" type=" button" class="btn btn-primary">Criar</button>
+        isCrewTravelTime.value, isActive.value)" type=" button" class="btn btn-primary">Criar Bloco de
+            Trabalho</button>
     </div>
 </div>

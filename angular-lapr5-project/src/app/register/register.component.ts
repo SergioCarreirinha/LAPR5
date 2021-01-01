@@ -13,11 +13,14 @@ export class RegisterComponent implements OnInit {
 
   registerForm : FormGroup;
 
+  disableButton: boolean = false;
+
   constructor(private fb: FormBuilder, private authService: AuthService, private toastr: ToastrService, private router: Router) {  
     this.registerForm = this.fb.group({
       'username':['',[Validators.required]],
       'email':['',[Validators.required]],
-      'password':['',[Validators.required]]
+      'password':['',[Validators.required]],
+      'gdprCheck':['',[Validators.requiredTrue]]
     });
   }
 
