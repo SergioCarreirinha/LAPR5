@@ -4,28 +4,28 @@
     <div>
       <label>PathNode Key
         <br>
-        <input #pathNodeKey />
+        <input name='pathNodeKey' #pathNodeKey />
       </label>
       <br>
       <label>Node
         <br>
-        <select #node>
+        <select name='nodeKey' #node>
           <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
         </select>
       </label>
       <br>
       <label>Duration
         <br>
-        <input type="number" min=0 #duration />
+        <input name='duration' type="number" min=0 #duration />
       </label>
       <br>
       <label>Distance
         <br>
-        <input type="number" min=0 #distance />
+        <input name='distance' type="number" min=0 #distance />
       </label>
       <br>
       <!-- (click) passes input value to add() and then clears the input -->
-      <button
+      <button id='addPathNode'
         (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; duration.value=''; distance.value='';"
         class="btn btn-primary">
         Add Path Node
@@ -40,27 +40,27 @@
   <div>
     <label>In which line?
       <br>
-      <select #line>
+      <select name='line' #line>
         <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
       </select>
     </label>
     <br>
     <label>Path Key
       <br>
-      <input #pathKey/>
+      <input name='pathKey' #pathKey/>
     </label>
     <br>
     <label>To Go?
-      <input #toGo type=checkbox>
+      <input name='toGo' #toGo type=checkbox>
     </label>
     <br>
     <label>Is Empty?
-      <input #isEmpty type=checkbox>
+      <input name='isEmpty' #isEmpty type=checkbox>
     </label>    
     <br>
 
     <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked); pathKey.value=''"
+    <button name='createPath' (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked); pathKey.value=''"
       class="btn btn-primary">
       Create Path
     </button>

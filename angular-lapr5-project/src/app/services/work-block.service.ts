@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { IWorkBlock } from '../interfaces/IWorkBlock';
 import { environment } from 'src/environments/environment';
-import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,10 +20,10 @@ export class WorkBlockService {
                 catchError(this.handleError<IWorkBlock[]>('getWorkBlocks', []))
             );
     }
-    
+
     getWorkBlockById(id: string): Observable<IWorkBlock> {
-        return this.http.get<IWorkBlock>(this.WorkBlockURL +'/'+ id).pipe( tap(_ => console.log('fetched WorkBlock')),
-        catchError(this.handleError<IWorkBlock>('getWorkBlockById'))
+        return this.http.get<IWorkBlock>(this.WorkBlockURL + '/' + id).pipe(tap(_ => console.log('fetched WorkBlock')),
+            catchError(this.handleError<IWorkBlock>('getWorkBlockById'))
         );
     }
 
