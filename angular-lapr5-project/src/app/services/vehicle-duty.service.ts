@@ -28,7 +28,7 @@ export class VehicleDutyService{
 
     addVehicleDuty(vehicleDuty: IVehicleDuty): Observable<IVehicleDuty>{
         return this.http.post<IVehicleDuty>(this.vehicleDutyURL, vehicleDuty, this.httpOptions).pipe(
-            catchError(this.handleError<IVehicleDuty>('addVehicleDuty')));
+            catchError(this.handleError<IVehicleDuty>('addVehicleDuty', vehicleDuty)));
     }
 
     private handleError<T>(operation = 'operation', result?: T) {

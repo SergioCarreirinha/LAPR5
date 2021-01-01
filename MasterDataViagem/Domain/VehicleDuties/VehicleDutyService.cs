@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
+using System;
 
 namespace MasterDataViagem.Domain.VehicleDuties
 {

@@ -51,7 +51,7 @@ namespace MasterDataViagem.Controllers {
 
             return CreatedAtAction(nameof(GetGetById), new { id = cat.Id }, cat);
         }
-
+    
         
         // DELETE: api/vehicleDuty/5
         [HttpDelete("{id}")]
