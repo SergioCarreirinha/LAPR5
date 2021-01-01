@@ -45,13 +45,14 @@ namespace MasterDataViagem.Controllers {
         // POST: api/vehicleDuty
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<IVehicleDutyDTO>> Create(IVehicleDutyDTO dto)
+        public async Task<ActionResult<IVehicleDutyDTO>> Create(CVehicleDutyDTO dto)
         {
+            Console.Write("OLAAAAA");
             var cat = await _service.Create(dto);
 
             return CreatedAtAction(nameof(GetGetById), new { id = cat.Id }, cat);
         }
-    
+
         
         // DELETE: api/vehicleDuty/5
         [HttpDelete("{id}")]

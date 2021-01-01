@@ -4,7 +4,7 @@ using MasterDataViagem.Domain.WorkBlocks;
 
 namespace MasterDataViagem.Domain.VehicleDuties
 {
-    public class IVehicleDutyDTO
+    public class CVehicleDutyDTO
     {
         public Guid Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace MasterDataViagem.Domain.VehicleDuties
 
         public String depots { get; set; }
 
-        public List<WorkBlock> WorkBlocks{ get; set; }
+        public List<String> WorkBlocks{ get; set; }
 
     }
 }

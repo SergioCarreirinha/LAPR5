@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
+using MasterDataViagem.Domain.WorkBlocks;
 using System;
 
 namespace MasterDataViagem.Domain.VehicleDuties
@@ -8,11 +9,13 @@ namespace MasterDataViagem.Domain.VehicleDuties
     public class VehicleDutyService
     {
         private readonly IVehicleDutyRepository _repo;
+        private readonly IWorkBlockRepository _repoWb;
         private readonly IUnitOfWork _unitOfWork;
 
-        public VehicleDutyService(IVehicleDutyRepository repo, IUnitOfWork unitOfWork)
+        public VehicleDutyService(IVehicleDutyRepository repo,IWorkBlockRepository repoWb, IUnitOfWork unitOfWork)
         {
             this._repo = repo;
+            this._repoWb = repoWb;
             this._unitOfWork = unitOfWork;
         }
 
@@ -46,9 +49,24 @@ namespace MasterDataViagem.Domain.VehicleDuties
             };
         }
 
-        public async Task<IVehicleDutyDTO> Create(IVehicleDutyDTO vehicleDuty)
+        public async Task<IVehicleDutyDTO> Create(CVehicleDutyDTO dto)
         {
-            var obj = new VehicleDuty(vehicleDuty.key, vehicleDuty.name, vehicleDuty.color, vehicleDuty.depots, vehicleDuty.WorkBlocks);
+            List<WorkBlock> workBlockList=new List<WorkBlock>(); 
+            foreach (var wb in dto.WorkBlocks)
+            {
+
+                if (wb != null)
+                {
+
+                    Console.Write(wb);
+                    WorkBlock workBlock = new WorkBlock(wb);
+                    WorkBlock l = this._repoWb.GetByIdAsync(workBlock.Id).Result;
+                    workBlockList.Add(l);
+
+                }
+            }
+
+            var obj = new VehicleDuty(dto.key, dto.name, dto.color, dto.depots, workBlockList);
 
             await this._repo.AddAsync(obj);
 

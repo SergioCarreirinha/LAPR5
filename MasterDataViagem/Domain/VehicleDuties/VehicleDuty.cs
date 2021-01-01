@@ -14,9 +14,9 @@ namespace MasterDataViagem.Domain.VehicleDuties {
 
         public String depots { get; set; }
 
-        public WorkBlock[] WorkBlocks{ get; set; }
+        public List<WorkBlock> WorkBlocks{ get; set; }
 
-        public VehicleDuty(String _key, String _name, String _color, String _depots,WorkBlock[] _workBlocks) {
+        public VehicleDuty(String _key, String _name, String _color, String _depots,List<WorkBlock> _workBlocks) {
             this.Id = new VehicleDutyId(Guid.NewGuid());
             this.key = _key;
             this.name = _name;

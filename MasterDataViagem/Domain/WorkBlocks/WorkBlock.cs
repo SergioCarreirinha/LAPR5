@@ -30,6 +30,13 @@ namespace MasterDataViagem.Domain.WorkBlocks
             this.trips = _trips;
         }
 
+        public WorkBlock(string _id)
+        {
+            this.Id = new WorkBlockId(_id);
+        }
+
+        
+
         protected WorkBlock()
         {
             //ORM
