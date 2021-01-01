@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 using MasterDataViagem.Infrastructure;
 using MasterDataViagem.Infrastructure.Trips;
+using MasterDataViagem.Infrastructure.PassingTimes;
 using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Infrastructure.Vehicles;
 using MasterDataViagem.Infrastructure.VehicleDuties;
@@ -20,6 +21,7 @@ using MasterDataViagem.Infrastructure.Shared;
 
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
+using MasterDataViagem.Domain.PassingTimes;
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Domain.Vehicle;
 using MasterDataViagem.Domain.VehicleDuties;
@@ -119,6 +121,9 @@ namespace MasterDataViagem
             //Trip
             services.AddTransient<ITripRepository, TripRepository>();
             services.AddTransient<TripService>();
+            //PassingTime
+            services.AddTransient<IPassingTimeRepository, PassingTimeRepository>();
+            services.AddTransient<PassingTimeService>();
             //Driver
             services.AddTransient<IDriverRepository, DriverRepository>();
             services.AddTransient<DriverService>();

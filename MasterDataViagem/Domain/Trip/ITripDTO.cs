@@ -1,6 +1,7 @@
 using System;
-using MasterDataViagem.Domain.PassingTime;
+using MasterDataViagem.Domain.PassingTimes;
 using System.Collections.Generic;
+
 namespace MasterDataViagem.Domain.Trip
 {
     public class ITripDTO
@@ -19,6 +20,6 @@ namespace MasterDataViagem.Domain.Trip
 
         public bool IsGenerated { get; set; }
 
-        public List<PassingTimes> PassingTimes { get; set; }
+        public List<PassingTime> PassingTimes {get; set;}
     }
 }

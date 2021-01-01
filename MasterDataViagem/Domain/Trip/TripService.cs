@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
-using MasterDataViagem.Domain.PassingTime;
+using MasterDataViagem.Domain.PassingTimes;
 
 namespace MasterDataViagem.Domain.Trip
 {

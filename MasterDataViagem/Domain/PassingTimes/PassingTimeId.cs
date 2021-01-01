@@ -2,16 +2,16 @@ using System;
 using MasterDataViagem.Domain.Shared;
 using Newtonsoft.Json;
 
-namespace MasterDataViagem.Domain.PassingTime
+namespace MasterDataViagem.Domain.PassingTimes
 {
-    public class PassingTimesId : EntityId
+    public class PassingTimeId : EntityId
     {
         [JsonConstructor]
-        public PassingTimesId(Guid value) : base(value)
+        public PassingTimeId(Guid value) : base(value)
         {
         }
 
-        public PassingTimesId(String value) : base(value)
+        public PassingTimeId(String value) : base(value)
         {
         }
 
