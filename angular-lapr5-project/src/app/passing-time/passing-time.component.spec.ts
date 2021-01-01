@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PassingTimeComponent } from './passing-time.component';
@@ -8,7 +9,8 @@ describe('PassingTimeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PassingTimeComponent ]
+      declarations: [ PassingTimeComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   });
