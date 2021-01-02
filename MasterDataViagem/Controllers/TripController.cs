@@ -44,7 +44,7 @@ namespace MasterDataViagem.Controllers {
         // POST: api/Trip
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<ITripDTO>> Create(ITripDTO dto)
+        public async Task<ActionResult<ITripDTO>> Create(CTripDTO dto)
         {
             var cat = await _service.Create(dto);
 

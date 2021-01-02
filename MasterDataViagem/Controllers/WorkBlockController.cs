@@ -46,7 +46,7 @@ namespace MasterDataViagem.Controllers
         // POST: api/WorkBlock
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<IWorkBlockDTO>> Create(IWorkBlockDTO dto)
+        public async Task<ActionResult<IWorkBlockDTO>> Create(CWorkBlockDTO dto)
         {
             var cat = await _service.Create(dto);
 

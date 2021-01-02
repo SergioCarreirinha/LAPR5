@@ -19,7 +19,7 @@ import { WorkBlockComponent } from './work-block/work-block.component';
 import { AuthGuard } from './auth.guard/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AdminComponent } from './admin/admin.component';
-import { TripComponent } from './trip/trip.component'
+import { CreateTripComponent, TripComponent } from './trip/trip.component'
 import { CreatePassingTimeComponent, PassingTimeComponent } from './passing-time/passing-time.component';
 
 const routes: Routes = [
@@ -46,8 +46,8 @@ const routes: Routes = [
   { path: 'createLine', component: CreateLineComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createVehicle', component: VehicleComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createvehicleDuty', component: VehicleDutyComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
-  { path: 'createTrip', component: TripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } }
-
+  { path: 'createTrip', component: CreateTripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
+  { path: 'listTrip', component: TripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } }
 ];
 
 @NgModule({

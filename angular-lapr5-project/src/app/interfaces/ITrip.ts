@@ -1,10 +1,10 @@
 export interface ITrip {
 
     key: string;
-    isEmpty: boolean;
+    isEmpty: string;
     orientation: string;
     line: string;
     path: string;
-    isGenerated: boolean;
-    passingTimes: string;
+    isGenerated: string;
+    passingTimes: Array<string>;
 }

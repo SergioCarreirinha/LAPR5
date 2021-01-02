@@ -1,56 +1,26 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-    <h2>Criar Viagem</h2>
-    <div>
-        <label>
-            Chave
-            <br>
-            <input #key />
-        </label>
-    </div>
-    <div>
-        <label>
-            Está vazia?
-            <input #isEmpty type=checkbox />
-        </label>
-    </div>
-    <div>
-        <label>
-            Orientação
-            <br>
-            <input #orientation />
-        </label>
-    </div>
-    <div>
-        <label>
-            Linha
-            <br>
-            <input #line />
-        </label>
-    </div>
-    <div>
-        <label>
-            Caminho
-            <br>
-            <input #path />
-        </label>
-    </div>
-    <div>
-        <label>
-            Está gerada?
-            <input #isGenerated type=checkbox />
-        </label>
-    </div>
-    <div>
-        <label>
-            Tempos Passados
-            <br>
-            <input #passingTimes />
-        </label>
-    </div>
-    <div>
-        <button (click)="addTrip(key.value, isEmpty.value, 
-        orientation.value, line.value, path.value, 
-        isGenerated.value, passingTimes.value)" type=" button" class="btn btn-primary">Criar</button>
-    </div>
+  <h2>Viagens</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Chave</th>
+        <th scope="col">Linha</th>
+        <th scope="col">Orientação</th>
+        <th scope="col">Caminho</th>
+        <th scope="col">É gerado?</th>
+        <th scope="col">Passagens</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trip of trips">
+        <td>{{trip.key}}</td>
+        <td>{{trip.line}}</td>
+        <td>{{trip.orientation}}</td>
+        <td>{{trip.path}}</td>
+        <td>{{trip.isGenerated}}</td>
+        <td>{{trip.passingTimes}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+<div class="jumbotron">
+    <div class="grid-container">
+        <div class="grid-item">
+            <h2>Criar Viagem</h2>
+            <div>
+                <label>
+                    Chave
+                    <br>
+                    <input #key />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Está vazia?
+                    <input #isEmpty type=checkbox />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Orientação
+                    <br>
+                    <input #orientation />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Linha
+                    <br>
+                    <input #line />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Caminho
+                    <br>
+                    <input #path />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Está gerada?
+                    <input #isGenerated type=checkbox />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Passagens
+                    <br>
+                    <select #passing>
+                        <option *ngFor="let passingTime of passingTimes" value={{passingTime.id}}>{{passingTime.key}}
+                        </option>
+                    </select>
+                </label>
+                <button (click)="addPassingTime(passing.value);" class="btn btn-primary">
+                    Adicionar Passagem
+                </button>
+            </div>
+            <div>
+                <button (click)="addTrip(key.value, isEmpty.checked, 
+                orientation.value, line.value, path.value, 
+                isGenerated.checked)" type=" button" class="btn btn-primary">Criar</button>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Passagens Selecionadas</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Key</th>
+                        <th scope="col">Tempo</th>
+                        <th scope="col">Nó</th>
+                    </tr>
+                </thead>
+                 <tbody>
+                    <tr *ngFor="let passingTrip of passingTrips">
+                        <td>{{passingTrip.key}}</td>
+                        <td>{{passingTrip.time}}</td>
+                        <td>{{passingTrip.node}}</td>
+                    </tr>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</div>

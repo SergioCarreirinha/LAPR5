@@ -2,18 +2,21 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTimes;
+using System;
 
 namespace MasterDataViagem.Domain.Trip
 {
     public class TripService
     {
         private readonly ITripRepository _repo;
+        private readonly IPassingTimeRepository _repoPt;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TripService(ITripRepository repo, IUnitOfWork unitOfWork)
+        public TripService(ITripRepository repo, IUnitOfWork unitOfWork, IPassingTimeRepository repoPt)
         {
             this._repo = repo;
             this._unitOfWork = unitOfWork;
+            this._repoPt = repoPt;
         }
 
         public async Task<List<ITripDTO>> Get(){
@@ -50,9 +53,24 @@ namespace MasterDataViagem.Domain.Trip
             };
         }
 
-        public async Task<ITripDTO> Create(ITripDTO trip)
-        {
-            var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated);
+        public async Task<ITripDTO> Create(CTripDTO trip)
+        {   
+            List<PassingTime> passingTimeList= new List<PassingTime>(); 
+            foreach (var pt in trip.PassingTimes)
+            {
+
+                if (pt != null)
+                {
+
+                    Console.Write(pt);
+                    PassingTime ptId = new PassingTime(pt);
+                    PassingTime ptM = this._repoPt.GetByIdAsync(ptId.Id).Result;
+                    passingTimeList.Add(ptM);
+
+                }
+            }
+
+            var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated, passingTimeList);
 
             await this._repo.AddAsync(obj);
 
@@ -66,7 +84,7 @@ namespace MasterDataViagem.Domain.Trip
                 Line = obj.Line,
                 Path = obj.Path, 
                 IsGenerated = obj.IsGenerated,
-                PassingTimes = obj.PassingTimes
+                PassingTimes = passingTimeList
             };
         }
 

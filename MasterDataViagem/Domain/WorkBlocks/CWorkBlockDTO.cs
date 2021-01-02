@@ -1,9 +1,9 @@
 using System;
-using MasterDataViagem.Domain.Trip;
 using System.Collections.Generic;
+
 namespace MasterDataViagem.Domain.WorkBlocks
 {
-    public class IWorkBlockDTO
+    public class CWorkBlockDTO
     {
         public Guid Id { get; set; }
 
@@ -21,7 +21,7 @@ namespace MasterDataViagem.Domain.WorkBlocks
 
         public Boolean isActive { get; set; }
 
-        public List<Tripes> trips { get; set; }
+        public List<String> trips { get; set; }
 
     }
 }

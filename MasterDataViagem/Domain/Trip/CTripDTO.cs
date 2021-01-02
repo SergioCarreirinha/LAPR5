@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MasterDataViagem.Domain.Trip
 {
-    public class ITripDTO
+    public class CTripDTO
     {
         public Guid Id { get; set; }
 
@@ -20,6 +20,6 @@ namespace MasterDataViagem.Domain.Trip
 
         public string IsGenerated { get; set; }
 
-        public List<PassingTime> PassingTimes {get; set;}
+        public List<String> PassingTimes {get; set;}
     }
 }

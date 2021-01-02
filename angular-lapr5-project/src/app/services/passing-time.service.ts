@@ -21,6 +21,13 @@ export class PassingTimeService {
     );
   }
 
+  getPassingById(id: string): Observable<IPassingTime>{
+    return this.http.get<IPassingTime>(this.passingTimesURL+'/'+id)
+    .pipe(
+      catchError(this.handleError<IPassingTime>('getPassingById'))
+    );
+  }
+
   addPassingTime(value: IPassingTime): Observable<IPassingTime>{
     return this.http.post<IPassingTime>(this.passingTimesURL, value).pipe(
       catchError(this.handleError('addPassingTime', value))

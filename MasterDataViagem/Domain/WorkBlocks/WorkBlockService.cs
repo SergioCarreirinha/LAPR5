@@ -1,18 +1,20 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
-
+using MasterDataViagem.Domain.Trip;
 namespace MasterDataViagem.Domain.WorkBlocks
 {
     public class WorkBlockService
     {
         private readonly IWorkBlockRepository _repo;
+        private readonly ITripRepository _repoTp;
         private readonly IUnitOfWork _unitOfWork;
 
-        public WorkBlockService(IWorkBlockRepository repo, IUnitOfWork unitOfWork)
+        public WorkBlockService(IWorkBlockRepository repo, IUnitOfWork unitOfWork, ITripRepository repoTp)
         {
             this._repo = repo;
             this._unitOfWork = unitOfWork;
+            this._repoTp = repoTp;
         }
 
         public async Task<List<IWorkBlockDTO>> Get()
@@ -53,10 +55,25 @@ namespace MasterDataViagem.Domain.WorkBlocks
                 isActive = workBlock.isActive
             };
         }
-        public async Task<IWorkBlockDTO> Create(IWorkBlockDTO workBlock)
+        public async Task<IWorkBlockDTO> Create(CWorkBlockDTO workBlock)
         {
+            List<Tripes> tripsList = new List<Tripes>();
+            foreach (var tp in workBlock.trips)
+            {
+
+                if (tp != null)
+                {
+
+                    
+                    Tripes tripId = new Tripes(tp);
+                    Tripes l = this._repoTp.GetByIdAsync(tripId.Id).Result;
+                    tripsList.Add(l);
+
+                }
+            }
+
             var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime,
-            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive, workBlock.trips);
+            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive, tripsList);
 
             await this._repo.AddAsync(obj);
 
@@ -72,7 +89,7 @@ namespace MasterDataViagem.Domain.WorkBlocks
                 endNode = workBlock.endNode,
                 isCrewTravelTime = workBlock.isCrewTravelTime,
                 isActive = workBlock.isActive,
-                trips = workBlock.trips
+                trips = tripsList
             };
         }
 

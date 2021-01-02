@@ -18,6 +18,9 @@ namespace MasterDataViagem.Domain.PassingTimes {
             this.IsReliefPoint = _isReliefPoint;
         }
 
+        public PassingTime(string _id){
+            this.Id = new PassingTimeId(_id);
+        }
         protected PassingTime(){
             //ORM
         }
