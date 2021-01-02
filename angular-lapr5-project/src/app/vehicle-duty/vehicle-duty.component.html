@@ -2,29 +2,29 @@
 <div class="jumbotron">
     <div class="grid-container">
         <div class="grid-item">
-            <h2>Create Vehicle Duty</h2>
+            <h2>Criar Serviço de Veículo</h2>
             <div class="textfield">
-                <label>Key
+                <label>Chave
                     <br>
                     <input #vehicleDutyKey />
                 </label>
                 <br>
-                <label>Name
+                <label>Nome
                     <br>
                     <input #vehicleDutyName />
                 </label>
                 <br>
-                <label>Color
+                <label>Cor
                     <br>
                     <input #vehicleDutyColor />
                 </label>
                 <br>
-                <label>Depots
+                <label>Depósitos
                     <br>
                     <input #vehicleDutyDepots />
                 </label>
                 <br>
-                <label>WorkBlocks
+                <label>Blocos de Trabalho
                     <br>
                     <select #workBlock>
                         <option *ngFor="let workBlock of workBlocks" value={{workBlock.id}}>{{workBlock.key}}
@@ -32,34 +32,34 @@
                     </select>
                 </label>
                 <button (click)="addWorkBlock(workBlock.value);" class="btn btn-primary">
-                    Add WorkBlock
+                    Adicionar Bloco de Trabalho
                 </button>
                 <br>
                 <br>
                 <button
                     (click)="addVehicleDuty(vehicleDutyKey.value,vehicleDutyName.value,vehicleDutyColor.value,vehicleDutyDepots.value);"
                     class="btn btn-primary">
-                    Create Vehicle Duty
+                    Criar Serviço de Veículo
                 </button>
             </div>
         </div>
         <div class="grid-item">
-            <h2>Selected WorkBlocks</h2>
+            <h2>Blocos de Trabalho Selecionados</h2>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Key</th>
-                        <th scope="col">Start Time</th>
-                        <th scope="col">End Time</th>
+                        <th scope="col">Chave</th>
+                        <th scope="col">Tempo Inicial</th>
+                        <th scope="col">Tempo Final</th>
                     </tr>
                 </thead>
-                 <tbody>
+                <tbody>
                     <tr *ngFor="let workBlockVehicleDuty of workBlocksVehicleDuty">
                         <td>{{workBlockVehicleDuty.key}}</td>
                         <td>{{workBlockVehicleDuty.startTime}}</td>
                         <td>{{workBlockVehicleDuty.endTime}}</td>
                     </tr>
-                </tbody> 
+                </tbody>
             </table>
         </div>
         <br>

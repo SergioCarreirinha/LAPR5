@@ -1,62 +1,64 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-    <h2>Create Node</h2>
-        <label>Key
-            <br>
-            <input name="nodeKey" #nodeKey/>
-        </label>
+    <h2>Criar Nó</h2>
+    <label>Chave
         <br>
-        <label>Name
-            <br>
-            <input name="nodeName" #nodeName />
-        </label>
+        <input name="nodeKey" #nodeKey />
+    </label>
+    <br>
+    <label>Nome
         <br>
-        <label>Latitude
-            <br>
-            <input type="number" min=-90 max=90 name="nodeLatitude" #nodeLatitude />
-        </label>
+        <input name="nodeName" #nodeName />
+    </label>
+    <br>
+    <label>Latitude
         <br>
-        <label>Longitude
-            <br>
-            <input type="number" min=-90 max=90 name="nodeLongitude" #nodeLongitude/>
-        </label>
+        <input type="number" min=-90 max=90 name="nodeLatitude" #nodeLatitude />
+    </label>
+    <br>
+    <label>Longitude
         <br>
-        <label>Short Name
-            <br>
-            <input name="nodeShortName" #nodeShortName />
-        </label>
+        <input type="number" min=-90 max=90 name="nodeLongitude" #nodeLongitude />
+    </label>
+    <br>
+    <label>Abreviatura
         <br>
-        <label for="isDepot">
-            Is Depot:
-        </label>
+        <input name="nodeShortName" #nodeShortName />
+    </label>
+    <br>
+    <label for="isDepot">
+        Depósito?
+    </label>
+    <br>
+    <select name="isDepot" #nodeIsDepot>
+        <option value='true'>Sim</option>
+        <option value='false'>Não</option>
+    </select>
+    <br>
+    <label for="isReliefPoint">
+        Ponto de Alívio?
+    </label>
+    <br>
+    <select name="isReliefPoint" #nodeIsReliefPoint>
+        <option value='true'>Sim</option>
+        <option value='false'>Não</option>
+    </select>
+    <br>
+    <label>Capacidade
         <br>
-        <select name="isDepot" #nodeIsDepot>
-            <option value='true'>Yes</option>
-            <option value='false'>No</option>
-        </select>
-        <br>
-        <label for="isReliefPoint">
-            Is Relief Point:
-        </label>
-        <br>
-        <select name="isReliefPoint" #nodeIsReliefPoint>
-            <option value='true'>Yes</option>
-            <option value='false'>No</option>
-        </select>
-        <br>
-        <label>Capacities
-            <br>
-            <input type="number" min=0 name="nodeCapacities" #nodeCapacities />
-        </label>
-        <br>
-        <button (click)="checkValues(nodeKey.value);" class="btn btn-primary">
-            Check Key
-        </button>
-        <br>
-        <br>
-        <button id="submit" (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
-        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);nodeKey.value =''; nodeName.value =''; nodeLatitude.value = 0;nodeLongitude.value =0; nodeShortName.value = '';nodeIsDepot.value =''; nodeIsReliefPoint.value = '';nodeCapacities.value=0;" class="btn btn-primary">
-            Create
-        </button>
+        <input type="number" min=0 name="nodeCapacities" #nodeCapacities />
+    </label>
+    <br>
+    <button (click)="checkValues(nodeKey.value);" class="btn btn-primary">
+        Verificar Chave
+    </button>
+    <br>
+    <br>
+    <button id="submit"
+        (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
+        nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);nodeKey.value =''; nodeName.value =''; nodeLatitude.value = 0;nodeLongitude.value =0; nodeShortName.value = '';nodeIsDepot.value =''; nodeIsReliefPoint.value = '';nodeCapacities.value=0;"
+        class="btn btn-primary">
+        Criar Nó
+    </button>
     <br>
 </div>

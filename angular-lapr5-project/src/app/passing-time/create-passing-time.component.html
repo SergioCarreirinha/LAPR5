@@ -20,27 +20,29 @@
       <br>
       <label for="isUsed">
         É Usado:
-    </label>
+      </label>
       <br>
       <select name="passingTimeIsUsed" #passingTimeIsUsed>
-          <option value='true'>Sim</option>
-          <option value='false'>Não</option>
+        <option value='true'>Sim</option>
+        <option value='false'>Não</option>
       </select>
       <br>
       <br>
       <label for="passingTimeIsReliefPoint">
-          É uma estação de recolha:
+        É uma estação de recolha:
       </label>
       <br>
       <select name="passingTimeIsReliefPoint" #passingTimeIsReliefPoint>
-          <option value='true'>Sim</option>
-          <option value='false'>Não</option>
+        <option value='true'>Sim</option>
+        <option value='false'>Não</option>
       </select>
       <br>
       <br>
-      <button id="submit" (click)="addPassingTime(passingTimeKey.value, passingTimeT.value, passingTimeNode.value, passingTimeIsUsed.value, passingTimeIsReliefPoint.value); 
-      passingTimeKey.value=''; passingTimeT.value=''; passingTimeNode.value=''; passingTimeIsUsed.value=''; passingTimeIsReliefPoint.value='';" class="btn btn-primary">
-        Criar
+      <button id="submit"
+        (click)="addPassingTime(passingTimeKey.value, passingTimeT.value, passingTimeNode.value, passingTimeIsUsed.value, passingTimeIsReliefPoint.value); 
+      passingTimeKey.value=''; passingTimeT.value=''; passingTimeNode.value=''; passingTimeIsUsed.value=''; passingTimeIsReliefPoint.value='';"
+        class="btn btn-primary">
+        Criar Passagem
       </button>
     </div>
   </div>

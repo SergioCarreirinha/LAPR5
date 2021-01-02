@@ -1,68 +1,69 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-  <h2>Which PathNodes passes through?</h2>
-    <div>
-      <label>PathNode Key
-        <br>
-        <input name='pathNodeKey' #pathNodeKey />
-      </label>
+  <h2>Quais os Nós de Caminho que atravessam?</h2>
+  <div>
+    <label>Chave do Nó de Caminho
       <br>
-      <label>Node
-        <br>
-        <select name='nodeKey' #node>
-          <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
-        </select>
-      </label>
-      <br>
-      <label>Duration
-        <br>
-        <input name='duration' type="number" min=0 #duration />
-      </label>
-      <br>
-      <label>Distance
-        <br>
-        <input name='distance' type="number" min=0 #distance />
-      </label>
-      <br>
-      <!-- (click) passes input value to add() and then clears the input -->
-      <button id='addPathNode'
-        (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; duration.value=''; distance.value='';"
-        class="btn btn-primary">
-        Add Path Node
-      </button>
-
-    </div>
+      <input name='pathNodeKey' #pathNodeKey />
+    </label>
     <br>
+    <label>Nó
+      <br>
+      <select name='nodeKey' #node>
+        <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+      </select>
+    </label>
     <br>
+    <label>Duração
+      <br>
+      <input name='duration' type="number" min=0 #duration />
+    </label>
+    <br>
+    <label>Distância
+      <br>
+      <input name='distance' type="number" min=0 #distance />
+    </label>
+    <br>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button id='addPathNode'
+      (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; duration.value=''; distance.value='';"
+      class="btn btn-primary">
+      Adicionar Nó de Caminho
+    </button>
 
-  <h2>Create Path</h2>
+  </div>
+  <br>
+  <br>
+
+  <h2>Criar Caminho</h2>
 
   <div>
-    <label>In which line?
+    <label>Chave do Caminho
+      <br>
+      <input name='pathKey' #pathKey />
+    </label>
+    <br>
+    <label>Linha
       <br>
       <select name='line' #line>
         <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
       </select>
     </label>
     <br>
-    <label>Path Key
-      <br>
-      <input name='pathKey' #pathKey/>
-    </label>
-    <br>
-    <label>To Go?
+    <label>Para ir?
       <input name='toGo' #toGo type=checkbox>
     </label>
     <br>
-    <label>Is Empty?
+    <label>Está vazio?
       <input name='isEmpty' #isEmpty type=checkbox>
-    </label>    
+    </label>
     <br>
 
     <!-- (click) passes input value to add() and then clears the input -->
-    <button name='createPath' (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked); pathKey.value=''"
+    <button name='createPath'
+      (click)="addPath(line.value, pathKey.value, toGo.checked, isEmpty.checked); pathKey.value=''"
       class="btn btn-primary">
-      Create Path
+      Criar Caminho
     </button>
   </div>
 </div>

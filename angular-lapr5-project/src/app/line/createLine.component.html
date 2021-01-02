@@ -1,25 +1,25 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-  <h2>Create Line</h2>
+  <h2>Criar Linha</h2>
   <div>
     <div>
-      <label>Key
+      <label>Chave
         <br>
         <input name="lineKey" #lineKey />
       </label>
       <br>
-      <label>Name
+      <label>Nome
         <br>
         <input name="lineName" #lineName />
       </label>
       <br>
-      <label>Color
+      <label>Cor
         <br>
         <input name="color" #lineColor />
       </label>
       <br>
       <button id="submit" (click)="addLine(lineKey.value, lineName.value, lineColor.value)" class="btn btn-primary">
-        Create
+        Criar Linha
       </button>
     </div>
   </div>

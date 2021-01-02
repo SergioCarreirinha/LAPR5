@@ -1,31 +1,30 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-    <h2>Current Nodes already on the system</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Key</th>
-          <th scope="col">Name</th>
-          <th scope="col">Latitude</th>
-          <th scope="col">Longitude</th>
-          <th scope="col">Short Name</th>
-          <th scope="col">Is Depot</th>
-          <th scope="col">Is Relief Point</th>
-          <th scope="col">Capacities</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let node of nodes">
-          <td>{{node.key}}</td>
-          <td>{{node.name}}</td>
-          <td>{{node.latitude}}</td>
-          <td>{{node.longitude}}</td>
-          <td>{{node.shortName}}</td>
-          <td>{{node.isDepot}}</td>
-          <td>{{node.isReliefPoint}}</td>
-          <td>{{node.capacities}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Nós</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Chave</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Latitude</th>
+        <th scope="col">Longitude</th>
+        <th scope="col">Abreviatura</th>
+        <th scope="col">Depósito?</th>
+        <th scope="col">Ponto de Alívio?</th>
+        <th scope="col">Capacidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let node of nodes">
+        <td>{{node.key}}</td>
+        <td>{{node.name}}</td>
+        <td>{{node.latitude}}</td>
+        <td>{{node.longitude}}</td>
+        <td>{{node.shortName}}</td>
+        <td>{{node.isDepot}}</td>
+        <td>{{node.isReliefPoint}}</td>
+        <td>{{node.capacities}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-   

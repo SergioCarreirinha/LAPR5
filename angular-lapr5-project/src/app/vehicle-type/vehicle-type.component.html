@@ -1,58 +1,58 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-    <h2>Create Vehicle Type</h2>
+    <h2>Criar Tipo de Veículo</h2>
     <div>
         <label>
-            Key
+            Chave
             <br>
             <input #vehicleTypeKey />
         </label>
     </div>
     <div>
         <label>
-            Name
+            Nome
             <br>
             <input #vehicleTypeName />
         </label>
     </div>
     <div>
         <label>
-            Autonomy
+            Autonomia
             <br>
             <input type="number" min=0 #vehicleTypeAutonomy />
         </label>
     </div>
     <div>
         <label>
-            Cost
+            Custo
             <br>
             <input type="number" min=0 #vehicleTypeCost />
         </label>
     </div>
     <div>
         <label>
-            Average Speed
+            Velocidade Média
             <br>
             <input type="number" min=0 #vehicleTypeAvgSpeed />
         </label>
     </div>
     <div>
         <label>
-            Energy Source
+            Fonte de Energia
             <br>
             <input type="number" min=0 #vehicleTypeEnrgSource />
         </label>
     </div>
     <div>
         <label>
-            Consumption
+            Consumo
             <br>
             <input type="number" min=0 #vehicleTypeConsumption />
         </label>
     </div>
     <div>
         <label>
-            Emissions
+            Emições
             <br>
             <input type="number" min=0 #vehicleTypeEmissions />
         </label>
@@ -61,6 +61,6 @@
         <button (click)="addVehicleType(vehicleTypeKey.value, vehicleTypeName.value, 
         vehicleTypeAutonomy.value, vehicleTypeCost.value, vehicleTypeAvgSpeed.value, 
         vehicleTypeEnrgSource.value, vehicleTypeConsumption.value, vehicleTypeEmissions.value)" type=" button"
-            class="btn btn-primary">Create</button>
+            class="btn btn-primary">Criar Tipo de Veículo</button>
     </div>
 </div>

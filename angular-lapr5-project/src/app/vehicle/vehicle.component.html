@@ -1,29 +1,29 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-    <h2>Create Vehicle</h2>
+    <h2>Criar Veículo</h2>
 
     <div>
-        <label>License Plate
+        <label>Matrícula
             <br>
             <input name="licensePlate" #licensePlate />
         </label>
         <br>
 
-        <label>Vehicle Identification Number
+        <label>Número de Identificação
             <br>
             <input name="vin" #vin />
         </label>
         <br>
 
-        <label>Vehicle Type
+        <label>Tipo de Veículo
             <br>
             <select name="vehicleType" #vehicleType>
                 <option *ngFor="let type of vehicleTypes" value={{type.name}}>{{type.name}}</option>
-              </select>
+            </select>
         </label>
         <br>
 
-        <label>First Service Date
+        <label>Data de Primeiro Serviço
             <br>
             <input name="firstServiceDate" type="date" #firstServiceDate />
         </label>
@@ -31,11 +31,10 @@
         <br>
         <br>
         <!-- (click) passes input value to add() and then clears the input -->
-        <button
-            id="submit"
+        <button id="submit"
             (click)="addVehicle(licensePlate.value, vin.value, vehicleType.value, firstServiceDate.value); licensePlate.value =''; vin.value =''; firstServiceDate.value ='';"
             class="btn btn-primary">
-            Add Vehicle
+            Criar Veículo
         </button>
     </div>
 </div>

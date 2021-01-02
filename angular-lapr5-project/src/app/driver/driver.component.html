@@ -1,30 +1,31 @@
 <app-navbar></app-navbar>
 <div class=jumbotron>
-    <h2>Create Driver</h2>
+    <h2>Criar Condutor</h2>
     <div>
-        <label>Name
+        <label>Nome
             <br>
-            <input name="name" #name/>
+            <input name="name" #name />
         </label>
         <br>
-        <label>BirthDate
+        <label>Data de Nascimento
             <br>
-            <input type="date" name="birthdate" #birthdate/>
+            <input type="date" name="birthdate" #birthdate />
         </label>
         <br>
-        <label>Driver License Number
+        <label>Número de Carta de Condução
             <br>
-            <input type="number" name="driverLicenseNum" #driverLicenseNum/>
+            <input type="number" name="driverLicenseNum" #driverLicenseNum />
         </label>
         <br>
-        <label>License Expiration
+        <label>Data Limite de Licença
             <br>
             <input type="date" name="licenseExpiration" #licenseExpiration />
         </label>
         <br>
         <button id="submit" (click)="createDriver(name.value,birthdate.value,driverLicenseNum.value,licenseExpiration.value);
-        name.value='';birthdate.value='';driverLicenseNum.value='';licenseExpiration.value='';" class="btn btn-primary">
-            Create
+        name.value='';birthdate.value='';driverLicenseNum.value='';licenseExpiration.value='';"
+            class="btn btn-primary">
+            Criar Condutor
         </button>
     </div>
 </div>

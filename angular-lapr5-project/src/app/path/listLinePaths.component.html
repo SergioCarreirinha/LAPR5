@@ -1,49 +1,48 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-    <h2>List Line Paths</h2>
-    <div>
-      <label>Which line?
-        <br>
-        <select #line>
-          <option *ngFor="let line of selectLine" value={{line.name}}>{{line.name}}</option>
-        </select>
-      </label>
+  <h2>Listar Caminhos por Linha</h2>
+  <div>
+    <label>Linha
       <br>
-      <button
-        (click)="getLinePaths(line.value);"
-        class="btn btn-primary">
-        List Paths
-      </button>
-    </div>
+      <select #line>
+        <option *ngFor="let line of selectLine" value={{line.name}}>{{line.name}}</option>
+      </select>
+    </label>
     <br>
+    <button (click)="getLinePaths(line.value);" class="btn btn-primary">
+      Listar Caminhos
+    </button>
+  </div>
+  <br>
 
-    <h2>Paths:</h2> 
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Key</th>
-            <th scope="col">IsEmpty</th>
-            <th scope="col">Nodes</th>
-            <th scope="col">Total Duration</th>
-            <th scope="col">Total Distance</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let path of linePaths">
-            <td>{{path.key}}</td>
-            <td>{{path.isEmpty}}</td>
-            <td>
-              <table class="table">
-                <tbody>
-                  <tr *ngFor="let node of path.pathNodes">
-                    <td>{{node.pathNode}}</td>
-                    <td>{{node.props}}</td>
-                </tr></tbody>
-              </table>
-            </td>
-            <td>{{path.totalDur}}</td>
-            <td>{{path.totalDist}}</td>
-          </tr>
-        </tbody>
-      </table>
+  <h2>Paths:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Chave</th>
+        <th scope="col">Está vazio?</th>
+        <th scope="col">Nós</th>
+        <th scope="col">Duração Total</th>
+        <th scope="col">Distância Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let path of linePaths">
+        <td>{{path.key}}</td>
+        <td>{{path.isEmpty}}</td>
+        <td>
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let node of path.pathNodes">
+                <td>{{node.pathNode}}</td>
+                <td>{{node.props}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>{{path.totalDur}}</td>
+        <td>{{path.totalDist}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
