@@ -1,10 +1,12 @@
 import { browser, by, element, logging } from 'protractor';
+import { environment } from '../../../../src/environments/environment';
 import { CreateDriverPage } from './driver.po';
 
 describe('Driver Tests', () => {
   let page: CreateDriverPage;
   beforeAll(async () => {
-    browser.executeScript('localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MWFhY2U3NS04YjdjLTRkYWYtYWVkNC01YjY3MmE4MTI0ODgiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDkzNzE1MTIsImV4cCI6MTYwOTQ1NzkxMiwiaWF0IjoxNjA5MzcxNTEyfQ.tHhZHvfCE1Is1XtykTmgyjgSyl7FbOvWiW9m2G8iUKw");');
+    browser.executeScript('localStorage.setItem("token","'+ environment.testing.token +'");');
+
   });
   describe('Authenticated Tests', () =>{
     

@@ -1,7 +1,5 @@
 using System;
 using MasterDataViagem.Domain.Shared;
-using System.Collections.Generic;
-using MasterDataViagem.Domain.PassingTime;
 
 namespace MasterDataViagem.Domain.Driver {
     public class Driver : Entity<DriverId>, IAggregateRoot {

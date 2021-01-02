@@ -1,6 +1,7 @@
 using System;
-using MasterDataViagem.Domain.PassingTime;
+using MasterDataViagem.Domain.PassingTimes;
 using System.Collections.Generic;
+
 namespace MasterDataViagem.Domain.Trip
 {
     public class ITripDTO
@@ -9,7 +10,7 @@ namespace MasterDataViagem.Domain.Trip
 
         public string key { get; set; }
 
-        public bool IsEmpty { get; set; }
+        public string IsEmpty { get; set; }
 
         public string Orientation { get; set; }
 
@@ -17,8 +18,8 @@ namespace MasterDataViagem.Domain.Trip
 
         public string Path { get; set; }
 
-        public bool IsGenerated { get; set; }
+        public string IsGenerated { get; set; }
 
-        public List<PassingTimes> PassingTimes { get; set; }
+        public List<PassingTime> PassingTimes {get; set;}
     }
 }

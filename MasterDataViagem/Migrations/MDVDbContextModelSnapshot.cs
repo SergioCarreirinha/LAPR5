@@ -41,7 +41,7 @@ namespace MasterDataViagem.Migrations
                     b.ToTable("Drivers");
                 });
 
-            modelBuilder.Entity("MasterDataViagem.Domain.PassingTime.PassingTimes", b =>
+            modelBuilder.Entity("MasterDataViagem.Domain.PassingTimes.PassingTime", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -76,11 +76,11 @@ namespace MasterDataViagem.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("IsEmpty")
-                        .HasColumnType("bit");
+                    b.Property<string>("IsEmpty")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsGenerated")
-                        .HasColumnType("bit");
+                    b.Property<string>("IsGenerated")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Line")
                         .HasColumnType("nvarchar(max)");
@@ -380,7 +380,7 @@ namespace MasterDataViagem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MasterDataViagem.Domain.PassingTime.PassingTimes", b =>
+            modelBuilder.Entity("MasterDataViagem.Domain.PassingTimes.PassingTime", b =>
                 {
                     b.HasOne("MasterDataViagem.Domain.Trip.Tripes", null)
                         .WithMany("PassingTimes")

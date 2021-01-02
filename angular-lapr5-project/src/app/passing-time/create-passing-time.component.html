@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="jumbotron">
+  <h2>Criar Passagem</h2>
+  <div>
+    <div>
+      <label>Chave
+        <br>
+        <input name="passingTimeKey" #passingTimeKey />
+      </label>
+      <br>
+      <label>Tempo de Passagem
+        <br>
+        <input name="passingTimeT" #passingTimeT />
+      </label>
+      <br>
+      <label>Nó de Passagem
+        <br>
+        <input name="passingTimeNode" #passingTimeNode />
+      </label>
+      <br>
+      <label for="isUsed">
+        É Usado:
+    </label>
+      <br>
+      <select name="passingTimeIsUsed" #passingTimeIsUsed>
+          <option value='true'>Sim</option>
+          <option value='false'>Não</option>
+      </select>
+      <br>
+      <br>
+      <label for="passingTimeIsReliefPoint">
+          É uma estação de recolha:
+      </label>
+      <br>
+      <select name="passingTimeIsReliefPoint" #passingTimeIsReliefPoint>
+          <option value='true'>Sim</option>
+          <option value='false'>Não</option>
+      </select>
+      <br>
+      <br>
+      <button id="submit" (click)="addPassingTime(passingTimeKey.value, passingTimeT.value, passingTimeNode.value, passingTimeIsUsed.value, passingTimeIsReliefPoint.value); 
+      passingTimeKey.value=''; passingTimeT.value=''; passingTimeNode.value=''; passingTimeIsUsed.value=''; passingTimeIsReliefPoint.value='';" class="btn btn-primary">
+        Criar
+      </button>
+    </div>
+  </div>
+</div>

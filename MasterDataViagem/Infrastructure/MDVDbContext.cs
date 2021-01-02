@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Infrastructure.Trips;
+using MasterDataViagem.Domain.PassingTimes;
+using MasterDataViagem.Infrastructure.PassingTimes;
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Domain.Vehicle;
@@ -19,6 +21,8 @@ namespace MasterDataViagem.Infrastructure
     {
 
         public DbSet<Tripes> Trips { get; set; }
+
+        public DbSet<PassingTime> PassingTimes { get; set; }
 
         public DbSet<Driver> Drivers { get; set; }
 
@@ -39,6 +43,8 @@ namespace MasterDataViagem.Infrastructure
 
             //Trip
             modelBuilder.ApplyConfiguration(new TripEntityTypeConfiguration());
+            //PassingTimes
+            modelBuilder.ApplyConfiguration(new PassingTimeEntityTypeConfiguration());
             //Driver
             modelBuilder.ApplyConfiguration(new DriverEntityTypeConfiguration());
             //Vehicle

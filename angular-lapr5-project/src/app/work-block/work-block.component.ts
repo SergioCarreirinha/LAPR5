@@ -15,8 +15,8 @@ import { ITrip } from '../interfaces/ITrip';
 export class WorkBlockComponent implements OnInit {
 
   workBlock: IWorkBlock[] = [];
-  trips: ITrip[] = [];
-  tripsWorkBlock: ITrip[] = [];
+  trips: any[] = [];
+  tripsWorkBlock: any[] = [];
 
 
 
@@ -27,7 +27,7 @@ export class WorkBlockComponent implements OnInit {
   }
 
   getTrips() {
-    this.tripService.getTrips().subscribe(trip => this.trips = trip);
+    this.tripService.getTrips().subscribe(trip => {this.trips = trip; console.log(this.trips);});
   }
 
   getWorkBlock() {
@@ -46,6 +46,12 @@ export class WorkBlockComponent implements OnInit {
       })
 
     } else {
+      let tripWorkId:String[]=[];
+
+      for(let tripWork of this.tripsWorkBlock){
+        tripWorkId.push(tripWork.id);
+      }
+      console.log(isCrewTravelTime);
       this.workBlockService.addWorkBlock({
         key: key,
         startTime: parseInt(startTime),
@@ -53,7 +59,8 @@ export class WorkBlockComponent implements OnInit {
         startNode: startNode,
         endNode: endNode,
         isCrewTravelTime: isCrewTravelTime,
-        isActive: isActive
+        isActive: isActive,
+        trips: tripWorkId
       } as IWorkBlock).subscribe()
 
       Swal.fire({

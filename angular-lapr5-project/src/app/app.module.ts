@@ -30,7 +30,8 @@ import { AdminComponent } from './admin/admin.component';
 import { ClientnavbarComponent } from './clientnavbar/clientnavbar.component';
 import { HomenavbarComponent } from './homenavbar/homenavbar.component';
 import { WorkBlockComponent } from './work-block/work-block.component';
-import { TripComponent } from './trip/trip.component';
+import { TripComponent, CreateTripComponent } from './trip/trip.component';
+import { PassingTimeComponent, CreatePassingTimeComponent } from './passing-time/passing-time.component';
 
 
 @NgModule({
@@ -60,7 +61,10 @@ import { TripComponent } from './trip/trip.component';
     HomenavbarComponent,
     CreateLineComponent,
     CreateNodeComponent,
-    WorkBlockComponent
+    WorkBlockComponent,
+    PassingTimeComponent,
+    CreatePassingTimeComponent,
+    CreateTripComponent
   ],
   imports: [
     BrowserModule,

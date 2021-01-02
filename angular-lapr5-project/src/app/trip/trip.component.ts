@@ -3,6 +3,8 @@ import { Location } from '@angular/common';
 import { TripService } from '../services/trip.service';
 import { ITrip } from '../interfaces/ITrip';
 import Swal from 'sweetalert2';
+import { PassingTimeService } from '../services/passing-time.service';
+import { IPassingTime } from '../interfaces/IPassingTimes';
 
 @Component({
   selector: 'app-trip',
@@ -11,21 +13,44 @@ import Swal from 'sweetalert2';
 })
 export class TripComponent implements OnInit {
 
-  trip: ITrip[] = [];
+  trips: ITrip[] = [];
 
 
-  constructor(private service: TripService, private location: Location) { }
+  constructor(private service: TripService) { }
 
   ngOnInit(): void {
     this.getTrip();
   }
 
   getTrip() {
-    this.service.getTrips().subscribe(trip => this.trip = trip);
+    this.service.getTrips().subscribe(trip => this.trips = trip);
+  }
+}
+
+@Component({
+  selector: 'app-trip',
+  templateUrl: './createTrip.component.html',
+  styleUrls: ['./trip.component.css']
+})
+export class CreateTripComponent implements OnInit {
+
+  trip: ITrip[] = [];
+  passingTrips: any[] = [];
+  passingTimes: any[] = [];
+
+
+  constructor(private service: TripService, private serviceP: PassingTimeService, private location: Location) { }
+
+  ngOnInit(): void {
+    this.getPassingTimes();
   }
 
-  addTrip(key: string, isEmpty: boolean, orientation: string, line: string, path: string, isGenerated: boolean, passingTimes: string) {
-    if (!key || !isEmpty || !orientation || !line || !path || !isGenerated || !passingTimes) {
+  getPassingTimes() {
+    this.serviceP.getPassingTimes().subscribe(passingTime => this.passingTimes = passingTime);
+  }
+
+  addTrip(key: string, isEmpty: string, orientation: string, line: string, path: string, isGenerated: string) {
+    if (!key || !isEmpty || !orientation || !line || !path || !isGenerated) {
       Swal.fire({
         title: 'Aviso!',
         text: "Viagem não foi criada. Parâmetros inválidos.",
@@ -36,6 +61,11 @@ export class TripComponent implements OnInit {
       })
 
     } else {
+      let passingTripId:String[]=[];
+
+      for(let passingTrip of this.passingTrips){
+        passingTripId.push(passingTrip.id);
+      }
       this.service.addTrip({
         key: key,
         isEmpty: isEmpty,
@@ -43,7 +73,7 @@ export class TripComponent implements OnInit {
         line: line,
         path: path,
         isGenerated: isGenerated,
-        passingTimes: passingTimes,
+        passingTimes: passingTripId,
       } as ITrip).subscribe()
 
       Swal.fire({
@@ -57,7 +87,46 @@ export class TripComponent implements OnInit {
     }
   }
 
-  goBack(): void {
-    this.location.back();
+  addPassingTime(id: string): void {
+    if (id) {
+      this.serviceP.getPassingById(id).subscribe(p =>{
+         this.passingTrips.push(p); 
+         this.validatePassingTime();});
+    } else {
+      Swal.fire({
+        title: 'Warning!',
+        text: "Can't add empty WorkBlock",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    }
+  }
+
+  validatePassingTime(){
+    if (this.passingTrips.length === 1) {
+
+      Swal.fire({
+        title: 'Sucesso!',
+        text: 'Passagem Adicionada ',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    } else {
+      this.passingTrips.pop();
+      Swal.fire({
+        title: 'Warning!',
+        text: "A passagem precisa de ser valida!",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    }
   }
 }

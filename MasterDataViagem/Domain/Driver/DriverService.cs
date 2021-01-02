@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
-using MasterDataViagem.Domain.PassingTime;
 
 namespace MasterDataViagem.Domain.Driver
 {
