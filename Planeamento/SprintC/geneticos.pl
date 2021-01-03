@@ -12,6 +12,7 @@ populacao(4).
 prob_cruzamento(0.4).
 prob_mutacao(0.5).
 tarefas(5).
+target(14).
 
 per_individuo(0.1).
 
@@ -33,7 +34,7 @@ gera:-
 	gera_populacao(Pop),
 	avalia_populacao(Pop,PopAv),
 	ordena_populacao(PopAv,PopOrd),
-	geracoes(NG),
+	geracoes(NG),!,
 	gera_geracao(0,NG,PopOrd).
 
 gera_populacao(Pop):-
@@ -105,12 +106,14 @@ btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
 gera_geracao(G,G,Pop):-!,
 	write('Geração '), write(G), write(':'), nl, write(Pop), nl.
+
 gera_geracao(N,G,Pop):-
 	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
 
+	%verifica_target(Pop),
+
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
-
 	cruzamento(RPop,NPop1),
 	mutacao(NPop1,NPop),
 	avalia_populacao(NPop,NPopAv),
@@ -131,6 +134,11 @@ gera_geracao(N,G,Pop):-
 
 	N1 is N+1,
 	gera_geracao(N1,G,PopFinal).
+
+verifica_target([_*V|_]):-
+	target(Z),
+	write(Z),write('<'),write(V),nl,
+	Z < V,!.
 
 
 obter_individuos(NG,[H|NPopOrd],[H|MPopOrd]):-
