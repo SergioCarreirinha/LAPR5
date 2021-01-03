@@ -77,20 +77,20 @@ inicializa:-write('Numero de novas Geracoes: '),read(NG),
 
 gera:-
 %	inicializa,
+%	gera_condutores(LCondutores),
 	gera_populacao(Pop),
 	avalia_populacao(Pop,PopAv),
 	ordena_populacao(PopAv,PopOrd),
-	gera_condutores(X),write(X),
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
 
-gera_condutores(LFinal):-
+gera_condutores(LMaisFinal):-
 	lista_motoristas_nworkblocks(_,[(H,Num)|Lista]),
 	write(H),nl,
 	write(Num),nl,
 	write(Lista),nl,
-	gera_condutores2(H,Num,Lista,LFinal).
+	gera_condutores2(H,Num,Lista,LFinal),random_permutation(LFinal,LMaisFinal),!.
 
 gera_condutores2(_,0,[],[]).
 
@@ -98,35 +98,37 @@ gera_condutores2(H,N,L,[H|LFinal]):-
 	N \= 0,
 	N1 is N-1,
 	write(N),nl,
+	write(H),nl,
 	gera_condutores2(H,N1,L,LFinal).
 
 gera_condutores2(_,0,[(H,Num)|L],LFinal):-
+	write(L),nl,
 	gera_condutores2(H,Num,L,LFinal).
 
 
 gera_populacao(Pop):-
 	populacao(TamPop),
-	nrWorkBlock(NumT),
-	findall(WorkBlock,workblock(WorkBlock,_,_,_),ListaWorkBlocks),
-	write(ListaWorkBlocks),
-	gera_populacao(TamPop,ListaWorkBlocks,NumT,Pop).
+	gera_condutores(X),
+	length(X,N),
+	write(X),
+	gera_populacao(TamPop,X,N,Pop).
 
 gera_populacao(0,_,_,[]):-!.
 
-gera_populacao(TamPop,ListaWorkBlocks,NumT,[Ind|Resto]):-
+gera_populacao(TamPop,Lista,NumT,[Ind|Resto]):-
 	TamPop1 is TamPop-1,
-	gera_populacao(TamPop1,ListaWorkBlocks,NumT,Resto),
-	gera_individuo(ListaWorkBlocks,NumT,Ind),
+	gera_populacao(TamPop1,Lista,NumT,Resto),
+	gera_individuo(Lista,NumT,Ind),
 	not(member(Ind,Resto)).
-gera_populacao(TamPop,ListaTarefas,NumT,L):-
-	gera_populacao(TamPop,ListaTarefas,NumT,L).
+gera_populacao(TamPop,Lista,NumT,L):-
+	gera_populacao(TamPop,Lista,NumT,L).
 
 gera_individuo([G],1,[G]):-!.
 
-gera_individuo(ListaWorkBlocks,NumT,[G|Resto]):-
+gera_individuo(Lista,NumT,[G|Resto]):-
 	NumTemp is NumT + 1, % To use with random
 	random(1,NumTemp,N),
-	retira(N,ListaWorkBlocks,G,NovaLista),
+	retira(N,Lista,G,NovaLista),
 	NumT1 is NumT-1,
 	gera_individuo(NovaLista,NumT1,Resto).
 
@@ -245,16 +247,6 @@ preencher_lista(Tlista,PopSorte,PopSorte,_):-
 	Tlista==P,!.
 preencher_lista(_,MPopTotal,PopMaSorte,PopFinal):-
 	append(MPopTotal,PopMaSorte,PopFinal).
-
-
-preenche(0,_,PopSorte,PopSorte):-!.
-preenche(N,[H|OrdPopTotal],PopSorte,PopFinal):-
-	\+member(H,PopSorte),
-	N1 is N-1,
-	preenche(N1,OrdPopTotal,[H|PopSorte],PopFinal),!.
-preenche(N,[_|OrdPopTotal],PopSorte,PopFinal):-
-	preenche(N,OrdPopTotal,PopSorte,PopFinal).
-
 
 gerar_pontos_cruzamento(P1,P2):-
 	gerar_pontos_cruzamento1(P1,P2).
