@@ -17,6 +17,7 @@ using MasterDataViagem.Infrastructure.Drivers;
 using MasterDataViagem.Infrastructure.Vehicles;
 using MasterDataViagem.Infrastructure.VehicleDuties;
 using MasterDataViagem.Infrastructure.WorkBlocks;
+using MasterDataViagem.Infrastructure.Genetics;
 using MasterDataViagem.Infrastructure.Shared;
 
 using MasterDataViagem.Domain.Shared;
@@ -26,6 +27,7 @@ using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Domain.Vehicle;
 using MasterDataViagem.Domain.VehicleDuties;
 using MasterDataViagem.Domain.WorkBlocks;
+using MasterDataViagem.Domain.Genetics;
 using MasterDataViagem.Domain.User;
 using System;
 using System.Threading.Tasks;
@@ -136,6 +138,9 @@ namespace MasterDataViagem
             //WorkBlock
             services.AddTransient<IWorkBlockRepository,WorkBlockRepository>();
             services.AddTransient<WorkBlockService>();
+            //Genetic
+            services.AddTransient<IGeneticRepository,GeneticRepository>();
+            services.AddTransient<GeneticService>();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

@@ -1,0 +1,46 @@
+<app-clientnavbar></app-clientnavbar>
+<form>
+    <div class="row">
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Numero de Gerações" #ger>
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Numero de Populações" #pop>
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Percentagem de Cruzamento" #cr>
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Percentagem de Mutação" #mut>
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Referencia de Avaliação" #ava>
+      </div>
+      <div class="col">
+        <input type="number" class="form-control" placeholder="Estabilidade" #sta >
+      </div>
+      <div class="col">
+        <button id="submit" 
+        (click)="createSolution(ger.value, pop.value, cr.value, mut.value, ava.value, sta.value); 
+        ger.value=''; pop.value='';cr.value='';mut.value='';ava.value=''; sta.value='';" type=" button" class="btn btn-primary">Gerar</button>
+      </div>
+    </div>
+</form>
+<br>
+<div class="jumbotron">
+    <h2>Genéticos</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">População</th>
+          <th scope="col">Avaliação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let solution of solutions">
+            <td>{{solution.population}}</td>
+            <td>{{solution.evaluation}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MasterDataViagem.Migrations
 {
-    public partial class first : Migration
+    public partial class genetics : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,18 @@ namespace MasterDataViagem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Drivers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Genetics",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    evaluation = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genetics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,6 +210,25 @@ namespace MasterDataViagem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Population",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    pop = table.Column<int>(type: "int", nullable: false),
+                    GeneticId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Population", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Population_Genetics_GeneticId",
+                        column: x => x.GeneticId,
+                        principalTable: "Genetics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WorkBlocks",
                 columns: table => new
                 {
@@ -228,11 +259,11 @@ namespace MasterDataViagem.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     key = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsEmpty = table.Column<bool>(type: "bit", nullable: false),
+                    IsEmpty = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Orientation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Line = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Path = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsGenerated = table.Column<bool>(type: "bit", nullable: false),
+                    IsGenerated = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WorkBlockId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -314,6 +345,11 @@ namespace MasterDataViagem.Migrations
                 column: "TripesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Population_GeneticId",
+                table: "Population",
+                column: "GeneticId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Trips_WorkBlockId",
                 table: "Trips",
                 column: "WorkBlockId");
@@ -348,6 +384,9 @@ namespace MasterDataViagem.Migrations
                 name: "PassingTimes");
 
             migrationBuilder.DropTable(
+                name: "Population");
+
+            migrationBuilder.DropTable(
                 name: "Vehicles");
 
             migrationBuilder.DropTable(
@@ -358,6 +397,9 @@ namespace MasterDataViagem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Trips");
+
+            migrationBuilder.DropTable(
+                name: "Genetics");
 
             migrationBuilder.DropTable(
                 name: "WorkBlocks");

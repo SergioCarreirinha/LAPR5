@@ -32,6 +32,7 @@ import { HomenavbarComponent } from './homenavbar/homenavbar.component';
 import { WorkBlockComponent } from './work-block/work-block.component';
 import { TripComponent, CreateTripComponent } from './trip/trip.component';
 import { PassingTimeComponent, CreatePassingTimeComponent } from './passing-time/passing-time.component';
+import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { PassingTimeComponent, CreatePassingTimeComponent } from './passing-time
     WorkBlockComponent,
     PassingTimeComponent,
     CreatePassingTimeComponent,
-    CreateTripComponent
+    CreateTripComponent,
+    PlanningSprintCComponent
   ],
   imports: [
     BrowserModule,

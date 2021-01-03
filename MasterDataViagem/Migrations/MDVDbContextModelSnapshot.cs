@@ -41,6 +41,37 @@ namespace MasterDataViagem.Migrations
                     b.ToTable("Drivers");
                 });
 
+            modelBuilder.Entity("MasterDataViagem.Domain.Genetics.Genetic", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("evaluation")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genetics");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.Genetics.Population", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("GeneticId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("pop")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GeneticId");
+
+                    b.ToTable("Population");
+                });
+
             modelBuilder.Entity("MasterDataViagem.Domain.PassingTimes.PassingTime", b =>
                 {
                     b.Property<string>("Id")
@@ -380,6 +411,13 @@ namespace MasterDataViagem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MasterDataViagem.Domain.Genetics.Population", b =>
+                {
+                    b.HasOne("MasterDataViagem.Domain.Genetics.Genetic", null)
+                        .WithMany("population")
+                        .HasForeignKey("GeneticId");
+                });
+
             modelBuilder.Entity("MasterDataViagem.Domain.PassingTimes.PassingTime", b =>
                 {
                     b.HasOne("MasterDataViagem.Domain.Trip.Tripes", null)
@@ -450,6 +488,11 @@ namespace MasterDataViagem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.Genetics.Genetic", b =>
+                {
+                    b.Navigation("population");
                 });
 
             modelBuilder.Entity("MasterDataViagem.Domain.Trip.Tripes", b =>

@@ -12,6 +12,8 @@ using MasterDataViagem.Domain.VehicleDuties;
 using MasterDataViagem.Infrastructure.VehicleDuties;
 using MasterDataViagem.Domain.WorkBlocks;
 using MasterDataViagem.Infrastructure.WorkBlocks;
+using MasterDataViagem.Domain.Genetics;
+using MasterDataViagem.Infrastructure.Genetics;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -31,6 +33,7 @@ namespace MasterDataViagem.Infrastructure
         public DbSet<VehicleDuty> VehicleDuties { get; set; }
 
         public DbSet<WorkBlock> WorkBlocks { get; set; }
+        public DbSet<Genetic> Genetics { get; set; }
 
         public MDVDbContext(DbContextOptions options) : base(options)
         {
@@ -53,6 +56,8 @@ namespace MasterDataViagem.Infrastructure
             modelBuilder.ApplyConfiguration(new VehicleDutyEntityTypeConfiguration());
             //WorkBlock
             modelBuilder.ApplyConfiguration(new WorkBlockEntityTypeConfiguration());
+            //Genetics
+            modelBuilder.ApplyConfiguration(new GeneticEntityTypeConfiguration());
         }
     }
 }

@@ -21,6 +21,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AdminComponent } from './admin/admin.component';
 import { CreateTripComponent, TripComponent } from './trip/trip.component'
 import { CreatePassingTimeComponent, PassingTimeComponent } from './passing-time/passing-time.component';
+import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'import', component: ImportComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'view', component: MapComponent, canActivate: [AuthGuard] },
   { path: 'planning', component: SolutionsComponent, canActivate: [AuthGuard] },
+  { path: 'genetic', component: PlanningSprintCComponent, canActivate: [AuthGuard] },
   { path: 'createDriver', component: DriverComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'listLinePaths', component: ListPathsComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createLine', component: CreateLineComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },

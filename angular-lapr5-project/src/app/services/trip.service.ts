@@ -45,11 +45,4 @@ export class TripService {
       return of(result as T);
     };
   }
-
-
-
-
-
-
-
 }
