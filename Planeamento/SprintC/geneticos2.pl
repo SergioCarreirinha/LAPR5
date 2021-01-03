@@ -1,5 +1,50 @@
+% horario(Path,Trip,List_of_Time)
+horario(38,459,[34080,34200]).
+horario(3,31,[37800,38280,38580,38880,39420]).
+horario(1,63,[39600,40140,40440,40740,41220]).
+horario(3,33,[41400,41880,42180,42480,43020]).
+horario(1,65,[43200,43740,44040,44340,44820]).
+horario(3,35,[45000,45480,45780,46080,46620]).
+horario(1,67,[46800,47340,47640,47940,48420]).
+horario(3,37,[48600,49080,49380,49680,50220]).
+horario(1,69,[50400,50940,51240,51540,52020]).
+horario(3,39,[52200,52680,52980,53280,53820]).
+horario(1,71,[54000,54540,54840,55140,55620]).
+horario(3,41,[55800,56280,56580,56880,57420]).
+horario(1,73,[57600,58140,58440,58740,59220]).
+horario(3,43,[59400,59880,60180,60480,61020]).
+horario(1,75,[61200,61740,62040,62340,62820]).
+horario(3,45,[63000,63480,63780,64080,64620]).
+horario(1,77,[64800,65340,65640,65940,66420]).
+horario(3,48,[66600,67080,67380,67680,68220]).
+horario(1,82,[68400,68940,69240,69540,70020]).
+horario(3,52,[70200,70680,70980,71280,71820]).
+horario(1,86,[72000,72540,72840,73140,73620]).
+horario(3,56,[73800,74280,74580,74880,75420]).
+horario(1,432,[75600,76140,76440,76740,77220]).
+horario(39,460,[77220,77340]).
 
-% tarefa(Id,TempoProcessamento,DataEntrega,Penalizacao).
+% workblock(WorkBlock, List_of_Trips, StartTime, EndTime)
+workblock(12,[459],34080,37620).
+workblock(211,[31,63],37620,41220).
+workblock(212,[33,65],41220,44820).
+workblock(213,[35,67],44820,48420).
+workblock(214,[37,69],48420,52020).
+workblock(215,[39,71],52020,55620).
+workblock(216,[41,73],55620,59220).
+workblock(217,[43,75],59220,62820).
+workblock(218,[45,77],62820,66420).
+workblock(219,[48,82],66420,70020).
+workblock(220,[52,86],70020,73620).
+workblock(221,[56,432],73620,77220).
+workblock(222,[460],77220,77340).
+
+% vehicleduty(VehicleDuty, List_of_WorkBlocks)
+vehicleduty(12,[12,211,212,213,214,215,216,217,218,219,220,221,222]).
+
+lista_motoristas_nworkblocks(12,[(276,2),(5188,3),(16690,2),(18107,6)]).
+
+% Tarefa(Id,TempoProcessamento,DataEntrega,Penalizacao).
 tarefa(t1,2,5,1).
 tarefa(t2,4,7,6).
 tarefa(t3,1,11,2).
@@ -7,13 +52,13 @@ tarefa(t4,3,9,3).
 tarefa(t5,3,8,2).
 
 % parameterização
-geracoes(300).
+geracoes(3000).
 populacao(3).
 prob_cruzamento(0.4).
 prob_mutacao(0.5).
-tarefas(5).
+nrWorkBlock(5).
 target(9).
-tempo(80).
+tempo(4).
 geracoes_repetidas(50000000).
 
 per_individuo(0.1).
@@ -35,32 +80,53 @@ gera:-
 	gera_populacao(Pop),
 	avalia_populacao(Pop,PopAv),
 	ordena_populacao(PopAv,PopOrd),
+	gera_condutores(X),write(X),
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
 
+gera_condutores(LFinal):-
+	lista_motoristas_nworkblocks(_,[(H,Num)|Lista]),
+	write(H),nl,
+	write(Num),nl,
+	write(Lista),nl,
+	gera_condutores2(H,Num,Lista,LFinal).
+
+gera_condutores2(_,0,[],[]).
+
+gera_condutores2(H,N,L,[H|LFinal]):-
+	N \= 0,
+	N1 is N-1,
+	write(N),nl,
+	gera_condutores2(H,N1,L,LFinal).
+
+gera_condutores2(_,0,[(H,Num)|L],LFinal):-
+	gera_condutores2(H,Num,L,LFinal).
+
+
 gera_populacao(Pop):-
 	populacao(TamPop),
-	tarefas(NumT),
-	findall(Tarefa,tarefa(Tarefa,_,_,_),ListaTarefas),
-	gera_populacao(TamPop,ListaTarefas,NumT,Pop).
+	nrWorkBlock(NumT),
+	findall(WorkBlock,workblock(WorkBlock,_,_,_),ListaWorkBlocks),
+	write(ListaWorkBlocks),
+	gera_populacao(TamPop,ListaWorkBlocks,NumT,Pop).
 
 gera_populacao(0,_,_,[]):-!.
 
-gera_populacao(TamPop,ListaTarefas,NumT,[Ind|Resto]):-
+gera_populacao(TamPop,ListaWorkBlocks,NumT,[Ind|Resto]):-
 	TamPop1 is TamPop-1,
-	gera_populacao(TamPop1,ListaTarefas,NumT,Resto),
-	gera_individuo(ListaTarefas,NumT,Ind),
+	gera_populacao(TamPop1,ListaWorkBlocks,NumT,Resto),
+	gera_individuo(ListaWorkBlocks,NumT,Ind),
 	not(member(Ind,Resto)).
 gera_populacao(TamPop,ListaTarefas,NumT,L):-
 	gera_populacao(TamPop,ListaTarefas,NumT,L).
 
 gera_individuo([G],1,[G]):-!.
 
-gera_individuo(ListaTarefas,NumT,[G|Resto]):-
+gera_individuo(ListaWorkBlocks,NumT,[G|Resto]):-
 	NumTemp is NumT + 1, % To use with random
 	random(1,NumTemp,N),
-	retira(N,ListaTarefas,G,NovaLista),
+	retira(N,ListaWorkBlocks,G,NovaLista),
 	NumT1 is NumT-1,
 	gera_individuo(NovaLista,NumT1,Resto).
 
@@ -194,7 +260,7 @@ gerar_pontos_cruzamento(P1,P2):-
 	gerar_pontos_cruzamento1(P1,P2).
 
 gerar_pontos_cruzamento1(P1,P2):-
-	tarefas(N),
+	nrWorkBlock(N),
 	NTemp is N+1,
 	random(1,NTemp,P11),
 	random(1,NTemp,P21),
@@ -242,7 +308,7 @@ sublista1([_|R1],N1,N2,[h|R2]):-
 	sublista1(R1,N3,N4,R2).
 
 rotate_right(L,K,L1):-
-	tarefas(N),
+	nrWorkBlock(N),
 	T is N - K,
 	rr(T,L,L1).
 
@@ -265,7 +331,7 @@ elimina([_|R1],L,R2):-
 
 insere([],L,_,L):-!.
 insere([X|R],L,N,L2):-
-	tarefas(T),
+	nrWorkBlock(T),
 	((N>T,!,N1 is N mod T);N1 = N),
 	insere1(X,N1,L,L1),
 	N2 is N + 1,
@@ -279,7 +345,7 @@ insere1(X,N,[Y|L],[Y|L1]):-
 
 cruzar(Ind1,Ind2,P1,P2,NInd11):-
 	sublista(Ind1,P1,P2,Sub1),
-	tarefas(NumT),
+	nrWorkBlock(NumT),
 	R is NumT-P2,
 	rotate_right(Ind2,R,Ind21),
 	elimina(Ind21,Sub1,Sub2),
