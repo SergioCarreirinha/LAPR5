@@ -7,12 +7,13 @@ tarefa(t4,3,9,3).
 tarefa(t5,3,8,2).
 
 % parameterização
-geracoes(5).
+geracoes(3000).
 populacao(4).
 prob_cruzamento(0.4).
 prob_mutacao(0.5).
 tarefas(5).
-target(14).
+target(10).
+tempo(30).
 
 per_individuo(0.1).
 
@@ -28,14 +29,14 @@ inicializa:-write('Numero de novas Geracoes: '),read(NG),
 	PM is P2/100,
 	(retract(prob_mutacao(_));true), asserta(prob_mutacao(PM)).
 
-
 gera:-
 %	inicializa,
 	gera_populacao(Pop),
 	avalia_populacao(Pop,PopAv),
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
-	gera_geracao(0,NG,PopOrd).
+	get_time(TempInit),
+	gera_geracao(0,TempInit,0,NG,PopOrd).
 
 gera_populacao(Pop):-
 	populacao(TamPop),
@@ -104,13 +105,25 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
-gera_geracao(G,G,Pop):-!,
+gera_geracao(G,_,_,G,Pop):-!,
 	write('Geração '), write(G), write(':'), nl, write(Pop), nl.
 
-gera_geracao(N,G,Pop):-
-	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
+gera_geracao(_,_,2,_,_):-
+		write('REPETIDO'), nl,!.
 
-	%verifica_target(Pop),
+
+gera_geracao(_,TempInit,_,_,Pop):-
+	tempo(Var),
+	get_time(TempoAtual),TempoAtual-TempInit > Var,
+	write('TEMPO: '), write(TempInit),nl, write('ATUAL:'),write(TempoAtual), nl, write(Pop), nl,!.
+
+gera_geracao(_,_,_,_,[_*V|_]):-
+	target(Z),
+	write(Z),write('<='),write(V),nl,
+	Z >= V,write('Bom Dia Vietnam'),!.
+
+gera_geracao(N,TempInit,Count,G,Pop):-
+	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
 
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
@@ -118,7 +131,7 @@ gera_geracao(N,G,Pop):-
 	mutacao(NPop1,NPop),
 	avalia_populacao(NPop,NPopAv),
 	ordena_populacao(NPopAv,NPopOrd),
-	write('filhos='),write(NPopOrd),nl,nl,
+	%write('filhos='),write(NPopOrd),nl,nl,
 
 	%junta as duas gerações
 	append(Pop,NPopOrd,PopTotal),
@@ -131,15 +144,14 @@ gera_geracao(N,G,Pop):-
 	%preenche o resto da lista se faltarem elementos
 	length(MPopTotal,T),
 	preencher_lista(T,OrdPopTotal,MPopTotal,PopFinal),
+	(   ( PopFinal == Pop ,Count1 is Count+1 )
+	;
+	(  PopFinal \== Pop , Count1 is 0)),nl,
+	write(Count1),nl,
 
+	ordena_populacao(PopFinal, PopMaisQueFinal),
 	N1 is N+1,
-	gera_geracao(N1,G,PopFinal).
-
-verifica_target([_*V|_]):-
-	target(Z),
-	write(Z),write('<'),write(V),nl,
-	Z < V,!.
-
+	gera_geracao(N1,TempInit,Count1,G,PopMaisQueFinal).
 
 obter_individuos(NG,[H|NPopOrd],[H|MPopOrd]):-
 	NG1 is NG-1,
