@@ -7,13 +7,14 @@ tarefa(t4,3,9,3).
 tarefa(t5,3,8,2).
 
 % parameterização
-geracoes(3000).
-populacao(4).
+geracoes(300).
+populacao(3).
 prob_cruzamento(0.4).
 prob_mutacao(0.5).
 tarefas(5).
-target(10).
-tempo(30).
+target(9).
+tempo(80).
+geracoes_repetidas(50000000).
 
 per_individuo(0.1).
 
@@ -108,19 +109,22 @@ btroca([X|L1],[X|L2]):-btroca(L1,L2).
 gera_geracao(G,_,_,G,Pop):-!,
 	write('Geração '), write(G), write(':'), nl, write(Pop), nl.
 
-gera_geracao(_,_,2,_,_):-
-		write('REPETIDO'), nl,!.
+gera_geracao(G,_,N,_,Pop):-
+	write('Geração '), write(G), write(':'), nl, write(Pop), nl,
+	geracoes_repetidas(GR),
+	GR==N,
+	write('Estabilizacao de geracoes('),write(N),write(')'), nl,!.
 
 
-gera_geracao(_,TempInit,_,_,Pop):-
+gera_geracao(_,TempInit,_,_,_):-
 	tempo(Var),
 	get_time(TempoAtual),TempoAtual-TempInit > Var,
-	write('TEMPO: '), write(TempInit),nl, write('ATUAL:'),write(TempoAtual), nl, write(Pop), nl,!.
+	write('TEMPO: '), write(TempInit),nl, write('ATUAL: '),write(TempoAtual), nl, write('Paragem por tempo limite('),write(Var),write(')'), nl,!.
 
 gera_geracao(_,_,_,_,[_*V|_]):-
 	target(Z),
 	write(Z),write('<='),write(V),nl,
-	Z >= V,write('Bom Dia Vietnam'),!.
+	Z >= V,write('Paragem por valor menor ou igual que o Target('),write(Z),write(')'),!.
 
 gera_geracao(N,TempInit,Count,G,Pop):-
 	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
@@ -139,44 +143,43 @@ gera_geracao(N,TempInit,Count,G,Pop):-
 
 	populacao(NG),
 	%função que vai buscar a primeira melhor resposta e adiciona os restantes(10% de hipóteses)
-	obter_individuos(NG,OrdPopTotal,MPopTotal),
+	obter_individuos(NG,OrdPopTotal,MPopTotal,PopMaSorte),
 
 	%preenche o resto da lista se faltarem elementos
 	length(MPopTotal,T),
-	preencher_lista(T,OrdPopTotal,MPopTotal,PopFinal),
+	preencher_lista(T,MPopTotal,PopMaSorte,PopFinal),
 	(   ( PopFinal == Pop ,Count1 is Count+1 )
 	;
 	(  PopFinal \== Pop , Count1 is 0)),nl,
-	write(Count1),nl,
+	write('Repetidos: '),write(Count1),nl,
 
 	ordena_populacao(PopFinal, PopMaisQueFinal),
 	N1 is N+1,
 	gera_geracao(N1,TempInit,Count1,G,PopMaisQueFinal).
 
-obter_individuos(NG,[H|NPopOrd],[H|MPopOrd]):-
+obter_individuos(NG,[H|NPopOrd],[H|MPopOrd],PopMaSorte):-
 	NG1 is NG-1,
-	nao_elitista(NG1,NPopOrd,MPopOrd).
+	nao_elitista(NG1,NPopOrd,MPopOrd,H,PopMaSorte).
 
-nao_elitista(0,_,[]):-!.
-nao_elitista(NG,[H|NPopOrd],[H|MPopOrd]):-
+nao_elitista(0,_,[],_,[]):-!.
+nao_elitista(NG,[H|NPopOrd],[H|MPopOrd],T,PopMaSorte):-
 	random(0.0,1.0,N),
 	per_individuo(P),
+	N<P,
+	H\==T,
 	NG1 is NG-1,
-        N<P,
-        nao_elitista(NG1,NPopOrd,MPopOrd),
+        nao_elitista(NG1,NPopOrd,MPopOrd,T,PopMaSorte),
 	\+member(H,MPopOrd),!.
-nao_elitista(NG,[_|NPopOrd],MPopOrd):-
+nao_elitista(NG,[H|NPopOrd],MPopOrd,_0,[H|PopMaSorte]):-
 	NG1 is NG-1,
-	nao_elitista(NG1,NPopOrd,MPopOrd).
+	nao_elitista(NG1,NPopOrd,MPopOrd,_,PopMaSorte),!.
 
-preencher_lista(Tlista,_,PopSorte,PopSorte):-
+preencher_lista(Tlista,PopSorte,PopSorte,_):-
 	populacao(P),
 	Tlista==P,!.
-preencher_lista(Tlista,OrdPopTotal,MPopTotal,PopFinal):-
-	append(MPopTotal,[],PopSorte),
-	populacao(P),
-	N is P-Tlista,
-	preenche(N,OrdPopTotal,PopSorte,PopFinal).
+preencher_lista(_,MPopTotal,PopMaSorte,PopFinal):-
+	append(MPopTotal,PopMaSorte,PopFinal).
+
 
 preenche(0,_,PopSorte,PopSorte):-!.
 preenche(N,[H|OrdPopTotal],PopSorte,PopFinal):-
