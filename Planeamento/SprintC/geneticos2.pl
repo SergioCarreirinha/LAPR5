@@ -440,13 +440,24 @@ elimina([X|R1],L,[X|R2]):-
 elimina([_|R1],L,R2):-
 	elimina(R1,L,R2).
 
-insere([],L,_,L):-!.
-insere([X|R],L,N,L2):-
+insere([],L,_,_,L):-!.
+insere([X|R],L,N,LMot,L2):-
 	nrWorkBlock(T),
 	((N>T,!,N1 is N mod T);N1 = N),
+	nth0(_,LMot,(X,Rep)),
+	vezes_repetidas_lista(X,L,RepLista),
+	((Rep>RepLista,
 	insere1(X,N1,L,L1),
 	N2 is N + 1,
-	insere(R,L1,N2,L2).
+	insere(R,L1,N2,RepLista,L2));
+	(insere(R,L,N,RepLista,L2))),!.
+
+vezes_repetidas_lista(_,[],0).
+vezes_repetidas_lista(X,[X|L],RepLista):-
+	vezes_repetidas_lista(X,L,R),
+	RepLista is R+1,!.
+vezes_repetidas_lista(X,[_|L],RepLista):-
+	vezes_repetidas_lista(X,L,RepLista).
 
 
 insere1(X,1,L,[X|L]):-!.
@@ -455,13 +466,13 @@ insere1(X,N,[Y|L],[Y|L1]):-
 	insere1(X,N1,L,L1).
 
 cruzar(Ind1,Ind2,P1,P2,NInd11):-
+	lista_motoristas_nworkblocks(_,L),
 	sublista(Ind1,P1,P2,Sub1),
 	nrWorkBlock(NumT),
 	R is NumT-P2,
 	rotate_right(Ind2,R,Ind21),
-	elimina(Ind21,Sub1,Sub2),
 	P3 is P2 + 1,
-	insere(Sub2,Sub1,P3,NInd1),
+	insere(Ind21,Sub1,P3,L,NInd1),
 	eliminah(NInd1,NInd11).
 
 
