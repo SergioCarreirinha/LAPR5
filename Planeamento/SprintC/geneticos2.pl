@@ -44,25 +44,20 @@ vehicleduty(12,[12,211,212,213,214,215,216,217,218,219,220,221,222]).
 
 lista_motoristas_nworkblocks(12,[(276,2),(5188,3),(16690,2),(18107,6)]).
 
-% Tarefa(Id,TempoProcessamento,DataEntrega,Penalizacao).
-tarefa(t1,2,5,1).
-tarefa(t2,4,7,6).
-tarefa(t3,1,11,2).
-tarefa(t4,3,9,3).
-tarefa(t5,3,8,2).
-
 % parameterização
-geracoes(3000).
-populacao(3).
+geracoes(5).
+populacao(4).
 prob_cruzamento(0.4).
 prob_mutacao(0.5).
 nrWorkBlock(5).
 target(9).
 tempo(4).
-geracoes_repetidas(50000000).
-onze_horas()
+geracoes_repetidas(10).
 
 per_individuo(0.1).
+peso_hard_constraint1(10).
+peso_hard_constraint2(8).
+peso_soft_constraint(1).
 
 % parameterização
 inicializa:-write('Numero de novas Geracoes: '),read(NG),
@@ -83,6 +78,9 @@ gera:-
 %	inicializa,
 	gera_populacao(Pop),
 	avalia_populacao(Pop,PopAv),
+	write(PopAv),nl,
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
+	write('espetaculo'),nl,
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
@@ -91,9 +89,6 @@ gera:-
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
 	lista_motoristas_nworkblocks(_,[(H,Num)|Lista]),
-	write(H),nl,
-	write(Num),nl,
-	write(Lista),nl,
 	gera_condutores2(H,Num,Lista,LFinal),random_permutation(LFinal,LMaisFinal),!.
 
 gera_condutores2(_,0,[],[]).
@@ -101,12 +96,9 @@ gera_condutores2(_,0,[],[]).
 gera_condutores2(H,N,L,[H|LFinal]):-
 	N \= 0,
 	N1 is N-1,
-	write(N),nl,
-	write(H),nl,
 	gera_condutores2(H,N1,L,LFinal).
 
 gera_condutores2(_,0,[(H,Num)|L],LFinal):-
-	write(L),nl,
 	gera_condutores2(H,Num,L,LFinal).
 
 
@@ -114,7 +106,6 @@ gera_populacao(Pop):-
 	populacao(TamPop),
 	gera_condutores(X),
 	length(X,N),
-	write(X),
 	gera_populacao(TamPop,X,N,Pop).
 
 gera_populacao(0,_,_,[]):-!.
@@ -143,37 +134,105 @@ retira(N,[G1|Resto],G,[G1|Resto1]):-
 
 avalia_populacao([],[]).
 avalia_populacao([Ind|Resto],[Ind*V|Resto1]):-
-	avalia(Ind,V),
+	agenda(Ind),
+	pausas,
+	avalia(V),
 	avalia_populacao(Resto,Resto1).
 
-avalia(Seq,V):-
-	avalia(Seq,0,V).
+avalia(V1):-
+	findall(X,avalia_pausas_refeicoes(X),PPausas),
+	findall(Y,avalia_tempos_trabalho(Y),PTrabalhos),
+	append(PPausas,PTrabalhos,Pesos),
+	somar_lista(Pesos,V1),
+	retractall(visitado(_)).
 
-avalia([],_,0).
-avalia([T|Resto],Inst,V):-
-	agenda([T|Resto]),
-	pausas,
+somar_lista([],0):-!.
+somar_lista([X|Lista],Soma):-
+	somar_lista(Lista,Soma1),
+	Soma is Soma1+X.
 
-	InstFim is Inst+Dur,
-	avalia(Resto,InstFim,VResto),
-	(
-	(InstFim =< Prazo,!, VT is 0)
-	;
-	(VT is (InstFim-Prazo)*Pen)
-	),
-	V is VT+VResto.
+:-dynamic visitado/1.
+avalia_tempos_trabalho(Vf):-
+	peso_hard_constraint1(P),
+	t(Hi,Hf,I),
+	avalia_quatro_horas_seguidas(Hi,Hf,P,V),
+	avalia_oito_horas_totais(I,P,V,Vf).
+
+verifica_preferencia_horario(I,Vf):-
+	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
+	length(Horarios,L),
+	verifica_horario(L,L,Horarios,Vf).
+
+verifica_horario(0,_,[],0):-!.
+verifica_horario(1,_,[(_,Hf)],V):-
+	peso_soft_constraint(P),
+	((Hf>72000, Vf is V+(Hf-72000)*P);Vf is V),
+	write(Vf),nl,
+	verifica_horario(0,_,[],Vf).
+verifica_horario(L,C,[(Hi,_)|Horarios],V):-
+	peso_soft_constraint(P),
+	L==C,
+	%Preferencias: 10h=36000 20h=72000
+	((Hi<36000, Vf is V+(36000-Hi)*P);Vf is V),
+	L1 is L-1,
+	verifica_horario(L1,C,Horarios,Vf).
+verifica_horario(L,C,[_|Horarios],V):-
+	L1 is L-1,
+	verifica_horario(L1,C,Horarios,V).
+
+
+avalia_oito_horas_totais(I,P,V,Vf):-
+	%verifica se já avaliou o motorista I
+	findall(X,visitado(X),Visitados),
+	\+member(I,Visitados),
+	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
+	soma_horarios(Horarios,S),
+	%8h=28800
+	S>28800,
+	Vf is V+(S-28800)*P,
+	assert(visitado(I)),!.
+avalia_oito_horas_totais(_,_,V,V).
+
+
+soma_horarios([],0):-!.
+soma_horarios([(Hi,Hf)|Horarios],S):-
+	soma_horarios(Horarios,S1),
+	S is S1+(Hf-Hi).
+
+
+avalia_quatro_horas_seguidas(Hi,Hf,P,V):-
+	Hf-Hi>14400,
+	V is ((Hf-Hi)-14400)*P,!.
+avalia_quatro_horas_seguidas(_,_,_,0).
+
+avalia_pausas_refeicoes(V2):-
+	p(Hi,Hf,_),
+	%11h=39600 15h=54000
+	pausa_refeicao(39600,54000,Hi,Hf,0,V1),
+	%18h=64800 22h=79200
+	pausa_refeicao(64800,79200,Hi,Hf,V1,V2).
+
+pausa_refeicao(Refi,Reff,Hi,Hf,V,Vf):-
+	%1h=3600
+	peso_hard_constraint2(P),
+	%quando a pausa comeca antes da referencia inicial e acaba entre as ambas
+	(((Hi<Refi, Hf>Refi), ((Hf-Refi>=3600,Vf is 0); Vf is V+(Hf-Refi)*P,!));
+
+	%quando a pausa esta entre as duas referencias
+	((Hi>Refi, Hf<Reff), ((Hf-Hi>=3600,Vf is 0); Vf is V+(Hf-Hi)*P,!));
+
+	%quando a pausa comeca entre as referencias e acaba depois da final
+	((Hi<Reff, Hf>Reff), ((Reff-Hi>=3600,Vf is 0); Vf is V+(Reff-Hi)*P,!))),!.
+pausa_refeicao(_,_,_,_,V,V).
+
 
 :-dynamic p/3.
 pausas:-
 	t(_,Tf,I),!,
-	write('Tf='),write(Tf),nl,
-	write('I='),write(I),nl,
 	pausa(Tf,I).
 
 pausa(Tf1,I):-
 	t(Tf1,Tf2,I2),
-	write('Tf2='),write(Tf2),nl,
-	write('I2='),write(I2),nl,
 	(percorre(Tf2,I,Tf1);true),
 	(pausa(Tf2,I2);true).
 
@@ -184,8 +243,6 @@ percorre(Tf,I,Tfi):-
 percorre(Tf,I,Tfi):-
 	t(Tf,Tf2,_),
 	percorre(Tf2,I,Tfi).
-
-
 
 
 agenda(Ind):-
@@ -260,6 +317,7 @@ gera_geracao(N,TempInit,Count,G,Pop):-
 
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
+
 	cruzamento(RPop,NPop1),
 	mutacao(NPop1,NPop),
 	avalia_populacao(NPop,NPopAv),
