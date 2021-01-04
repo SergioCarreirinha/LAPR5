@@ -50,7 +50,7 @@ populacao(4).
 prob_cruzamento(0.4).
 prob_mutacao(0.5).
 nrWorkBlock(5).
-target(9).
+target(50).
 tempo(4).
 geracoes_repetidas(10).
 
@@ -199,7 +199,7 @@ soma_horarios([(Hi,Hf)|Horarios],S):-
 	soma_horarios(Horarios,S1),
 	S is S1+(Hf-Hi).
 
-
+%4h=14400
 avalia_quatro_horas_seguidas(Hi,Hf,P,V):-
 	Hf-Hi>14400,
 	V is ((Hf-Hi)-14400)*P,!.
