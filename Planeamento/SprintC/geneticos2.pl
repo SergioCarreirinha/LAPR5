@@ -78,9 +78,7 @@ gera:-
 %	inicializa,
 	gera_populacao(Pop),
 	avalia_populacao(Pop,PopAv),
-	write(PopAv),nl,
 	retractall(t(_,_,_)),retractall(p(_,_,_)),
-	write('espetaculo'),nl,
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
@@ -156,26 +154,28 @@ avalia_tempos_trabalho(Vf):-
 	peso_hard_constraint1(P),
 	t(Hi,Hf,I),
 	avalia_quatro_horas_seguidas(Hi,Hf,P,V),
-	avalia_oito_horas_totais(I,P,V,Vf).
+	avalia_oito_horas_totais(I,P,V,V2),
+	verifica_preferencia_horario(I,V2,Vf).
 
-verifica_preferencia_horario(I,Vf):-
+verifica_preferencia_horario(I,V2,Vf):-
 	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
 	length(Horarios,L),
-	verifica_horario(L,L,Horarios,Vf).
+	verifica_horario(L,L,Horarios,V3),
+	Vf is V2+V3.
 
+%Preferencias: 10h=36000 20h=72000
 verifica_horario(0,_,[],0):-!.
-verifica_horario(1,_,[(_,Hf)],V):-
-	peso_soft_constraint(P),
-	((Hf>72000, Vf is V+(Hf-72000)*P);Vf is V),
-	write(Vf),nl,
-	verifica_horario(0,_,[],Vf).
 verifica_horario(L,C,[(Hi,_)|Horarios],V):-
 	peso_soft_constraint(P),
 	L==C,
-	%Preferencias: 10h=36000 20h=72000
-	((Hi<36000, Vf is V+(36000-Hi)*P);Vf is V),
 	L1 is L-1,
-	verifica_horario(L1,C,Horarios,Vf).
+	verifica_horario(L1,C,Horarios,Vf),
+	((Hi<36000, V is Vf+(36000-Hi)*P);V is Vf),!.
+verifica_horario(1,_,[(_,Hf)],V):-
+	peso_soft_constraint(P),
+	verifica_horario(0,_,[],Vf),
+	((Hf>72000, V is Vf+(Hf-72000)*P);V is Vf),!.
+
 verifica_horario(L,C,[_|Horarios],V):-
 	L1 is L-1,
 	verifica_horario(L1,C,Horarios,V).
