@@ -47,14 +47,14 @@ lista_motoristas_nworkblocks(12,[(276,2),(5188,3),(16690,2),(18107,6)]).
 % parameterização
 geracoes(5).
 populacao(4).
-prob_cruzamento(0.4).
-prob_mutacao(0.5).
+prob_cruzamento(0.5).
+prob_mutacao(0.4).
 nrWorkBlock(5).
 target(50).
 tempo(4).
 geracoes_repetidas(10).
 
-per_individuo(0.1).
+per_individuo(0.7).
 peso_hard_constraint1(10).
 peso_hard_constraint2(8).
 peso_soft_constraint(1).
@@ -76,7 +76,7 @@ inicializa:-write('Numero de novas Geracoes: '),read(NG),
 
 gera:-
 %	inicializa,
-	gera_populacao(Pop),
+	gera_populacao(Pop),!,
 	avalia_populacao(Pop,PopAv),
 	retractall(t(_,_,_)),retractall(p(_,_,_)),
 	ordena_populacao(PopAv,PopOrd),
@@ -313,7 +313,7 @@ gera_geracao(_,_,_,_,[_*V|_]):-
 	Z >= V,write('Paragem por valor menor ou igual que o Target('),write(Z),write(')'),!.
 
 gera_geracao(N,TempInit,Count,G,Pop):-
-	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
+%	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
 
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
@@ -322,6 +322,7 @@ gera_geracao(N,TempInit,Count,G,Pop):-
 	mutacao(NPop1,NPop),
 	avalia_populacao(NPop,NPopAv),
 	ordena_populacao(NPopAv,NPopOrd),
+
 	%write('filhos='),write(NPopOrd),nl,nl,
 
 	%junta as duas gerações
@@ -393,6 +394,18 @@ cruzamento([Ind1*_,Ind2*_|Resto],[NInd1,NInd2|Resto1]):-
 	(NInd1=Ind1,NInd2=Ind2)),
 	cruzamento(Resto,Resto1).
 
+
+cruzar(Ind1,Ind2,P1,P2,NInd11):-
+	lista_motoristas_nworkblocks(_,L),
+	sublista(Ind1,P1,P2,Sub1),
+	nrWorkBlock(NumT),
+	R is NumT-P2,
+	rotate_right(Ind2,R,Ind21),
+	P3 is P2 + 1,
+	insere(Ind21,Sub1,P3,L,NInd1),
+	eliminah(NInd1,NInd11).
+
+
 preencheh([],[]).
 
 preencheh([_|R1],[h|R2]):-
@@ -446,11 +459,20 @@ insere([X|R],L,N,LMot,L2):-
 	((N>T,!,N1 is N mod T);N1 = N),
 	nth0(_,LMot,(X,Rep)),
 	vezes_repetidas_lista(X,L,RepLista),
-	((Rep>RepLista,
-	insere1(X,N1,L,L1),
-	N2 is N + 1,
-	insere(R,L1,N2,RepLista,L2));
-	(insere(R,L,N,RepLista,L2))),!.
+
+(
+	    (Rep>RepLista,
+	    insere1(X,N1,L,L1),
+	    N2 is N + 1,
+	    insere(R,L1,N2,LMot,L2))
+	;
+	    (insere(R,L,N,LMot,L2))
+	),!.
+
+insere1(X,1,L,[X|L]):-!.
+insere1(X,N,[Y|L],[Y|L1]):-
+	N1 is N-1,
+	insere1(X,N1,L,L1).
 
 vezes_repetidas_lista(_,[],0).
 vezes_repetidas_lista(X,[X|L],RepLista):-
@@ -458,23 +480,6 @@ vezes_repetidas_lista(X,[X|L],RepLista):-
 	RepLista is R+1,!.
 vezes_repetidas_lista(X,[_|L],RepLista):-
 	vezes_repetidas_lista(X,L,RepLista).
-
-
-insere1(X,1,L,[X|L]):-!.
-insere1(X,N,[Y|L],[Y|L1]):-
-	N1 is N-1,
-	insere1(X,N1,L,L1).
-
-cruzar(Ind1,Ind2,P1,P2,NInd11):-
-	lista_motoristas_nworkblocks(_,L),
-	sublista(Ind1,P1,P2,Sub1),
-	nrWorkBlock(NumT),
-	R is NumT-P2,
-	rotate_right(Ind2,R,Ind21),
-	P3 is P2 + 1,
-	insere(Ind21,Sub1,P3,L,NInd1),
-	eliminah(NInd1,NInd11).
-
 
 eliminah([],[]).
 
