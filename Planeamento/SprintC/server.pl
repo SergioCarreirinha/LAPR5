@@ -38,19 +38,9 @@ server(Port) :-
 
 
 post_data(Request):-
-	(
-		(
-			(option(methods(options),Request),!,
-			cors_enable(Request, [methods([post,get,delete])]),
-			format("~n"))
-		)
-		;
-		(	
-			http_read_json(Request,data),
-			%process requested data
-			process_data_json(data),
-		)
-	).
+	cors_enable,
+	http_read_json(Request,data),
+	process_data_json(data).
 
 
 process_data_json([json([nGenaration=gen,nPopulation=npop,pCrossing=cro,pMutation=mut,nTarget=trg,nStability=sta])|T]):-
