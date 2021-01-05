@@ -86,7 +86,7 @@ gera:-
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
-	
+
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
 	gera_populacao(Pop),
@@ -98,15 +98,15 @@ gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	gera_geracao(0,TempInit,0,NG,PopOrd),
 	melhor(Pop*Eva),
 	postSolution(Pop,Eva).
-	
+
 inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
-	(retract(geracoes(_));true), asserta(geracoes(nGer)),
+	((retract(geracoes(_));true), asserta(geracoes(nGer)),
 	(retract(populacao(_));true), asserta(populacao(nPop)),
 	(retract(prob_cruzamento(_));true), asserta(prob_cruzamento(pCruz)),
 	(retract(prob_mutacao(_));true), asserta(prob_mutacao(pMut)),
-    (retract(target());true), asserta(target(nTarget)),
-    (retract(geracoes_repetidas());true), geracoes_repetidas(nRepetidos)),!.
-	
+	(retract(target());true), asserta(target(nTarget)),
+	(retract(geracoes_repetidas());true), geracoes_repetidas(nRepetidos)),!.
+
 postSolution(Pop,Eva):-
     Term = json([population=Pop,evaluation=Eva]),
     http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, []).
