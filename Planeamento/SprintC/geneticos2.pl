@@ -60,60 +60,7 @@ peso_hard_constraint2(8).
 peso_soft_constraint(1).
 
 
-%-------------------------------------HTTP Server-------------------------------------%
-:- use_module(library(http/thread_httpd)).
-:- use_module(library(http/http_dispatch)).
-:- use_module(library(http/http_open)).
-:- use_module(library(http/http_client)).
-:- use_module(library(http/json)).
-:- use_module(library(http/http_json)).
-:- use_module(library(http/http_cors)).
-:- use_module(library(http/json_convert)).
-:- set_setting(http:cors, [*]).
 
-server:-http_server(http_dispatch, [port(2226)]).
-server_stop:-http_stop_server(2226,[]).
-
-:- http_handler(root(api), handle_request, []).
-:- http_handler(root(api/genetics),inicialize,[]).
-
-
-inicialize(Request):-
-	(
-		(
-			(option(methods(options),Request),!,
-			cors_enable(Request, [methods([post,get,delete])]),
-			format("~n"))
-		)
-		;
-		(	
-			%read response
-			http_read_json(Request,data),
-   			%get start time
-			get_time(StartTime),
-			%process requested data
-			process_data_json(data,StartTime),
-			%start gera
-			gera,
-			build_json_response(StartTime,JSON_Response),
-			is_json_term(JSON_Response),
-			format('Access-Control-Allow-Origin: *~n'),
-			format('Content-type: application/json~n'),
-			reply_json(JSON_Response)
-		)
-	).
-
-process_data_json([]):-!.
-process_data_json([json([nGenaration=gen,nPopulation=pop,pCrossing=cro,pMutation=mut,nTarget=trg,nStability=sta])|T]):-
-	geracoes(gen),
-	populacao(pop),
-	prob_cruzamento(cro),
-	prob_mutacao(mut),
-	target(trg),
-	geracoes_repetidas(sta).
-	process_clients_json(T).
-
-%-------------------------------------HTTP Server-------------------------------------%
 
 % parameteriza��o
 inicializa:-write('Numero de novas Geracoes: '),read(NG),
@@ -139,6 +86,30 @@ gera:-
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
+	
+gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
+	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
+	gera_populacao(Pop),
+	avalia_populacao(Pop,PopAv),
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
+	ordena_populacao(PopAv,PopOrd),
+	geracoes(NG),!,
+	get_time(TempInit),
+	gera_geracao(0,TempInit,0,NG,PopOrd),
+	melhor(Pop*Eva),
+	postSolution(Pop,Eva).
+	
+inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
+	(retract(geracoes(_));true), asserta(geracoes(nGer)),
+	(retract(populacao(_));true), asserta(populacao(nPop)),
+	(retract(prob_cruzamento(_));true), asserta(prob_cruzamento(pCruz)),
+	(retract(prob_mutacao(_));true), asserta(prob_mutacao(pMut)),
+    (retract(target());true), asserta(target(nTarget)),
+    (retract(geracoes_repetidas());true), geracoes_repetidas(nRepetidos)),!.
+	
+postSolution(Pop,Eva):-
+    Term = json([population=Pop,evaluation=Eva]),
+    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, []).
 
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
@@ -348,8 +319,12 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
-gera_geracao(G,_,_,G,Pop):-!,
-	write('Gera��o '), write(G), write(':'), nl, write(Pop), nl.
+:-dynamic melhor/1.
+menorAvaliacao([Pop*Eva|_]):-
+	(retract(melhor());true), asserta(Pop*Eva),!.
+
+gera_geracao(G,_,_,G,Pop):-
+	write('Gera��o '), write(G), write(':'), nl, write(Pop), nl, menorAvaliacao(Pop),!.
 
 gera_geracao(G,_,N,_,Pop):-
 	write('Gera��o '), write(G), write(':'), nl, write(Pop), nl,
