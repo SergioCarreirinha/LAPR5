@@ -38,15 +38,14 @@ export class MapComponent implements OnInit {
     });
     this.map.addControl(new PitchToggle({ minpitchzoom: 10 }), 'top-left');
 
+    this.setArrayPaths();
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
     this.map.dragRotate.disable();
 
-    this.pathService.getPaths().subscribe(paths => {
-      this.paths = paths;
-      this.drawNodesAndLines();
-      this.drawBusStop();
-    });
+    this.drawNodesAndLines();
+    this.drawBusStop();
+
   }
 
 
@@ -137,7 +136,7 @@ export class MapComponent implements OnInit {
             { defaultLights: true }
           );
 
-          for (let point of nodesIn) {
+         for (let point of nodesIn) {
             var busStop3D = {
               obj: '../../assets/3DModel/Paragem.obj',
               mtl: '../../assets/3DModel/Paragem.mtl',
@@ -179,7 +178,7 @@ export class MapComponent implements OnInit {
     });
   }
   async drawLines() {
-    this.lineService.getLines().subscribe(lines => {
+      this.lineService.getLines().subscribe(lines => {
       this.lines = lines;
       for (let i = 0; i < this.lines.length; i++) {
         var coords: any[] = [];
@@ -343,7 +342,7 @@ class PitchToggle {
         _this._btn.textContent = "2D";
         toggle = true;
         map.dragRotate.enable();
-
+        
         map.addLayer(
           {
             'id': '3d-buildings',
