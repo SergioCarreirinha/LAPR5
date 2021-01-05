@@ -1,3 +1,13 @@
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/http_parameters)).
+:- use_module(library(http/http_client)).
+:- use_module(library(http/http_header)).
+% Bibliotecas JSON
+:- use_module(library(http/http_json)).
+:- use_module(library(http/http_open)).
+:- use_module(library(http/json)).
+:- use_module(library(http/json_convert)).
 % horario(Path,Trip,List_of_Time)
 horario(38,459,[34080,34200]).
 horario(3,31,[37800,38280,38580,38880,39420]).
@@ -59,6 +69,8 @@ peso_hard_constraint1(10).
 peso_hard_constraint2(8).
 peso_soft_constraint(1).
 
+:-dynamic melhor/1.
+
 
 
 
@@ -86,7 +98,9 @@ gera:-
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
-	
+	%melhor(Pop2*Eva),
+	%postSolution(Pop2,Eva).
+
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
 	gera_populacao(Pop),
@@ -96,20 +110,21 @@ gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd),
-	melhor(Pop*Eva),
-	postSolution(Pop,Eva).
-	
+	melhor(Pop2*Eva),
+	postSolution(Pop2,Eva).
+
 inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
-	(retract(geracoes(_));true), asserta(geracoes(nGer)),
+	((retract(geracoes(_));true), asserta(geracoes(nGer)),
 	(retract(populacao(_));true), asserta(populacao(nPop)),
 	(retract(prob_cruzamento(_));true), asserta(prob_cruzamento(pCruz)),
 	(retract(prob_mutacao(_));true), asserta(prob_mutacao(pMut)),
-    (retract(target());true), asserta(target(nTarget)),
-    (retract(geracoes_repetidas());true), geracoes_repetidas(nRepetidos)),!.
-	
+	(retract(target(_));true), asserta(target(nTarget)),
+	(retract(geracoes_repetidas(_));true), geracoes_repetidas(nRepetidos)),!.
+
 postSolution(Pop,Eva):-
     Term = json([population=Pop,evaluation=Eva]),
-    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, []).
+    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, [content("application/json"),authorization(bearer('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJhYzIxZjk0MC00NGYwLTQ1NmEtOGVlNi0zYThjYzRjOGE4M2MiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDk4ODY5NTcsImV4cCI6MTYwOTk3MzM1NywiaWF0IjoxNjA5ODg2OTU3fQ.Ny3tdQNgRbirhWJ_2Vj4WyjyX_uyymthdUp2mZlMlDk'))
+]).
 
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
@@ -319,9 +334,8 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
-:-dynamic melhor/1.
 menorAvaliacao([Pop*Eva|_]):-
-	(retract(melhor());true), asserta(Pop*Eva),!.
+	(retract(melhor(_));true), asserta(melhor(Pop*Eva)),!.
 
 gera_geracao(G,_,_,G,Pop):-
 	write('Gera��o '), write(G), write(':'), nl, write(Pop), nl, menorAvaliacao(Pop),!.

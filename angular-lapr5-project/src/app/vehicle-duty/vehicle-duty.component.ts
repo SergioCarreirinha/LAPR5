@@ -55,8 +55,7 @@ export class VehicleDutyComponent implements OnInit {
      for(let workBlockString of this.workBlocksVehicleDuty){
       workBlockId.push(workBlockString.id);
     }
-    console.log(workBlockId); 
-    console.log(this.workBlocksVehicleDuty);
+    
 
     this.vehicleDutyService.addVehicleDuty({
       key: key,
@@ -65,7 +64,7 @@ export class VehicleDutyComponent implements OnInit {
       depots: depots,
       workBlocks: workBlockId
     } as IVehicleDuty)
-      .subscribe(vehicleDuty => {this.vehicleDuty.push(vehicleDuty); console.log(vehicleDuty)});
+      .subscribe(vehicleDuty => {this.vehicleDuty.push(vehicleDuty); this.workBlocksVehicleDuty=[]});
 
     Swal.fire({
       title: 'Success!',

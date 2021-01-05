@@ -38,21 +38,18 @@ export class MapComponent implements OnInit {
     });
     this.map.addControl(new PitchToggle({ minpitchzoom: 10 }), 'top-left');
 
-    this.setArrayNodes();
     this.setArrayPaths();
-    this.setArrayLines();
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
     this.map.dragRotate.disable();
 
-    this.drawNodes();
-    this.drawLines();
+    this.drawNodesAndLines();
     this.drawBusStop();
 
   }
 
 
-  drawNodes() {
+  drawNodesAndLines() {
 
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
@@ -95,7 +92,7 @@ export class MapComponent implements OnInit {
 
         });
 
-      });
+      }); this.drawLines();
 
     });
 
@@ -139,9 +136,6 @@ export class MapComponent implements OnInit {
             { defaultLights: true }
           );
 
-          let longitudeAdjustment = 0.001;
-          let latitudeAdjustment = 0.0007;
-
          for (let point of nodesIn) {
             var busStop3D = {
               obj: '../../assets/3DModel/Paragem.obj',
@@ -184,8 +178,7 @@ export class MapComponent implements OnInit {
     });
   }
   async drawLines() {
-
-    this.lineService.getLines().subscribe(lines => {
+      this.lineService.getLines().subscribe(lines => {
       this.lines = lines;
       for (let i = 0; i < this.lines.length; i++) {
         var coords: any[] = [];
@@ -256,6 +249,7 @@ export class MapComponent implements OnInit {
           color: color, // color based on latitude of endpoint
           width: 3
         }
+        console.log(coord);
 
         let lineMesh = tb.line(lineOptions);
 
