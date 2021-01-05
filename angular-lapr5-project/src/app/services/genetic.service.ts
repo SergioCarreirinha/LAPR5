@@ -11,7 +11,7 @@ import { IGetSolution } from '../interfaces/IGetSolution';
 })
 export class GeneticService {
 
-  getGeneticUrl = environment.url.mdr + 'api/genetic';
+  getGeneticUrl = environment.url.mdv + 'api/genetic';
   /* postGeneticUrl = environment.url.planning; */
   constructor(private http: HttpClient) {}
 

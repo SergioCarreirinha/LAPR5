@@ -1,3 +1,12 @@
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/http_parameters)).
+:- use_module(library(http/http_client)).
+% Bibliotecas JSON
+:- use_module(library(http/http_json)).
+:- use_module(library(http/http_open)).
+:- use_module(library(http/json)).
+:- use_module(library(http/json_convert)).
 % horario(Path,Trip,List_of_Time)
 horario(38,459,[34080,34200]).
 horario(3,31,[37800,38280,38580,38880,39420]).
@@ -44,22 +53,27 @@ vehicleduty(12,[12,211,212,213,214,215,216,217,218,219,220,221,222]).
 
 lista_motoristas_nworkblocks(12,[(276,2),(5188,3),(16690,2),(18107,6)]).
 
-% parameterização
+% parameterizaï¿½ï¿½o
 geracoes(5).
 populacao(4).
-prob_cruzamento(0.4).
-prob_mutacao(0.5).
+prob_cruzamento(0.5).
+prob_mutacao(0.4).
 nrWorkBlock(5).
-target(9).
+target(50).
 tempo(4).
 geracoes_repetidas(10).
 
-per_individuo(0.1).
+per_individuo(0.7).
 peso_hard_constraint1(10).
 peso_hard_constraint2(8).
 peso_soft_constraint(1).
 
-% parameterização
+:-dynamic melhor/1.
+
+
+
+
+% parameterizaï¿½ï¿½o
 inicializa:-write('Numero de novas Geracoes: '),read(NG),
 	(retract(geracoes(_));true), asserta(geracoes(NG)),
 	write('Dimensao da Populacao: '),read(DP),
@@ -70,21 +84,43 @@ inicializa:-write('Numero de novas Geracoes: '),read(NG),
 	write('Probabilidade de Mutacao (%):'), read(P2),
 	PM is P2/100,
 	(retract(prob_mutacao(_));true), asserta(prob_mutacao(PM)),
-	write('Avaliação de Referência:'), read(P3), (retract(target(_));true), assert(target(P3)),
-	write('Máximo de Tempo que pode demorar:'), read(P4), (retract(tempo(_));true), assert(tempo(P4)),
-	write('Máximo de Gerações Repetidas:'), read(P5), (retract(geracoes_repetidas(_));true), assert(geracoes_repetidas(P5)).
+	write('Avaliaï¿½ï¿½o de Referï¿½ncia:'), read(P3), (retract(target(_));true), assert(target(P3)),
+	write('Mï¿½ximo de Tempo que pode demorar:'), read(P4), (retract(tempo(_));true), assert(tempo(P4)),
+	write('Mï¿½ximo de Geraï¿½ï¿½es Repetidas:'), read(P5), (retract(geracoes_repetidas(_));true), assert(geracoes_repetidas(P5)).
 
 gera:-
 %	inicializa,
-	gera_populacao(Pop),
+	gera_populacao(Pop),!,
 	avalia_populacao(Pop,PopAv),
-	write(PopAv),nl,
 	retractall(t(_,_,_)),retractall(p(_,_,_)),
-	write('espetaculo'),nl,
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
+
+gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
+	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
+	gera_populacao(Pop),
+	avalia_populacao(Pop,PopAv),
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
+	ordena_populacao(PopAv,PopOrd),
+	geracoes(NG),!,
+	get_time(TempInit),
+	gera_geracao(0,TempInit,0,NG,PopOrd),
+	melhor(Pop*Eva),
+	postSolution(Pop,Eva).
+
+inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
+	((retract(geracoes(_));true), asserta(geracoes(nGer)),
+	(retract(populacao(_));true), asserta(populacao(nPop)),
+	(retract(prob_cruzamento(_));true), asserta(prob_cruzamento(pCruz)),
+	(retract(prob_mutacao(_));true), asserta(prob_mutacao(pMut)),
+	(retract(target(_));true), asserta(target(nTarget)),
+	(retract(geracoes_repetidas(_));true), geracoes_repetidas(nRepetidos)),!.
+
+postSolution(Pop,Eva):-
+    Term = json([population=Pop,evaluation=Eva]),
+    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, []).
 
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
@@ -156,33 +192,35 @@ avalia_tempos_trabalho(Vf):-
 	peso_hard_constraint1(P),
 	t(Hi,Hf,I),
 	avalia_quatro_horas_seguidas(Hi,Hf,P,V),
-	avalia_oito_horas_totais(I,P,V,Vf).
+	avalia_oito_horas_totais(I,P,V,V2),
+	verifica_preferencia_horario(I,V2,Vf).
 
-verifica_preferencia_horario(I,Vf):-
+verifica_preferencia_horario(I,V2,Vf):-
 	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
 	length(Horarios,L),
-	verifica_horario(L,L,Horarios,Vf).
+	verifica_horario(L,L,Horarios,V3),
+	Vf is V2+V3.
 
+%Preferencias: 10h=36000 20h=72000
 verifica_horario(0,_,[],0):-!.
-verifica_horario(1,_,[(_,Hf)],V):-
-	peso_soft_constraint(P),
-	((Hf>72000, Vf is V+(Hf-72000)*P);Vf is V),
-	write(Vf),nl,
-	verifica_horario(0,_,[],Vf).
 verifica_horario(L,C,[(Hi,_)|Horarios],V):-
 	peso_soft_constraint(P),
 	L==C,
-	%Preferencias: 10h=36000 20h=72000
-	((Hi<36000, Vf is V+(36000-Hi)*P);Vf is V),
 	L1 is L-1,
-	verifica_horario(L1,C,Horarios,Vf).
+	verifica_horario(L1,C,Horarios,Vf),
+	((Hi<36000, V is Vf+(36000-Hi)*P);V is Vf),!.
+verifica_horario(1,_,[(_,Hf)],V):-
+	peso_soft_constraint(P),
+	verifica_horario(0,_,[],Vf),
+	((Hf>72000, V is Vf+(Hf-72000)*P);V is Vf),!.
+
 verifica_horario(L,C,[_|Horarios],V):-
 	L1 is L-1,
 	verifica_horario(L1,C,Horarios,V).
 
 
 avalia_oito_horas_totais(I,P,V,Vf):-
-	%verifica se já avaliou o motorista I
+	%verifica se jï¿½ avaliou o motorista I
 	findall(X,visitado(X),Visitados),
 	\+member(I,Visitados),
 	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
@@ -199,7 +237,7 @@ soma_horarios([(Hi,Hf)|Horarios],S):-
 	soma_horarios(Horarios,S1),
 	S is S1+(Hf-Hi).
 
-
+%4h=14400
 avalia_quatro_horas_seguidas(Hi,Hf,P,V):-
 	Hf-Hi>14400,
 	V is ((Hf-Hi)-14400)*P,!.
@@ -292,11 +330,14 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
-gera_geracao(G,_,_,G,Pop):-!,
-	write('Geração '), write(G), write(':'), nl, write(Pop), nl.
+menorAvaliacao([Pop*Eva|_]):-
+	(retract(melhor());true), asserta(Pop*Eva),!.
+
+gera_geracao(G,_,_,G,Pop):-
+	write('Geraï¿½ï¿½o '), write(G), write(':'), nl, write(Pop), nl, menorAvaliacao(Pop),!.
 
 gera_geracao(G,_,N,_,Pop):-
-	write('Geração '), write(G), write(':'), nl, write(Pop), nl,
+	write('Geraï¿½ï¿½o '), write(G), write(':'), nl, write(Pop), nl,
 	geracoes_repetidas(GR),
 	GR==N,
 	write('Estabilizacao de geracoes('),write(N),write(')'), nl,!.
@@ -313,7 +354,7 @@ gera_geracao(_,_,_,_,[_*V|_]):-
 	Z >= V,write('Paragem por valor menor ou igual que o Target('),write(Z),write(')'),!.
 
 gera_geracao(N,TempInit,Count,G,Pop):-
-	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
+%	write('Geraï¿½ï¿½o '), write(N), write(':'), nl, write(Pop), nl,
 
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
@@ -322,14 +363,15 @@ gera_geracao(N,TempInit,Count,G,Pop):-
 	mutacao(NPop1,NPop),
 	avalia_populacao(NPop,NPopAv),
 	ordena_populacao(NPopAv,NPopOrd),
+
 	%write('filhos='),write(NPopOrd),nl,nl,
 
-	%junta as duas gerações
+	%junta as duas geraï¿½ï¿½es
 	append(Pop,NPopOrd,PopTotal),
 	ordena_populacao(PopTotal,OrdPopTotal),
 
 	populacao(NG),
-	%função que vai buscar a primeira melhor resposta e adiciona os restantes(10% de hipóteses)
+	%funï¿½ï¿½o que vai buscar a primeira melhor resposta e adiciona os restantes(10% de hipï¿½teses)
 	obter_individuos(NG,OrdPopTotal,MPopTotal,PopMaSorte),
 
 	%preenche o resto da lista se faltarem elementos
@@ -393,6 +435,18 @@ cruzamento([Ind1*_,Ind2*_|Resto],[NInd1,NInd2|Resto1]):-
 	(NInd1=Ind1,NInd2=Ind2)),
 	cruzamento(Resto,Resto1).
 
+
+cruzar(Ind1,Ind2,P1,P2,NInd11):-
+	lista_motoristas_nworkblocks(_,L),
+	sublista(Ind1,P1,P2,Sub1),
+	nrWorkBlock(NumT),
+	R is NumT-P2,
+	rotate_right(Ind2,R,Ind21),
+	P3 is P2 + 1,
+	insere(Ind21,Sub1,P3,L,NInd1),
+	eliminah(NInd1,NInd11).
+
+
 preencheh([],[]).
 
 preencheh([_|R1],[h|R2]):-
@@ -440,30 +494,33 @@ elimina([X|R1],L,[X|R2]):-
 elimina([_|R1],L,R2):-
 	elimina(R1,L,R2).
 
-insere([],L,_,L):-!.
-insere([X|R],L,N,L2):-
+insere([],L,_,_,L):-!.
+insere([X|R],L,N,LMot,L2):-
 	nrWorkBlock(T),
 	((N>T,!,N1 is N mod T);N1 = N),
-	insere1(X,N1,L,L1),
-	N2 is N + 1,
-	insere(R,L1,N2,L2).
+	nth0(_,LMot,(X,Rep)),
+	vezes_repetidas_lista(X,L,RepLista),
 
+(
+	    (Rep>RepLista,
+	    insere1(X,N1,L,L1),
+	    N2 is N + 1,
+	    insere(R,L1,N2,LMot,L2))
+	;
+	    (insere(R,L,N,LMot,L2))
+	),!.
 
 insere1(X,1,L,[X|L]):-!.
 insere1(X,N,[Y|L],[Y|L1]):-
 	N1 is N-1,
 	insere1(X,N1,L,L1).
 
-cruzar(Ind1,Ind2,P1,P2,NInd11):-
-	sublista(Ind1,P1,P2,Sub1),
-	nrWorkBlock(NumT),
-	R is NumT-P2,
-	rotate_right(Ind2,R,Ind21),
-	elimina(Ind21,Sub1,Sub2),
-	P3 is P2 + 1,
-	insere(Sub2,Sub1,P3,NInd1),
-	eliminah(NInd1,NInd11).
-
+vezes_repetidas_lista(_,[],0).
+vezes_repetidas_lista(X,[X|L],RepLista):-
+	vezes_repetidas_lista(X,L,R),
+	RepLista is R+1,!.
+vezes_repetidas_lista(X,[_|L],RepLista):-
+	vezes_repetidas_lista(X,L,RepLista).
 
 eliminah([],[]).
 
