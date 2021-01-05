@@ -447,8 +447,7 @@ cruzar(Ind1,Ind2,P1,P2,NInd11):-
 	R is NumT-P2,
 	rotate_right(Ind2,R,Ind21),
 	P3 is P2 + 1,
-	insere(Ind21,Sub1,P3,L,NInd1),
-	eliminah(NInd1,NInd11).
+	insere(Ind21,Sub1,P3,L,NInd11).
 
 
 preencheh([],[]).
