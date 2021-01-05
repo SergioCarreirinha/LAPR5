@@ -96,7 +96,9 @@ gera:-
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
-	gera_geracao(0,TempInit,0,NG,PopOrd).
+	gera_geracao(0,TempInit,0,NG,PopOrd),
+	melhor(Pop2*Eva),
+	postSolution(Pop2,Eva).
 
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
@@ -107,8 +109,8 @@ gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd),
-	melhor(Pop*Eva),
-	postSolution(Pop,Eva).
+	melhor(Pop2*Eva),
+	postSolution(Pop2,Eva).
 
 inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	((retract(geracoes(_));true), asserta(geracoes(nGer)),
@@ -119,6 +121,7 @@ inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	(retract(geracoes_repetidas(_));true), geracoes_repetidas(nRepetidos)),!.
 
 postSolution(Pop,Eva):-
+    write('entrou'),nl,
     Term = json([population=Pop,evaluation=Eva]),
     http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, []).
 
@@ -331,7 +334,7 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
 menorAvaliacao([Pop*Eva|_]):-
-	(retract(melhor());true), asserta(Pop*Eva),!.
+	(retract(melhor(_));true), asserta(melhor(Pop*Eva)),!.
 
 gera_geracao(G,_,_,G,Pop):-
 	write('Gera��o '), write(G), write(':'), nl, write(Pop), nl, menorAvaliacao(Pop),!.
