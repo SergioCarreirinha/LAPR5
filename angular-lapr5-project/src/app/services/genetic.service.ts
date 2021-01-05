@@ -12,7 +12,7 @@ import { IGetSolution } from '../interfaces/IGetSolution';
 export class GeneticService {
 
   getGeneticUrl = environment.url.mdv + 'api/genetic';
-  /* postGeneticUrl = environment.url.planning; */
+  postGeneticUrl = environment.url.prolog;
   constructor(private http: HttpClient) {}
 
   getSolutions(){
@@ -23,8 +23,8 @@ export class GeneticService {
   }
 
   createSolution(data: IRequestSolution){
-    return null; /* this.http.post<IRequestSolution>(this.postGeneticUrl, data).pipe(
-      catchError(this.handleError<IRequestSolution>('createSolution'))); */
+    return this.http.post<IRequestSolution>(this.postGeneticUrl, data).pipe(
+      catchError(this.handleError<IRequestSolution>('createSolution')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

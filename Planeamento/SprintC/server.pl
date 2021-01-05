@@ -6,6 +6,7 @@
       ]).
 
 :- use_module(library(http/http_json)).
+:- use_module(library(http/http_cors)).
 :- use_module(library(http/http_open)).
 :- use_module(library(http/json)).
 :- use_module(library(http/json_convert)).
@@ -22,13 +23,21 @@
 server(Port) :-
     http_server(http_dispatch,
                 [ port(Port),
+				  cors_enable(Request,
+                  [ methods([get,post,delete])
+                  ]),
                   workers(16)
                 ]).
 
 :- http_handler('api/genetics',post_data,[]).
 
 server(Port) :-
-        http_server(http_dispatch, [ port(Port), workers(16) ]).
+        http_server(http_dispatch, [ 
+				port(Port), 
+				cors_enable(Request,
+                  [ methods([get,post,delete])
+                  ]),
+				workers(16) ]).
 
 
 
