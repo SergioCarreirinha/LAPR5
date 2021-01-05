@@ -344,11 +344,7 @@ gera_geracao(_,_,_,_,[_*V|_]):-
 	Z >= V,write('Paragem por valor menor ou igual que o Target('),write(Z),write(')'),!.
 
 gera_geracao(N,TempInit,Count,G,Pop):-
-<<<<<<< HEAD
-%	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
-=======
-	write('Geraï¿½ï¿½o '), write(N), write(':'), nl, write(Pop), nl,
->>>>>>> ebb36629d811b13c5ec066523495c493530810fb
+%	write('Geraï¿½ï¿½o '), write(N), write(':'), nl, write(Pop), nl,
 
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
