@@ -19,13 +19,11 @@
 :- use_module(library(http/http_log)).
 :- use_module(library(http/http_dyn_workers)).
 :- http_handler(root(.), http_reply_from_files('.', []), [prefix]).
+:- set_setting(http:cors, [*]).
 
 server(Port) :-
     http_server(http_dispatch,
                 [ port(Port),
-				  cors_enable(Request,
-                  [ methods([get,post,delete])
-                  ]),
                   workers(16)
                 ]).
 
@@ -34,9 +32,6 @@ server(Port) :-
 server(Port) :-
         http_server(http_dispatch, [ 
 				port(Port), 
-				cors_enable(Request,
-                  [ methods([get,post,delete])
-                  ]),
 				workers(16) ]).
 
 
