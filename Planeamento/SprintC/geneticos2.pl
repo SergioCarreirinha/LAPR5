@@ -113,7 +113,6 @@ process_data_json([json([nGenaration=gen,nPopulation=pop,pCrossing=cro,pMutation
 	geracoes_repetidas(sta).
 	process_clients_json(T).
 
-
 %-------------------------------------HTTP Server-------------------------------------%
 
 % parameteriza��o
