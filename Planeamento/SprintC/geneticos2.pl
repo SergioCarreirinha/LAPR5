@@ -1,3 +1,12 @@
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/http_parameters)).
+:- use_module(library(http/http_client)).
+% Bibliotecas JSON
+:- use_module(library(http/http_json)).
+:- use_module(library(http/http_open)).
+:- use_module(library(http/json)).
+:- use_module(library(http/json_convert)).
 % horario(Path,Trip,List_of_Time)
 horario(38,459,[34080,34200]).
 horario(3,31,[37800,38280,38580,38880,39420]).
@@ -59,6 +68,8 @@ peso_hard_constraint1(10).
 peso_hard_constraint2(8).
 peso_soft_constraint(1).
 
+:-dynamic melhor/1.
+
 
 
 
@@ -104,8 +115,8 @@ inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	(retract(populacao(_));true), asserta(populacao(nPop)),
 	(retract(prob_cruzamento(_));true), asserta(prob_cruzamento(pCruz)),
 	(retract(prob_mutacao(_));true), asserta(prob_mutacao(pMut)),
-	(retract(target());true), asserta(target(nTarget)),
-	(retract(geracoes_repetidas());true), geracoes_repetidas(nRepetidos)),!.
+	(retract(target(_));true), asserta(target(nTarget)),
+	(retract(geracoes_repetidas(_));true), geracoes_repetidas(nRepetidos)),!.
 
 postSolution(Pop,Eva):-
     Term = json([population=Pop,evaluation=Eva]),
@@ -319,7 +330,6 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
-:-dynamic melhor/1.
 menorAvaliacao([Pop*Eva|_]):-
 	(retract(melhor());true), asserta(Pop*Eva),!.
 
