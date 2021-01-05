@@ -20,7 +20,7 @@ export class PlanningSprintCComponent implements OnInit {
   }
 
   getSolutions(){
-    this.service.getSolutions().subscribe(data => this.solutions = data);
+    this.service.getSolutions().subscribe(data => {this.solutions = data; console.log(this.solutions);});
   }
 
   createSolution(genaration: number, population: number, crossing: number, mutation: number, target: number, stability: number){
