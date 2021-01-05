@@ -1,8 +1,5 @@
 %-------------------------------------HTTP Server-------------------------------------%
-
-:- consult('HTTP_Reader').
-:- consult('BC_Viagens').
-:- consult('GeneticAlgorithms').
+:- consult('geneticos2').
 
 :- module(server,
       [ server/1            % ?Port
