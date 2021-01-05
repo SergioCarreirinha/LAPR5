@@ -2,6 +2,7 @@
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/http_client)).
+:- use_module(library(http/http_header)).
 % Bibliotecas JSON
 :- use_module(library(http/http_json)).
 :- use_module(library(http/http_open)).
@@ -96,9 +97,9 @@ gera:-
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
-	gera_geracao(0,TempInit,0,NG,PopOrd),
-	melhor(Pop2*Eva),
-	postSolution(Pop2,Eva).
+	gera_geracao(0,TempInit,0,NG,PopOrd).
+	%melhor(Pop2*Eva),
+	%postSolution(Pop2,Eva).
 
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
@@ -121,9 +122,9 @@ inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	(retract(geracoes_repetidas(_));true), geracoes_repetidas(nRepetidos)),!.
 
 postSolution(Pop,Eva):-
-    write('entrou'),nl,
     Term = json([population=Pop,evaluation=Eva]),
-    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, []).
+    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, [content("application/json"),authorization(bearer('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJhYzIxZjk0MC00NGYwLTQ1NmEtOGVlNi0zYThjYzRjOGE4M2MiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDk4ODY5NTcsImV4cCI6MTYwOTk3MzM1NywiaWF0IjoxNjA5ODg2OTU3fQ.Ny3tdQNgRbirhWJ_2Vj4WyjyX_uyymthdUp2mZlMlDk'))
+]).
 
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
