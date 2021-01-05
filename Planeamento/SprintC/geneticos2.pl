@@ -44,7 +44,7 @@ vehicleduty(12,[12,211,212,213,214,215,216,217,218,219,220,221,222]).
 
 lista_motoristas_nworkblocks(12,[(276,2),(5188,3),(16690,2),(18107,6)]).
 
-% parameterização
+% parameterizaï¿½ï¿½o
 geracoes(5).
 populacao(4).
 prob_cruzamento(0.4).
@@ -59,7 +59,64 @@ peso_hard_constraint1(10).
 peso_hard_constraint2(8).
 peso_soft_constraint(1).
 
-% parameterização
+
+%-------------------------------------HTTP Server-------------------------------------%
+:- use_module(library(http/thread_httpd)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/http_open)).
+:- use_module(library(http/http_client)).
+:- use_module(library(http/json)).
+:- use_module(library(http/http_json)).
+:- use_module(library(http/http_cors)).
+:- use_module(library(http/json_convert)).
+:- set_setting(http:cors, [*]).
+
+server:-http_server(http_dispatch, [port(2226)]).
+server_stop:-http_stop_server(2226,[]).
+
+:- http_handler(root(api), handle_request, []).
+:- http_handler(root(api/genetics),inicialize,[]).
+
+
+inicialize(Request):-
+	(
+		(
+			(option(methods(options),Request),!,
+			cors_enable(Request, [methods([post,get,delete])]),
+			format("~n"))
+		)
+		;
+		(	
+			%read response
+			http_read_json(Request,data),
+   			%get start time
+			get_time(StartTime),
+			%process requested data
+			process_data_json(data,StartTime),
+			%start gera
+			gera,
+			build_json_response(StartTime,JSON_Response),
+			is_json_term(JSON_Response),
+			format('Access-Control-Allow-Origin: *~n'),
+			format('Content-type: application/json~n'),
+			reply_json(JSON_Response)
+		)
+	).
+
+process_data_json([]):-!.
+process_data_json([json([nGenaration=gen,nPopulation=pop,pCrossing=cro,pMutation=mut,nTarget=trg,nStability=sta])|T]):-
+	geracoes(gen),
+	populacao(pop),
+	prob_cruzamento(cro),
+	prob_mutacao(mut),
+	target(trg),
+	geracoes_repetidas(sta).
+	process_clients_json(T).
+
+
+%-------------------------------------HTTP Server-------------------------------------%
+
+% parameterizaï¿½ï¿½o
 inicializa:-write('Numero de novas Geracoes: '),read(NG),
 	(retract(geracoes(_));true), asserta(geracoes(NG)),
 	write('Dimensao da Populacao: '),read(DP),
@@ -70,9 +127,9 @@ inicializa:-write('Numero de novas Geracoes: '),read(NG),
 	write('Probabilidade de Mutacao (%):'), read(P2),
 	PM is P2/100,
 	(retract(prob_mutacao(_));true), asserta(prob_mutacao(PM)),
-	write('Avaliação de Referência:'), read(P3), (retract(target(_));true), assert(target(P3)),
-	write('Máximo de Tempo que pode demorar:'), read(P4), (retract(tempo(_));true), assert(tempo(P4)),
-	write('Máximo de Gerações Repetidas:'), read(P5), (retract(geracoes_repetidas(_));true), assert(geracoes_repetidas(P5)).
+	write('Avaliaï¿½ï¿½o de Referï¿½ncia:'), read(P3), (retract(target(_));true), assert(target(P3)),
+	write('Mï¿½ximo de Tempo que pode demorar:'), read(P4), (retract(tempo(_));true), assert(tempo(P4)),
+	write('Mï¿½ximo de Geraï¿½ï¿½es Repetidas:'), read(P5), (retract(geracoes_repetidas(_));true), assert(geracoes_repetidas(P5)).
 
 gera:-
 %	inicializa,
@@ -182,7 +239,7 @@ verifica_horario(L,C,[_|Horarios],V):-
 
 
 avalia_oito_horas_totais(I,P,V,Vf):-
-	%verifica se já avaliou o motorista I
+	%verifica se jï¿½ avaliou o motorista I
 	findall(X,visitado(X),Visitados),
 	\+member(I,Visitados),
 	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
@@ -293,10 +350,10 @@ btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
 btroca([X|L1],[X|L2]):-btroca(L1,L2).
 
 gera_geracao(G,_,_,G,Pop):-!,
-	write('Geração '), write(G), write(':'), nl, write(Pop), nl.
+	write('Geraï¿½ï¿½o '), write(G), write(':'), nl, write(Pop), nl.
 
 gera_geracao(G,_,N,_,Pop):-
-	write('Geração '), write(G), write(':'), nl, write(Pop), nl,
+	write('Geraï¿½ï¿½o '), write(G), write(':'), nl, write(Pop), nl,
 	geracoes_repetidas(GR),
 	GR==N,
 	write('Estabilizacao de geracoes('),write(N),write(')'), nl,!.
@@ -313,7 +370,7 @@ gera_geracao(_,_,_,_,[_*V|_]):-
 	Z >= V,write('Paragem por valor menor ou igual que o Target('),write(Z),write(')'),!.
 
 gera_geracao(N,TempInit,Count,G,Pop):-
-	write('Geração '), write(N), write(':'), nl, write(Pop), nl,
+	write('Geraï¿½ï¿½o '), write(N), write(':'), nl, write(Pop), nl,
 
 	%aleatoridade dos individuos da lista
 	random_permutation(Pop,RPop),
@@ -324,12 +381,12 @@ gera_geracao(N,TempInit,Count,G,Pop):-
 	ordena_populacao(NPopAv,NPopOrd),
 	%write('filhos='),write(NPopOrd),nl,nl,
 
-	%junta as duas gerações
+	%junta as duas geraï¿½ï¿½es
 	append(Pop,NPopOrd,PopTotal),
 	ordena_populacao(PopTotal,OrdPopTotal),
 
 	populacao(NG),
-	%função que vai buscar a primeira melhor resposta e adiciona os restantes(10% de hipóteses)
+	%funï¿½ï¿½o que vai buscar a primeira melhor resposta e adiciona os restantes(10% de hipï¿½teses)
 	obter_individuos(NG,OrdPopTotal,MPopTotal,PopMaSorte),
 
 	%preenche o resto da lista se faltarem elementos
