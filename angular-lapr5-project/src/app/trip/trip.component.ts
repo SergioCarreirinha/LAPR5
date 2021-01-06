@@ -5,6 +5,8 @@ import { ITrip } from '../interfaces/ITrip';
 import Swal from 'sweetalert2';
 import { PassingTimeService } from '../services/passing-time.service';
 import { IPassingTime } from '../interfaces/IPassingTimes';
+import { LineService } from '../services/line.service';
+import { ILine } from '../interfaces/ILine';
 
 @Component({
   selector: 'app-trip',
@@ -14,14 +16,20 @@ import { IPassingTime } from '../interfaces/IPassingTimes';
 export class TripComponent implements OnInit {
 
   trips: ITrip[] = [];
+  lines: ILine[] = [];
 
 
-  constructor(private service: TripService) { }
+  constructor(private serviceLine: LineService,private service: TripService) { }
 
   ngOnInit(): void {
     this.getTrip();
+    this.getLines();
   }
 
+  private getLines() {
+    this.serviceLine.getLines().subscribe(line => this.lines = line);
+  }
+  
   getTrip() {
     this.service.getTrips().subscribe(trip => this.trips = trip);
   }
@@ -37,14 +45,20 @@ export class CreateTripComponent implements OnInit {
   trip: ITrip[] = [];
   passingTrips: any[] = [];
   passingTimes: any[] = [];
+  lines: ILine[] = [];
 
 
-  constructor(private service: TripService, private serviceP: PassingTimeService, private location: Location) { }
+  constructor(private serviceLine: LineService,private service: TripService, private serviceP: PassingTimeService, private location: Location) { }
 
   ngOnInit(): void {
     this.getPassingTimes();
+    this.getLines();
   }
 
+  private getLines() {
+    this.serviceLine.getLines().subscribe(line => this.lines = line);
+  }
+  
   getPassingTimes() {
     this.serviceP.getPassingTimes().subscribe(passingTime => this.passingTimes = passingTime);
   }

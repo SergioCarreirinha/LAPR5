@@ -13,9 +13,11 @@
         <input name="passingTimeT" #passingTimeT />
       </label>
       <br>
-      <label>Nó de Passagem
+      <label>Nó
         <br>
-        <input name="passingTimeNode" #passingTimeNode />
+        <select name='nodeKey' #passingTimeNode>
+          <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+        </select>
       </label>
       <br>
       <label for="isUsed">

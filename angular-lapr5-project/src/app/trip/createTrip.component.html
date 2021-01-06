@@ -24,11 +24,12 @@
                 </label>
             </div>
             <div>
-                <label>
-                    Linha
+                <label>Linha
                     <br>
-                    <input #line />
-                </label>
+                    <select name='line' #line>
+                      <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
+                    </select>
+                  </label>
             </div>
             <div>
                 <label>
