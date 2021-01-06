@@ -5,6 +5,8 @@ import { IWorkBlock } from '../interfaces/IWorkBlock';
 import Swal from 'sweetalert2';
 import { TripService } from '../services/trip.service';
 import { ITrip } from '../interfaces/ITrip';
+import { INode } from '../interfaces/INode';
+import { NodeService } from '../services/node.service';
 
 
 @Component({
@@ -17,15 +19,20 @@ export class WorkBlockComponent implements OnInit {
   workBlock: IWorkBlock[] = [];
   trips: any[] = [];
   tripsWorkBlock: any[] = [];
+  nodes: INode[] = [];
 
 
 
-  constructor(private tripService: TripService, private workBlockService: WorkBlockService, private location: Location) { }
+  constructor(private tripService: TripService,private nodeService: NodeService, private workBlockService: WorkBlockService, private location: Location) { }
 
   ngOnInit(): void {
     this.getTrips();
+    this.getNodes();
   }
 
+  private getNodes() {
+    this.nodeService.getNodes().subscribe(node => this.nodes = node);
+  }
   getTrips() {
     this.tripService.getTrips().subscribe(trip => {this.trips = trip; console.log(this.trips);});
   }
