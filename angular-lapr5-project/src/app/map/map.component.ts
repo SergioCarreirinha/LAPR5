@@ -138,10 +138,10 @@ export class MapComponent implements OnInit {
 
          for (let point of nodesIn) {
             var busStop3D = {
-              obj: '../../assets/3DModel/Paragem.obj',
-              mtl: '../../assets/3DModel/Paragem.mtl',
-              scale: 0.1,
-              rotation: { x: 90, y: 180, z: 0 }
+              obj: '../../assets/3DModel/Bus_Stop.obj',
+              mtl: '../../assets/3DModel/Bus_Stop.mtl',
+              scale: 0.01,
+              rotation: { x: 90, y: 180, z: 0 },
             }
             let busStop;
             tb.loadObj(busStop3D, function (model) {
