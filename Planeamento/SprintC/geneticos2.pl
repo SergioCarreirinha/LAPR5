@@ -98,8 +98,8 @@ gera:-
 	geracoes(NG),!,
 	get_time(TempInit),
 	gera_geracao(0,TempInit,0,NG,PopOrd).
-	%melhor(Pop2*Eva),
-	%postSolution(Pop2,Eva).
+%	melhor(Pop2*Eva),
+%	postSolution(Pop2,Eva).
 
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
@@ -129,7 +129,9 @@ postSolution(Pop,Eva):-
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
 	lista_motoristas_nworkblocks(_,[(H,Num)|Lista]),
-	gera_condutores2(H,Num,Lista,LFinal),random_permutation(LFinal,LMaisFinal),!.
+	gera_condutores2(H,Num,Lista,LFinal),
+	random_permutation(LFinal,LMaisFinal),
+	!.
 
 gera_condutores2(_,0,[],[]).
 
@@ -447,7 +449,8 @@ cruzar(Ind1,Ind2,P1,P2,NInd11):-
 	R is NumT-P2,
 	rotate_right(Ind2,R,Ind21),
 	P3 is P2 + 1,
-	insere(Ind21,Sub1,P3,L,NInd11).
+	insere(Ind21,Sub1,P3,L,NInd1),
+	eliminah(NInd1,NInd11).
 
 
 preencheh([],[]).
