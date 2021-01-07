@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { INode } from '../interfaces/INode';
 import { IPassingTime } from '../interfaces/IPassingTimes';
+import { NodeService } from '../services/node.service';
 import { PassingTimeService } from '../services/passing-time.service';
 
 @Component({
@@ -11,12 +13,19 @@ import { PassingTimeService } from '../services/passing-time.service';
 export class PassingTimeComponent implements OnInit {
 
   passingTimes : IPassingTime[] = [];
+  nodes: INode[] = [];
 
-  constructor(private service: PassingTimeService) { }
+  constructor(private nodeService: NodeService,private service: PassingTimeService) { }
 
   ngOnInit(): void {
     this.getPassingTimes();
+    this.getNodes();
   }
+
+  private getNodes() {
+    this.nodeService.getNodes().subscribe(node => this.nodes = node);
+  }
+
 
   getPassingTimes(){
     this.service.getPassingTimes().subscribe(time => this.passingTimes = time);
@@ -30,10 +39,15 @@ export class PassingTimeComponent implements OnInit {
   styleUrls: ['./passing-time.component.css']
 })
 export class CreatePassingTimeComponent implements OnInit {
-
-  constructor(private service: PassingTimeService) { }
+  nodes: INode[] = [];
+  constructor(private nodeService: NodeService,private service: PassingTimeService) { }
 
   ngOnInit(): void {
+    this.getNodes();
+  }
+  
+  private getNodes() {
+    this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
   addPassingTime(passingTimeKey: string, passingTimeT: string, passingTimeNode: string, passingTimeIsUsed: boolean, passingTimeIsReliefPoint: boolean){

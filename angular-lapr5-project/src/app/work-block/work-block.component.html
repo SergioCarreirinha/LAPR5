@@ -23,18 +23,20 @@
         </label>
     </div>
     <div>
-        <label>
-            Nó de Início
+        <label>Nó de Inicio
             <br>
-            <input #startNode />
-        </label>
+            <select name='nodeKey' #startNode>
+              <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+            </select>
+          </label>
     </div>
     <div>
-        <label>
-            Nó Final
+        <label>Nó de Fim
             <br>
-            <input #endNode />
-        </label>
+            <select name='nodeKey' #endNode>
+              <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+            </select>
+          </label>
     </div>
     <div>
         <label>
