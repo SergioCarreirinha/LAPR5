@@ -24,10 +24,10 @@ export class CreateVehicleDutyPage {
   }
 
   getAddWorkBlock() {
-    return element(by.id('submit workBlock'));
+    return element(by.id('workblockSubmit'));
   }
 
   getAddVehicleDuty() {
-    return element(by.id('submit vehicleDuty'));
+    return element(by.id('submit'));
   }
 }
