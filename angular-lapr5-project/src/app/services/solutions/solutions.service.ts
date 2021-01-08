@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ISolutions } from '../interfaces/ISolutions';
+import { ISolutions } from '../../interfaces/ISolutions';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SolutionsService {
 
-  getPathURL = environment.url.mdr+'api/planning';  // URL to web api
+  getPathURL = environment.url.mdr + 'api/planning';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,9 +20,9 @@ export class SolutionsService {
 
   getSolutions() {
     return this.http.get<ISolutions[]>(this.getPathURL)
-    .pipe(
-      catchError(this.handleError<ISolutions[]>('getSolutions', []))
-    );
+      .pipe(
+        catchError(this.handleError<ISolutions[]>('getSolutions', []))
+      );
   }
 
   /**

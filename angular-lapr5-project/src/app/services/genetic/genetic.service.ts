@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { IRequestSolution } from '../interfaces/IRequestSolution';
-import { IGetSolution } from '../interfaces/IGetSolution';
+import { IRequestSolution } from '../../interfaces/IRequestSolution';
+import { IGetSolution } from '../../interfaces/IGetSolution';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +13,16 @@ export class GeneticService {
 
   getGeneticUrl = environment.url.mdv + 'api/genetic';
   postGeneticUrl = environment.url.prolog;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getSolutions(){
+  getSolutions() {
     return this.http.get<IGetSolution[]>(this.getGeneticUrl)
       .pipe(
         catchError(this.handleError<IGetSolution[]>('getSolution', []))
       );
   }
 
-  createSolution(data: IRequestSolution){
+  createSolution(data: IRequestSolution) {
     return this.http.post<IRequestSolution>(this.postGeneticUrl, data).pipe(
       catchError(this.handleError<IRequestSolution>('createSolution')));
   }

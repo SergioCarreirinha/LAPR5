@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { IVehicle } from '../interfaces/IVehicle';
-import { VehicleService } from '../services/vehicle.service';
+import { VehicleService } from '../services/vehicle/vehicle.service';
 import { Location } from '@angular/common';
 import { IVehicleType } from '../interfaces/IVehicleType';
-import { VehicleTypeService } from '../services/vehicle-type.service';
+import { VehicleTypeService } from '../services/vehicle-type/vehicle-type.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -21,17 +21,17 @@ export class VehicleComponent implements OnInit {
     this.getVehicleTypes();
   }
 
-  getVehicleTypes(){
+  getVehicleTypes() {
     this.vehicleTypeService.getVehicleTypes().subscribe(types => this.vehicleTypes = types);
   }
 
-  addVehicle(licensePlate: string, vin: string, vehicleType: string, firstServiceDate: string){
+  addVehicle(licensePlate: string, vin: string, vehicleType: string, firstServiceDate: string) {
     licensePlate = licensePlate.trim();
     vin = vin.trim();
     vehicleType = vehicleType.trim();
     firstServiceDate = firstServiceDate.trim();
 
-    if(!licensePlate || !vin || !vehicleType || !firstServiceDate){
+    if (!licensePlate || !vin || !vehicleType || !firstServiceDate) {
       console.log('Invalid Paramaters. Vehicle wasnt added');
 
       Swal.fire({
@@ -52,7 +52,7 @@ export class VehicleComponent implements OnInit {
       vehicleType: vehicleType,
       firstServiceDate: firstServiceDate
     } as IVehicle)
-    .subscribe()
+      .subscribe()
 
     Swal.fire({
       title: 'Success!',

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { IPassingTime } from '../interfaces/IPassingTimes';
+import { IPassingTime } from '../../interfaces/IPassingTimes';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +12,23 @@ export class PassingTimeService {
 
   constructor(private http: HttpClient) { }
 
-  passingTimesURL = environment.url.mdv+'api/passingTime';
+  passingTimesURL = environment.url.mdv + 'api/passingTime';
 
-  getPassingTimes(): Observable<IPassingTime[]>{
+  getPassingTimes(): Observable<IPassingTime[]> {
     return this.http.get<IPassingTime[]>(this.passingTimesURL)
-    .pipe(
-      catchError(this.handleError<IPassingTime[]>('getPassingTimes', []))
-    );
+      .pipe(
+        catchError(this.handleError<IPassingTime[]>('getPassingTimes', []))
+      );
   }
 
-  getPassingById(id: string): Observable<IPassingTime>{
-    return this.http.get<IPassingTime>(this.passingTimesURL+'/'+id)
-    .pipe(
-      catchError(this.handleError<IPassingTime>('getPassingById'))
-    );
+  getPassingById(id: string): Observable<IPassingTime> {
+    return this.http.get<IPassingTime>(this.passingTimesURL + '/' + id)
+      .pipe(
+        catchError(this.handleError<IPassingTime>('getPassingById'))
+      );
   }
 
-  addPassingTime(value: IPassingTime): Observable<IPassingTime>{
+  addPassingTime(value: IPassingTime): Observable<IPassingTime> {
     return this.http.post<IPassingTime>(this.passingTimesURL, value).pipe(
       catchError(this.handleError('addPassingTime', value))
     );

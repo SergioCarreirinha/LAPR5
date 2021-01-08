@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ITrip } from '../interfaces/ITrip';
+import { ITrip } from '../../interfaces/ITrip';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({

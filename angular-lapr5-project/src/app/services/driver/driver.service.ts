@@ -3,24 +3,24 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { IDriver } from '../interfaces/IDriver';
-import { AuthService } from './auth.service';
+import { IDriver } from '../../interfaces/IDriver';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DriverService {
-  DriverURL = environment.url.mdv+'api/driver';  // URL to web api
+  DriverURL = environment.url.mdv + 'api/driver';  // URL to web api
 
-  constructor(private http: HttpClient, private injector: Injector) {}
+  constructor(private http: HttpClient, private injector: Injector) { }
 
 
 
-  createDriver(driver: IDriver) :Observable<IDriver>{
+  createDriver(driver: IDriver): Observable<IDriver> {
     return this.http.post<IDriver>(this.DriverURL, driver)
-    .pipe(
-      catchError(this.handleError('createDriver', driver))
-    );
+      .pipe(
+        catchError(this.handleError('createDriver', driver))
+      );
   }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

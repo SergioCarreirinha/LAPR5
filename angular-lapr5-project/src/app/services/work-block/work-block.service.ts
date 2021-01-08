@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { IWorkBlock } from '../interfaces/IWorkBlock';
+import { IWorkBlock } from '../../interfaces/IWorkBlock';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

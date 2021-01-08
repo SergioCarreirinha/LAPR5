@@ -1,8 +1,8 @@
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
-import { HttpErrorHandler } from "../http-error-handler.service";
-import { IVehicle } from "../interfaces/IVehicle";
+import { HttpErrorHandler } from "../../http-error-handler.service";
+import { IVehicle } from "../../interfaces/IVehicle";
 import { VehicleService } from "./vehicle.service";
 
 describe('VehicleService', () => {
