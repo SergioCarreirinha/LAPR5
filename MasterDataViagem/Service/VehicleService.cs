@@ -1,6 +1,9 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
+using MasterDataViagem.Repository;
+using MasterDataViagem.DTO;
+using MasterDataViagem.Domain.Vehicle;
 
 namespace MasterDataViagem.Service
 {

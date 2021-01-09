@@ -1,4 +1,5 @@
 using MasterDataViagem.Domain.Shared;
+using MasterDataViagem.Domain.WorkBlocks;
 
 namespace MasterDataViagem.Repository
 {

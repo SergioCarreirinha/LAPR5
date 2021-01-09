@@ -1,5 +1,6 @@
 using MasterDataViagem.Domain.PassingTimes;
 using MasterDataViagem.Infrastructure.Shared;
+using MasterDataViagem.Repository;
 
 namespace MasterDataViagem.Infrastructure.PassingTimes
 {

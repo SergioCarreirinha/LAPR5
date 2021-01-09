@@ -1,9 +1,11 @@
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
 using System.Collections.Generic;
-using System;
+using MasterDataViagem.Repository;
+using MasterDataViagem.DTO;
+using MasterDataViagem.Domain.Genetics;
 
-namespace MasterDataViagem.Domain.Genetics
+namespace MasterDataViagem.Service
 {
     public class GeneticService
     {
