@@ -1,7 +1,7 @@
 using System;
 using MasterDataViagem.Domain.Shared;
 
-namespace MasterDataViagem.Domain.DriverDuty {
+namespace MasterDataViagem.Domain.DriverDuties {
     public class DriverDuty : Entity<DriverDutyId>, IAggregateRoot {
 
         public string name { get; set; }

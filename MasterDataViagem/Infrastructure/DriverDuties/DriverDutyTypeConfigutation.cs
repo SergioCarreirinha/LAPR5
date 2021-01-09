@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MasterDataViagem.Domain.DriverDuty;
+using MasterDataViagem.Domain.DriverDuties;
 
 namespace MasterDataViagem.Infrastructure.DriverDuties
 {
