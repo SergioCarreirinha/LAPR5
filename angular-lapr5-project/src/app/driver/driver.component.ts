@@ -16,7 +16,29 @@ export class DriverComponent implements OnInit {
   }
 
   createDriver(name: string, birthdate: string, driverLicenseNum: string, licenseExpiration: string){
-  if(birthdate != '' && name != '' && driverLicenseNum !='' && licenseExpiration != '' ){
+  {
+    var driverList = this.driverService.getAllDrivers();
+    var exists: boolean = false;
+    driverList.forEach(function(test){
+      console.log(test,driverLicenseNum);
+        if(parseInt(driverLicenseNum) == test.driverLicenseNum){
+          exists = true;
+        }
+    });
+    
+  }
+  if(exists){
+    Swal.fire({
+      title: 'Error!',
+      text: 'Driver Exists!',
+      icon: 'error',
+      confirmButtonText: 'Ok',
+      timer: 2500,
+      showConfirmButton: true,
+    })
+    exists=false;
+  }
+  if(birthdate != '' && name != '' && driverLicenseNum !='' && licenseExpiration != ''){
     this.driverService.createDriver({
       name: name,
       birthdate: birthdate,

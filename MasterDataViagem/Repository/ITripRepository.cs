@@ -1,6 +1,6 @@
 using MasterDataViagem.Domain.Shared;
 
-namespace MasterDataViagem.Domain.Trip
+namespace MasterDataViagem.Repository
 {
     public interface ITripRepository: IRepository<Tripes, TripId>
     {

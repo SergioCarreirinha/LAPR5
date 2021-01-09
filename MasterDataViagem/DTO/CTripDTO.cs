@@ -2,7 +2,7 @@ using System;
 using MasterDataViagem.Domain.PassingTimes;
 using System.Collections.Generic;
 
-namespace MasterDataViagem.Domain.Trip
+namespace MasterDataViagem.DTO
 {
     public class CTripDTO
     {

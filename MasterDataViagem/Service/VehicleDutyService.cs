@@ -4,7 +4,7 @@ using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.WorkBlocks;
 using System;
 
-namespace MasterDataViagem.Domain.VehicleDuties
+namespace MasterDataViagem.Service
 {
     public class VehicleDutyService
     {

@@ -97,9 +97,9 @@ gera:-
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
-	gera_geracao(0,TempInit,0,NG,PopOrd).
-	%melhor(Pop2*Eva),
-	%postSolution(Pop2,Eva).
+	gera_geracao(0,TempInit,0,NG,PopOrd),
+	melhor(Pop2*Eva),
+	postSolution(Pop2,Eva).
 
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),

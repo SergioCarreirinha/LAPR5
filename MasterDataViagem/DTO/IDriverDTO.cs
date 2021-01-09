@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-namespace MasterDataViagem.Domain.Driver
+namespace MasterDataViagem.DTO
 {
     public class IDriverDTO
     {
@@ -13,8 +13,6 @@ namespace MasterDataViagem.Domain.Driver
         public int driverLicenseNum { get; set; }
 
         public DateTime licenseExpiration { get; set; }
-
-        //public Array<DriverType> driverTypes { get; set; }
 
     }
 }

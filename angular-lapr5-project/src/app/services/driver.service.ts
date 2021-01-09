@@ -22,6 +22,12 @@ export class DriverService {
       catchError(this.handleError('createDriver', driver))
     );
   }
+  getAllDrivers(){
+    return this.http.get<IDriver>(this.DriverURL)
+      .pipe(
+        catchError(this.handleError<IDriver>('getAll'))
+      );
+  }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

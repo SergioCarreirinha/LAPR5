@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 
-namespace MasterDataViagem.Domain.Vehicle
+namespace MasterDataViagem.Service
 {
     public class VehicleService
     {

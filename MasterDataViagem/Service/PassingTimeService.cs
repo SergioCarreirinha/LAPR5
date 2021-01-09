@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTimes;
 
-namespace MasterDataViagem.Domain.PassingTimes {
+namespace MasterDataViagem.Service {
     public class PassingTimeService
     {
         private readonly IPassingTimeRepository _repo;

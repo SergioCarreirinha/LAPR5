@@ -1,5 +1,5 @@
 using System;
-namespace MasterDataViagem.Domain.Vehicle
+namespace MasterDataViagem.DTO
 {
     public class IVehicleDTO
     {

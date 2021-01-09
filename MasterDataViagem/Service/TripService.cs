@@ -4,7 +4,7 @@ using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTimes;
 using System;
 
-namespace MasterDataViagem.Domain.Trip
+namespace MasterDataViagem.Service
 {
     public class TripService
     {

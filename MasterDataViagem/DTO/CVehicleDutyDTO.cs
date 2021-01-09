@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.WorkBlocks;
 
-namespace MasterDataViagem.Domain.VehicleDuties
+namespace MasterDataViagem.DTO
 {
     public class CVehicleDutyDTO
     {

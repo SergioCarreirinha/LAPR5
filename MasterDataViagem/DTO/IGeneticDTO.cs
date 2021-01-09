@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MasterDataViagem.Domain.Genetics
+namespace MasterDataViagem.DTO
 {
     public class IGeneticDTO
     {

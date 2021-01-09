@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MasterDataViagem.Domain.WorkBlocks
+namespace MasterDataViagem.DTO
 {
     public class CWorkBlockDTO
     {

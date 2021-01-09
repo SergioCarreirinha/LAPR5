@@ -1,7 +1,7 @@
 using System;
 using MasterDataViagem.Domain.Trip;
 using System.Collections.Generic;
-namespace MasterDataViagem.Domain.WorkBlocks
+namespace MasterDataViagem.DTO
 {
     public class IWorkBlockDTO
     {

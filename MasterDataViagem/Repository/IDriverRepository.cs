@@ -1,6 +1,6 @@
 using MasterDataViagem.Domain.Shared;
 
-namespace MasterDataViagem.Domain.Driver
+namespace MasterDataViagem.Repository
 {
     public interface IDriverRepository: IRepository<Driver, DriverId>
     {

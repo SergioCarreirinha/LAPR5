@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace MasterDataViagem.Domain.Genetics
+namespace MasterDataViagem.DTO
 {
     public class CGeneticDTO
     {

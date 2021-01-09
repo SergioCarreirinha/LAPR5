@@ -14,22 +14,6 @@ describe('Driver Tests', () => {
       page = new CreateDriverPage();
     });
 
-    it('should add Driver', async () => {
-
-      await page.navigateTo();
-
-      await page.getName().sendKeys("Julia");
-  
-      await page.getBirthDate().sendKeys("12/8/2000");
-  
-      await page.getDriverLicenseNum().sendKeys(123455);
-  
-      await page.getLicenseExpiration().sendKeys("12/8/2030");
-  
-      await page.getAddButton().click();
-
-      expect(await page.getName().getText()).toEqual("");
-    });
     it('shouldnt add Driver', async () => {
 
       await page.navigateTo();

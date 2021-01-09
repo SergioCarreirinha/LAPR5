@@ -1,7 +1,7 @@
 using MasterDataViagem.Domain.Shared;
 using System;
 
-namespace MasterDataViagem.Domain.PassingTimes {
+namespace MasterDataViagem.DTO {
     public class IPassingTimeDTO {
         public Guid Id { get; set; }
         public string key { get; set; } 
