@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-clientnavbar',
@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class ClientnavbarComponent implements OnInit {
 
 
-  constructor(private router: Router, private service: AuthService) { 
+  constructor(private router: Router, private service: AuthService) {
 
   }
 
@@ -22,8 +22,8 @@ export class ClientnavbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  get admin(){
-    if(localStorage.getItem('token')){
+  get admin() {
+    if (localStorage.getItem('token')) {
       var array = ['Admin'] as Array<string>;
       return this.service.roleMatch(array);
     }

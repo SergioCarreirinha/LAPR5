@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ILine } from '../interfaces/ILine';
-import { LineService } from '../services/line.service';
+import { LineService } from '../services/line/line.service';
 import Swal from 'sweetalert2';
 
 @Component({

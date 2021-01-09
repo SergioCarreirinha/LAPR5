@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { NodeService } from '../services/node.service';
-import { LineService } from '../services/line.service';
-import { PathService } from '../services/path.service';
+import { NodeService } from '../services/node/node.service';
+import { LineService } from '../services/line/line.service';
+import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
@@ -136,12 +136,12 @@ export class MapComponent implements OnInit {
             { defaultLights: true }
           );
 
-         for (let point of nodesIn) {
+          for (let point of nodesIn) {
             var busStop3D = {
-              obj: '../../assets/3DModel/Paragem.obj',
-              mtl: '../../assets/3DModel/Paragem.mtl',
-              scale: 0.1,
-              rotation: { x: 90, y: 180, z: 0 }
+              obj: '../../assets/3DModel/Bus_Stop.obj',
+              mtl: '../../assets/3DModel/Bus_Stop.mtl',
+              scale: 0.01,
+              rotation: { x: 90, y: 180, z: 0 },
             }
             let busStop;
             tb.loadObj(busStop3D, function (model) {
@@ -178,7 +178,7 @@ export class MapComponent implements OnInit {
     });
   }
   async drawLines() {
-      this.lineService.getLines().subscribe(lines => {
+    this.lineService.getLines().subscribe(lines => {
       this.lines = lines;
       for (let i = 0; i < this.lines.length; i++) {
         var coords: any[] = [];
@@ -342,7 +342,7 @@ class PitchToggle {
         _this._btn.textContent = "2D";
         toggle = true;
         map.dragRotate.enable();
-        
+
         map.addLayer(
           {
             'id': '3d-buildings',

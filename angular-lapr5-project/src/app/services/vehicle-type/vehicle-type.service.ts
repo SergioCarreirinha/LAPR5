@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { IVehicleType } from '../interfaces/IVehicleType';
+import { IVehicleType } from '../../interfaces/IVehicleType';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class VehicleTypeService {
-    vehicleTypeURL = environment.url.mdr+'api/vehicleType';  // URL to web api
+    vehicleTypeURL = environment.url.mdr + 'api/vehicleType';  // URL to web api
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })

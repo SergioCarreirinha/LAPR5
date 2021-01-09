@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { VehicleTypeService } from '../services/vehicle-type.service';
+import { VehicleTypeService } from '../services/vehicle-type/vehicle-type.service';
 import { IVehicleType } from '../interfaces/IVehicleType';
 import Swal from 'sweetalert2';
 

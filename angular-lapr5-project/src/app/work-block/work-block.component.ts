@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { WorkBlockService } from '../services/work-block.service';
+import { WorkBlockService } from '../services/work-block/work-block.service';
 import { IWorkBlock } from '../interfaces/IWorkBlock';
 import Swal from 'sweetalert2';
-import { TripService } from '../services/trip.service';
+import { TripService } from '../services/trip/trip.service';
 import { ITrip } from '../interfaces/ITrip';
 import { INode } from '../interfaces/INode';
-import { NodeService } from '../services/node.service';
+import { NodeService } from '../services/node/node.service';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class WorkBlockComponent implements OnInit {
 
 
 
-  constructor(private tripService: TripService,private nodeService: NodeService, private workBlockService: WorkBlockService, private location: Location) { }
+  constructor(private tripService: TripService, private nodeService: NodeService, private workBlockService: WorkBlockService, private location: Location) { }
 
   ngOnInit(): void {
     this.getTrips();
@@ -34,7 +34,7 @@ export class WorkBlockComponent implements OnInit {
     this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
   getTrips() {
-    this.tripService.getTrips().subscribe(trip => {this.trips = trip; console.log(this.trips);});
+    this.tripService.getTrips().subscribe(trip => { this.trips = trip; console.log(this.trips); });
   }
 
   getWorkBlock() {
@@ -53,9 +53,9 @@ export class WorkBlockComponent implements OnInit {
       })
 
     } else {
-      let tripWorkId:String[]=[];
+      let tripWorkId: String[] = [];
 
-      for(let tripWork of this.tripsWorkBlock){
+      for (let tripWork of this.tripsWorkBlock) {
         tripWorkId.push(tripWork.id);
       }
       console.log(isCrewTravelTime);

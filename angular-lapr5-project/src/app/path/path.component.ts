@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ILine } from '../interfaces/ILine';
 import { INode } from '../interfaces/INode';
 import { IPath } from '../interfaces/IPath';
-import { LineService } from '../services/line.service';
-import { NodeService } from '../services/node.service';
-import { PathService } from '../services/path.service';
+import { LineService } from '../services/line/line.service';
+import { NodeService } from '../services/node/node.service';
+import { PathService } from '../services/path/path.service';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
 
@@ -21,7 +21,7 @@ export class PathComponent implements OnInit {
   lines: ILine[] = [];
 
 
-  constructor(private serviceLine: LineService,private nodeService: NodeService,private pathService: PathService, private location: Location) { }
+  constructor(private serviceLine: LineService, private nodeService: NodeService, private pathService: PathService, private location: Location) { }
 
   ngOnInit(): void {
     this.getPaths();
@@ -62,9 +62,9 @@ export class PathComponent implements OnInit {
     }
 
     //Verify if node already exists in path
-    for(var i=0; i<this.pathNodes.length;i++){
-      console.log(this.pathNodes[i][1]+'='+node);
-      if(this.pathNodes[i][1] === node){
+    for (var i = 0; i < this.pathNodes.length; i++) {
+      console.log(this.pathNodes[i][1] + '=' + node);
+      if (this.pathNodes[i][1] === node) {
         console.log('Node already exists in path.');
 
         Swal.fire({
@@ -97,10 +97,10 @@ export class PathComponent implements OnInit {
 
     //Path Success Message
     var text = '';
-    if(this.pathNodes.length===1){
-      text = this.pathNodes.length+' pathNode added.';
-    }else{
-      text = this.pathNodes.length+' pathNodes added.';
+    if (this.pathNodes.length === 1) {
+      text = this.pathNodes.length + ' pathNode added.';
+    } else {
+      text = this.pathNodes.length + ' pathNodes added.';
     }
 
     Swal.fire({
@@ -111,7 +111,7 @@ export class PathComponent implements OnInit {
       timer: 2500,
       showConfirmButton: false,
     })
-    
+
   }
 
   addPath(line: string, key: string, toGo: boolean, isEmpty: boolean): void {
@@ -133,8 +133,8 @@ export class PathComponent implements OnInit {
       return;
     }
 
-    if(this.pathNodes.length === 1){
-      
+    if (this.pathNodes.length === 1) {
+
       Swal.fire({
         title: 'Warning!',
         text: "Path couldn't be added. It should have more than one node!",
@@ -152,7 +152,8 @@ export class PathComponent implements OnInit {
       key: key,
       toGo: toGo,
       isEmpty: isEmpty,
-      pathNodes: this.pathNodes} as IPath)
+      pathNodes: this.pathNodes
+    } as IPath)
       .subscribe(path => { this.paths.push(path) });
 
     //reset the array when the path is added
@@ -181,13 +182,13 @@ export class PathComponent implements OnInit {
 })
 
 export class ListPathsComponent implements OnInit {
-  
+
   linePaths: IPath[] = [];
   selectLine: ILine[] = [];
   res: any[] = [];
   //nodes: string[][]=[];
 
-  constructor(private pathService: PathService,private serviceLine: LineService, private location: Location) { }
+  constructor(private pathService: PathService, private serviceLine: LineService, private location: Location) { }
 
   ngOnInit(): void {
     this.getLines();
@@ -198,7 +199,7 @@ export class ListPathsComponent implements OnInit {
   }
 
   getLinePaths(line: string) {
-    this.linePaths=[];
+    this.linePaths = [];
     this.res = [];
     this.pathService.getLinePaths(line).subscribe(paths => this.getPathsInfo(paths));
 
@@ -206,42 +207,42 @@ export class ListPathsComponent implements OnInit {
     console.log(this.nodes);*/
   }
 
-  private getPathsInfo(p: any[]){
-    for(let i=0; i<p.length; i++){
+  private getPathsInfo(p: any[]) {
+    for (let i = 0; i < p.length; i++) {
 
-      if(p[i].linePath != undefined){
+      if (p[i].linePath != undefined) {
 
-          for(let j=0; j< p[i].linePath.length; j++){
-            const key = p[i].linePath[j].path;
-            this.getPathByKey(key);
-          }
+        for (let j = 0; j < p[i].linePath.length; j++) {
+          const key = p[i].linePath[j].path;
+          this.getPathByKey(key);
+        }
 
-      }else{
+      } else {
         this.getPathByKey(p[i].props.path)
       }
     }
   }
 
-  private getPathByKey(key: string){
+  private getPathByKey(key: string) {
     this.pathService.getPathByKey(key).subscribe(p => this.linePaths.push(p));
   }
 
-/*   private getPathNodes(path: IPath) : IPath{
-    var x=0;
-    for(let i=0; i<path.pathNodes.length;i++){
-
-      if(path.pathNodes[i].pathNode != undefined){
-
-        for(let j=0; j<path.pathNodes[i].pathNode.length; j++){
-            this.nodes[i][j]=path.pathNodes[i].pathNode[j].node;
+  /*   private getPathNodes(path: IPath) : IPath{
+      var x=0;
+      for(let i=0; i<path.pathNodes.length;i++){
+  
+        if(path.pathNodes[i].pathNode != undefined){
+  
+          for(let j=0; j<path.pathNodes[i].pathNode.length; j++){
+              this.nodes[i][j]=path.pathNodes[i].pathNode[j].node;
+          }
+  
+        } else {
+          this.nodes[i][x]=path.pathNodes[i].node;
         }
-
-      } else {
-        this.nodes[i][x]=path.pathNodes[i].node;
       }
-    }
-    return path;
-  } */
+      return path;
+    } */
 
   goBack(): void {
     this.location.back();

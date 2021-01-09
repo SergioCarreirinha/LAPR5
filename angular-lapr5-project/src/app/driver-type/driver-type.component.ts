@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { DriverTypeService } from '../services/driver-type.service';
+import { DriverTypeService } from '../services/driver-type/driver-type.service';
 import { IDriverType } from '../interfaces/IDriverType';
 import Swal from 'sweetalert2';
 

@@ -97,9 +97,9 @@ gera:-
 	ordena_populacao(PopAv,PopOrd),
 	geracoes(NG),!,
 	get_time(TempInit),
-	gera_geracao(0,TempInit,0,NG,PopOrd),
-	melhor(Pop2*Eva),
-	postSolution(Pop2,Eva).
+	gera_geracao(0,TempInit,0,NG,PopOrd).
+%	melhor(Pop2*Eva),
+%	postSolution(Pop2,Eva).
 
 gerarRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 	inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos),
@@ -129,7 +129,9 @@ postSolution(Pop,Eva):-
 %cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
 	lista_motoristas_nworkblocks(_,[(H,Num)|Lista]),
-	gera_condutores2(H,Num,Lista,LFinal),random_permutation(LFinal,LMaisFinal),!.
+	gera_condutores2(H,Num,Lista,LFinal),
+	random_permutation(LFinal,LMaisFinal),
+	!.
 
 gera_condutores2(_,0,[],[]).
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IGetSolution } from '../interfaces/IGetSolution';
 import { IRequestSolution } from '../interfaces/IRequestSolution';
-import { GeneticService } from '../services/genetic.service'
+import { GeneticService } from '../services/genetic/genetic.service'
 
 @Component({
   selector: 'app-planning-sprint-c',
@@ -11,7 +11,7 @@ import { GeneticService } from '../services/genetic.service'
 export class PlanningSprintCComponent implements OnInit {
 
 
-  solutions : IGetSolution[] = [];
+  solutions: IGetSolution[] = [];
 
   constructor(private service: GeneticService) { }
 
@@ -19,11 +19,11 @@ export class PlanningSprintCComponent implements OnInit {
     this.getSolutions();
   }
 
-  getSolutions(){
-    this.service.getSolutions().subscribe(data => {this.solutions = data; console.log(this.solutions);});
+  getSolutions() {
+    this.service.getSolutions().subscribe(data => { this.solutions = data; console.log(this.solutions); });
   }
 
-  createSolution(genaration: number, population: number, crossing: number, mutation: number, target: number, stability: number){
+  createSolution(genaration: number, population: number, crossing: number, mutation: number, target: number, stability: number) {
     this.service.createSolution({
       nGenaration: genaration,
       nPopulation: population,

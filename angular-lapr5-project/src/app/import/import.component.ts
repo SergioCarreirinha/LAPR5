@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImportService } from '../services/import.service';
+import { ImportService } from '../services/import/import.service';
 
 @Component({
   selector: 'app-import',
@@ -8,16 +8,16 @@ import { ImportService } from '../services/import.service';
 })
 export class ImportComponent implements OnInit {
 
-  files:string[]=[];
+  files: string[] = [];
 
   constructor(private importService: ImportService) { }
 
   ngOnInit(): void {
   }
 
-  importFile(event: any){
+  importFile(event: any) {
     console.log(event);
-    if(event.files && event.files[0]){
+    if (event.files && event.files[0]) {
       this.importService.importFile(event).subscribe(file => this.files.push(file.toString()));
     }
   }

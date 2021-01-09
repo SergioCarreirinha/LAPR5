@@ -1,8 +1,8 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HttpErrorHandler } from '../http-error-handler.service';
-import { IDriverType } from '../interfaces/IDriverType';
+import { HttpErrorHandler } from '../../http-error-handler.service';
+import { IDriverType } from '../../interfaces/IDriverType';
 
 import { DriverTypeService } from './driver-type.service';
 
@@ -13,8 +13,8 @@ describe('DriverTypeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers : [
+      imports: [HttpClientTestingModule],
+      providers: [
         DriverTypeService,
         HttpErrorHandler
       ]
@@ -25,14 +25,15 @@ describe('DriverTypeService', () => {
   });
 
   afterEach(() => {
-        httpTestingController.verify();
+    httpTestingController.verify();
   });
 
   describe('add driver type', () => {
     it('should add a driver type and return it', () => {
 
-      const addDriverType: IDriverType = { 
-        description: 'Motorista' };
+      const addDriverType: IDriverType = {
+        description: 'Motorista'
+      };
 
       service.addDriverType(addDriverType).subscribe(
         data => expect(data).toEqual(addDriverType, 'should return the driver type'),

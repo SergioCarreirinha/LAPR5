@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ISolutions } from '../interfaces/ISolutions';
-import { SolutionsService } from '../services/solutions.service';
+import { SolutionsService } from '../services/solutions/solutions.service';
 
 @Component({
   selector: 'app-solutions',

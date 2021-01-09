@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { TripService } from '../services/trip.service';
+import { TripService } from '../services/trip/trip.service';
 import { ITrip } from '../interfaces/ITrip';
 import Swal from 'sweetalert2';
-import { PassingTimeService } from '../services/passing-time.service';
+import { PassingTimeService } from '../services/passing-time/passing-time.service';
 import { IPassingTime } from '../interfaces/IPassingTimes';
-import { LineService } from '../services/line.service';
+import { LineService } from '../services/line/line.service';
 import { ILine } from '../interfaces/ILine';
 
 @Component({
@@ -19,7 +19,7 @@ export class TripComponent implements OnInit {
   lines: ILine[] = [];
 
 
-  constructor(private serviceLine: LineService,private service: TripService) { }
+  constructor(private serviceLine: LineService, private service: TripService) { }
 
   ngOnInit(): void {
     this.getTrip();
@@ -29,7 +29,7 @@ export class TripComponent implements OnInit {
   private getLines() {
     this.serviceLine.getLines().subscribe(line => this.lines = line);
   }
-  
+
   getTrip() {
     this.service.getTrips().subscribe(trip => this.trips = trip);
   }
@@ -48,7 +48,7 @@ export class CreateTripComponent implements OnInit {
   lines: ILine[] = [];
 
 
-  constructor(private serviceLine: LineService,private service: TripService, private serviceP: PassingTimeService, private location: Location) { }
+  constructor(private serviceLine: LineService, private service: TripService, private serviceP: PassingTimeService, private location: Location) { }
 
   ngOnInit(): void {
     this.getPassingTimes();
@@ -58,7 +58,7 @@ export class CreateTripComponent implements OnInit {
   private getLines() {
     this.serviceLine.getLines().subscribe(line => this.lines = line);
   }
-  
+
   getPassingTimes() {
     this.serviceP.getPassingTimes().subscribe(passingTime => this.passingTimes = passingTime);
   }
@@ -75,9 +75,9 @@ export class CreateTripComponent implements OnInit {
       })
 
     } else {
-      let passingTripId:String[]=[];
+      let passingTripId: String[] = [];
 
-      for(let passingTrip of this.passingTrips){
+      for (let passingTrip of this.passingTrips) {
         passingTripId.push(passingTrip.id);
       }
       this.service.addTrip({
@@ -103,9 +103,10 @@ export class CreateTripComponent implements OnInit {
 
   addPassingTime(id: string): void {
     if (id) {
-      this.serviceP.getPassingById(id).subscribe(p =>{
-         this.passingTrips.push(p); 
-         this.validatePassingTime();});
+      this.serviceP.getPassingById(id).subscribe(p => {
+        this.passingTrips.push(p);
+        this.validatePassingTime();
+      });
     } else {
       Swal.fire({
         title: 'Warning!',
@@ -118,7 +119,7 @@ export class CreateTripComponent implements OnInit {
     }
   }
 
-  validatePassingTime(){
+  validatePassingTime() {
     if (this.passingTrips.length === 1) {
 
       Swal.fire({

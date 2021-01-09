@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { VehicleDutyService } from '../services/vehicle-duty.service';
+import { VehicleDutyService } from '../services/vehicle-duty/vehicle-duty.service';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
 import { IWorkBlock } from '../interfaces/IWorkBlock';
-import { WorkBlockService } from '../services/work-block.service';
+import { WorkBlockService } from '../services/work-block/work-block.service';
 import { IVehicleDuty } from '../interfaces/IVehicleDuty';
 
 @Component({
@@ -35,7 +35,7 @@ export class VehicleDutyComponent implements OnInit {
 
   addVehicleDuty(key: string, name: string, color: string, depots: string) {
     //VehicleDuty Parameter verification
-    if ( !key || !name || !color || !depots || this.workBlocksVehicleDuty.length === 0) {
+    if (!key || !name || !color || !depots || this.workBlocksVehicleDuty.length === 0) {
       console.log("Invalid Paramaters. VehicleDuty wasn't added");
 
       Swal.fire({
@@ -50,12 +50,12 @@ export class VehicleDutyComponent implements OnInit {
       return;
     }
 
-    let workBlockId:String[]=[];
+    let workBlockId: String[] = [];
 
-     for(let workBlockString of this.workBlocksVehicleDuty){
+    for (let workBlockString of this.workBlocksVehicleDuty) {
       workBlockId.push(workBlockString.id);
     }
-    
+
 
     this.vehicleDutyService.addVehicleDuty({
       key: key,
@@ -64,7 +64,7 @@ export class VehicleDutyComponent implements OnInit {
       depots: depots,
       workBlocks: workBlockId
     } as IVehicleDuty)
-      .subscribe(vehicleDuty => {this.vehicleDuty.push(vehicleDuty); this.workBlocksVehicleDuty=[]});
+      .subscribe(vehicleDuty => { this.vehicleDuty.push(vehicleDuty); this.workBlocksVehicleDuty = [] });
 
     Swal.fire({
       title: 'Success!',
@@ -78,10 +78,11 @@ export class VehicleDutyComponent implements OnInit {
 
   addWorkBlock(id: string): void {
     if (id) {
-      this.workBlockService.getWorkBlockById(id).subscribe(p =>{ 
-         p.isActive=false;
-         this.workBlocksVehicleDuty.push(p); 
-         this.validateWorkBlock();});
+      this.workBlockService.getWorkBlockById(id).subscribe(p => {
+        p.isActive = false;
+        this.workBlocksVehicleDuty.push(p);
+        this.validateWorkBlock();
+      });
     } else {
       Swal.fire({
         title: 'Warning!',
@@ -94,7 +95,7 @@ export class VehicleDutyComponent implements OnInit {
     }
   }
 
-  validateWorkBlock(){
+  validateWorkBlock() {
     if (this.workBlocksVehicleDuty.length === 1) {
 
       Swal.fire({
@@ -106,7 +107,7 @@ export class VehicleDutyComponent implements OnInit {
         showConfirmButton: false,
       })
 
-    } else if (this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length - 2].endTime == this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length-1].startTime) {
+    } else if (this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length - 2].endTime == this.workBlocksVehicleDuty[this.workBlocksVehicleDuty.length - 1].startTime) {
 
       Swal.fire({
         title: 'Success!',

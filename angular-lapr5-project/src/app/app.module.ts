@@ -22,7 +22,7 @@ import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/auth/auth.service';
 import { AuthInterceptor } from './auth.guard/auth.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { ForbiddenComponent } from './forbidden/forbidden.component';

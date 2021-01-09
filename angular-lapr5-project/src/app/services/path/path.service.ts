@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, of } from 'rxjs';
-import { IPath } from '../interfaces/IPath';
+import { IPath } from '../../interfaces/IPath';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -11,8 +11,8 @@ import { environment } from 'src/environments/environment';
 
 export class PathService {
 
-  pathUrl = environment.url.mdr+'api/linePaths';
-  getPathURL = environment.url.mdr+'api/paths';
+  pathUrl = environment.url.mdr + 'api/linePaths';
+  getPathURL = environment.url.mdr + 'api/paths';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,12 +20,12 @@ export class PathService {
 
   constructor(private http: HttpClient) { }
 
-  getPaths(): Observable<IPath[]>{
+  getPaths(): Observable<IPath[]> {
     return this.http.get<IPath[]>(this.getPathURL)
-    .pipe(
-      tap(_ => console.log('fetched paths')),
-      catchError(this.handleError<IPath[]>('getPaths', []))
-    );
+      .pipe(
+        tap(_ => console.log('fetched paths')),
+        catchError(this.handleError<IPath[]>('getPaths', []))
+      );
   }
 
   addPath(path: IPath): Observable<IPath> {
@@ -49,17 +49,17 @@ export class PathService {
     };
   }
 
-  getLinePaths(line: string): Observable<IPath[]>{
-    return this.http.get<IPath[]>(this.pathUrl + '?line='+ line)
-    .pipe( tap(_ => console.log('fetched linePaths')),
-      catchError(this.handleError<IPath[]>('getLinePaths', []))
-    ); 
+  getLinePaths(line: string): Observable<IPath[]> {
+    return this.http.get<IPath[]>(this.pathUrl + '?line=' + line)
+      .pipe(tap(_ => console.log('fetched linePaths')),
+        catchError(this.handleError<IPath[]>('getLinePaths', []))
+      );
   }
 
-  getPathByKey(key: string): Observable<IPath>{
-    return this.http.get<IPath>(this.getPathURL + '/pathByKey?key='+ key)
-    .pipe( tap(_ => console.log('fetched Path')),
-      catchError(this.handleError<IPath>('getPathByKey'))
-    );
+  getPathByKey(key: string): Observable<IPath> {
+    return this.http.get<IPath>(this.getPathURL + '/pathByKey?key=' + key)
+      .pipe(tap(_ => console.log('fetched Path')),
+        catchError(this.handleError<IPath>('getPathByKey'))
+      );
   }
 }

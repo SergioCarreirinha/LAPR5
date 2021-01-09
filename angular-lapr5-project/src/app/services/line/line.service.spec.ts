@@ -1,8 +1,8 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HttpErrorHandler } from '../http-error-handler.service';
-import { ILine } from '../interfaces/ILine';
+import { HttpErrorHandler } from '../../http-error-handler.service';
+import { ILine } from '../../interfaces/ILine';
 
 import { LineService } from './line.service';
 
@@ -13,8 +13,8 @@ describe('LineService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers : [
+      imports: [HttpClientTestingModule],
+      providers: [
         LineService,
         HttpErrorHandler
       ]
@@ -25,7 +25,7 @@ describe('LineService', () => {
   });
 
   afterEach(() => {
-        httpTestingController.verify();
+    httpTestingController.verify();
   });
 
   describe('#getLines', () => {
@@ -34,25 +34,27 @@ describe('LineService', () => {
     beforeEach(() => {
       service = TestBed.inject(LineService);
       expectedLines = [
-        { key: 'Line:1',
+        {
+          key: 'Line:1',
           name: 'A',
           color: 'RGB(255,255,255)',
           linePaths: [],
           allowedDrivers: [],
           allowedVehicles: []
-      },
-      { key: 'Line:2',
-        name: 'B',
-        color: 'RGB(255,255,255)',
-        linePaths: [],
-        allowedDrivers: [],
-        allowedVehicles: []
-      },
+        },
+        {
+          key: 'Line:2',
+          name: 'B',
+          color: 'RGB(255,255,255)',
+          linePaths: [],
+          allowedDrivers: [],
+          allowedVehicles: []
+        },
       ] as ILine[];
     });
 
     it('should return expected lines', () => {
-      service.getLines().subscribe(lines => expect(lines).toEqual(expectedLines,'should return expected lines'), fail);
+      service.getLines().subscribe(lines => expect(lines).toEqual(expectedLines, 'should return expected lines'), fail);
 
       const req = httpTestingController.expectOne(service.lineURL);
       expect(req.request.method).toEqual('GET');
@@ -82,7 +84,7 @@ describe('LineService', () => {
 
       // respond with a 404 and the error message in the body
       const msg = 'deliberate 404 error';
-      req.flush(msg, {status: 404, statusText: 'Not Found'});
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
     });
 
     it('should return expected lines (called multiple times)', () => {
@@ -99,13 +101,14 @@ describe('LineService', () => {
 
       // Respond to each request with different mock line results
       requests[0].flush([]);
-      requests[1].flush([{ key: 'Line',
-      name: 'B',
-      color: 'RGB(255,255,255)',
-      linePaths: [],
-      allowedDrivers: [],
-      allowedVehicles: []
-    }]);
+      requests[1].flush([{
+        key: 'Line',
+        name: 'B',
+        color: 'RGB(255,255,255)',
+        linePaths: [],
+        allowedDrivers: [],
+        allowedVehicles: []
+      }]);
       requests[2].flush(expectedLines);
     });
   })
@@ -114,7 +117,7 @@ describe('LineService', () => {
 
     it('should add a line and return it', () => {
 
-      const addLine: ILine = { 
+      const addLine: ILine = {
         key: 'Line:3',
         name: 'C',
         color: 'RGB(211,235,215)',

@@ -6,37 +6,37 @@
             <div class="textfield">
                 <label>Chave
                     <br>
-                    <input #vehicleDutyKey />
+                    <input name="key" #vehicleDutyKey />
                 </label>
                 <br>
                 <label>Nome
                     <br>
-                    <input #vehicleDutyName />
+                    <input  name="name" #vehicleDutyName />
                 </label>
                 <br>
                 <label>Cor
                     <br>
-                    <input #vehicleDutyColor />
+                    <input name="color" #vehicleDutyColor />
                 </label>
                 <br>
                 <label>Depósitos
                     <br>
-                    <input #vehicleDutyDepots />
+                    <input name="depots" #vehicleDutyDepots />
                 </label>
                 <br>
                 <label>Blocos de Trabalho
                     <br>
-                    <select #workBlock>
+                    <select name="workBlock" #workBlock>
                         <option *ngFor="let workBlock of workBlocks" value={{workBlock.id}}>{{workBlock.key}}
                         </option>
                     </select>
                 </label>
-                <button (click)="addWorkBlock(workBlock.value);" class="btn btn-primary">
+                <button id="workblockSubmit" (click)="addWorkBlock(workBlock.value);" class="btn btn-primary">
                     Adicionar Bloco de Trabalho
                 </button>
                 <br>
                 <br>
-                <button
+                <button id="submit"
                     (click)="addVehicleDuty(vehicleDutyKey.value,vehicleDutyName.value,vehicleDutyColor.value,vehicleDutyDepots.value);"
                     class="btn btn-primary">
                     Criar Serviço de Veículo

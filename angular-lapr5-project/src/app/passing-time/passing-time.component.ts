@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { INode } from '../interfaces/INode';
 import { IPassingTime } from '../interfaces/IPassingTimes';
-import { NodeService } from '../services/node.service';
-import { PassingTimeService } from '../services/passing-time.service';
+import { NodeService } from '../services/node/node.service';
+import { PassingTimeService } from '../services/passing-time/passing-time.service';
 
 @Component({
   selector: 'app-passing-time',
@@ -12,10 +12,10 @@ import { PassingTimeService } from '../services/passing-time.service';
 })
 export class PassingTimeComponent implements OnInit {
 
-  passingTimes : IPassingTime[] = [];
+  passingTimes: IPassingTime[] = [];
   nodes: INode[] = [];
 
-  constructor(private nodeService: NodeService,private service: PassingTimeService) { }
+  constructor(private nodeService: NodeService, private service: PassingTimeService) { }
 
   ngOnInit(): void {
     this.getPassingTimes();
@@ -27,7 +27,7 @@ export class PassingTimeComponent implements OnInit {
   }
 
 
-  getPassingTimes(){
+  getPassingTimes() {
     this.service.getPassingTimes().subscribe(time => this.passingTimes = time);
   }
 
@@ -40,18 +40,18 @@ export class PassingTimeComponent implements OnInit {
 })
 export class CreatePassingTimeComponent implements OnInit {
   nodes: INode[] = [];
-  constructor(private nodeService: NodeService,private service: PassingTimeService) { }
+  constructor(private nodeService: NodeService, private service: PassingTimeService) { }
 
   ngOnInit(): void {
     this.getNodes();
   }
-  
+
   private getNodes() {
     this.nodeService.getNodes().subscribe(node => this.nodes = node);
   }
 
-  addPassingTime(passingTimeKey: string, passingTimeT: string, passingTimeNode: string, passingTimeIsUsed: boolean, passingTimeIsReliefPoint: boolean){
-    if(passingTimeKey != '' || passingTimeT != '' || passingTimeNode != ''){
+  addPassingTime(passingTimeKey: string, passingTimeT: string, passingTimeNode: string, passingTimeIsUsed: boolean, passingTimeIsReliefPoint: boolean) {
+    if (passingTimeKey != '' || passingTimeT != '' || passingTimeNode != '') {
       this.service.addPassingTime({
         key: passingTimeKey,
         time: passingTimeT,
@@ -67,7 +67,7 @@ export class CreatePassingTimeComponent implements OnInit {
         timer: 2500,
         showConfirmButton: true,
       });
-    }else{
+    } else {
       Swal.fire({
         title: 'Erro!',
         text: 'Não foi possivel criar uma Passagem, verifique os dados!',
@@ -77,7 +77,7 @@ export class CreatePassingTimeComponent implements OnInit {
         showConfirmButton: false,
       })
     }
-    
+
   }
 
 }

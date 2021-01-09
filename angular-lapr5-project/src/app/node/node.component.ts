@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { INode } from '../interfaces/INode';
-import { NodeService } from '../services/node.service';
+import { NodeService } from '../services/node/node.service';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 
@@ -48,7 +48,7 @@ export class CreateNodeComponent implements OnInit {
   }
 
   addNode(nodeKey: string, nodeName: string, nodeLatitude: string, nodeLongitude: string, nodeShortName: string, nodeIsDepot: string, nodeIsReliefPoint: string, nodeCapacities: string) {
-    if(nodeKey != '' && nodeLatitude != '' && nodeLongitude !='' && nodeShortName != '' && nodeIsDepot != '' && nodeIsReliefPoint != '' && parseFloat(nodeLatitude) <90 && parseFloat(nodeLatitude) > -90 && parseFloat(nodeLongitude) < 90 && parseFloat(nodeLongitude) > -90 ){
+    if (nodeKey != '' && nodeLatitude != '' && nodeLongitude != '' && nodeShortName != '' && nodeIsDepot != '' && nodeIsReliefPoint != '' && parseFloat(nodeLatitude) < 90 && parseFloat(nodeLatitude) > -90 && parseFloat(nodeLongitude) < 90 && parseFloat(nodeLongitude) > -90) {
       this.nodeService.addNode({
         key: nodeKey,
         name: nodeName,
@@ -67,7 +67,7 @@ export class CreateNodeComponent implements OnInit {
         timer: 2500,
         showConfirmButton: true,
       })
-    }else{
+    } else {
       Swal.fire({
         title: 'ERROR!',
         text: 'Node Couldnt be Created',
@@ -78,14 +78,14 @@ export class CreateNodeComponent implements OnInit {
       })
     }
   }
-  checkValues(nodeKey: string){
-    let count=0;
-    for(let i =0;i<this.nodes.length;i++){
-      if(this.nodes[i].key == nodeKey){
-          count+=1;
+  checkValues(nodeKey: string) {
+    let count = 0;
+    for (let i = 0; i < this.nodes.length; i++) {
+      if (this.nodes[i].key == nodeKey) {
+        count += 1;
       }
     }
-    if(count != 0){
+    if (count != 0) {
       Swal.fire({
         title: 'NODE EXISTS!',
         text: 'Values will be updated if you continue.',
@@ -94,7 +94,7 @@ export class CreateNodeComponent implements OnInit {
         timer: 7500,
         showConfirmButton: true,
       })
-    }else{
+    } else {
       Swal.fire({
         title: 'Values are Valid!',
         text: 'Values will be inserted.',
@@ -104,7 +104,7 @@ export class CreateNodeComponent implements OnInit {
         showConfirmButton: true,
       })
     }
-    if(nodeKey==''){
+    if (nodeKey == '') {
       Swal.fire({
         title: 'EMPTY KEY!',
         text: 'INSERT VALUE.',

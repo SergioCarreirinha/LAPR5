@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { IDriver } from '../interfaces/IDriver';
-import { DriverService } from '../services/driver.service';
+import { DriverService } from '../services/driver/driver.service';
 
 @Component({
   selector: 'app-driver',
