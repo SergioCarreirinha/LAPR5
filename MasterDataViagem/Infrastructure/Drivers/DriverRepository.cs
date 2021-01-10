@@ -11,6 +11,10 @@ namespace MasterDataViagem.Infrastructure.Drivers
            
         }
 
+        public GetDriverByLicense(int license):base(boolean){
+            
+        }
+
 
     }
 }
