@@ -6,6 +6,7 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
+import { Light } from 'three';
 
 
 @Component({
@@ -45,18 +46,26 @@ export class MapComponent implements OnInit {
 
     this.drawNodesAndLines();
     this.drawBusStop();
+    this.addLight();
 
+  }
+  
+  addLight(){
+      let tb: THREEBOX;
+      const light = new tb.Light( 0xff0000, 1, 100 );
+      light.position.set( -8.3757027, 41.187208, 1 );
+      tb.add( light );
   }
 
 
   drawNodesAndLines() {
-
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
 
       let tb: THREEBOX;
       let map = this.map;
       let nodesIn = this.nodes;
+      
 
       map.on('load', function () {
         map.addLayer({

@@ -31,7 +31,7 @@ namespace MasterDataViagem.Controllers {
         // GET: api/Driver/5
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<IDriverDTO>> GetGetById(Guid id)
+        public async Task<ActionResult<IDriverDTO>> GetById(Guid id)
         {
             var cat = await _service.GetById(new DriverId(id));
 
