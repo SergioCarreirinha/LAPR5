@@ -16,52 +16,44 @@ export class DriverComponent implements OnInit {
   }
 
   createDriver(name: string, birthdate: string, driverLicenseNum: string, licenseExpiration: string){
-  {
-    var driverList = this.driverService.getAllDrivers();
-    var exists: boolean = false;
-    driverList.forEach(function(test){
-      console.log(test,driverLicenseNum);
-        if(parseInt(driverLicenseNum) == test.driverLicenseNum){
-          exists = true;
+
+    if(birthdate != '' && name != '' && driverLicenseNum !='' && licenseExpiration != ''){
+      this.driverService.createDriver({
+        name: name,
+        birthdate: birthdate,
+        driverLicenseNum: parseInt(driverLicenseNum),
+        licenseExpiration: licenseExpiration
+      } as IDriver).subscribe((res: any) => {
+        console.log(res);
+        if(res != undefined){
+          Swal.fire({
+            title: 'Success!',
+            text: 'Driver Created',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }else{
+            Swal.fire({
+              title: 'Error!',
+              text: 'There is a driver with that license',
+              icon: 'error',
+              confirmButtonText: 'Ok',
+              timer: 2500,
+              showConfirmButton: false,
+            })
         }
-    });
-    
-  }
-  if(exists){
-    Swal.fire({
-      title: 'Error!',
-      text: 'Driver Exists!',
-      icon: 'error',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: true,
-    })
-    exists=false;
-  }
-  if(birthdate != '' && name != '' && driverLicenseNum !='' && licenseExpiration != ''){
-    this.driverService.createDriver({
-      name: name,
-      birthdate: birthdate,
-      driverLicenseNum: parseInt(driverLicenseNum),
-      licenseExpiration: licenseExpiration
-    } as IDriver).subscribe()
-    Swal.fire({
-      title: 'Success!',
-      text: 'Driver Created',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: true,
-    })
-   }else{
-    Swal.fire({
-      title: 'Error!',
-      text: 'Verify Fields!',
-      icon: 'error',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: true,
-    })
-   }
+      })
+    }else{
+      Swal.fire({
+        title: 'Error!',
+        text: 'invalid parameters',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    }
   }
 }

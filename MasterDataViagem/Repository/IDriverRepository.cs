@@ -5,5 +5,6 @@ namespace MasterDataViagem.Repository
 {
     public interface IDriverRepository: IRepository<Driver, DriverId>
     {
+        bool getByLicense(int license);
     }
 }

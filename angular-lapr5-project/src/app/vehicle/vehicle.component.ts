@@ -74,8 +74,5 @@ export class VehicleComponent implements OnInit {
         }
       }
       )
-
-    
   }
-
 }
