@@ -13,7 +13,7 @@ import { VehicleTypeService } from '../services/vehicle-type/vehicle-type.servic
 })
 export class VehicleComponent implements OnInit {
 
-  constructor(private vehicleService: VehicleService, private vehicleTypeService: VehicleTypeService, private location: Location) { }
+  constructor(private vehicleService: VehicleService, private vehicleTypeService: VehicleTypeService) { }
 
   vehicleTypes: IVehicleType[] = [];
 
@@ -52,20 +52,30 @@ export class VehicleComponent implements OnInit {
       vehicleType: vehicleType,
       firstServiceDate: firstServiceDate
     } as IVehicle)
-      .subscribe()
+      .subscribe((res: any) => {
+        if(res != undefined){
+          Swal.fire({
+            title: 'Success!',
+            text: 'Vehicle Created',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }else{
+          Swal.fire({
+            title: 'Error!',
+            text: 'There is a vehicle with that license plate or vehicle identification number',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      }
+      )
 
-    Swal.fire({
-      title: 'Success!',
-      text: 'Vehicle Created',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: false,
-    })
-  }
-
-  goBack(): void {
-    this.location.back();
+    
   }
 
 }
