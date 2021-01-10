@@ -1,8 +1,8 @@
 using System;
 using MasterDataViagem.Domain.Shared;
 
-namespace MasterDataViagem.Domain.DriverDuty {
-    public class DriverDuty : Entity<DriverId>, IAggregateRoot {
+namespace MasterDataViagem.Domain.DriverDuties {
+    public class DriverDuty : Entity<DriverDutyId>, IAggregateRoot {
 
         public string name { get; set; }
 
@@ -13,7 +13,7 @@ namespace MasterDataViagem.Domain.DriverDuty {
         public DateTime licenseExpiration { get; set; }
 
         public DriverDuty(string _name, DateTime _birthdate, int _driverLicenseNum, DateTime _licenseExpiration) {
-            this.Id = new DriverId(Guid.NewGuid());
+            this.Id = new DriverDutyId(Guid.NewGuid());
             this.name = _name;
             this.birthdate = _birthdate;
             this.driverLicenseNum = _driverLicenseNum;

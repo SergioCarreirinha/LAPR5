@@ -2,7 +2,7 @@ using System;
 using MasterDataViagem.Domain.Shared;
 using Newtonsoft.Json;
 
-namespace MasterDataViagem.Domain.DriverDuty
+namespace MasterDataViagem.Domain.DriverDuties
 {
     public class DriverDutyId : EntityId
     {

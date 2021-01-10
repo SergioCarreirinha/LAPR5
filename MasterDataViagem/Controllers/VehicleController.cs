@@ -5,12 +5,16 @@ using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Vehicle;
 using Microsoft.AspNetCore.Authorization;
+using MasterDataViagem.Service;
+using MasterDataViagem.DTO;
 
-namespace MasterDataViagem.Controllers {
-    
+namespace MasterDataViagem.Controllers
+{
+
     [Route("api/[controller]")]
     [ApiController]
-    public class VehicleController : ControllerBase {
+    public class VehicleController : ControllerBase
+    {
         private readonly VehicleService _service;
 
         public VehicleController(VehicleService vehicleService)
@@ -29,7 +33,7 @@ namespace MasterDataViagem.Controllers {
         // GET: api/vehicle/5
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<IVehicleDTO>> GetGetById(Guid id)
+        public async Task<ActionResult<IVehicleDTO>> GetById(Guid id)
         {
             var cat = await _service.GetById(new VehicleId(id));
 
@@ -48,10 +52,15 @@ namespace MasterDataViagem.Controllers {
         {
             var cat = await _service.Create(dto);
 
-            return CreatedAtAction(nameof(GetGetById), new { id = cat.Id }, cat);
+            if (cat != null) {
+                return CreatedAtAction(nameof(GetById), new { id = cat.Id }, cat);
+            } else {
+
+                return BadRequest();
+            }
         }
 
-        
+
         // DELETE: api/vehicle/5
         [HttpDelete("{id}")]
         [Authorize]
@@ -68,9 +77,9 @@ namespace MasterDataViagem.Controllers {
 
                 return Ok(cat);
             }
-            catch(BusinessRuleValidationException ex)
+            catch (BusinessRuleValidationException ex)
             {
-               return BadRequest(new {Message = ex.Message});
+                return BadRequest(new { Message = ex.Message });
             }
         }
     }

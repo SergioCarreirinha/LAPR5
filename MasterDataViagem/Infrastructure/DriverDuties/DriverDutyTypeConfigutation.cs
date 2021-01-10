@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MasterDataViagem.Domain.DriverDuty;
+using MasterDataViagem.Domain.DriverDuties;
 
 namespace MasterDataViagem.Infrastructure.DriverDuties
 {
-    internal class DriverDutyEntityTypeConfiguration : IEntityTypeConfiguration<Driver>
+    internal class DriverDutyEntityTypeConfiguration : IEntityTypeConfiguration<DriverDuty>
     {
-        public void Configure(EntityTypeBuilder<Driver> builder)
+        public void Configure(EntityTypeBuilder<DriverDuty> builder)
         {
             //builder.ToTable("Categories", SchemaNames.DDDSample1);
             builder.HasKey(b => b.Id);

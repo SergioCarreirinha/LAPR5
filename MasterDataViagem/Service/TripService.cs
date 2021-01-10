@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTimes;
 using System;
+using MasterDataViagem.Repository;
+using MasterDataViagem.DTO;
+using MasterDataViagem.Domain.Trip;
 
 namespace MasterDataViagem.Service
 {

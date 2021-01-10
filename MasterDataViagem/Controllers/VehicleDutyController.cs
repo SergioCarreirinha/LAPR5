@@ -4,8 +4,9 @@ using System;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.VehicleDuties;
-using MasterDataViagem.Domain.WorkBlocks;
 using Microsoft.AspNetCore.Authorization;
+using MasterDataViagem.Service;
+using MasterDataViagem.DTO;
 
 namespace MasterDataViagem.Controllers {
     

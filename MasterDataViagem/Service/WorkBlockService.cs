@@ -2,6 +2,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
+using MasterDataViagem.Repository;
+using MasterDataViagem.DTO;
+using MasterDataViagem.Domain.WorkBlocks;
+
 namespace MasterDataViagem.Service
 {
     public class WorkBlockService

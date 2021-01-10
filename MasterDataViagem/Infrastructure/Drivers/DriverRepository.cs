@@ -1,5 +1,6 @@
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Infrastructure.Shared;
+using MasterDataViagem.Repository;
 
 namespace MasterDataViagem.Infrastructure.Drivers
 {

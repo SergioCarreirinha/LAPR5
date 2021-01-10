@@ -21,16 +21,12 @@ using MasterDataViagem.Infrastructure.Genetics;
 using MasterDataViagem.Infrastructure.Shared;
 
 using MasterDataViagem.Domain.Shared;
-using MasterDataViagem.Domain.Trip;
-using MasterDataViagem.Domain.PassingTimes;
-using MasterDataViagem.Domain.Driver;
-using MasterDataViagem.Domain.Vehicle;
-using MasterDataViagem.Domain.VehicleDuties;
-using MasterDataViagem.Domain.WorkBlocks;
-using MasterDataViagem.Domain.Genetics;
 using MasterDataViagem.Domain.User;
 using System;
 using System.Threading.Tasks;
+
+using MasterDataViagem.Service;
+using MasterDataViagem.Repository;
 
 namespace MasterDataViagem
 {

@@ -2,8 +2,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTimes;
+using MasterDataViagem.Repository;
+using MasterDataViagem.DTO;
 
 namespace MasterDataViagem.Service {
+
     public class PassingTimeService
     {
         private readonly IPassingTimeRepository _repo;

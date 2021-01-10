@@ -5,6 +5,8 @@ using System;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Trip;
+using MasterDataViagem.Service;
+using MasterDataViagem.DTO;
 
 namespace MasterDataViagem.Controllers {
     
