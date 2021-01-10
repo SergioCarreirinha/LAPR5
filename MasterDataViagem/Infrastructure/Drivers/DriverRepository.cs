@@ -16,7 +16,7 @@ namespace MasterDataViagem.Infrastructure.Drivers
            
         }
 
-        public bool getByLicense(int license){
+        public bool getByLicense(int number){
             
             string query= "SELECT Id FROM Drivers WHERE driverLicenseNum=@license";
 
@@ -25,7 +25,7 @@ namespace MasterDataViagem.Infrastructure.Drivers
 
             SqlCommand command = new SqlCommand(query,sc);
 
-            SqlParameter l = new SqlParameter("@license",license);
+            SqlParameter l = new SqlParameter("@license",number);
             command.Parameters.Add(l);
 
             string id = (string)command.ExecuteScalar();

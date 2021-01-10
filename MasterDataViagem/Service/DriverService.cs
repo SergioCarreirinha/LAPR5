@@ -63,7 +63,7 @@ namespace MasterDataViagem.Service
                         driverLicenseNum = obj.driverLicenseNum,
                         licenseExpiration = obj.licenseExpiration,
                         //driverTypes = driver.driverTypes
-            };
+                };
             }else {
                 return null;
             }

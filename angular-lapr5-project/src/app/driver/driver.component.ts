@@ -24,8 +24,7 @@ export class DriverComponent implements OnInit {
         driverLicenseNum: parseInt(driverLicenseNum),
         licenseExpiration: licenseExpiration
       } as IDriver).subscribe((res: any) => {
-        console.log(res);
-        if(res != undefined){
+        if(res.status != undefined){
           Swal.fire({
             title: 'Success!',
             text: 'Driver Created',

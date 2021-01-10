@@ -50,7 +50,6 @@ namespace MasterDataViagem.Controllers {
         {
             var cat = await _service.Create(dto);
 
-
             if (cat != null) {
                 return CreatedAtAction(nameof(GetById), new { id = cat.Id }, cat);
             } else {

@@ -53,6 +53,7 @@ export class VehicleComponent implements OnInit {
       firstServiceDate: firstServiceDate
     } as IVehicle)
       .subscribe((res: any) => {
+        console.log(res.status);
         if(res != undefined){
           Swal.fire({
             title: 'Success!',
