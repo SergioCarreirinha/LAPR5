@@ -48,10 +48,14 @@ namespace MasterDataViagem.Controllers {
         [Authorize]
         public async Task<ActionResult<IVehicleDutyDTO>> Create(CVehicleDutyDTO dto)
         {
-            Console.Write("OLAAAAA");
+            string error = "erro";
             var cat = await _service.Create(dto);
 
-            return CreatedAtAction(nameof(GetGetById), new { id = cat.Id }, cat);
+            if (cat != null) {
+                return CreatedAtAction(nameof(GetGetById), new { id = cat.Id }, cat);
+            }else{
+                return BadRequest(new {error});
+            }
         }
 
         

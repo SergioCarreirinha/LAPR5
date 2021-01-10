@@ -71,18 +71,23 @@ namespace MasterDataViagem.Service
 
             var obj = new VehicleDuty(dto.key, dto.name, dto.color, dto.depots, workBlockList);
 
-            await this._repo.AddAsync(obj);
+            if (!this._repo.verifyVehicleDutyKey(dto.key)) {
+                await this._repo.AddAsync(obj);
 
-            await this._unitOfWork.CommitAsync();
+                await this._unitOfWork.CommitAsync();
 
-           return new IVehicleDutyDTO{ 
-                Id = obj.Id.AsGuid(),
-                key = obj.key,
-                name = obj.name,
-                color = obj.color,
-                depots = obj.depots,
-                WorkBlocks = obj.WorkBlocks
-            };
+                return new IVehicleDutyDTO{ 
+                    Id = obj.Id.AsGuid(),
+                    key = obj.key,
+                    name = obj.name,
+                    color = obj.color,
+                    depots = obj.depots,
+                    WorkBlocks = obj.WorkBlocks
+                };
+            
+            }else{
+                return null;
+            }
         }
 
         public async Task<IVehicleDutyDTO> DeleteAsync(VehicleDutyId id)

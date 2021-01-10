@@ -5,5 +5,6 @@ namespace MasterDataViagem.Repository
 {
     public interface IVehicleDutyRepository: IRepository<VehicleDuty, VehicleDutyId>
     {
+        bool verifyVehicleDutyKey(string key);
     }
 }

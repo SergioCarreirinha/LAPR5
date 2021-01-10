@@ -1,13 +1,12 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-  <h2>Listar Caminhos por Linha</h2>
+  <h2>Caminhos por Linha</h2>
   <div>
-    <label>Linha
-      <br>
-      <select #line>
-        <option *ngFor="let line of selectLine" value={{line.name}}>{{line.name}}</option>
-      </select>
-    </label>
+    <h6>Escolha a Linha:</h6>
+    <select #line>
+      <option *ngFor="let line of selectLine" value={{line.name}}>{{line.name}}</option>
+    </select>
+    <br>
     <br>
     <button (click)="getLinePaths(line.value);" class="btn btn-primary">
       Listar Caminhos
@@ -15,7 +14,7 @@
   </div>
   <br>
 
-  <h2>Paths:</h2>
+  <h2>Caminhos</h2>
   <table class="table">
     <thead>
       <tr>
