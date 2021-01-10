@@ -54,7 +54,7 @@ namespace MasterDataViagem.Service
         {
             var obj = new Vehicle(vehicle.licensePlate, vehicle.vin, vehicle.vehicleType, vehicle.firstServiceDate);
 
-            if (!this._repo.verifyVehicleByLicensePlate(vehicle.licensePlate) && this._repo.verifyVehicleByVin(vehicle.vin)) {
+            if (!this._repo.verifyVehicleByLicensePlate(vehicle.licensePlate) && !this._repo.verifyVehicleByVin(vehicle.vin)) {
                 await this._repo.AddAsync(obj);
 
 
