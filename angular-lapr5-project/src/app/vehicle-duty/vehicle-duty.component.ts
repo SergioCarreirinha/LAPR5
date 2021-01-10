@@ -64,16 +64,32 @@ export class VehicleDutyComponent implements OnInit {
       depots: depots,
       workBlocks: workBlockId
     } as IVehicleDuty)
-      .subscribe(vehicleDuty => { this.vehicleDuty.push(vehicleDuty); this.workBlocksVehicleDuty = [] });
-
-    Swal.fire({
-      title: 'Success!',
-      text: 'Vehicle Duty added',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: false,
-    })
+      .subscribe((res: any) => {
+        
+          Swal.fire({
+            title: 'Success!',
+            text: 'Vehicle Duty added',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+          this.workBlocksVehicleDuty = [];
+      },
+      err => {
+        console.log(err);
+        if(err.status==400){
+          Swal.fire({
+            title: 'Error!',
+            text: 'There is a vehicleDuty with that Key',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      }
+      );
   }
 
   addWorkBlock(id: string): void {

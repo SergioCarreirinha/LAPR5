@@ -20,15 +20,11 @@ export class VehicleDutyService {
   constructor(private http: HttpClient) { }
 
   getVehicleDuty(): Observable<IVehicleDuty[]> {
-    return this.http.get<IVehicleDuty[]>(this.vehicleDutyURL)
-      .pipe(
-        catchError(this.handleError<IVehicleDuty[]>('getNodes', []))
-      );
+    return this.http.get<IVehicleDuty[]>(this.vehicleDutyURL);
   }
 
   addVehicleDuty(vehicleDuty: IVehicleDuty): Observable<IVehicleDuty> {
-    return this.http.post<IVehicleDuty>(this.vehicleDutyURL, vehicleDuty, this.httpOptions).pipe(
-      catchError(this.handleError<IVehicleDuty>('addVehicleDuty', vehicleDuty)));
+    return this.http.post<IVehicleDuty>(this.vehicleDutyURL, vehicleDuty, this.httpOptions);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
