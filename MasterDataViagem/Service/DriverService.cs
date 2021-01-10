@@ -50,18 +50,23 @@ namespace MasterDataViagem.Service
         public async Task<IDriverDTO> Create(IDriverDTO driver)
         {
             var obj = new Driver(driver.name, driver.birthdate, driver.driverLicenseNum, driver.licenseExpiration /*,driver.driverTypes*/);
-            await this._repo.AddAsync(obj);
 
-            await this._unitOfWork.CommitAsync();
+            if (!this._repo.getByLicense(driver.driverLicenseNum)) {
+                await this._repo.AddAsync(obj);
 
-           return new IDriverDTO{ 
-                Id = obj.Id.AsGuid(),
-                name = obj.name,
-                birthdate = obj.birthdate,
-                driverLicenseNum = obj.driverLicenseNum,
-                licenseExpiration = obj.licenseExpiration,
-                //driverTypes = driver.driverTypes
+                await this._unitOfWork.CommitAsync();
+
+                return new IDriverDTO{ 
+                        Id = obj.Id.AsGuid(),
+                        name = obj.name,
+                        birthdate = obj.birthdate,
+                        driverLicenseNum = obj.driverLicenseNum,
+                        licenseExpiration = obj.licenseExpiration,
+                        //driverTypes = driver.driverTypes
             };
+            }else {
+                return null;
+            }
         }
 
         public async Task<IDriverDTO> DeleteAsync(DriverId id)

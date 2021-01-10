@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ISEP\\3º ano\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {}
+    "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {}
   },
   "projects": {
-    "D:\\ISEP\\3º ano\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {
+    "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ISEP\\3º ano\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
+        "projectUniqueName": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
         "projectName": "MasterDataViagem",
-        "projectPath": "D:\\ISEP\\3º ano\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
-        "packagesPath": "C:\\Users\\josec\\.nuget\\packages\\",
-        "outputPath": "D:\\ISEP\\3º ano\\LAPR5\\MasterDataViagem\\obj\\",
+        "projectPath": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
+        "packagesPath": "C:\\Users\\tavar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\josec\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\tavar\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "netcoreapp5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -93,6 +91,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.2, )"
             }
           },
           "imports": [

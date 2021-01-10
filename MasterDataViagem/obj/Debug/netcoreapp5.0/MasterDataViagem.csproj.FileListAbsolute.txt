@@ -101,3 +101,17 @@ D:\ISEP\3º ano\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\MasterDataViagem.
 D:\ISEP\3º ano\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\MasterDataViagem.MvcApplicationPartsAssemblyInfo.cs
 D:\ISEP\3º ano\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\MasterDataViagem.MvcApplicationPartsAssemblyInfo.cache
 D:\ISEP\3º ano\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\MasterDataViagem.csprojAssemblyReference.cache
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\MasterDataViagem.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\MasterDataViagem.StaticWebAssets.xml
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\Microsoft.AspNetCore.Identity.UI.Views.V4.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\System.Data.SqlClient.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\runtimes\win-arm64\native\sni.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\runtimes\win-x64\native\sni.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\runtimes\win-x86\native\sni.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\bin\Debug\netcoreapp5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\staticwebassets\MasterDataViagem.StaticWebAssets.Manifest.cache
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\staticwebassets\MasterDataViagem.StaticWebAssets.xml
+C:\Users\tavar\Documents\LAPR5\MasterDataViagem\obj\Debug\netcoreapp5.0\scopedcss\bundle\MasterDataViagem.styles.css

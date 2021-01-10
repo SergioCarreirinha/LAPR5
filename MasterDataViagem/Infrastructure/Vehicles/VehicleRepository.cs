@@ -16,11 +16,6 @@ namespace MasterDataViagem.Infrastructure.Vehicles
           
         }
 
-        public bool saveWithValidation(Vehicle vehicle){
-
-            return false;
-        }
-
         public bool verifyVehicleByLicensePlate(string licensePlate){
             string query= "SELECT Id FROM Vehicles WHERE licensePlate=@licensePlate";
 
