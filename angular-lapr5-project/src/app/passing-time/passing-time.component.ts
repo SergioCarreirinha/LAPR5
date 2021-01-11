@@ -58,14 +58,27 @@ export class CreatePassingTimeComponent implements OnInit {
         node: passingTimeNode,
         isUsed: passingTimeIsUsed,
         isReliefPoint: passingTimeIsReliefPoint
-      } as IPassingTime).subscribe();
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'Passagem Criada',
-        icon: 'success',
-        confirmButtonText: 'Ok',
-        timer: 2500,
-        showConfirmButton: true,
+      } as IPassingTime).subscribe(res => {
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Passagem Criada',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 2500,
+          showConfirmButton: true,
+        });
+      },err => {
+        console.log(err);
+        if(err.status==400){
+          Swal.fire({
+            title: 'Error!',
+            text: 'There is a Passing Time with that Key',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
       });
     } else {
       Swal.fire({

@@ -15,34 +15,14 @@ export class TripService {
   constructor(private http: HttpClient, private injector: Injector) { }
 
   addTrip(trip: ITrip): Observable<ITrip> {
-    return this.http.post<ITrip>(this.tripURL, trip).pipe(
-      catchError(this.handleError<ITrip>('addTrip')));
+    return this.http.post<ITrip>(this.tripURL, trip);
   }
 
   getTrips(): Observable<ITrip[]> {
-    return this.http.get<ITrip[]>(this.tripURL)
-      .pipe(
-        catchError(this.handleError<ITrip[]>('getTrips', []))
-      );
+    return this.http.get<ITrip[]>(this.tripURL);
   }
 
   getTripById(id: string): Observable<ITrip> {
-    return this.http.get<ITrip>(this.tripURL + '/' + id).pipe(tap(_ => console.log('fetched Trip')),
-      catchError(this.handleError<ITrip>('getTripById'))
-    );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    return this.http.get<ITrip>(this.tripURL + '/' + id);
   }
 }

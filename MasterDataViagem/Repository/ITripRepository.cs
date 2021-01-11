@@ -5,5 +5,6 @@ namespace MasterDataViagem.Repository
 {
     public interface ITripRepository: IRepository<Tripes, TripId>
     {
+        bool getByKey(string _key);
     }
 }

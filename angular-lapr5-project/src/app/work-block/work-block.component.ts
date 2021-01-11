@@ -68,16 +68,28 @@ export class WorkBlockComponent implements OnInit {
         isCrewTravelTime: isCrewTravelTime,
         isActive: isActive,
         trips: tripWorkId
-      } as IWorkBlock).subscribe()
-
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'Bloco de Trabalho criado',
-        icon: 'success',
-        confirmButtonText: 'Ok',
-        timer: 3000,
-        showConfirmButton: false,
-      })
+      } as IWorkBlock).subscribe(res => {
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Bloco de Trabalho criado',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 3000,
+          showConfirmButton: false,
+        })
+      },err => {
+        console.log(err);
+        if(err.status==400){
+          Swal.fire({
+            title: 'Error!',
+            text: 'There is a Work Block with that Key',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      });
     }
   }
 

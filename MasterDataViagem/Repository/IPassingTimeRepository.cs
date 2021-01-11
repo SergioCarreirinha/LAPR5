@@ -5,5 +5,6 @@ namespace MasterDataViagem.Repository
 {
     public interface IPassingTimeRepository: IRepository<PassingTime, PassingTimeId>
     {
+        bool getByKey(string _key);
     }
 }

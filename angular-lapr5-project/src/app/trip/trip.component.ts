@@ -88,16 +88,28 @@ export class CreateTripComponent implements OnInit {
         path: path,
         isGenerated: isGenerated,
         passingTimes: passingTripId,
-      } as ITrip).subscribe()
-
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'Viagem criada',
-        icon: 'success',
-        confirmButtonText: 'Ok',
-        timer: 3000,
-        showConfirmButton: false,
-      })
+      } as ITrip).subscribe(res => {
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Viagem criada',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 3000,
+          showConfirmButton: false,
+        })
+      },err => {
+        console.log(err);
+        if(err.status==400){
+          Swal.fire({
+            title: 'Error!',
+            text: 'There is a Trip with that Key',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      });
     }
   }
 
