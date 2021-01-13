@@ -6,7 +6,7 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
-import { Light } from 'three';
+import { Light } from './threebox-master/src/three';
 
 
 @Component({
@@ -21,6 +21,9 @@ export class MapComponent implements OnInit {
   paths: any[] = [];
   toggle = false;
   coords: any[] = [];
+
+  linesAdded: any[][] = [];
+  lineRepetitions: number[] = [];
 
   map!: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
@@ -46,15 +49,15 @@ export class MapComponent implements OnInit {
 
     this.drawNodesAndLines();
     this.drawBusStop();
-    this.addLight();
+    //this.addLight();
 
   }
-  
-  addLight(){
-      let tb: THREEBOX;
-      const light = new tb.Light( 0xff0000, 1, 100 );
-      light.position.set( -8.3757027, 41.187208, 1 );
-      tb.add( light );
+
+  addLight() {
+    let tb: THREEBOX;
+    const light = new tb.Light(0xff0000, 1, 100);
+    light.position.set(-8.3757027, 41.187208, 1);
+    tb.add(light);
   }
 
 
@@ -65,7 +68,7 @@ export class MapComponent implements OnInit {
       let tb: THREEBOX;
       let map = this.map;
       let nodesIn = this.nodes;
-      
+
 
       map.on('load', function () {
         map.addLayer({
@@ -235,11 +238,87 @@ export class MapComponent implements OnInit {
             }
           }
         }
-        this.drawLine(coords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
+        let newCoords = this.lineOverlap(coords);
+        if (coords.length > 0) {
+          this.drawLine(newCoords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
+        }
         coords = [];
       }
     });
   }
+
+  checkIfLineIsAdded(coord: number[]): number {
+    let coordRev = [coord[2], coord[3], coord[0], coord[1]];
+
+    console.log(coord);
+    for(let j=0; j<this.linesAdded.length; j++){
+      if(JSON.stringify(this.linesAdded[j])==JSON.stringify(coord) ||
+      JSON.stringify(this.linesAdded[j])==JSON.stringify(coordRev)){
+        return j;
+      }
+    }
+    return -1;
+  }
+
+  lineOverlap(coords: any[]) {
+    let newCoords: number[][]=[];
+    for (let i = 1; i < coords.length; i++) {
+
+      let coord = [coords[i - 1][0], coords[i - 1][1], coords[i][0], coords[i][1]];
+
+      let index = this.checkIfLineIsAdded(coord);
+      if (index<0) {
+        this.linesAdded.push(coord);
+        this.lineRepetitions.push(1);
+
+        newCoords.push([coords[i - 1][0], coords[i - 1][1]]);
+        newCoords.push([coords[i][0], coords[i][1]]);
+      } else {                  //x1        y1       x2        y2
+        let r = this.lineLength(coord[0], coord[1], coord[2], coord[3]);
+
+        let cosBeta = -(coord[3] - coord[1]) / r;
+        let sinBeta = (coord[2] - coord[0]) / r;
+        //distancia entre linhas
+        let d = Math.round(this.lineRepetitions[index]/2) * 0.00015;
+
+        let lat1, long1, lat2, long2;
+
+        if (this.lineRepetitions[index] % 2 == 0) {
+          long1 = (coord[0]) + d * cosBeta;
+          lat1 = (coord[1]) + d * sinBeta;
+ 
+          long2 = (coord[2]) + d * cosBeta;
+          lat2 = (coord[3]) + d * sinBeta;
+
+        } else {
+          long1 = (coord[0]) - d * cosBeta;
+          lat1 = (coord[1]) - d * sinBeta;
+
+          long2 = (coord[2]) - d * cosBeta;
+          lat2 = (coord[3]) - d * sinBeta;
+
+        }
+
+        newCoords.push([long1,lat1]);
+        newCoords.push([long2,lat2])
+
+        this.lineRepetitions[index] += 1;
+      }
+    }
+    return newCoords;
+  }
+
+  lineLength(x1: number, y1: number, x2: number, y2: number): number {
+    let x = x2-x1;
+    let y = y2-y1;
+    return (
+      Math.sqrt(
+                Math.pow(x, 2) +
+                Math.pow(y, 2)
+                )
+    );
+  }
+
   drawLine(coord: Array<any>, name: string, color: string) {
     let tb: THREEBOX;
     this.map.addLayer({
@@ -258,7 +337,6 @@ export class MapComponent implements OnInit {
           color: color, // color based on latitude of endpoint
           width: 3
         }
-        console.log(coord);
 
         let lineMesh = tb.line(lineOptions);
 
