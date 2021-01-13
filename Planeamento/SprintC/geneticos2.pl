@@ -59,7 +59,7 @@ geracoes(5).
 populacao(4).
 prob_cruzamento(0.5).
 prob_mutacao(0.4).
-nrWorkBlock(5).
+nrWorkBlock(13).
 target(50).
 tempo(4).
 geracoes_repetidas(10).
@@ -126,14 +126,14 @@ postSolution(Pop,Eva):-
     http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, [content("application/json"),authorization(bearer('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJhYzIxZjk0MC00NGYwLTQ1NmEtOGVlNi0zYThjYzRjOGE4M2MiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDk4ODY5NTcsImV4cCI6MTYwOTk3MzM1NywiaWF0IjoxNjA5ODg2OTU3fQ.Ny3tdQNgRbirhWJ_2Vj4WyjyX_uyymthdUp2mZlMlDk'))
 ]).
 
-%cria uma lista com os condutores
+%Cria uma lista com os condutores
 gera_condutores(LMaisFinal):-
 	lista_motoristas_nworkblocks(_,[(H,Num)|Lista]),
 	gera_condutores2(H,Num,Lista,LFinal),
 	random_permutation(LFinal,LMaisFinal),
 	!.
 
-gera_condutores2(_,0,[],[]).
+gera_condutores2(_,0,[],[]):-!.
 
 gera_condutores2(H,N,L,[H|LFinal]):-
 	N \= 0,
@@ -430,7 +430,9 @@ gerar_pontos_cruzamento1(P1,P2):-
 
 
 cruzamento([],[]).
+
 cruzamento([Ind*_],[Ind]).
+
 cruzamento([Ind1*_,Ind2*_|Resto],[NInd1,NInd2|Resto1]):-
 	gerar_pontos_cruzamento(P1,P2),
 	prob_cruzamento(Pcruz),	random(0.0,1.0,Pc),
