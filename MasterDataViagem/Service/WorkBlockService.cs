@@ -78,23 +78,27 @@ namespace MasterDataViagem.Service
 
             var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime,
             workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive, tripsList);
+            
+            if (!this._repo.getByKey(workBlock.key)) {
+                await this._repo.AddAsync(obj);
 
-            await this._repo.AddAsync(obj);
+                await this._unitOfWork.CommitAsync();
 
-            await this._unitOfWork.CommitAsync();
-
-            return new IWorkBlockDTO
-            {
-                Id = obj.Id.AsGuid(),
-                key = workBlock.key,
-                startTime = workBlock.startTime,
-                endTime = workBlock.endTime,
-                startNode = workBlock.startNode,
-                endNode = workBlock.endNode,
-                isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive,
-                trips = tripsList
-            };
+                return new IWorkBlockDTO
+                {
+                    Id = obj.Id.AsGuid(),
+                    key = workBlock.key,
+                    startTime = workBlock.startTime,
+                    endTime = workBlock.endTime,
+                    startNode = workBlock.startNode,
+                    endNode = workBlock.endNode,
+                    isCrewTravelTime = workBlock.isCrewTravelTime,
+                    isActive = workBlock.isActive,
+                    trips = tripsList
+                };
+            } else {
+                return null;
+            }
         }
 
         public async Task<IWorkBlockDTO> DeleteAsync(WorkBlockId id)

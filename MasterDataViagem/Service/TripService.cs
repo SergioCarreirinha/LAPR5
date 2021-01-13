@@ -75,20 +75,24 @@ namespace MasterDataViagem.Service
 
             var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated, passingTimeList);
 
-            await this._repo.AddAsync(obj);
+            if (!this._repo.getByKey(trip.key)) {
+                await this._repo.AddAsync(obj);
 
-            await this._unitOfWork.CommitAsync();
+                await this._unitOfWork.CommitAsync();
 
-           return new ITripDTO{ 
-                Id = obj.Id.AsGuid(), 
-                key = obj.key, 
-                IsEmpty = obj.IsEmpty,
-                Orientation = obj.Orientation,
-                Line = obj.Line,
-                Path = obj.Path, 
-                IsGenerated = obj.IsGenerated,
-                PassingTimes = passingTimeList
-            };
+                return new ITripDTO{ 
+                    Id = obj.Id.AsGuid(), 
+                    key = obj.key, 
+                    IsEmpty = obj.IsEmpty,
+                    Orientation = obj.Orientation,
+                    Line = obj.Line,
+                    Path = obj.Path, 
+                    IsGenerated = obj.IsGenerated,
+                    PassingTimes = passingTimeList
+                };
+            } else {
+                return null;
+            }
         }
 
         public async Task<ITripDTO> DeleteAsync(TripId id)

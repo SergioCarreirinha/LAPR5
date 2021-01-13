@@ -33,7 +33,7 @@ namespace MasterDataViagem.Controllers
         // GET: api/passingTimes/5
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<IPassingTimeDTO>> GetGetById(Guid id)
+        public async Task<ActionResult<IPassingTimeDTO>> GetById(Guid id)
         {
             var cat = await _service.GetById(new PassingTimeId(id));
 
@@ -52,7 +52,11 @@ namespace MasterDataViagem.Controllers
         {
             var cat = await _service.Create(dto);
 
-            return CreatedAtAction(nameof(GetGetById), new { id = cat.Id }, cat);
+            if (cat != null) {
+                return CreatedAtAction(nameof(GetById), new { id = cat.Id }, cat);
+            } else {
+                return BadRequest();
+            }
         }
 
 
