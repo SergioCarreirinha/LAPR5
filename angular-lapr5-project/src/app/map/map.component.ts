@@ -48,7 +48,7 @@ export class MapComponent implements OnInit {
     this.map.dragRotate.disable();
 
     this.drawNodesAndLines();
-    this.drawBusStop();
+    this.drawModels();
     //this.addLight();
 
   }
@@ -127,7 +127,7 @@ export class MapComponent implements OnInit {
     // })
   }
 
-  drawBusStop() {
+  drawModels() {
 
     this.nodeService.getNodes().subscribe(node => {
       this.nodes = node;
@@ -149,17 +149,34 @@ export class MapComponent implements OnInit {
           );
 
           for (let point of nodesIn) {
-            var busStop3D = {
-              obj: '../../assets/3DModel/Bus_Stop.obj',
-              mtl: '../../assets/3DModel/Bus_Stop.mtl',
-              scale: 0.01,
-              rotation: { x: 90, y: 180, z: 0 },
+            var model;
+            if(point.isDepot === "true"){
+              model = {
+                obj: '../../assets/3DModel/Depot_Point.obj',
+                mtl: '../../assets/3DModel/Depot_Point.mtl',
+                scale: 0.015,
+                rotation: { x: 90, y: 90, z: 0 },
+              }
+            } else if(point.isReliefPoint === "true"){
+              model = {
+                obj: '../../assets/3DModel/Relief_Point.obj',
+                mtl: '../../assets/3DModel/Relief_Point.mtl',
+                scale: 0.015,
+                rotation: { x: 90, y: 180, z: 0 },
+              }
+            } else {
+              model = {
+                obj: '../../assets/3DModel/Bus_Stop.obj',
+                mtl: '../../assets/3DModel/Bus_Stop.mtl',
+                scale: 0.01,
+                rotation: { x: 90, y: 180, z: 0 },
+              }
             }
-            let busStop;
-            tb.loadObj(busStop3D, function (model) {
+            let locatedModel;
+            tb.loadObj(model, function (model) {
 
-              busStop = model.setCoords([point.longitude, point.latitude, 0]);
-              tb.add(busStop);
+              locatedModel = model.setCoords([point.longitude - 0.00025, point.latitude, 0]);
+              tb.add(locatedModel);
             });
           }
         },
@@ -250,7 +267,6 @@ export class MapComponent implements OnInit {
   checkIfLineIsAdded(coord: number[]): number {
     let coordRev = [coord[2], coord[3], coord[0], coord[1]];
 
-    console.log(coord);
     for(let j=0; j<this.linesAdded.length; j++){
       if(JSON.stringify(this.linesAdded[j])==JSON.stringify(coord) ||
       JSON.stringify(this.linesAdded[j])==JSON.stringify(coordRev)){
