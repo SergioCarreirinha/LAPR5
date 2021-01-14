@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
+import { getUser } from '../../interfaces/getUser';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,13 @@ export class AuthService {
       }
     });
     return isMatch;
+  }
+
+  getUserInfo(id: getUser) {
+    return this.http.post(this.BaseURI + 'user', id);
+  }
+
+  deleteUser(id: getUser) {
+    return this.http.post(this.BaseURI + 'delete', id);
   }
 }
