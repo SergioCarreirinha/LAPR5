@@ -79,7 +79,10 @@ export class MapComponent implements OnInit {
             tb = new THREEBOX(
               map,
               mbxContext,
-              { defaultLights: true }
+              { realSunlight: true,
+                enableSelectingObjects: true, //enable 3D models over/selection
+                enableTooltips: true // enable default tooltips on fill-extrusion and 3D models
+              }
             );
 
             let longitudeAdjustment = 0.001;
@@ -383,22 +386,22 @@ class PitchToggle {
             var model;
             if(point.isDepot === "true"){
               model = {
-                obj: '../../assets/3DModel/Depot_Point.obj',
-                mtl: '../../assets/3DModel/Depot_Point.mtl',
+                type: 'gltf',
+                obj: '../../assets/3DModel/Depot_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 90, z: 0 },
               }
             } else if(point.isReliefPoint === "true"){
               model = {
-                obj: '../../assets/3DModel/Relief_Point.obj',
-                mtl: '../../assets/3DModel/Relief_Point.mtl',
+                type: 'gltf',
+                obj: '../../assets/3DModel/Relief_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 180, z: 0 },
               }
             } else {
               model = {
-                obj: '../../assets/3DModel/Bus_Stop.obj',
-                mtl: '../../assets/3DModel/Bus_Stop.mtl',
+                type: 'gltf',
+                obj: '../../assets/3DModel/Bus_Stop.gltf',
                 scale: 0.01,
                 rotation: { x: 90, y: 180, z: 0 },
               }
