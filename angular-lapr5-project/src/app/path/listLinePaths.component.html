@@ -32,8 +32,8 @@
         <td>
           <table class="table">
             <tbody>
-              <tr *ngFor="let node of path.pathNodes">
-                <td>{{node.pathNode}}</td>
+              <tr *ngFor="let node of path.pathNodes[0].pathNode">
+                <td>{{node.node}}</td>
                 <td>{{node.props}}</td>
               </tr>
             </tbody>
