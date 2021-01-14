@@ -13,26 +13,26 @@
                         <label for="exampleInputEmail1">Username</label>
                         <input type="text" name="username" class="form-control" formControlName="username">
                     </div>
-                    <div *ngIf="username.touched && username.errors?.required" class="alert alert-danger">This field is
-                        required!</div>
+                    <div *ngIf="username.touched && username.errors?.required" class="alert alert-danger">Campo
+                        Obrigatório!</div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email</label>
                         <input type="email" name="email" class="form-control" formControlName="email">
                     </div>
-                    <div *ngIf="email.touched && email.errors?.required" class="alert alert-danger">This field is
-                        required!
+                    <div *ngIf="email.touched && email.errors?.required" class="alert alert-danger">Campo Obrigatório!
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" name="password" class="form-control" formControlName="password">
                     </div>
-                    <div *ngIf="password.touched && password.errors?.required" class="alert alert-danger">This field is
-                        required!</div>
+                    <div *ngIf="password.touched && password.errors?.required" class="alert alert-danger">Campo
+                        Obrigatório!</div>
                     <input type="checkbox" formControlName="gdprCheck" name="checkRegister"> Li, compreendi e aceito a
                     <a href="#" data-target="#policyModal" data-toggle="modal">Política de Privacidade.</a>
                     <br>
                     <br>
-                    <button type="submit" id="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registar</button>
+                    <button type="submit" id="submit" class="btn btn-primary"
+                        [disabled]="registerForm.invalid">Registar</button>
                 </form>
             </div>
             <div class="col-lg-4"></div>

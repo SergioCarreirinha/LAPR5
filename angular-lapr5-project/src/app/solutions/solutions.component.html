@@ -1,24 +1,24 @@
 <app-clientnavbar></app-clientnavbar>
 <div class="jumbotron">
-    <h2>Current Solutions</h2>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Source</th>
-            <th scope="col">Destination</th>
-            <th scope="col">Path</th>
-            <th scope="col">Start Time</th>
-            <th scope="col">Arrive Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let solution of solutions">
-            <td>{{solution.source}}</td>
-            <td>{{solution.destination}}</td>
-            <td>{{solution.path}}</td>
-            <td>{{solution.startTime}}</td>
-            <td>{{solution.arriveTime}}</td>
-          </tr>
-        </tbody>
-      </table>
+  <h2>Soluções</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Fonte</th>
+        <th scope="col">Destino</th>
+        <th scope="col">Caminho</th>
+        <th scope="col">Tempo Inicial</th>
+        <th scope="col">Tempo Final</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let solution of solutions">
+        <td>{{solution.source}}</td>
+        <td>{{solution.destination}}</td>
+        <td>{{solution.path}}</td>
+        <td>{{solution.startTime}}</td>
+        <td>{{solution.arriveTime}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

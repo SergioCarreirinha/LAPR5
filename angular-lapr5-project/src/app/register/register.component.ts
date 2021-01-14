@@ -35,17 +35,18 @@ export class RegisterComponent implements OnInit {
         console.log(res);
         if (res.succeeded) {
           this.authService.formModel.reset();
-          this.toastr.success('New user created!', 'Registration successful.');
+          this.toastr.success('Utilizador criado com sucesso!', 'Registado com sucesso.');
           this.router.navigateByUrl('/login');
         } else {
           res.errors.forEach(element => {
+            console.log(element);
             switch (element.code) {
               case 'DuplicateUserName':
-                this.toastr.error('Username is already taken', 'Registration failed.');
+                this.toastr.error('Username já existente.', 'Erro no Registo.');
                 break;
 
               default:
-                this.toastr.error(element.description, 'Registration failed.');
+                this.toastr.error(element.description, 'Erro no Registo.');
                 break;
             }
           });
