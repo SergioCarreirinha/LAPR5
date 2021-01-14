@@ -29,20 +29,29 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.loginForm.value).subscribe((res: any) => {
       localStorage.setItem('token', res.token);
-      this.toastr.success('Logged In', 'Login Successful');
+      var id = this.getId();
+      localStorage.setItem('id', id);
+      this.toastr.success('Logged In', 'Login com Sucesso');
       this.router.navigateByUrl('/dashboard');
     },
       err => {
         if (err.status == 400)
-          this.toastr.error('Incorrect username or password.', 'Authentication failed.');
+          this.toastr.error('Username ou Password incorretos.', 'Autenticação falhada.');
         else
           console.log(err);
       });
   }
 
+  getId(): string {
+    var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+    var userId = payLoad.UserID;
+    return userId;
+  }
+
   get username() {
     return this.loginForm.get('username');
   }
+
   get password() {
     return this.loginForm.get('password');
   }

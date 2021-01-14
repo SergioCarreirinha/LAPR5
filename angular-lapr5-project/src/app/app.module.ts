@@ -33,6 +33,7 @@ import { WorkBlockComponent } from './work-block/work-block.component';
 import { TripComponent, CreateTripComponent } from './trip/trip.component';
 import { PassingTimeComponent, CreatePassingTimeComponent } from './passing-time/passing-time.component';
 import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.component';
+import { UserComponent } from './user/user.component';
 import { DriverDutyComponent } from './driver-duty/driver-duty.component';
 
 
@@ -68,6 +69,7 @@ import { DriverDutyComponent } from './driver-duty/driver-duty.component';
     CreatePassingTimeComponent,
     CreateTripComponent,
     PlanningSprintCComponent,
+    UserComponent,
     DriverDutyComponent
   ],
   imports: [

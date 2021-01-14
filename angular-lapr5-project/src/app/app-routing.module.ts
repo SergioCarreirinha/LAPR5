@@ -22,6 +22,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CreateTripComponent, TripComponent } from './trip/trip.component'
 import { CreatePassingTimeComponent, PassingTimeComponent } from './passing-time/passing-time.component';
 import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.component';
+import { UserComponent } from './user/user.component';
 import { DriverDutyComponent } from './driver-duty/driver-duty.component';
 
 const routes: Routes = [
@@ -51,7 +52,8 @@ const routes: Routes = [
   { path: 'createVehicle', component: VehicleComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createvehicleDuty', component: VehicleDutyComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createTrip', component: CreateTripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
-  { path: 'listTrip', component: TripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } }
+  { path: 'listTrip', component: TripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
+  { path: 'user/:id', component: UserComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
