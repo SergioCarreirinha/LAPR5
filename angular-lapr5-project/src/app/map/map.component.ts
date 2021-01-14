@@ -40,7 +40,7 @@ export class MapComponent implements OnInit {
       zoom: 13,
       center: [this.lng, this.lat],
     });
-    this.map.addControl(new PitchToggle({ minpitchzoom: 10 }), 'top-left');
+    this.map.addControl(new PitchToggle({ minpitchzoom: 10 },this.nodeService,this.map), 'top-left');
 
     this.setArrayPaths();
     // Add map controls
@@ -48,7 +48,6 @@ export class MapComponent implements OnInit {
     this.map.dragRotate.disable();
 
     this.drawNodesAndLines();
-    this.drawModels();
     //this.addLight();
 
   }
@@ -125,68 +124,6 @@ export class MapComponent implements OnInit {
 
     //   }
     // })
-  }
-
-  drawModels() {
-
-    this.nodeService.getNodes().subscribe(node => {
-      this.nodes = node;
-
-      let tb: THREEBOX;
-      let map = this.map;
-      let nodesIn = this.nodes;
-
-      map.addLayer({
-        id: 'custom_layer2',
-        type: 'custom',
-        renderingMode: '3d',
-        onAdd: function (map, mbxContext) {
-
-          tb = new THREEBOX(
-            map,
-            mbxContext,
-            { defaultLights: true }
-          );
-
-          for (let point of nodesIn) {
-            var model;
-            if(point.isDepot === "true"){
-              model = {
-                obj: '../../assets/3DModel/Depot_Point.obj',
-                mtl: '../../assets/3DModel/Depot_Point.mtl',
-                scale: 0.015,
-                rotation: { x: 90, y: 90, z: 0 },
-              }
-            } else if(point.isReliefPoint === "true"){
-              model = {
-                obj: '../../assets/3DModel/Relief_Point.obj',
-                mtl: '../../assets/3DModel/Relief_Point.mtl',
-                scale: 0.015,
-                rotation: { x: 90, y: 180, z: 0 },
-              }
-            } else {
-              model = {
-                obj: '../../assets/3DModel/Bus_Stop.obj',
-                mtl: '../../assets/3DModel/Bus_Stop.mtl',
-                scale: 0.01,
-                rotation: { x: 90, y: 180, z: 0 },
-              }
-            }
-            let locatedModel;
-            tb.loadObj(model, function (model) {
-
-              locatedModel = model.setCoords([point.longitude - 0.00025, point.latitude, 0]);
-              tb.add(locatedModel);
-            });
-          }
-        },
-        render: function (gl, matrix) {
-          tb.update();
-        }
-
-      });
-    });
-
   }
 
   setArrayLines() {
@@ -412,10 +349,75 @@ class PitchToggle {
   _btn: HTMLButtonElement;
   _container: HTMLDivElement;
   _bearing: number;
-  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }) {
+  
+  nodes: any[]=[];
+  
+  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, },private nodeService: NodeService, private map:mapboxgl.Map) {
     this._bearing = bearing;
     this._pitch = pitch;
     this._minpitchzoom = minpitchzoom;
+  }
+
+  drawModels() {
+
+    this.nodeService.getNodes().subscribe(node => {
+      this.nodes = node;
+
+      let tb: THREEBOX;
+      let map = this.map;
+      let nodesIn = this.nodes;
+
+      map.addLayer({
+        id: 'custom_layer2',
+        type: 'custom',
+        renderingMode: '3d',
+        onAdd: function (map, mbxContext) {
+
+          tb = new THREEBOX(
+            map,
+            mbxContext,
+            { defaultLights: true }
+          );
+
+          for (let point of nodesIn) {
+            var model;
+            if(point.isDepot === "true"){
+              model = {
+                obj: '../../assets/3DModel/Depot_Point.obj',
+                mtl: '../../assets/3DModel/Depot_Point.mtl',
+                scale: 0.015,
+                rotation: { x: 90, y: 90, z: 0 },
+              }
+            } else if(point.isReliefPoint === "true"){
+              model = {
+                obj: '../../assets/3DModel/Relief_Point.obj',
+                mtl: '../../assets/3DModel/Relief_Point.mtl',
+                scale: 0.015,
+                rotation: { x: 90, y: 180, z: 0 },
+              }
+            } else {
+              model = {
+                obj: '../../assets/3DModel/Bus_Stop.obj',
+                mtl: '../../assets/3DModel/Bus_Stop.mtl',
+                scale: 0.01,
+                rotation: { x: 90, y: 180, z: 0 },
+              }
+            }
+            let locatedModel;
+            tb.loadObj(model, function (model) {
+
+              locatedModel = model.setCoords([point.longitude - 0.00025, point.latitude, 0]);
+              tb.add(locatedModel);
+            });
+          }
+        },
+        render: function (gl, matrix) {
+          tb.update();
+        }
+
+      });
+    });
+
   }
 
   onAdd(map) {
@@ -445,6 +447,7 @@ class PitchToggle {
         _this._btn.textContent = "2D";
         toggle = true;
         map.dragRotate.enable();
+        _this.drawModels();
 
         map.addLayer(
           {
@@ -485,6 +488,7 @@ class PitchToggle {
       else {
         _this._btn.textContent = "3D";
         map.removeLayer('3d-buildings');
+        map.removeLayer('custom_layer2');
         map.dragRotate.disable();
         toggle = false;
       }
