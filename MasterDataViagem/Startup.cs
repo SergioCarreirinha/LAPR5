@@ -14,11 +14,13 @@ using MasterDataViagem.Infrastructure;
 using MasterDataViagem.Infrastructure.Trips;
 using MasterDataViagem.Infrastructure.PassingTimes;
 using MasterDataViagem.Infrastructure.Drivers;
+using MasterDataViagem.Infrastructure.DriverDuties;
 using MasterDataViagem.Infrastructure.Vehicles;
 using MasterDataViagem.Infrastructure.VehicleDuties;
 using MasterDataViagem.Infrastructure.WorkBlocks;
 using MasterDataViagem.Infrastructure.Genetics;
 using MasterDataViagem.Infrastructure.Shared;
+using MasterDataViagem.Infrastructure.ParameterValues;
 
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.User;
@@ -125,6 +127,9 @@ namespace MasterDataViagem
             //Driver
             services.AddTransient<IDriverRepository, DriverRepository>();
             services.AddTransient<DriverService>();
+            //DriverDuty
+            services.AddTransient<IDriverDutyRepository, DriverDutyRepository>();
+            services.AddTransient<DriverDutyService>();
             //Vehicle
             services.AddTransient<IVehicleRepository, VehicleRepository>();
             services.AddTransient<VehicleService>();
@@ -137,6 +142,9 @@ namespace MasterDataViagem
             //Genetic
             services.AddTransient<IGeneticRepository,GeneticRepository>();
             services.AddTransient<GeneticService>();
+            //Parameters
+            services.AddTransient<IParameterValueRepository,ParameterValueRepository>();
+            services.AddTransient<ParameterValueService>();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
