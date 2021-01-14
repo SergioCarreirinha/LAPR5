@@ -41,6 +41,44 @@ namespace MasterDataViagem.Migrations
                     b.ToTable("Drivers");
                 });
 
+            modelBuilder.Entity("MasterDataViagem.Domain.DriverDuties.DriverDuty", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DriverDuties");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.DriverDutyTypes.DriverDutyType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DriverDutyTypes");
+                });
+
             modelBuilder.Entity("MasterDataViagem.Domain.Genetics.Genetic", b =>
                 {
                     b.Property<string>("Id")
@@ -70,6 +108,30 @@ namespace MasterDataViagem.Migrations
                     b.HasIndex("GeneticId");
 
                     b.ToTable("Population");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.ParameterValues.ParameterValue", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DriverDutyTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("parameter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverDutyTypeId");
+
+                    b.ToTable("ParameterValues");
                 });
 
             modelBuilder.Entity("MasterDataViagem.Domain.PassingTimes.PassingTime", b =>
@@ -249,6 +311,9 @@ namespace MasterDataViagem.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("DriverDutyId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("VehicleDutyId")
                         .HasColumnType("nvarchar(450)");
 
@@ -274,6 +339,8 @@ namespace MasterDataViagem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DriverDutyId");
 
                     b.HasIndex("VehicleDutyId");
 
@@ -418,6 +485,13 @@ namespace MasterDataViagem.Migrations
                         .HasForeignKey("GeneticId");
                 });
 
+            modelBuilder.Entity("MasterDataViagem.Domain.ParameterValues.ParameterValue", b =>
+                {
+                    b.HasOne("MasterDataViagem.Domain.DriverDutyTypes.DriverDutyType", null)
+                        .WithMany("parameters")
+                        .HasForeignKey("DriverDutyTypeId");
+                });
+
             modelBuilder.Entity("MasterDataViagem.Domain.PassingTimes.PassingTime", b =>
                 {
                     b.HasOne("MasterDataViagem.Domain.Trip.Tripes", null)
@@ -434,6 +508,10 @@ namespace MasterDataViagem.Migrations
 
             modelBuilder.Entity("MasterDataViagem.Domain.WorkBlocks.WorkBlock", b =>
                 {
+                    b.HasOne("MasterDataViagem.Domain.DriverDuties.DriverDuty", null)
+                        .WithMany("workBlocks")
+                        .HasForeignKey("DriverDutyId");
+
                     b.HasOne("MasterDataViagem.Domain.VehicleDuties.VehicleDuty", null)
                         .WithMany("WorkBlocks")
                         .HasForeignKey("VehicleDutyId");
@@ -488,6 +566,16 @@ namespace MasterDataViagem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.DriverDuties.DriverDuty", b =>
+                {
+                    b.Navigation("workBlocks");
+                });
+
+            modelBuilder.Entity("MasterDataViagem.Domain.DriverDutyTypes.DriverDutyType", b =>
+                {
+                    b.Navigation("parameters");
                 });
 
             modelBuilder.Entity("MasterDataViagem.Domain.Genetics.Genetic", b =>

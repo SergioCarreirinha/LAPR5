@@ -21,6 +21,7 @@ using MasterDataViagem.Infrastructure.WorkBlocks;
 using MasterDataViagem.Infrastructure.Genetics;
 using MasterDataViagem.Infrastructure.Shared;
 using MasterDataViagem.Infrastructure.ParameterValues;
+using MasterDataViagem.Infrastructure.DriverDutyTypes;
 
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.User;
@@ -145,6 +146,9 @@ namespace MasterDataViagem
             //Parameters
             services.AddTransient<IParameterValueRepository,ParameterValueRepository>();
             services.AddTransient<ParameterValueService>();
+            //DriverDutyType
+            services.AddTransient<IDriverDutyTypeRepository,DriverDutyTypeRepository>();
+            services.AddTransient<DriverDutyTypeService>();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

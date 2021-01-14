@@ -18,6 +18,8 @@ using MasterDataViagem.Domain.DriverDuties;
 using MasterDataViagem.Infrastructure.DriverDuties;
 using MasterDataViagem.Domain.ParameterValues;
 using MasterDataViagem.Infrastructure.ParameterValues;
+using MasterDataViagem.Domain.DriverDutyTypes;
+using MasterDataViagem.Infrastructure.DriverDutyTypes;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -26,6 +28,7 @@ namespace MasterDataViagem.Infrastructure
     public class MDVDbContext : IdentityDbContext<User>
     {
 
+        public DbSet<DriverDutyType> DriverDutyTypes {get; set;}
         public DbSet<ParameterValue> ParameterValues {get; set;}
 
         public DbSet<Tripes> Trips { get; set; }
@@ -71,6 +74,8 @@ namespace MasterDataViagem.Infrastructure
              modelBuilder.ApplyConfiguration(new ParameterValueEntityTypeConfiguration());
              //DriverDuty
             modelBuilder.ApplyConfiguration(new DriverDutyEntityTypeConfiguration());
+            //DriverDutyType
+            modelBuilder.ApplyConfiguration(new DriverDutyTypeEntityTypeConfiguration());
         }
     }
 }
