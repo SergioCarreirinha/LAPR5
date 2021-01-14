@@ -1,0 +1,140 @@
+import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
+import { IDriverDuty } from '../interfaces/IDriverDuty';
+import { DriverDutyService } from '../services/driver-duty/driver-duty.service';
+import { WorkBlockService } from '../services/work-block/work-block.service';
+
+@Component({
+  selector: 'app-driver-duty',
+  templateUrl: './driver-duty.component.html',
+  styleUrls: ['./driver-duty.component.css']
+})
+export class DriverDutyComponent implements OnInit {
+  
+  workBlocks: any[] = [];
+  workBlocksDriverDuty: any[] = [];
+
+  constructor(private workBlockService: WorkBlockService, private DriverDutyService: DriverDutyService) { }
+
+  ngOnInit(): void {
+    this.getWorkBlocks();
+  }
+
+  getWorkBlocks() {
+    this.workBlockService.getWorkBlocks().subscribe(workBlock => this.workBlocks = workBlock);
+  }
+
+  addDriverDuty(key: string, name: string, color: string, type: string) {
+    //VehicleDuty Parameter verification
+    if (!key || !name || !color || !type || this.workBlocksDriverDuty.length === 0) {
+      console.log("Invalid Paramaters. DriverDuty wasn't added");
+
+      Swal.fire({
+        title: 'Warning!',
+        text: "DriverDuty couldn't be added. Invalid Paramaters.",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+      return;
+    }
+
+    let workBlockId: String[] = [];
+
+    for (let workBlockString of this.workBlocksDriverDuty) {
+      workBlockId.push(workBlockString.id);
+    }
+
+
+    this.DriverDutyService.addDriverDuty({
+      key: key,
+      name: name,
+      color: color,
+      type: type,
+      workBlocks: workBlockId
+    } as IDriverDuty)
+      .subscribe((res: any) => {
+        
+          Swal.fire({
+            title: 'Success!',
+            text: 'DriverDuty added',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+          this.workBlocksDriverDuty = [];
+      },
+      err => {
+        console.log(err);
+        if(err.status==400){
+          Swal.fire({
+            title: 'Error!',
+            text: 'There is a DriverDuty with that Key',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      }
+      );
+  }
+
+  addWorkBlock(id: string): void {
+    if (id) {
+      this.workBlockService.getWorkBlockById(id).subscribe(p => {
+        p.isActive = false;
+        this.workBlocksDriverDuty.push(p);
+        this.validateWorkBlock();
+      });
+    } else {
+      Swal.fire({
+        title: 'Warning!',
+        text: "Can't add empty WorkBlock",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    }
+  }
+  validateWorkBlock() {
+    if (this.workBlocksDriverDuty.length === 1) {
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Work Block Added ',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    } else if (this.workBlocksDriverDuty[this.workBlocksDriverDuty.length - 2].endTime == this.workBlocksDriverDuty[this.workBlocksDriverDuty.length - 1].startTime) {
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Work Block Added',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    } else {
+      this.workBlocksDriverDuty.pop();
+      Swal.fire({
+        title: 'Warning!',
+        text: "WorkBlock needs to be contiguous. Please enter a valid workblock.",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    }
+  }
+}

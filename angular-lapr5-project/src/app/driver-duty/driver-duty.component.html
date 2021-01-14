@@ -1,0 +1,68 @@
+<app-navbar></app-navbar>
+<div class="jumbotron">
+    <div class="grid-container">
+        <div class="grid-item">
+            <h2>Criar Serviço de Condutor</h2>
+            <div class="textfield">
+                <label>Chave
+                    <br>
+                    <input name="key" #DriverDutyKey />
+                </label>
+                <br>
+                <label>Nome
+                    <br>
+                    <input  name="name" #DriverDutyName />
+                </label>
+                <br>
+                <label>Cor
+                    <br>
+                    <input name="color" #DriverDutyColor />
+                </label>
+                <br>
+                <label>Type
+                    <br>
+                    <input name="type" #DriverDutyType />
+                </label>
+                <br>
+                <label>Blocos de Trabalho
+                    <br>
+                    <select name="workBlock" #DriverDutyWorkBlock>
+                        <option *ngFor="let workBlock of workBlocks" value={{workBlock.id}}>{{workBlock.key}}
+                        </option>
+                    </select>
+                </label>
+                <br>
+                <button id="DriverDutyWorkblockSubmit" (click)="addWorkBlock(DriverDutyWorkBlock.value);" class="btn btn-primary">
+                    Adicionar Bloco de Trabalho
+                </button>
+                <br>
+                <br>
+                <button id="submit"
+                    (click)="addDriverDuty(DriverDutyKey.value,DriverDutyName.value,DriverDutyColor.value,DriverDutyType.value);"
+                    class="btn btn-primary">
+                    Criar Serviço de Condutor
+                </button>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Blocos de Trabalho Selecionados</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Chave</th>
+                        <th scope="col">Tempo Inicial</th>
+                        <th scope="col">Tempo Final</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let workBlocksDriverDuty of workBlocksDriverDuty">
+                        <td>{{workBlocksDriverDuty.key}}</td>
+                        <td>{{workBlocksDriverDuty.startTime}}</td>
+                        <td>{{workBlocksDriverDuty.endTime}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+    </div>
+</div>
