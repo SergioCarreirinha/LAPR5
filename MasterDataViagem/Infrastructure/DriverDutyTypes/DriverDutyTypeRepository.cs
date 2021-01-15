@@ -17,7 +17,7 @@ namespace MasterDataViagem.Infrastructure.DriverDutyTypes
 
         public bool getByKey(string _key){
             
-            string query= "SELECT [Id] FROM [DriverDutyType] WHERE [key]=@param";
+            string query= "SELECT [Id] FROM [DriverDutyTypes] WHERE [key]=@param";
 
             SqlConnection sc = new SqlConnection(connection);
             sc.Open();

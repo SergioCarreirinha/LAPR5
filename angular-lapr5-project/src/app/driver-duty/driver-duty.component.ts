@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { IDriverDuty } from '../interfaces/IDriverDuty';
+import { DriverDutyTypeService } from '../services/driver-duty-type/driver-duty-type.service';
 import { DriverDutyService } from '../services/driver-duty/driver-duty.service';
 import { WorkBlockService } from '../services/work-block/work-block.service';
 
@@ -13,15 +14,20 @@ export class DriverDutyComponent implements OnInit {
   
   workBlocks: any[] = [];
   workBlocksDriverDuty: any[] = [];
+  driverDutyTypes: any[] = [];
 
-  constructor(private workBlockService: WorkBlockService, private DriverDutyService: DriverDutyService) { }
+  constructor(private workBlockService: WorkBlockService, private DriverDutyService: DriverDutyService,private driverDutyTypeService: DriverDutyTypeService) { }
 
   ngOnInit(): void {
     this.getWorkBlocks();
+    this.getDriverDutyType();
   }
 
   getWorkBlocks() {
-    this.workBlockService.getWorkBlocks().subscribe(workBlock => this.workBlocks = workBlock);
+    this.workBlockService.getWorkBlocks().subscribe(driverDutyType => this.driverDutyTypes = driverDutyType);
+  }
+  getDriverDutyType(){
+    this.driverDutyTypeService.getDriverDutyType().subscribe(workBlock => this.workBlocks = workBlock);
   }
 
   addDriverDuty(key: string, name: string, color: string, type: string) {

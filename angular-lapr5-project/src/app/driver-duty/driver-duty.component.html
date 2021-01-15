@@ -19,9 +19,12 @@
                     <input name="color" #DriverDutyColor />
                 </label>
                 <br>
-                <label>Type
+                <label>Tipo
                     <br>
-                    <input name="type" #DriverDutyType />
+                    <select name="DriverDutyType" #DriverDutyType>
+                        <option *ngFor="let driverDutyType of driverDutyTypes" value={{driverDutyType.id}}>{{driverDutyType.key}}
+                        </option>
+                    </select>
                 </label>
                 <br>
                 <label>Blocos de Trabalho

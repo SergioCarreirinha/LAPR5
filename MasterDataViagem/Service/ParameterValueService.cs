@@ -23,7 +23,7 @@ namespace MasterDataViagem.Service {
 
             List<IParameterValueDTO> listDTO = list.ConvertAll<IParameterValueDTO>( parameter => new IParameterValueDTO
             { 
-                Id = parameter.Id.AsGuid(), 
+                Id = parameter.Id.AsGuid(),
                 key = parameter.key,
                 parameter = parameter.parameter,
                 value = parameter.value
