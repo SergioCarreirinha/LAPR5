@@ -14,17 +14,17 @@ namespace MasterDataViagem.Infrastructure.DriverDuties
            
         }
 
-        public bool getByKey(string keyTest){
+        public bool getByKey(string keyI){
                     
-                    string query= "SELECT Id FROM DriverDuties WHERE key=@keyTest";
+                    string query= "SELECT [Id] FROM [DriverDuties] WHERE [key]=@keyTest";
 
                     SqlConnection sc = new SqlConnection(connection);
                     sc.Open();
 
                     SqlCommand command = new SqlCommand(query,sc);
 
-                    SqlParameter l = new SqlParameter("@key",keyTest);
-                    command.Parameters.Add(l);
+                    SqlParameter l = new SqlParameter("@keyTest",keyI);
+                    command.Parameters.Add(l); 
 
                     string id = (string)command.ExecuteScalar();
 
