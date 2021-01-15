@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterDataViagem.Migrations
 {
     [DbContext(typeof(MDVDbContext))]
-    [Migration("20210114183907_DriverDutyType")]
-    partial class DriverDutyType
+    [Migration("20210114200724_dutytype")]
+    partial class dutytype
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

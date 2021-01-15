@@ -34,7 +34,7 @@ export class UserComponent implements OnInit {
 
   deleteUser() {
     Swal.fire({
-      title: 'Tem a certeza que pretende apagar conta?',
+      title: 'Tem a certeza que pretende apagar a sua conta?',
       text: "Não será possível reverter esta ação!",
       icon: 'warning',
       showCancelButton: true,
@@ -47,7 +47,7 @@ export class UserComponent implements OnInit {
         this.service.deleteUser({ id: localStorage.getItem('id') } as getUser).subscribe();
         Swal.fire({
           title: 'Utilizador Apagado!',
-          text: 'Já não é mais um utilizador da nossa aplicação. Adeus.',
+          text: 'Deixou de ser um utilizador desta aplicação. Adeus.',
           icon: 'success',
           confirmButtonText: 'Ok',
           timer: 3000,
