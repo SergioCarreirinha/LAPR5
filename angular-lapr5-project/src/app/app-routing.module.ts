@@ -10,7 +10,7 @@ import { NodeComponent } from './node/node.component';
 import { CreateNodeComponent } from './node/node.component';
 import { ListPathsComponent, PathComponent } from './path/path.component';
 import { SolutionsComponent } from './solutions/solutions.component';
-import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
+import { VehicleDutyComponent, ListVehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { LoginComponent } from './login/login.component';
@@ -48,6 +48,7 @@ const routes: Routes = [
   { path: 'createLine', component: CreateLineComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createVehicle', component: VehicleComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createvehicleDuty', component: VehicleDutyComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
+  { path: 'listVehicleDuty', component: ListVehicleDutyComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createTrip', component: CreateTripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'listTrip', component: TripComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } }
 ];

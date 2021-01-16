@@ -18,7 +18,7 @@ import { MapComponent } from './map/map.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { DriverComponent } from './driver/driver.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
-import { VehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
+import { VehicleDutyComponent, ListVehicleDutyComponent } from './vehicle-duty/vehicle-duty.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -54,6 +54,7 @@ import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.
     ListPathsComponent,
     VehicleComponent,
     VehicleDutyComponent,
+    ListVehicleDutyComponent,
     LoginComponent,
     RegisterComponent,
     ForbiddenComponent,
