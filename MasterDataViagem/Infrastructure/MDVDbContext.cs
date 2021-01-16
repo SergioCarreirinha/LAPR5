@@ -16,6 +16,10 @@ using MasterDataViagem.Domain.Genetics;
 using MasterDataViagem.Infrastructure.Genetics;
 using MasterDataViagem.Domain.DriverDuties;
 using MasterDataViagem.Infrastructure.DriverDuties;
+using MasterDataViagem.Domain.ParameterValues;
+using MasterDataViagem.Infrastructure.ParameterValues;
+using MasterDataViagem.Domain.DriverDutyTypes;
+using MasterDataViagem.Infrastructure.DriverDutyTypes;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -23,6 +27,9 @@ namespace MasterDataViagem.Infrastructure
 {
     public class MDVDbContext : IdentityDbContext<User>
     {
+
+        public DbSet<DriverDutyType> DriverDutyTypes {get; set;}
+        public DbSet<ParameterValue> ParameterValues {get; set;}
 
         public DbSet<Tripes> Trips { get; set; }
 
@@ -34,12 +41,11 @@ namespace MasterDataViagem.Infrastructure
         
         public DbSet<VehicleDuty> VehicleDuties { get; set; }
 
+        public DbSet<DriverDuty> DriverDuties { get; set; }
+
         public DbSet<WorkBlock> WorkBlocks { get; set; }
 
         public DbSet<Genetic> Genetics { get; set; }
-
-        
-        public DbSet<DriverDuty> DriverDuties { get; set; }
 
         public MDVDbContext(DbContextOptions options) : base(options)
         {
@@ -64,6 +70,12 @@ namespace MasterDataViagem.Infrastructure
             modelBuilder.ApplyConfiguration(new WorkBlockEntityTypeConfiguration());
             //Genetics
             modelBuilder.ApplyConfiguration(new GeneticEntityTypeConfiguration());
+            //ParameterValue
+             modelBuilder.ApplyConfiguration(new ParameterValueEntityTypeConfiguration());
+             //DriverDuty
+            modelBuilder.ApplyConfiguration(new DriverDutyEntityTypeConfiguration());
+            //DriverDutyType
+            modelBuilder.ApplyConfiguration(new DriverDutyTypeEntityTypeConfiguration());
         }
     }
 }

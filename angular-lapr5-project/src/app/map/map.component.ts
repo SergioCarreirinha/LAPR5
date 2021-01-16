@@ -6,8 +6,12 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
+<<<<<<< HEAD
 import { FirstPersonControls } from './threebox-master/src/firstpersoncontrols';
 import { Light } from 'three';
+=======
+import { Light } from './threebox-master/src/three';
+>>>>>>> 65b0e7aca1ae7f3a09f172924f14ef4c7cf03264
 
 
 @Component({
@@ -22,6 +26,9 @@ export class MapComponent implements OnInit {
   paths: any[] = [];
   toggle = false;
   coords: any[] = [];
+
+  linesAdded: any[][] = [];
+  lineRepetitions: number[] = [];
 
   map!: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
@@ -38,8 +45,12 @@ export class MapComponent implements OnInit {
       zoom: 13,
       center: [this.lng, this.lat],
     });
+<<<<<<< HEAD
     this.map.addControl(new PitchToggle({ minpitchzoom: 10 }), 'top-left');
     this.map.addControl(new PitchToggleNavigation({ minpitchzoom: 10 }), 'top-left');
+=======
+    this.map.addControl(new PitchToggle({ minpitchzoom: 10 },this.nodeService,this.map), 'top-left');
+>>>>>>> 65b0e7aca1ae7f3a09f172924f14ef4c7cf03264
 
     this.setArrayPaths();
     // Add map controls
@@ -47,12 +58,14 @@ export class MapComponent implements OnInit {
     this.map.dragRotate.disable();
 
     this.drawNodesAndLines();
-    this.drawBusStop();
-    this.addLight();
+    //this.addLight();
 
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65b0e7aca1ae7f3a09f172924f14ef4c7cf03264
   addLight() {
     let tb: THREEBOX;
     const light = new tb.Light(0xff0000, 1, 100);
@@ -80,7 +93,10 @@ export class MapComponent implements OnInit {
             tb = new THREEBOX(
               map,
               mbxContext,
-              { defaultLights: true }
+              { realSunlight: true,
+                enableSelectingObjects: true, //enable 3D models over/selection
+                enableTooltips: true // enable default tooltips on fill-extrusion and 3D models
+              }
             );
 
             let longitudeAdjustment = 0.001;
@@ -125,51 +141,6 @@ export class MapComponent implements OnInit {
 
     //   }
     // })
-  }
-
-  drawBusStop() {
-
-    this.nodeService.getNodes().subscribe(node => {
-      this.nodes = node;
-
-      let tb: THREEBOX;
-      let map = this.map;
-      let nodesIn = this.nodes;
-
-      map.addLayer({
-        id: 'custom_layer2',
-        type: 'custom',
-        renderingMode: '3d',
-        onAdd: function (map, mbxContext) {
-
-          tb = new THREEBOX(
-            map,
-            mbxContext,
-            { defaultLights: true }
-          );
-
-          for (let point of nodesIn) {
-            var busStop3D = {
-              obj: '../../assets/3DModel/Bus_Stop.obj',
-              mtl: '../../assets/3DModel/Bus_Stop.mtl',
-              scale: 0.01,
-              rotation: { x: 90, y: 180, z: 0 },
-            }
-            let busStop;
-            tb.loadObj(busStop3D, function (model) {
-
-              busStop = model.setCoords([point.longitude, point.latitude, 0]);
-              tb.add(busStop);
-            });
-          }
-        },
-        render: function (gl, matrix) {
-          tb.update();
-        }
-
-      });
-    });
-
   }
 
   setArrayLines() {
@@ -238,11 +209,86 @@ export class MapComponent implements OnInit {
             }
           }
         }
-        this.drawLine(coords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
+        let newCoords = this.lineOverlap(coords);
+        if (coords.length > 0) {
+          this.drawLine(newCoords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
+        }
         coords = [];
       }
     });
   }
+
+  checkIfLineIsAdded(coord: number[]): number {
+    let coordRev = [coord[2], coord[3], coord[0], coord[1]];
+
+    for(let j=0; j<this.linesAdded.length; j++){
+      if(JSON.stringify(this.linesAdded[j])==JSON.stringify(coord) ||
+      JSON.stringify(this.linesAdded[j])==JSON.stringify(coordRev)){
+        return j;
+      }
+    }
+    return -1;
+  }
+
+  lineOverlap(coords: any[]) {
+    let newCoords: number[][]=[];
+    for (let i = 1; i < coords.length; i++) {
+
+      let coord = [coords[i - 1][0], coords[i - 1][1], coords[i][0], coords[i][1]];
+
+      let index = this.checkIfLineIsAdded(coord);
+      if (index<0) {
+        this.linesAdded.push(coord);
+        this.lineRepetitions.push(1);
+
+        newCoords.push([coords[i - 1][0], coords[i - 1][1]]);
+        newCoords.push([coords[i][0], coords[i][1]]);
+      } else {                  //x1        y1       x2        y2
+        let r = this.lineLength(coord[0], coord[1], coord[2], coord[3]);
+
+        let cosBeta = -(coord[3] - coord[1]) / r;
+        let sinBeta = (coord[2] - coord[0]) / r;
+        //distancia entre linhas
+        let d = Math.round(this.lineRepetitions[index]/2) * 0.00015;
+
+        let lat1, long1, lat2, long2;
+
+        if (this.lineRepetitions[index] % 2 == 0) {
+          long1 = (coord[0]) + d * cosBeta;
+          lat1 = (coord[1]) + d * sinBeta;
+ 
+          long2 = (coord[2]) + d * cosBeta;
+          lat2 = (coord[3]) + d * sinBeta;
+
+        } else {
+          long1 = (coord[0]) - d * cosBeta;
+          lat1 = (coord[1]) - d * sinBeta;
+
+          long2 = (coord[2]) - d * cosBeta;
+          lat2 = (coord[3]) - d * sinBeta;
+
+        }
+
+        newCoords.push([long1,lat1]);
+        newCoords.push([long2,lat2])
+
+        this.lineRepetitions[index] += 1;
+      }
+    }
+    return newCoords;
+  }
+
+  lineLength(x1: number, y1: number, x2: number, y2: number): number {
+    let x = x2-x1;
+    let y = y2-y1;
+    return (
+      Math.sqrt(
+                Math.pow(x, 2) +
+                Math.pow(y, 2)
+                )
+    );
+  }
+
   drawLine(coord: Array<any>, name: string, color: string) {
     let tb: THREEBOX;
     this.map.addLayer({
@@ -261,7 +307,6 @@ export class MapComponent implements OnInit {
           color: color, // color based on latitude of endpoint
           width: 3
         }
-        console.log(coord);
 
         let lineMesh = tb.line(lineOptions);
 
@@ -321,10 +366,75 @@ class PitchToggle {
   _btn: HTMLButtonElement;
   _container: HTMLDivElement;
   _bearing: number;
-  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }) {
+  
+  nodes: any[]=[];
+  
+  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, },private nodeService: NodeService, private map:mapboxgl.Map) {
     this._bearing = bearing;
     this._pitch = pitch;
     this._minpitchzoom = minpitchzoom;
+  }
+
+  drawModels() {
+
+    this.nodeService.getNodes().subscribe(node => {
+      this.nodes = node;
+
+      let tb: THREEBOX;
+      let map = this.map;
+      let nodesIn = this.nodes;
+
+      map.addLayer({
+        id: 'custom_layer2',
+        type: 'custom',
+        renderingMode: '3d',
+        onAdd: function (map, mbxContext) {
+
+          tb = new THREEBOX(
+            map,
+            mbxContext,
+            { defaultLights: true }
+          );
+
+          for (let point of nodesIn) {
+            var model;
+            if(point.isDepot === "true"){
+              model = {
+                type: 'gltf',
+                obj: '../../assets/3DModel/Depot_Point.gltf',
+                scale: 0.015,
+                rotation: { x: 90, y: 90, z: 0 },
+              }
+            } else if(point.isReliefPoint === "true"){
+              model = {
+                type: 'gltf',
+                obj: '../../assets/3DModel/Relief_Point.gltf',
+                scale: 0.015,
+                rotation: { x: 90, y: 180, z: 0 },
+              }
+            } else {
+              model = {
+                type: 'gltf',
+                obj: '../../assets/3DModel/Bus_Stop.gltf',
+                scale: 0.01,
+                rotation: { x: 90, y: 180, z: 0 },
+              }
+            }
+            let locatedModel;
+            tb.loadObj(model, function (model) {
+
+              locatedModel = model.setCoords([point.longitude - 0.00025, point.latitude, 0]);
+              tb.add(locatedModel);
+            });
+          }
+        },
+        render: function (gl, matrix) {
+          tb.update();
+        }
+
+      });
+    });
+
   }
 
   onAdd(map) {
@@ -354,6 +464,7 @@ class PitchToggle {
         _this._btn.textContent = "2D";
         toggle = true;
         map.dragRotate.enable();
+        _this.drawModels();
 
         map.addLayer(
           {
@@ -394,6 +505,7 @@ class PitchToggle {
       else {
         _this._btn.textContent = "3D";
         map.removeLayer('3d-buildings');
+        map.removeLayer('custom_layer2');
         map.dragRotate.disable();
         toggle = false;
       }

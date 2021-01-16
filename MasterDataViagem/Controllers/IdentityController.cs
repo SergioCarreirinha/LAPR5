@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using MasterDataViagem.Domain.RegisterUser;
@@ -10,15 +11,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using MasterDataViagem.DTO;
 using Microsoft.IdentityModel.Tokens;
 
-namespace MasterDataViagem.Controllers {
-    
+namespace MasterDataViagem.Controllers
+{
+
     public class IdentityController : ControllerBase
-    {   
+    {
         private readonly UserManager<User> userManager;
         private readonly ApplicationSettings appSettings;
-        
+
         public IdentityController(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings)
         {
             this.userManager = userManager;
@@ -26,24 +29,27 @@ namespace MasterDataViagem.Controllers {
         }
 
         [Route(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody]RegisterUser model){
+        public async Task<IActionResult> Register([FromBody] RegisterUser model)
+        {
             var succeeded = true;
-            var user = new User{
+            var user = new User
+            {
                 Email = model.Email,
                 UserName = model.UserName
             };
-            
+
             var result = await this.userManager.CreateAsync(user, model.Password);
             await this.userManager.AddToRoleAsync(user, "Client");
-            if(result.Succeeded){
-                return Ok(new {succeeded});
+            if (result.Succeeded)
+            {
+                return Ok(new { succeeded });
             }
 
             return BadRequest(result.Errors);
         }
 
         [Route(nameof(Login))]
-        public async Task<ActionResult<Token>> Login([FromBody]LoginUser model)
+        public async Task<ActionResult<Token>> Login([FromBody] LoginUser model)
         {
             var user = await userManager.FindByNameAsync(model.UserName);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
@@ -69,6 +75,35 @@ namespace MasterDataViagem.Controllers {
             }
             else
                 return BadRequest(new { message = "Username or password is incorrect." });
+        }
+
+        [Route(nameof(Delete))]
+        [Authorize]
+        public async Task<ActionResult<UserDTO>> Delete([FromBody] InputUserDTO iUser)
+        {
+            var user = await userManager.FindByIdAsync(iUser.Id);
+            await userManager.DeleteAsync(user);
+
+            return new UserDTO
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+            };
+        }
+
+        [Route(nameof(User))]
+        [Authorize]
+        public async Task<ActionResult<UserDTO>> GetClientData([FromBody] InputUserDTO iUser)
+        {
+            var user = await userManager.FindByIdAsync(iUser.Id);
+
+            return new UserDTO
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+            };
         }
     }
 }

@@ -33,6 +33,8 @@ import { WorkBlockComponent } from './work-block/work-block.component';
 import { TripComponent, CreateTripComponent } from './trip/trip.component';
 import { PassingTimeComponent, CreatePassingTimeComponent } from './passing-time/passing-time.component';
 import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.component';
+import { UserComponent } from './user/user.component';
+import { DriverDutyComponent } from './driver-duty/driver-duty.component';
 
 
 @NgModule({
@@ -67,7 +69,9 @@ import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.
     PassingTimeComponent,
     CreatePassingTimeComponent,
     CreateTripComponent,
-    PlanningSprintCComponent
+    PlanningSprintCComponent,
+    UserComponent,
+    DriverDutyComponent
   ],
   imports: [
     BrowserModule,

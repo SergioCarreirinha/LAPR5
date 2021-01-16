@@ -1,0 +1,14 @@
+<app-clientnavbar></app-clientnavbar>
+<div class="jumbotron">
+    <h2>Perfil de Utilizador</h2>
+    <div class="card" style="width: 18rem; margin: auto;">
+        <div class="card-body">
+            <h4 class="card-title">{{username}}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{email}}</h6>
+            <br>
+            <p class="card-text">Bem-vindo {{username}}, à sua página de perfil.</p>
+            <br>
+            <button class="btn btn-danger" (click)="deleteUser()" style="float: right;"> Apagar Utilizador </button>
+        </div>
+    </div>
+</div>

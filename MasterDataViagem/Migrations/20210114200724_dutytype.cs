@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MasterDataViagem.Migrations
 {
-    public partial class genetics : Migration
+    public partial class dutytype : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,34 @@ namespace MasterDataViagem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DriverDuties",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DriverDuties", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DriverDutyTypes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DriverDutyTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,6 +238,27 @@ namespace MasterDataViagem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ParameterValues",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    parameter = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DriverDutyTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ParameterValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ParameterValues_DriverDutyTypes_DriverDutyTypeId",
+                        column: x => x.DriverDutyTypeId,
+                        principalTable: "DriverDutyTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Population",
                 columns: table => new
                 {
@@ -240,11 +289,18 @@ namespace MasterDataViagem.Migrations
                     endNode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isCrewTravelTime = table.Column<bool>(type: "bit", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
+                    DriverDutyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     VehicleDutyId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkBlocks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkBlocks_DriverDuties_DriverDutyId",
+                        column: x => x.DriverDutyId,
+                        principalTable: "DriverDuties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_WorkBlocks_VehicleDuties_VehicleDutyId",
                         column: x => x.VehicleDutyId,
@@ -340,6 +396,11 @@ namespace MasterDataViagem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ParameterValues_DriverDutyTypeId",
+                table: "ParameterValues",
+                column: "DriverDutyTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PassingTimes_TripesId",
                 table: "PassingTimes",
                 column: "TripesId");
@@ -353,6 +414,11 @@ namespace MasterDataViagem.Migrations
                 name: "IX_Trips_WorkBlockId",
                 table: "Trips",
                 column: "WorkBlockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkBlocks_DriverDutyId",
+                table: "WorkBlocks",
+                column: "DriverDutyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkBlocks_VehicleDutyId",
@@ -381,6 +447,9 @@ namespace MasterDataViagem.Migrations
                 name: "Drivers");
 
             migrationBuilder.DropTable(
+                name: "ParameterValues");
+
+            migrationBuilder.DropTable(
                 name: "PassingTimes");
 
             migrationBuilder.DropTable(
@@ -396,6 +465,9 @@ namespace MasterDataViagem.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "DriverDutyTypes");
+
+            migrationBuilder.DropTable(
                 name: "Trips");
 
             migrationBuilder.DropTable(
@@ -403,6 +475,9 @@ namespace MasterDataViagem.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkBlocks");
+
+            migrationBuilder.DropTable(
+                name: "DriverDuties");
 
             migrationBuilder.DropTable(
                 name: "VehicleDuties");
