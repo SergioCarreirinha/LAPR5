@@ -23,7 +23,7 @@ namespace MasterDataViagem.Service
         }
 
         public async Task<List<IVehicleDutyDTO>> Get(){
-            var list = await this._repo.GetAllAsync();
+            var list = await this._repo.getAllVehicleDuty();
 
             List<IVehicleDutyDTO> listDTO = list.ConvertAll<IVehicleDutyDTO>( vehicleDuty => new IVehicleDutyDTO{ 
                 Id = vehicleDuty.Id.AsGuid(), 
@@ -33,7 +33,7 @@ namespace MasterDataViagem.Service
                 depots = vehicleDuty.depots,
                 WorkBlocks = vehicleDuty.WorkBlocks
             });
-            
+
             return listDTO;
         }
         public async Task<IVehicleDutyDTO> GetById(VehicleDutyId id){

@@ -16,7 +16,7 @@ export class DriverDutyComponent implements OnInit {
   workBlocksDriverDuty: any[] = [];
   driverDutyTypes: any[] = [];
 
-  constructor(private workBlockService: WorkBlockService, private DriverDutyService: DriverDutyService,private driverDutyTypeService: DriverDutyTypeService) { }
+  constructor(private workBlockService: WorkBlockService, private driverDutyService: DriverDutyService,private driverDutyTypeService: DriverDutyTypeService) { }
 
   ngOnInit(): void {
     this.getWorkBlocks();
@@ -24,14 +24,15 @@ export class DriverDutyComponent implements OnInit {
   }
 
   getWorkBlocks() {
-    this.workBlockService.getWorkBlocks().subscribe(driverDutyType => this.driverDutyTypes = driverDutyType);
+    this.workBlockService.getWorkBlocks().subscribe(workBlock => this.workBlocks = workBlock);
   }
   getDriverDutyType(){
-    this.driverDutyTypeService.getDriverDutyType().subscribe(workBlock => this.workBlocks = workBlock);
+    this.driverDutyTypeService.getDriverDutyType().subscribe(driverDutyType => this.driverDutyTypes = driverDutyType);
   }
 
   addDriverDuty(key: string, name: string, color: string, type: string) {
-    //VehicleDuty Parameter verification
+    console.log(key);
+    //DriverDuty Parameter verification
     if (!key || !name || !color || !type || this.workBlocksDriverDuty.length === 0) {
       console.log("Invalid Paramaters. DriverDuty wasn't added");
 
@@ -52,9 +53,7 @@ export class DriverDutyComponent implements OnInit {
     for (let workBlockString of this.workBlocksDriverDuty) {
       workBlockId.push(workBlockString.id);
     }
-
-
-    this.DriverDutyService.addDriverDuty({
+    this.driverDutyService.addDriverDuty({
       key: key,
       name: name,
       color: color,
@@ -62,7 +61,7 @@ export class DriverDutyComponent implements OnInit {
       workBlocks: workBlockId
     } as IDriverDuty)
       .subscribe((res: any) => {
-        
+        console.log(res+"HER");
           Swal.fire({
             title: 'Success!',
             text: 'DriverDuty added',
@@ -95,6 +94,7 @@ export class DriverDutyComponent implements OnInit {
         p.isActive = false;
         this.workBlocksDriverDuty.push(p);
         this.validateWorkBlock();
+        console.log(p);
       });
     } else {
       Swal.fire({

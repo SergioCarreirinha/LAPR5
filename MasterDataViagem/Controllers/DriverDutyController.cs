@@ -46,7 +46,7 @@ namespace MasterDataViagem.Controllers {
         // POST: api/DriverDuty
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<IDriverDutyDTO>> Create(IDriverDutyDTO dto)
+        public async Task<ActionResult<IDriverDutyDTO>> Create(CDriverDutyDTO dto)
         {
             string error = "erro";
             var cat = await _service.Create(dto);

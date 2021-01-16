@@ -1,3 +1,5 @@
+import { IWorkBlock } from "./IWorkBlock";
+
 export interface IDriverDuty {
     key: string;
     name: string;

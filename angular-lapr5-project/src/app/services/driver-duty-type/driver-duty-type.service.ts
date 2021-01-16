@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DriverDutyTypeService {
-  driverDutyTypeURL = environment.url.mdr + 'api/driverDutyType';
+  driverDutyTypeURL = environment.url.mdv + 'api/driverDutyType';
   
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

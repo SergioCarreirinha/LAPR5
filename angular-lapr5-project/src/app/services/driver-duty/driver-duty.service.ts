@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DriverDutyService {
 
-  private DriverDutyURL = environment.url.mdv + 'api/DriverDuties';
+  private DriverDutyURL = environment.url.mdv + 'api/DriverDuty';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,7 +22,7 @@ export class DriverDutyService {
   getDriverDuty(): Observable<IDriverDuty[]> {
     return this.http.get<IDriverDuty[]>(this.DriverDutyURL);
   }
-  addDriverDuty(driverDuty: IDriverDuty): Observable<IDriverDuty> {
-    return this.http.post<IDriverDuty>(this.DriverDutyURL, driverDuty, this.httpOptions);
+  addDriverDuty(value: IDriverDuty): Observable<IDriverDuty> {
+    return this.http.post<IDriverDuty>(this.DriverDutyURL, value);
   }
 }

@@ -6,8 +6,8 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
+import { FirstPersonControls } from './threebox-master/src/firstpersoncontrols';
 import { Light } from './threebox-master/src/three';
-
 
 @Component({
   selector: 'app-map',
@@ -40,6 +40,8 @@ export class MapComponent implements OnInit {
       zoom: 13,
       center: [this.lng, this.lat],
     });
+
+    this.map.addControl(new PitchToggleNavigation({ minpitchzoom: 10 }), 'top-left');
     this.map.addControl(new PitchToggle({ minpitchzoom: 10 },this.nodeService,this.map), 'top-left');
 
     this.setArrayPaths();
@@ -51,7 +53,7 @@ export class MapComponent implements OnInit {
     //this.addLight();
 
   }
-
+  
   addLight() {
     let tb: THREEBOX;
     const light = new tb.Light(0xff0000, 1, 100);
@@ -509,3 +511,166 @@ class PitchToggle {
     this._map = undefined;
   }
 }
+
+//retirado de https://codepen.io/roblabs/pen/zJjPzX
+class PitchToggleNavigation {
+
+  _pitch: number;
+  _minpitchzoom: any;
+  _map: any;
+  _btn: HTMLButtonElement;
+  _container: HTMLDivElement;
+  _bearing: number;
+  
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, .1, 1000);
+  renderer = new THREE.WebGLRenderer();
+
+constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }) {
+  this._bearing = bearing;
+  this._pitch = pitch;
+  this._minpitchzoom = minpitchzoom;
+}
+
+onAdd(map) {
+  this._map = map;
+  let _this = this;
+  let toggle = false;
+  let renderer=this.renderer;
+  let camera=this.camera;
+  let scene=this.scene;
+
+
+  this._btn = document.createElement("button");
+  this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+  this._btn.type = "button";
+  this._btn.textContent = "1P";
+  this._btn.onclick = function () {
+
+    if (map.getPitch() === 0) {
+      let options = { pitch: _this._pitch, bearing: _this._bearing };
+      map.easeTo(options);
+      _this._btn.className =
+        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+    } else {
+      /* map.easeTo({ pitch: 0, bearing: 0 });
+      _this._btn.className =
+        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d"; */
+
+      let controls = {};
+      let player = {
+        height: .5,
+        turnSpeed: .1,
+        speed: .1,
+        gravity: .01,
+        velocity: 0,
+
+        playerJumps: false
+      };
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      document.body.appendChild(renderer.domElement);
+
+      // BrowserWindow->Renderer:ResizeRe-Render
+      window.addEventListener('resize', () => {
+        let w = window.innerWidth,
+          h = window.innerHeight;
+
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      });
+
+      // Camera:Setup
+      camera.position.set(0, player.height, -5);
+      camera.lookAt(new THREE.Vector3(0, player.height, 0));
+
+      // Controls:Listeners
+      document.addEventListener('keydown', ({ keyCode }) => { controls[keyCode] = true });
+      document.addEventListener('keyup', ({ keyCode }) => { controls[keyCode] = false });
+
+      // ...
+      function control() {
+        // Controls:Engine 
+        if (controls[87]) { // w
+          camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
+          camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
+        }
+        if (controls[83]) { // s
+          camera.position.x += Math.sin(camera.rotation.y) * player.speed;
+          camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
+        }
+        if (controls[65]) { // a
+          camera.position.x += Math.sin(camera.rotation.y + Math.PI / 2) * player.speed;
+          camera.position.z += -Math.cos(camera.rotation.y + Math.PI / 2) * player.speed;
+        }
+        if (controls[68]) { // d
+          camera.position.x += Math.sin(camera.rotation.y - Math.PI / 2) * player.speed;
+          camera.position.z += -Math.cos(camera.rotation.y - Math.PI / 2) * player.speed;
+        }
+        if (controls[37]) { // la
+          camera.rotation.y -= player.turnSpeed;
+        }
+        if (controls[39]) { // ra
+          camera.rotation.y += player.turnSpeed;
+        }
+      }
+
+      function ixMovementUpdate() {
+        player.velocity += player.gravity;
+        camera.position.y -= player.velocity;
+
+        if (camera.position.y < player.height) {
+          camera.position.y = player.height;
+        }
+      }
+
+      function update() {
+        control();
+        ixMovementUpdate();
+      }
+
+      function render() {
+        renderer.render(scene, camera);
+      }
+
+      function loop() {
+        requestAnimationFrame(loop);
+        update();
+        render();
+      }
+
+      loop();
+    }
+
+    //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
+    if (!toggle) {
+      _this._btn.textContent = "NM";
+      toggle = true;
+      map.dragRotate.enable();
+    }
+    else {
+      _this._btn.textContent = "1P";
+      map.removeLayer('3d-buildings');
+      map.dragRotate.disable();
+      toggle = false;
+    }
+  };
+
+  this._container = document.createElement("div");
+  this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+  this._container.appendChild(this._btn);
+
+  return this._container;
+}
+
+onRemove() {
+  this._container.parentNode.removeChild(this._container);
+  this._map = undefined;
+}
+}
+
+
+

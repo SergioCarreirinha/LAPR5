@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+<div class="jumbotron">
+  <h2>Serviço de Viatura</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Chave</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Cor</th>
+        <th scope="col">Depósitos</th>
+        <th scope="col">Blocos de Trabalho</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let VehicleDuty of vehicleDuties">
+        <td>{{VehicleDuty.key}}</td>
+        <td>{{VehicleDuty.name}}</td>
+        <td>{{VehicleDuty.color}}</td>
+        <td>{{VehicleDuty.depots}}</td>
+        <td>{{VehicleDuty.workBlocks}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
