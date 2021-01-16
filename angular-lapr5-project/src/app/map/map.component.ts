@@ -6,13 +6,8 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
-<<<<<<< HEAD
 import { FirstPersonControls } from './threebox-master/src/firstpersoncontrols';
-import { Light } from 'three';
-=======
 import { Light } from './threebox-master/src/three';
->>>>>>> 65b0e7aca1ae7f3a09f172924f14ef4c7cf03264
-
 
 @Component({
   selector: 'app-map',
@@ -45,12 +40,9 @@ export class MapComponent implements OnInit {
       zoom: 13,
       center: [this.lng, this.lat],
     });
-<<<<<<< HEAD
-    this.map.addControl(new PitchToggle({ minpitchzoom: 10 }), 'top-left');
+
     this.map.addControl(new PitchToggleNavigation({ minpitchzoom: 10 }), 'top-left');
-=======
     this.map.addControl(new PitchToggle({ minpitchzoom: 10 },this.nodeService,this.map), 'top-left');
->>>>>>> 65b0e7aca1ae7f3a09f172924f14ef4c7cf03264
 
     this.setArrayPaths();
     // Add map controls
@@ -61,11 +53,7 @@ export class MapComponent implements OnInit {
     //this.addLight();
 
   }
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 65b0e7aca1ae7f3a09f172924f14ef4c7cf03264
+  
   addLight() {
     let tb: THREEBOX;
     const light = new tb.Light(0xff0000, 1, 100);
