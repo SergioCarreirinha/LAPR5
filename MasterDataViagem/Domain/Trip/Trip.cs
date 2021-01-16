@@ -34,7 +34,6 @@ namespace MasterDataViagem.Domain.Trip {
         public Tripes(string _id){
             this.Id = new TripId(_id);
         }
-
         protected Tripes() {
             //ORM
         }

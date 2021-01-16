@@ -48,7 +48,7 @@ namespace MasterDataViagem.Service
         {
             var obj = new DriverDutyType(driverDutyType.key, driverDutyType.name, driverDutyType.parameters);
 
-            if (!this._repo.getByKey(driverDutyType.key)) {
+            if (!(await this._repo.getByKey(driverDutyType.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();

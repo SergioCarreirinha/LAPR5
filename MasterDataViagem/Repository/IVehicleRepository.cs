@@ -1,13 +1,14 @@
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.Vehicle;
+using System.Threading.Tasks;
 
 namespace MasterDataViagem.Repository
 {
     public interface IVehicleRepository: IRepository<Vehicle, VehicleId>
     {
 
-         bool verifyVehicleByLicensePlate(string licensePlate);
+         Task<bool> verifyVehicleByLicensePlate(string licensePlate);
 
-         bool verifyVehicleByVin(string vin);
+         Task<bool> verifyVehicleByVin(string vin);
     }
 }

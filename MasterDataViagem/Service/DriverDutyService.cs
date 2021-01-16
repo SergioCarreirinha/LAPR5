@@ -53,7 +53,7 @@ namespace MasterDataViagem.Service
         {
             var obj = new DriverDuty(driverDuty.key, driverDuty.name, driverDuty.color, driverDuty.type, driverDuty.workBlocks);
 
-            if (!this._repo.getByKey(driverDuty.key)) {
+            if (!(await this._repo.getByKey(driverDuty.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
@@ -69,6 +69,24 @@ namespace MasterDataViagem.Service
             }else {
                 return null;
             }
+        }
+
+        public async Task<IDriverDutyDTO> CreateWithoutVerifications(IDriverDutyDTO driverDuty)
+        {
+            var obj = new DriverDuty(driverDuty.key, driverDuty.name, driverDuty.color, driverDuty.type, driverDuty.workBlocks);
+
+            await this._repo.AddAsync(obj);
+
+            await this._unitOfWork.CommitAsync();
+
+            return new IDriverDutyDTO{ 
+                Id = obj.Id.AsGuid(),
+                key = obj.key,
+                name = obj.name,
+                color = obj.color,
+                type = obj.type,
+                workBlocks = obj.workBlocks
+            };
         }
 
         public async Task<IDriverDutyDTO> DeleteAsync(DriverDutyId id)

@@ -1,10 +1,11 @@
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.DriverDuties;
+using System.Threading.Tasks; 
 
 namespace MasterDataViagem.Repository
 {
     public interface IDriverDutyRepository : IRepository<DriverDuty, DriverDutyId>
     {
-        bool getByKey(string key);
+        Task<bool> getByKey(string key);
     }
 }

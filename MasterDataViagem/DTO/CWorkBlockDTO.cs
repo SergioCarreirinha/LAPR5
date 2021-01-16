@@ -21,7 +21,7 @@ namespace MasterDataViagem.DTO
 
         public Boolean isActive { get; set; }
 
-        public List<String> trips { get; set; }
+        public List<string> trips { get; set; }
 
     }
 }

@@ -149,6 +149,8 @@ namespace MasterDataViagem
             //DriverDutyType
             services.AddTransient<IDriverDutyTypeRepository,DriverDutyTypeRepository>();
             services.AddTransient<DriverDutyTypeService>();
+            //FileUpload
+            services.AddTransient<FileUploadService>();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)

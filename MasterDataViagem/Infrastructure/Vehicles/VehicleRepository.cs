@@ -1,57 +1,41 @@
 using MasterDataViagem.Domain.Vehicle;
 using MasterDataViagem.Infrastructure.Shared;
 using MasterDataViagem.Repository;
-
-using System.Data.SqlClient;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MasterDataViagem.Infrastructure.Vehicles
 {
 
     public class VehicleRepository : BaseRepository<Vehicle, VehicleId>, IVehicleRepository
     {
-        string connection = "Server=tcp:mdv-g25-db.database.windows.net,1433;Initial Catalog=database;Persist Security Info=False;User ID=dbuser;Password=Grupo25,.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;";
+        private readonly DbSet<Vehicle> _db;
         
         public VehicleRepository(MDVDbContext context):base(context.Vehicles)
         {
-          
+            this._db = context.Vehicles;
         }
 
-        public bool verifyVehicleByLicensePlate(string licensePlate){
-            string query= "SELECT Id FROM Vehicles WHERE licensePlate=@licensePlate";
+        public async Task<bool> verifyVehicleByLicensePlate(string licensePlate){
+            
+            string query= $"SELECT Id FROM Vehicles WHERE licensePlate='{licensePlate}'";
 
-            SqlConnection sc = new SqlConnection(connection);
-            sc.Open();
-
-            SqlCommand command = new SqlCommand(query,sc);
-
-            SqlParameter lp = new SqlParameter("@licensePlate",licensePlate);
-            command.Parameters.Add(lp);
-
-            string id = (string)command.ExecuteScalar();
-
-            sc.Close();
-            if(id==null){
+            var list = await this._db.FromSqlRaw(query).ToListAsync();
+            
+            if(list[0].Id==null){
                 return false;
             }else{
                 return true;
             }
         }
 
-        public bool verifyVehicleByVin(string vin){
-            string query= "SELECT Id FROM Vehicles WHERE vin=@vin";
+        public async Task<bool> verifyVehicleByVin(string vin){
 
-            SqlConnection sc = new SqlConnection(connection);
-            sc.Open();
+            string query= $"SELECT Id FROM Vehicles WHERE vin='{vin}'";
 
-            SqlCommand command = new SqlCommand(query,sc);
-
-            SqlParameter lp = new SqlParameter("@vin",vin);
-            command.Parameters.Add(lp);
-
-            string id = (string)command.ExecuteScalar();
-
-            sc.Close();
-            if(id==null){
+            var list = await this._db.FromSqlRaw(query).ToListAsync();
+            
+            if(list[0].Id==null){
                 return false;
             }else{
                 return true;

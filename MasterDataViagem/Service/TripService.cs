@@ -75,7 +75,7 @@ namespace MasterDataViagem.Service
 
             var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated, passingTimeList);
 
-            if (!this._repo.getByKey(trip.key)) {
+            if (!(await this._repo.getByKey(trip.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
@@ -93,6 +93,27 @@ namespace MasterDataViagem.Service
             } else {
                 return null;
             }
+        }
+
+        public async Task<ITripDTO> CreateWithoutVerifications(ITripDTO trip)
+        {   
+
+            var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated, trip.PassingTimes);
+
+            await this._repo.AddAsync(obj);
+
+            await this._unitOfWork.CommitAsync();
+
+            return new ITripDTO{ 
+                Id = obj.Id.AsGuid(), 
+                key = obj.key, 
+                IsEmpty = obj.IsEmpty,
+                Orientation = obj.Orientation,
+                Line = obj.Line,
+                Path = obj.Path, 
+                IsGenerated = obj.IsGenerated,
+                PassingTimes = trip.PassingTimes
+            };
         }
 
         public async Task<ITripDTO> DeleteAsync(TripId id)

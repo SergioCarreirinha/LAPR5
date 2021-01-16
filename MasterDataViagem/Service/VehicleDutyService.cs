@@ -71,7 +71,7 @@ namespace MasterDataViagem.Service
 
             var obj = new VehicleDuty(dto.key, dto.name, dto.color, dto.depots, workBlockList);
 
-            if (!this._repo.verifyVehicleDutyKey(dto.key)) {
+            if (!(await this._repo.verifyVehicleDutyKey(dto.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
@@ -88,6 +88,25 @@ namespace MasterDataViagem.Service
             }else{
                 return null;
             }
+        }
+
+        public async Task<IVehicleDutyDTO> CreateWithoutVerifications(IVehicleDutyDTO dto)
+        {
+
+            var obj = new VehicleDuty(dto.key, dto.name, dto.color, dto.depots, dto.WorkBlocks);
+
+            await this._repo.AddAsync(obj);
+
+            await this._unitOfWork.CommitAsync();
+
+            return new IVehicleDutyDTO{ 
+                Id = obj.Id.AsGuid(),
+                key = obj.key,
+                name = obj.name,
+                color = obj.color,
+                depots = obj.depots,
+                WorkBlocks = obj.WorkBlocks
+            };
         }
 
         public async Task<IVehicleDutyDTO> DeleteAsync(VehicleDutyId id)

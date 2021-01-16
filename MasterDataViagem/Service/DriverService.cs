@@ -51,7 +51,7 @@ namespace MasterDataViagem.Service
         {
             var obj = new Driver(driver.name, driver.birthdate, driver.driverLicenseNum, driver.licenseExpiration /*,driver.driverTypes*/);
 
-            if (!this._repo.getByLicense(driver.driverLicenseNum)) {
+            if (!(await this._repo.getByLicense(driver.driverLicenseNum))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();

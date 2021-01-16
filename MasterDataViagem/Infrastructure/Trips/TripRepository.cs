@@ -1,41 +1,48 @@
 using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Infrastructure.Shared;
 using MasterDataViagem.Repository;
-using System.Data.SqlClient;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace MasterDataViagem.Infrastructure.Trips
 {
     public class TripRepository : BaseRepository<Tripes, TripId>, ITripRepository
     {
         
-        string connection = "Server=tcp:mdv-g25-db.database.windows.net,1433;Initial Catalog=database;Persist Security Info=False;User ID=dbuser;Password=Grupo25,.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;";
+        private readonly DbSet<Tripes> _db;
 
         public TripRepository(MDVDbContext context):base(context.Trips)
         {
-           
+           this._db = context.Trips;
         }
 
 
-        public bool getByKey(string _key){
+        public async Task<bool> getByKey(string _key){
             
-            string query= "SELECT [Id] FROM [Trips] WHERE [key]=@param";
+            string query = $"SELECT * FROM [Trips] WHERE [key] ='{_key}'";
 
-            SqlConnection sc = new SqlConnection(connection);
-            sc.Open();
-
-            SqlCommand command = new SqlCommand(query,sc);
-
-            SqlParameter l = new SqlParameter("@param",_key);
-            command.Parameters.Add(l);
-
-            string id = (string)command.ExecuteScalar();
-
-            sc.Close();
-            if(id==null){
+            var list = await this._db.FromSqlRaw(query).ToListAsync();
+            
+            if(list[0].Id == null){
                 return false;
             }else{
                 return true;
             }
+        }
+
+        public async Task<Tripes> getTripByKey(string _key)
+        {
+
+            string query = $"SELECT * FROM [Trips] WHERE [key] ='{_key}'";
+
+            List<Tripes> list = await this._db.FromSqlRaw(query).ToListAsync();
+            if(list.Count > 0) {
+                return list[0];
+            } else {
+                return null;
+            }
+           
         }
 
     }

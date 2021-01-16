@@ -1,10 +1,11 @@
 using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.ParameterValues;
+using System.Threading.Tasks;
 
 namespace MasterDataViagem.Repository
 {
     public interface IParameterValueRepository : IRepository<ParameterValue, ParameterValueId>
     {
-        bool getByKey(string key);
+        Task<bool> getByKey(string key);
     }
 }

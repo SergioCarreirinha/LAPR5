@@ -1,37 +1,27 @@
 using MasterDataViagem.Domain.Driver;
 using MasterDataViagem.Infrastructure.Shared;
 using MasterDataViagem.Repository;
-using System.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MasterDataViagem.Infrastructure.Drivers
 {
     public class DriverRepository : BaseRepository<Driver, DriverId>, IDriverRepository
     {
 
-    string connection = "Server=tcp:mdv-g25-db.database.windows.net,1433;Initial Catalog=database;Persist Security Info=False;User ID=dbuser;Password=Grupo25,.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;";
-
-    
+        private readonly DbSet<Driver> _db;
         public DriverRepository(MDVDbContext context):base(context.Drivers)
         {
-           
+           this._db = context.Drivers;
         }
 
-        public bool getByLicense(int number){
+        public async Task<bool> getByLicense(int number){
             
-            string query= "SELECT Id FROM Drivers WHERE driverLicenseNum=@license";
+            string query= $"ELECT Id FROM Drivers WHERE driverLicenseNum='{number}'";
 
-            SqlConnection sc = new SqlConnection(connection);
-            sc.Open();
-
-            SqlCommand command = new SqlCommand(query,sc);
-
-            SqlParameter l = new SqlParameter("@license",number);
-            command.Parameters.Add(l);
-
-            string id = (string)command.ExecuteScalar();
-
-            sc.Close();
-            if(id==null){
+            var list = await this._db.FromSqlRaw(query).ToListAsync();
+            
+            if(list[0].Id == null){
                 return false;
             }else{
                 return true;

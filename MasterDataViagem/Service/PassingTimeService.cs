@@ -54,7 +54,7 @@ namespace MasterDataViagem.Service {
         {
             var obj = new PassingTime(times.key, times.Time, times.Node, times.IsUsed, times.IsReliefPoint);
 
-            if (!this._repo.getByKey(times.key)) {
+            if (!(await this._repo.getByKey(times.key))) {
 
                 await this._repo.AddAsync(obj);
 
@@ -72,6 +72,25 @@ namespace MasterDataViagem.Service {
             } else {
                 return null;
             }
+        }
+
+        public async Task<IPassingTimeDTO> CreateWithoutVerifications(IPassingTimeDTO times)
+        {
+            var obj = new PassingTime(times.key, times.Time, times.Node, times.IsUsed, times.IsReliefPoint);
+
+            await this._repo.AddAsync(obj);
+
+            await this._unitOfWork.CommitAsync();
+
+            return new IPassingTimeDTO
+            {
+                Id = obj.Id.AsGuid(),
+                key = obj.key,
+                Time = obj.Time,
+                Node = obj.Node,
+                IsUsed = obj.IsUsed,
+                IsReliefPoint = obj.IsReliefPoint
+            };
         }
 
         public async Task<IPassingTimeDTO> DeleteAsync(PassingTimeId id)

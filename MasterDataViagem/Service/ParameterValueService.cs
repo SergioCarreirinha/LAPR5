@@ -50,7 +50,7 @@ namespace MasterDataViagem.Service {
         {
             var obj = new ParameterValue(parameter.key, parameter.parameter, parameter.value);
 
-            if (!this._repo.getByKey(parameter.key)) {
+            if (!(await this._repo.getByKey(parameter.key))) {
 
                 await this._repo.AddAsync(obj);
 
