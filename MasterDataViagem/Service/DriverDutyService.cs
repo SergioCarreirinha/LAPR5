@@ -5,18 +5,21 @@ using System;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.DriverDuties;
+using MasterDataViagem.Domain.WorkBlocks;
 
 namespace MasterDataViagem.Service
 {
     public class DriverDutyService
     {
         private readonly IDriverDutyRepository _repo;
+        private readonly IWorkBlockRepository _repoWb;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DriverDutyService(IDriverDutyRepository repo, IUnitOfWork unitOfWork)
+        public DriverDutyService(IDriverDutyRepository repo,IWorkBlockRepository repoWb, IUnitOfWork unitOfWork)
         {
             this._repo = repo;
             this._unitOfWork = unitOfWork;
+            this._repoWb = repoWb;
         }
 
         public async Task<List<IDriverDutyDTO>> Get(){
@@ -46,14 +49,26 @@ namespace MasterDataViagem.Service
                 color = driverDuty.color,
                 type = driverDuty.type,
                 workBlocks = driverDuty.workBlocks
-
             };
         }
-        public async Task<IDriverDutyDTO> Create(IDriverDutyDTO driverDuty)
+            public async Task<IDriverDutyDTO> Create(CDriverDutyDTO dto)
         {
-            var obj = new DriverDuty(driverDuty.key, driverDuty.name, driverDuty.color, driverDuty.type, driverDuty.workBlocks);
+            List<WorkBlock> workBlockList=new List<WorkBlock>(); 
+            foreach (var wb in dto.workBlocks)
+            {
 
-            if (!this._repo.getByKey(driverDuty.key)) {
+                if (wb != null)
+                {
+                    Console.Write(wb);
+                    WorkBlock workBlock = new WorkBlock(wb);
+                    WorkBlock l = this._repoWb.GetByIdAsync(workBlock.Id).Result;
+                    workBlockList.Add(l);
+
+                }
+            }
+            var obj = new DriverDuty(dto.key, dto.name, dto.color, dto.type, workBlockList);
+
+            if (!this._repo.getByKey(dto.key)) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
@@ -66,7 +81,8 @@ namespace MasterDataViagem.Service
                     type = obj.type,
                     workBlocks = obj.workBlocks
                 };
-            }else {
+            
+            }else{
                 return null;
             }
         }
