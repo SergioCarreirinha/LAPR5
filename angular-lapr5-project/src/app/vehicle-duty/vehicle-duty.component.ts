@@ -15,7 +15,6 @@ export class VehicleDutyComponent implements OnInit {
 
   workBlocks: any[] = [];
   workBlocksVehicleDuty: any[] = [];
-  vehicleDuty: IVehicleDuty[] = [];
   workBlockId: String[] = [];
 
   constructor(private workBlockService: WorkBlockService, private vehicleDutyService: VehicleDutyService, private location: Location) { }
@@ -27,11 +26,6 @@ export class VehicleDutyComponent implements OnInit {
   getWorkBlocks() {
     this.workBlockService.getWorkBlocks().subscribe(workBlock => this.workBlocks = workBlock);
   }
-
-  getVehicleDuty() {
-    this.vehicleDutyService.getVehicleDuty().subscribe(vehicleDuty => this.vehicleDuty = vehicleDuty);
-  }
-
 
   addVehicleDuty(key: string, name: string, color: string, depots: string) {
     //VehicleDuty Parameter verification
@@ -65,30 +59,30 @@ export class VehicleDutyComponent implements OnInit {
       workBlocks: workBlockId
     } as IVehicleDuty)
       .subscribe((res: any) => {
-        
-          Swal.fire({
-            title: 'Success!',
-            text: 'Vehicle Duty added',
-            icon: 'success',
-            confirmButtonText: 'Ok',
-            timer: 2500,
-            showConfirmButton: false,
-          })
-          this.workBlocksVehicleDuty = [];
+
+        Swal.fire({
+          title: 'Success!',
+          text: 'Vehicle Duty added',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 2500,
+          showConfirmButton: false,
+        })
+        this.workBlocksVehicleDuty = [];
       },
-      err => {
-        console.log(err);
-        if(err.status==400){
-          Swal.fire({
-            title: 'Error!',
-            text: 'There is a vehicleDuty with that Key',
-            icon: 'error',
-            confirmButtonText: 'Ok',
-            timer: 2500,
-            showConfirmButton: false,
-          })
+        err => {
+          console.log(err);
+          if (err.status == 400) {
+            Swal.fire({
+              title: 'Error!',
+              text: 'There is a vehicleDuty with that Key',
+              icon: 'error',
+              confirmButtonText: 'Ok',
+              timer: 2500,
+              showConfirmButton: false,
+            })
+          }
         }
-      }
       );
   }
 
@@ -150,5 +144,25 @@ export class VehicleDutyComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+}
+
+@Component({
+  selector: 'app-vehicleDuty',
+  templateUrl: './listVehicleDuties.component.html',
+  styleUrls: ['./vehicle-duty.component.css']
+})
+export class ListVehicleDutyComponent implements OnInit {
+
+  vehicleDuties: IVehicleDuty[] = [];
+
+  constructor(private workBlockService: WorkBlockService, private vehicleDutyService: VehicleDutyService, private location: Location) { }
+
+  ngOnInit(): void {
+    this.getVehicleDuty();
+  }
+
+  getVehicleDuty() {
+    this.vehicleDutyService.getVehicleDuty().subscribe(vehicleDuty => this.vehicleDuties = vehicleDuty);
   }
 }
