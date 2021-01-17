@@ -19,7 +19,13 @@
         <td>{{trip.orientation}}</td>
         <td>{{trip.path}}</td>
         <td>{{trip.isGenerated}}</td>
-        <td>{{trip.passingTimes}}</td>
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let passing of trip.passingTimes">
+              <td>{{passing.key}}</td>
+            </tr>
+          </tbody>
+        </table>
       </tr>
     </tbody>
   </table>

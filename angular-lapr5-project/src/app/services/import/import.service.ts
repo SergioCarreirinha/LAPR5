@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class ImportService {
 
   private importURL = environment.url.mdr+'api/fileUpload';  // URL to web api
+  private importURLMDV = environment.url.mdv+'api/fileUpload';
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +20,15 @@ export class ImportService {
     return this.http.post(this.importURL, formData).pipe(
       catchError(this.handleError('importFile', formData))
     );
+  }
+
+  importFileMDV(event: any){
+    const formData=new FormData();
+    formData.append('file', event.files[0]);
+    return this.http.post(this.importURLMDV, formData).pipe(
+      catchError(this.handleError('importFileMDV', formData))
+    );
+    
   }
 
    /**
