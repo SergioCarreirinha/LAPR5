@@ -41,8 +41,7 @@ export class MapComponent implements OnInit {
       center: [this.lng, this.lat],
     });
 
-    this.map.addControl(new PitchToggleNavigation({ minpitchzoom: 10 }), 'top-left');
-    this.map.addControl(new PitchToggle({ minpitchzoom: 10 },this.nodeService,this.map), 'top-left');
+    this.map.addControl(new PitchToggle({ minpitchzoom: 10 }, this.nodeService, this.map), 'top-left');
 
     this.setArrayPaths();
     // Add map controls
@@ -53,7 +52,7 @@ export class MapComponent implements OnInit {
     //this.addLight();
 
   }
-  
+
   addLight() {
     let tb: THREEBOX;
     const light = new tb.Light(0xff0000, 1, 100);
@@ -81,7 +80,8 @@ export class MapComponent implements OnInit {
             tb = new THREEBOX(
               map,
               mbxContext,
-              { realSunlight: true,
+              {
+                realSunlight: true,
                 enableSelectingObjects: true, //enable 3D models over/selection
                 enableTooltips: true // enable default tooltips on fill-extrusion and 3D models
               }
@@ -209,9 +209,9 @@ export class MapComponent implements OnInit {
   checkIfLineIsAdded(coord: number[]): number {
     let coordRev = [coord[2], coord[3], coord[0], coord[1]];
 
-    for(let j=0; j<this.linesAdded.length; j++){
-      if(JSON.stringify(this.linesAdded[j])==JSON.stringify(coord) ||
-      JSON.stringify(this.linesAdded[j])==JSON.stringify(coordRev)){
+    for (let j = 0; j < this.linesAdded.length; j++) {
+      if (JSON.stringify(this.linesAdded[j]) == JSON.stringify(coord) ||
+        JSON.stringify(this.linesAdded[j]) == JSON.stringify(coordRev)) {
         return j;
       }
     }
@@ -219,13 +219,13 @@ export class MapComponent implements OnInit {
   }
 
   lineOverlap(coords: any[]) {
-    let newCoords: number[][]=[];
+    let newCoords: number[][] = [];
     for (let i = 1; i < coords.length; i++) {
 
       let coord = [coords[i - 1][0], coords[i - 1][1], coords[i][0], coords[i][1]];
 
       let index = this.checkIfLineIsAdded(coord);
-      if (index<0) {
+      if (index < 0) {
         this.linesAdded.push(coord);
         this.lineRepetitions.push(1);
 
@@ -237,14 +237,14 @@ export class MapComponent implements OnInit {
         let cosBeta = -(coord[3] - coord[1]) / r;
         let sinBeta = (coord[2] - coord[0]) / r;
         //distancia entre linhas
-        let d = Math.round(this.lineRepetitions[index]/2) * 0.00015;
+        let d = Math.round(this.lineRepetitions[index] / 2) * 0.00015;
 
         let lat1, long1, lat2, long2;
 
         if (this.lineRepetitions[index] % 2 == 0) {
           long1 = (coord[0]) + d * cosBeta;
           lat1 = (coord[1]) + d * sinBeta;
- 
+
           long2 = (coord[2]) + d * cosBeta;
           lat2 = (coord[3]) + d * sinBeta;
 
@@ -257,8 +257,8 @@ export class MapComponent implements OnInit {
 
         }
 
-        newCoords.push([long1,lat1]);
-        newCoords.push([long2,lat2])
+        newCoords.push([long1, lat1]);
+        newCoords.push([long2, lat2])
 
         this.lineRepetitions[index] += 1;
       }
@@ -267,13 +267,13 @@ export class MapComponent implements OnInit {
   }
 
   lineLength(x1: number, y1: number, x2: number, y2: number): number {
-    let x = x2-x1;
-    let y = y2-y1;
+    let x = x2 - x1;
+    let y = y2 - y1;
     return (
       Math.sqrt(
-                Math.pow(x, 2) +
-                Math.pow(y, 2)
-                )
+        Math.pow(x, 2) +
+        Math.pow(y, 2)
+      )
     );
   }
 
@@ -354,10 +354,10 @@ class PitchToggle {
   _btn: HTMLButtonElement;
   _container: HTMLDivElement;
   _bearing: number;
-  
-  nodes: any[]=[];
-  
-  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, },private nodeService: NodeService, private map:mapboxgl.Map) {
+
+  nodes: any[] = [];
+
+  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }, private nodeService: NodeService, private map: mapboxgl.Map) {
     this._bearing = bearing;
     this._pitch = pitch;
     this._minpitchzoom = minpitchzoom;
@@ -386,14 +386,14 @@ class PitchToggle {
 
           for (let point of nodesIn) {
             var model;
-            if(point.isDepot === "true"){
+            if (point.isDepot === "true") {
               model = {
                 type: 'gltf',
                 obj: '../../assets/3DModel/Depot_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 90, z: 0 },
               }
-            } else if(point.isReliefPoint === "true"){
+            } else if (point.isReliefPoint === "true") {
               model = {
                 type: 'gltf',
                 obj: '../../assets/3DModel/Relief_Point.gltf',
@@ -429,6 +429,7 @@ class PitchToggle {
     this._map = map;
     let _this = this;
     let toggle = false;
+    let pitch = new PitchToggleNavigation({ minpitchzoom: 10 });
 
     this._btn = document.createElement("button");
     this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
@@ -441,10 +442,13 @@ class PitchToggle {
         map.easeTo(options);
         _this._btn.className =
           "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
+        map.addControl(pitch, 'top-left');
       } else {
         map.easeTo({ pitch: 0, bearing: 0 });
         _this._btn.className =
           "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+        map.removeControl(pitch, 'top-left');
+
       }
 
       //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
@@ -521,156 +525,100 @@ class PitchToggleNavigation {
   _btn: HTMLButtonElement;
   _container: HTMLDivElement;
   _bearing: number;
-  
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, .1, 1000);
-  renderer = new THREE.WebGLRenderer();
 
-constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }) {
-  this._bearing = bearing;
-  this._pitch = pitch;
-  this._minpitchzoom = minpitchzoom;
-}
+  constructor({ bearing = -20, pitch = 70, minpitchzoom = null, }) {
+    this._bearing = bearing;
+    this._pitch = pitch;
+    this._minpitchzoom = minpitchzoom;
+  }
 
-onAdd(map) {
-  this._map = map;
-  let _this = this;
-  let toggle = false;
-  let renderer=this.renderer;
-  let camera=this.camera;
-  let scene=this.scene;
+  onAdd(map) {
+    this._map = map;
+    let _this = this;
+    let toggle = false;
+    let i = 0;
 
 
-  this._btn = document.createElement("button");
-  this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
-  this._btn.type = "button";
-  this._btn.textContent = "1P";
-  this._btn.onclick = function () {
+    this._btn = document.createElement("button");
+    this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
+    this._btn.type = "button";
+    this._btn.textContent = "1P";
+    this._btn.onclick = function () {
 
-    if (map.getPitch() === 0) {
-      let options = { pitch: _this._pitch, bearing: _this._bearing };
-      map.easeTo(options);
-      _this._btn.className =
-        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d";
-    } else {
-      /* map.easeTo({ pitch: 0, bearing: 0 });
-      _this._btn.className =
-        "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d"; */
+      //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
+      if (!toggle) {
+        _this._btn.textContent = "NM";
+        toggle = true;
+        map.dragRotate.enable();
+        let tb;
+        let soldier;
+        var origin = [41.162513102751454, -8.583591];
+        i++;
+        map.addLayer({
+          id: 'custom_layer22',
+          type: 'custom',
+          renderingMode: '3d',
+          onAdd: function (map, mbxContext) {
 
-      let controls = {};
-      let player = {
-        height: .5,
-        turnSpeed: .1,
-        speed: .1,
-        gravity: .01,
-        velocity: 0,
+            tb = new THREEBOX(
+              map,
+              mbxContext,
+              {
+                defaultLights: true,
+                enableSelectingFeatures: true,
+                enableSelectingObjects: true,
+                enableDraggingObjects: true,
+                enableRotatingObjects: true,
+                enableTooltips: true
+              }
+            );
 
-        playerJumps: false
-      };
+            // import soldier from an external glb file, scaling up its size 20x
+            // IMPORTANT: .glb is not a standard MIME TYPE, you'll have to add it to your web server config,
+            // otherwise you'll receive a 404 error
+            let model = {
+              type: 'gltf',
+              obj: '../../assets/3DModel/Depot_Point.gltf',
+              scale: 0.015,
+              rotation: { x: 90, y: 90, z: 0 },
+            }
+            console.log("AQUIIIII");
+            let locatedModel;
+            tb.loadObj(model, function (model) {
 
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      document.body.appendChild(renderer.domElement);
+              locatedModel = model.setCoords([-8.583591, 41.162513102751454, 0]);
+              tb.add(locatedModel);
+            })
 
-      // BrowserWindow->Renderer:ResizeRe-Render
-      window.addEventListener('resize', () => {
-        let w = window.innerWidth,
-          h = window.innerHeight;
+          },
 
-        renderer.setSize(w, h);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-      });
-
-      // Camera:Setup
-      camera.position.set(0, player.height, -5);
-      camera.lookAt(new THREE.Vector3(0, player.height, 0));
-
-      // Controls:Listeners
-      document.addEventListener('keydown', ({ keyCode }) => { controls[keyCode] = true });
-      document.addEventListener('keyup', ({ keyCode }) => { controls[keyCode] = false });
-
-      // ...
-      function control() {
-        // Controls:Engine 
-        if (controls[87]) { // w
-          camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
-          camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
-        }
-        if (controls[83]) { // s
-          camera.position.x += Math.sin(camera.rotation.y) * player.speed;
-          camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
-        }
-        if (controls[65]) { // a
-          camera.position.x += Math.sin(camera.rotation.y + Math.PI / 2) * player.speed;
-          camera.position.z += -Math.cos(camera.rotation.y + Math.PI / 2) * player.speed;
-        }
-        if (controls[68]) { // d
-          camera.position.x += Math.sin(camera.rotation.y - Math.PI / 2) * player.speed;
-          camera.position.z += -Math.cos(camera.rotation.y - Math.PI / 2) * player.speed;
-        }
-        if (controls[37]) { // la
-          camera.rotation.y -= player.turnSpeed;
-        }
-        if (controls[39]) { // ra
-          camera.rotation.y += player.turnSpeed;
-        }
+          render: function (gl, matrix) {
+            tb.update();
+          }
+        });
       }
-
-      function ixMovementUpdate() {
-        player.velocity += player.gravity;
-        camera.position.y -= player.velocity;
-
-        if (camera.position.y < player.height) {
-          camera.position.y = player.height;
-        }
+      else {
+        _this._btn.textContent = "1P";
+        map.dragRotate.disable();
+        toggle = false;
+        map.removeLayer("custom_layer22");
       }
-
-      function update() {
-        control();
-        ixMovementUpdate();
-      }
-
-      function render() {
-        renderer.render(scene, camera);
-      }
-
-      function loop() {
-        requestAnimationFrame(loop);
-        update();
-        render();
-      }
-
-      loop();
     }
 
-    //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
-    if (!toggle) {
-      _this._btn.textContent = "NM";
-      toggle = true;
-      map.dragRotate.enable();
-    }
-    else {
-      _this._btn.textContent = "1P";
-      map.removeLayer('3d-buildings');
-      map.dragRotate.disable();
-      toggle = false;
-    }
-  };
+    this._container = document.createElement("div");
+    this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+    this._container.appendChild(this._btn);
 
-  this._container = document.createElement("div");
-  this._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
-  this._container.appendChild(this._btn);
-
-  return this._container;
+    return this._container;
+  }
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
 }
 
-onRemove() {
-  this._container.parentNode.removeChild(this._container);
-  this._map = undefined;
-}
-}
+
+
 
 
 

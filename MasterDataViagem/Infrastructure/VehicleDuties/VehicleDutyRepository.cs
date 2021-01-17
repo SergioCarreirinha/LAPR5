@@ -14,12 +14,12 @@ namespace MasterDataViagem.Infrastructure.VehicleDuties
     public class VehicleDutyRepository : BaseRepository<VehicleDuty, VehicleDutyId>, IVehicleDutyRepository
     {
         private readonly DbSet<VehicleDuty> _db;
-
-        private readonly string connection = "Server=tcp:mdv-g25-db.database.windows.net,1433;Initial Catalog=database;Persist Security Info=False;User ID=dbuser;Password=Grupo25,.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;";
+        private readonly DbSet<WorkBlock> _dbWb;
 
         public VehicleDutyRepository(MDVDbContext context):base(context.VehicleDuties)
         {
            this._db = context.VehicleDuties;
+           this._dbWb = context.WorkBlocks;
         }
 
         public async Task<bool> verifyVehicleDutyKey(string k){
@@ -34,25 +34,16 @@ namespace MasterDataViagem.Infrastructure.VehicleDuties
             }
         }
 
-        public async Task<List<VehicleDuty>> getAllVehicleDuty(){
-            
-            string query= "SELECT * FROM [VehicleDuties]";
+       public async Task<List<VehicleDuty>> getAllVehicleDuty(){
 
-            SqlConnection sc = new SqlConnection(connection);
-            sc.Open();
-
-            SqlCommand command = new SqlCommand(query,sc);
-
-            List<VehicleDuty> lstVD = (List<VehicleDuty>)command.ExecuteScalar();
+            List<VehicleDuty> lstVD = await this._db.FromSqlRaw("SELECT * FROM [VehicleDuties]").ToListAsync();
 
             foreach(var vehicleDuty in lstVD){
-                string query2= "SELECT * FROM [WorkBlocks] WHERE vehicleDutyId='"+vehicleDuty.Id.AsString()+"'";
 
-                SqlCommand command2 = new SqlCommand(query,sc);
-
-                List<WorkBlock> lstTemp= (List<WorkBlock>)command.ExecuteScalar();
+                List<WorkBlock> lstTemp= await this._dbWb.FromSqlRaw("SELECT * FROM [WorkBlocks] WHERE vehicleDutyId='"+vehicleDuty.Id.AsString()+"'").ToListAsync();
                 vehicleDuty.WorkBlocks=lstTemp;
             }
+
             return lstVD;
         }
         
