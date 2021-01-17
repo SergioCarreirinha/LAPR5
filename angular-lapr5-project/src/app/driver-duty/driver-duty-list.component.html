@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<div class="jumbotron">
+  <h2>Serviço de Condutor</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Chave</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Cor</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Blocos de Trabalho</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let driverDuty of DriverDuties">
+        <td>{{driverDuty.key}}</td>
+        <td>{{driverDuty.name}}</td>
+        <td>{{driverDuty.color}}</td>
+        <td>{{driverDuty.type}}</td>
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let workBlock of driverDuty.workBlocks">
+              <td>{{workBlock.key}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tr>
+    </tbody>
+  </table>
+</div>

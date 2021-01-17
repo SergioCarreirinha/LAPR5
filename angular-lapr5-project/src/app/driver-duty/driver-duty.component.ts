@@ -144,3 +144,23 @@ export class DriverDutyComponent implements OnInit {
     }
   }
 }
+@Component({
+  selector: 'app-driver-duty-list',
+  templateUrl: './driver-duty-list.component.html',
+  styleUrls: ['./driver-duty.component.css']
+})
+export class DriverDutyListComponent implements OnInit {
+
+  DriverDuties: IDriverDuty[] = [];
+
+
+  constructor(private service: DriverDutyService) { }
+
+  ngOnInit(): void {
+    this.getDriverDuties();
+  }
+
+  private getDriverDuties() {
+    this.service.getDriverDuty().subscribe(DriverDuty => this.DriverDuties = DriverDuty);
+  }
+}

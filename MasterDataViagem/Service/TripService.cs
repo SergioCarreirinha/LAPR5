@@ -23,7 +23,7 @@ namespace MasterDataViagem.Service
         }
 
         public async Task<List<ITripDTO>> Get(){
-            var list = await this._repo.GetAllAsync();
+            var list = await this._repo.getAllTrips();
 
             List<ITripDTO> listDTO = list.ConvertAll<ITripDTO>( trip => new ITripDTO{ 
                 Id = trip.Id.AsGuid(), 

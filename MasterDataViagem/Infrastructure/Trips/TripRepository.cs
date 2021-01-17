@@ -1,4 +1,6 @@
 using MasterDataViagem.Domain.Trip;
+using MasterDataViagem.DTO;
+using MasterDataViagem.Domain.PassingTimes;
 using MasterDataViagem.Infrastructure.Shared;
 using MasterDataViagem.Repository;
 using System.Threading.Tasks;
@@ -11,10 +13,12 @@ namespace MasterDataViagem.Infrastructure.Trips
     {
         
         private readonly DbSet<Tripes> _db;
+        private readonly DbSet<PassingTime> _dbPT;
 
         public TripRepository(MDVDbContext context):base(context.Trips)
         {
            this._db = context.Trips;
+           this._dbPT = context.PassingTimes;
         }
 
 
@@ -24,7 +28,7 @@ namespace MasterDataViagem.Infrastructure.Trips
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id == null){
+            if(list == null){
                 return false;
             }else{
                 return true;
@@ -43,6 +47,22 @@ namespace MasterDataViagem.Infrastructure.Trips
                 return null;
             }
            
+        }
+
+        public async Task<List<Tripes>> getAllTrips() 
+        {
+            string query = $"SELECT * FROM [Trips]";
+
+            List<Tripes> list = await this._db.FromSqlRaw(query).ToListAsync();
+
+            foreach(Tripes trip in list)
+            {
+                string query2 = $"SELECT * FROM [PassingTimes] WHERE [TripesId]='{trip.Id.AsString()}'";
+                List<PassingTime> listPT = await this._dbPT.FromSqlRaw(query2).ToListAsync();
+                trip.PassingTimes = listPT;
+            }
+
+            return list;
         }
 
     }

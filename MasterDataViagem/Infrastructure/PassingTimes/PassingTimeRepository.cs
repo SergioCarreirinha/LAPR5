@@ -22,7 +22,7 @@ namespace MasterDataViagem.Infrastructure.PassingTimes
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id == null){
+            if(list == null){
                 return false;
             }else{
                 return true;

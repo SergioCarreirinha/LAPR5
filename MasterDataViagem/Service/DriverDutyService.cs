@@ -23,7 +23,7 @@ namespace MasterDataViagem.Service
         }
 
         public async Task<List<IDriverDutyDTO>> Get(){
-            var list = await this._repo.GetAllAsync();
+            var list = await this._repo.getAllDriverDuties();
 
             List<IDriverDutyDTO> listDTO = list.ConvertAll<IDriverDutyDTO>( driverDuty => new IDriverDutyDTO{ 
                 Id = driverDuty.Id.AsGuid(),

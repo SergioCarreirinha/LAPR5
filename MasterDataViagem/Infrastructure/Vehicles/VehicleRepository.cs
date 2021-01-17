@@ -18,11 +18,11 @@ namespace MasterDataViagem.Infrastructure.Vehicles
 
         public async Task<bool> verifyVehicleByLicensePlate(string licensePlate){
             
-            string query= $"SELECT Id FROM Vehicles WHERE licensePlate='{licensePlate}'";
+            string query= $"SELECT * FROM [Vehicles] WHERE [licensePlate]='{licensePlate}'";
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id==null){
+            if(list==null){
                 return false;
             }else{
                 return true;
@@ -31,11 +31,11 @@ namespace MasterDataViagem.Infrastructure.Vehicles
 
         public async Task<bool> verifyVehicleByVin(string vin){
 
-            string query= $"SELECT Id FROM Vehicles WHERE vin='{vin}'";
+            string query= $"SELECT * FROM [Vehicles] WHERE [vin]='{vin}'";
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id==null){
+            if(list==null){
                 return false;
             }else{
                 return true;
