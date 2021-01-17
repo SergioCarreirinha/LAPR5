@@ -17,11 +17,11 @@ namespace MasterDataViagem.Infrastructure.Drivers
 
         public async Task<bool> getByLicense(int number){
             
-            string query= $"ELECT Id FROM Drivers WHERE driverLicenseNum='{number}'";
+            string query= $"SELECT * FROM [Drivers] WHERE [driverLicenseNum]='{number}'";
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id == null){
+            if(list == null){
                 return false;
             }else{
                 return true;

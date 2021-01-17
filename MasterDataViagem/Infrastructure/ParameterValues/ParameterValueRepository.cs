@@ -18,11 +18,11 @@ namespace MasterDataViagem.Infrastructure.ParameterValues
 
         public async Task<bool> getByKey(string _key){
             
-            string query= $"SELECT [Id] FROM [ParameterValues] WHERE [key]='{_key}'";
+            string query= $"SELECT * FROM [ParameterValues] WHERE [key]='{_key}'";
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id == null){
+            if(list == null){
                 return false;
             }else{
                 return true;
