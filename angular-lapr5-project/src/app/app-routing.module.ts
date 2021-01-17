@@ -23,7 +23,7 @@ import { CreateTripComponent, TripComponent } from './trip/trip.component'
 import { CreatePassingTimeComponent, PassingTimeComponent } from './passing-time/passing-time.component';
 import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.component';
 import { UserComponent } from './user/user.component';
-import { DriverDutyComponent } from './driver-duty/driver-duty.component';
+import { DriverDutyComponent, DriverDutyListComponent } from './driver-duty/driver-duty.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'createDriverType', component: DriverTypeComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createDriverDuty', component: DriverDutyComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
+  { path: 'listDriverDuty', component: DriverDutyListComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'listNode', component: NodeComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'createNode', component: CreateNodeComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'listLine', component: LineComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
