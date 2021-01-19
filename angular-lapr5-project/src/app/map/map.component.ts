@@ -376,7 +376,6 @@ class PitchToggle {
             map,
             mbxContext,
              {
-              realSunlight: true,
               enableShadows:true
             }
           );
