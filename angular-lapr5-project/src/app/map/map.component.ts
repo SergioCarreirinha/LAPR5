@@ -6,6 +6,7 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
+import * as dat from 'dat-gui';
 import { FirstPersonControls } from './threebox-master/src/firstpersoncontrols';
 import { Light } from './threebox-master/src/three';
 
@@ -21,7 +22,6 @@ export class MapComponent implements OnInit {
   paths: any[] = [];
   toggle = false;
   coords: any[] = [];
-
   linesAdded: any[][] = [];
   lineRepetitions: number[] = [];
 
@@ -51,13 +51,6 @@ export class MapComponent implements OnInit {
     this.drawNodesAndLines();
     //this.addLight();
 
-  }
-
-  addLight() {
-    let tb: THREEBOX;
-    const light = new tb.Light(0xff0000, 1, 100);
-    light.position.set(-8.3757027, 41.187208, 1);
-    tb.add(light);
   }
 
 
@@ -372,6 +365,7 @@ class PitchToggle {
       let map = this.map;
       let nodesIn = this.nodes;
 
+      
       map.addLayer({
         id: 'custom_layer2',
         type: 'custom',
@@ -381,9 +375,28 @@ class PitchToggle {
           tb = new THREEBOX(
             map,
             mbxContext,
-            { defaultLights: true }
+             {
+              realSunlight: true,
+              enableShadows:true
+            }
           );
 
+          var directionalLight = new THREE.DirectionalLight(0xffffff);
+          directionalLight.position.set(0, -70, 100).normalize();
+          tb.add(directionalLight);
+          tb.add(directionalLight.target);
+
+          const light = new THREE.AmbientLight(0x666666);
+          tb.add(light);
+          
+          const datGui  = new dat.GUI({ autoPlace: true });
+          const container = document.getElementById('guiDIV');
+          container.appendChild(datGui.domElement);
+          datGui.add(directionalLight, 'intensity', 0, 2, 0.01);
+          datGui.add(directionalLight.target.position, 'x', -10, 10, 0.01);
+          datGui.add(directionalLight.target.position, 'z', -10, 10, 0.01);
+          datGui.add(directionalLight.target.position, 'y', 0, 10, 0.01);
+          
           for (let point of nodesIn) {
             var model;
             if (point.isDepot === "true") {
@@ -392,6 +405,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Depot_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 90, z: 0 },
+                shadow:true
               }
             } else if (point.isReliefPoint === "true") {
               model = {
@@ -399,6 +413,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Relief_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 180, z: 0 },
+                shadow:true
               }
             } else {
               model = {
@@ -406,12 +421,14 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Bus_Stop.gltf',
                 scale: 0.01,
                 rotation: { x: 90, y: 180, z: 0 },
+                shadow:true
               }
             }
             let locatedModel;
             tb.loadObj(model, function (model) {
 
               locatedModel = model.setCoords([point.longitude - 0.00025, point.latitude, 0]);
+              locatedModel.castShadow = true;
               tb.add(locatedModel);
             });
           }
@@ -421,8 +438,8 @@ class PitchToggle {
         }
 
       });
+      
     });
-
   }
 
   onAdd(map) {
