@@ -6,6 +6,7 @@ import { PathService } from '../services/path/path.service';
 import { environment } from 'src/environments/environment';
 import * as THREEBOX from './threebox-master/src/Threebox';
 import * as THREE from './threebox-master/src/three';
+import * as dat from 'dat-gui';
 import { FirstPersonControls } from './threebox-master/src/firstpersoncontrols';
 import { Light } from './threebox-master/src/three';
 
@@ -379,8 +380,23 @@ class PitchToggle {
               enableShadows:true
             }
           );
-          let date = new Date(2020, 7, 14, 18, 20);
-          tb.setSunlight(date, [-8.3757027,41.187208]);
+
+          var directionalLight = new THREE.DirectionalLight(0xffffff);
+          directionalLight.position.set(0, -70, 100).normalize();
+          tb.add(directionalLight);
+          tb.add(directionalLight.target);
+
+          const light = new THREE.AmbientLight(0x666666);
+          tb.add(light);
+          
+          const datGui  = new dat.GUI({ autoPlace: true });
+          const container = document.getElementById('guiDIV');
+          container.appendChild(datGui.domElement);
+          datGui.add(directionalLight, 'intensity', 0, 2, 0.01);
+          datGui.add(directionalLight.target.position, 'x', -10, 10, 0.01);
+          datGui.add(directionalLight.target.position, 'z', -10, 10, 0.01);
+          datGui.add(directionalLight.target.position, 'y', 0, 10, 0.01);
+          
           for (let point of nodesIn) {
             var model;
             if (point.isDepot === "true") {
