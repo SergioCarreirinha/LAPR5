@@ -21,7 +21,6 @@ export class MapComponent implements OnInit {
   paths: any[] = [];
   toggle = false;
   coords: any[] = [];
-
   linesAdded: any[][] = [];
   lineRepetitions: number[] = [];
 
@@ -51,13 +50,6 @@ export class MapComponent implements OnInit {
     this.drawNodesAndLines();
     //this.addLight();
 
-  }
-
-  addLight() {
-    let tb: THREEBOX;
-    const light = new tb.Light(0xff0000, 1, 100);
-    light.position.set(-8.3757027, 41.187208, 1);
-    tb.add(light);
   }
 
 
@@ -372,6 +364,7 @@ class PitchToggle {
       let map = this.map;
       let nodesIn = this.nodes;
 
+      
       map.addLayer({
         id: 'custom_layer2',
         type: 'custom',
@@ -381,9 +374,13 @@ class PitchToggle {
           tb = new THREEBOX(
             map,
             mbxContext,
-            { defaultLights: true }
+             {
+              realSunlight: true,
+              enableShadows:true
+            }
           );
-
+          let date = new Date(2020, 7, 14, 18, 20);
+          tb.setSunlight(date, [-8.3757027,41.187208]);
           for (let point of nodesIn) {
             var model;
             if (point.isDepot === "true") {
@@ -392,6 +389,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Depot_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 90, z: 0 },
+                shadow:true
               }
             } else if (point.isReliefPoint === "true") {
               model = {
@@ -399,6 +397,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Relief_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 180, z: 0 },
+                shadow:true
               }
             } else {
               model = {
@@ -406,12 +405,14 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Bus_Stop.gltf',
                 scale: 0.01,
                 rotation: { x: 90, y: 180, z: 0 },
+                shadow:true
               }
             }
             let locatedModel;
             tb.loadObj(model, function (model) {
 
               locatedModel = model.setCoords([point.longitude - 0.00025, point.latitude, 0]);
+              locatedModel.castShadow = true;
               tb.add(locatedModel);
             });
           }
@@ -421,8 +422,8 @@ class PitchToggle {
         }
 
       });
+      
     });
-
   }
 
   onAdd(map) {
