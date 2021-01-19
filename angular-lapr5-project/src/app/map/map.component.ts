@@ -536,8 +536,6 @@ class PitchToggleNavigation {
     this._map = map;
     let _this = this;
     let toggle = false;
-    let i = 0;
-
 
     this._btn = document.createElement("button");
     this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
@@ -551,9 +549,7 @@ class PitchToggleNavigation {
         toggle = true;
         map.dragRotate.enable();
         let tb;
-        let soldier;
         var origin = [41.162513102751454, -8.583591];
-        i++;
         map.addLayer({
           id: 'custom_layer22',
           type: 'custom',
@@ -578,11 +574,10 @@ class PitchToggleNavigation {
             // otherwise you'll receive a 404 error
             let model = {
               type: 'gltf',
-              obj: '../../assets/3DModel/Depot_Point.gltf',
-              scale: 0.015,
+              obj: 'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
+              scale: 1,
               rotation: { x: 90, y: 90, z: 0 },
             }
-            console.log("AQUIIIII");
             let locatedModel;
             tb.loadObj(model, function (model) {
 
@@ -594,7 +589,8 @@ class PitchToggleNavigation {
 
           render: function (gl, matrix) {
             tb.update();
-          }
+          },
+
         });
       }
       else {

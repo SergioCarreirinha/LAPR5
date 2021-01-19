@@ -17,7 +17,13 @@
         <td>{{VehicleDuty.name}}</td>
         <td>{{VehicleDuty.color}}</td>
         <td>{{VehicleDuty.depots}}</td>
-        <td>{{VehicleDuty.workBlocks.key}}</td>
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let workblock of VehicleDuty.workBlocks">
+              <td>{{workblock.key}}</td>
+            </tr>
+          </tbody>
+        </table> 
       </tr>
     </tbody>
   </table>
