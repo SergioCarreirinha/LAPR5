@@ -512,6 +512,8 @@ class PitchToggle {
         );
       }
       else {
+        const container = document.getElementById('guiDIV');
+        container.removeChild(container.childNodes[0]);
         _this._btn.textContent = "3D";
         map.removeLayer('3d-buildings');
         map.removeLayer('custom_layer2');
