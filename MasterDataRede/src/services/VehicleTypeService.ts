@@ -22,10 +22,12 @@ export default class VehicleTypeService implements IVehicleTypeService {
                 return Result.fail<IVehicleTypeDTO>(vehicleType.errorValue());
             }
 
-            await this.vehicleTypeRepo.save(vehicleType.getValue());
-
+            if ((await this.vehicleTypeRepo.save(vehicleType.getValue())) == null) {
+                return Result.fail<IVehicleTypeDTO>("Vehicle Type already in the system");
+            }
             const vehicleTypeReturn = VehicleTypeMap.toDTO(vehicleType.getValue()) as IVehicleTypeDTO;
             return Result.ok<IVehicleTypeDTO>(vehicleTypeReturn);
+            
         } catch (e) {
             throw e;
         }

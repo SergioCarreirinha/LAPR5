@@ -23,7 +23,7 @@ export default class LineRepo implements ILineRepo {
   }
 
   public async save(line: Line): Promise<Line> {
-    const query = { domainId: line.id.toString() };
+    const query = { key: line.key };
     const document = await this.LineSchema.findOne(query);
     try {
       if (document === null) {
@@ -31,14 +31,7 @@ export default class LineRepo implements ILineRepo {
         const lineCreated = await this.LineSchema.create(rawLine);
         return LineMap.toDomain(lineCreated);
       } else {
-        document.key = line.key;
-        document.name = line.name;
-        document.color = line.color;
-        document.linePaths = line.linePaths;
-        document.allowedVehicles = line.allowedVehicles;
-        document.allowedDrivers = line.allowedDrivers;
-        await document.save();
-        return line;
+        return null;
       }
     } catch (e) {
       throw e;

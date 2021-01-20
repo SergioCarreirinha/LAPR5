@@ -25,9 +25,8 @@ namespace MasterDataViagem.Infrastructure.DriverDuties
             string query= $"SELECT * FROM [DriverDuties] WHERE [key]='{keyI}'";
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
-            
     
-            if(list != null){
+            if(list.Count == 0){
                 return false;
             }else{
                 return true;

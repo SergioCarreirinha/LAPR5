@@ -32,7 +32,7 @@ export default class NodeController implements INodeController {
             const callService = await this.nodeServiceInstance.createNode(req.body as INodeDTO) as Result<INodeDTO>;
 
             if (callService.isFailure) {
-                return res.status(402).send();
+                return res.status(406).send();
             }
 
             return res.status(201).json(callService.getValue());

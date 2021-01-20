@@ -20,7 +20,7 @@ export default class LineController implements ILineController {
             const callService = await this.lineServiceInstance.createLine(req.body as ILineDTO) as Result<ILineDTO>;
 
             if(callService.isFailure) {
-                return res.status(402).send();
+                return res.status(406).send();
             }
 
             return res.status(201).json(callService.getValue());

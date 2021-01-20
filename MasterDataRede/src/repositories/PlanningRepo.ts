@@ -31,13 +31,7 @@ export default class PlanningRepo implements IPlanningRepo {
                 const pathCreated = await this.solutionSchema.create(rawPath);
                 return SolutionMap.toDomain(pathCreated);
             }else{
-                document.source = solution.source;
-                document.destination = solution.destination;
-                document.path = solution.path;
-                document.startTime = solution.startTime;
-                document.arriveTime = solution.arriveTime;
-                await document.save();
-                return solution;
+                return null;
             }
         } catch(e){
             throw e;

@@ -49,11 +49,6 @@
         <input type="number" min=0 name="nodeCapacities" #nodeCapacities />
     </label>
     <br>
-    <button (click)="checkValues(nodeKey.value);" class="btn btn-primary">
-        Verificar Chave
-    </button>
-    <br>
-    <br>
     <button id="submit"
         (click)="addNode(nodeKey.value,nodeName.value,nodeLatitude.value,nodeLongitude.value,nodeShortName.value,
         nodeIsDepot.value,nodeIsReliefPoint.value,nodeCapacities.value);nodeKey.value =''; nodeName.value =''; nodeLatitude.value = 0;nodeLongitude.value =0; nodeShortName.value = '';nodeIsDepot.value =''; nodeIsReliefPoint.value = '';nodeCapacities.value=0;"

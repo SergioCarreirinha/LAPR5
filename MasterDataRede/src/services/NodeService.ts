@@ -21,7 +21,9 @@ export default class NodeService implements INodeService {
                 return Result.fail<INodeDTO>(node.errorValue());
             }
 
-            await this.nodeRepo.save(node.getValue());
+            if ((await this.nodeRepo.save(node.getValue())) == null) {
+                return Result.fail<INodeDTO>("Node already in the system!");
+            }
 
             const nodeReturn = NodeMap.toDTO(node.getValue()) as INodeDTO;
             return Result.ok<INodeDTO>(nodeReturn);

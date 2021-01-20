@@ -47,6 +47,8 @@ namespace MasterDataViagem.Infrastructure
 
         public DbSet<Genetic> Genetics { get; set; }
 
+        public DbSet<Population> Populations { get; set; }
+
         public MDVDbContext(DbContextOptions options) : base(options)
         {
 

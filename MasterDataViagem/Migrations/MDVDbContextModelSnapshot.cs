@@ -107,7 +107,7 @@ namespace MasterDataViagem.Migrations
 
                     b.HasIndex("GeneticId");
 
-                    b.ToTable("Population");
+                    b.ToTable("Populations");
                 });
 
             modelBuilder.Entity("MasterDataViagem.Domain.ParameterValues.ParameterValue", b =>

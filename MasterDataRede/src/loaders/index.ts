@@ -128,26 +128,6 @@ export default async ({ expressApp }) => {
     path: config.services.FileUpload.path
   }
 
-  const DriverSchema = {
-    name: config.schemas.Driver.name,
-    schema: config.schemas.Driver.schema
-  }
-  
-  const DriverRepo = {
-    name: config.repositories.Driver.name,
-    path: config.repositories.Driver.path
-  }
-
-  const DriverController = {
-    name: config.controllers.Driver.name,
-    path: config.controllers.Driver.path
-  }
-
-  const DriverService = {
-    name: config.services.Driver.name,
-    path: config.services.Driver.path
-  }
-
   const SolutionSchema = {
     name: config.schemas.Solution.name,
     schema: config.schemas.Solution.schema
@@ -170,10 +150,10 @@ export default async ({ expressApp }) => {
 
   await dependencyInjector({
     mongoConnection,
-    schemas: [VehicleTypeSchema, DriverTypeSchema,DriverSchema, NodeSchema, LineSchema , PathSchema, SolutionSchema],
-    repositories: [VehicleTypeRepo, DriverTypeRepo,DriverRepo, NodeRepo, LineRepo, PathRepo, PlanningRepo],
-    controllers: [VehicleTypeController, DriverTypeController,DriverController, NodeController, LineController, PathController, LinePathsController,FileUploadController, PlanningController],
-    services: [VehicleTypeService, DriverTypeService,DriverService, NodeService, LineService, LinePathsService, PathService, FileUploadService, PlanningService]
+    schemas: [VehicleTypeSchema, DriverTypeSchema, NodeSchema, LineSchema , PathSchema, SolutionSchema],
+    repositories: [VehicleTypeRepo, DriverTypeRepo, NodeRepo, LineRepo, PathRepo, PlanningRepo],
+    controllers: [VehicleTypeController, DriverTypeController, NodeController, LineController, PathController, LinePathsController,FileUploadController, PlanningController],
+    services: [VehicleTypeService, DriverTypeService, NodeService, LineService, LinePathsService, PathService, FileUploadService, PlanningService]
   })
   
   await expressLoader({ app: expressApp });

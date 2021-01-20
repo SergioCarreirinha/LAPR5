@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MasterDataViagem.Migrations
 {
-    public partial class dutytype : Migration
+    public partial class pop : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -259,7 +259,7 @@ namespace MasterDataViagem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Population",
+                name: "Populations",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -268,9 +268,9 @@ namespace MasterDataViagem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Population", x => x.Id);
+                    table.PrimaryKey("PK_Populations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Population_Genetics_GeneticId",
+                        name: "FK_Populations_Genetics_GeneticId",
                         column: x => x.GeneticId,
                         principalTable: "Genetics",
                         principalColumn: "Id",
@@ -406,8 +406,8 @@ namespace MasterDataViagem.Migrations
                 column: "TripesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Population_GeneticId",
-                table: "Population",
+                name: "IX_Populations_GeneticId",
+                table: "Populations",
                 column: "GeneticId");
 
             migrationBuilder.CreateIndex(
@@ -453,7 +453,7 @@ namespace MasterDataViagem.Migrations
                 name: "PassingTimes");
 
             migrationBuilder.DropTable(
-                name: "Population");
+                name: "Populations");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

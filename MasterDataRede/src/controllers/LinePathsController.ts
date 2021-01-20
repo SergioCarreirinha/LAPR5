@@ -33,7 +33,7 @@ export default class LinePathsController implements ILinePathsController {
             const callService = await this.linePathsServiceInstance.createLinePaths(req.body as ILinePathsDTO) as Result<ILineDTO>;
 
             if (callService.isFailure) {
-                return res.status(402).send();
+                return res.status(406).send();
             }
 
             return res.status(201).json(callService.getValue());

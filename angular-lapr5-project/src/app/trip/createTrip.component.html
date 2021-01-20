@@ -1,4 +1,8 @@
 <app-navbar></app-navbar>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <div class="jumbotron">
     <div class="grid-container">
         <div class="grid-item">
@@ -20,14 +24,18 @@
                 <label>
                     Orientação
                     <br>
-                    <input #orientation />
+                    <select id="orientation" name='orientation' #orientation>
+                        <option value="Go">Ida</option>
+                        <option value="Return">Volta</option>
+                        <option value="adhoc">Ad hoc</option>
+                    </select>
                 </label>
             </div>
             <div>
                 <label>Linha
                     <br>
-                    <select name='line' #line>
-                      <option *ngFor="let line of lines" value={{line.name}}>{{line.name}}</option>
+                    <select id="selectLine" name='line' (change)="getPaths()" #line>
+                      <option *ngFor="let line of lines" value={{line.key}}>{{line.name}}</option>
                     </select>
                   </label>
             </div>
@@ -35,7 +43,9 @@
                 <label>
                     Caminho
                     <br>
-                    <input #path />
+                    <select name='path' #path>
+                        <option *ngFor="let path of linePaths" value={{path.key}}>{{path.key}}</option>
+                    </select>
                 </label>
             </div>
             <div>
