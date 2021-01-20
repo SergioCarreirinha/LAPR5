@@ -1,11 +1,9 @@
 import { Service, Inject } from 'typedi';
-import config from '../config';
 import { DriverType } from "../domain/models/DriverType";
 import IDriverTypeRepo from './interface/IDriverTypeRepo';
 import { IDriverTypePersistence } from '../persistence/interface/IDriverTypePersistence';
 import { DriverTypeMap } from '../mappers/DriverTypeMap';
 import {Document, Model} from 'mongoose';
-import { Driver } from '../domain/models/Driver';
 import { Result } from '../core/logic/Result';
 
 
@@ -25,7 +23,7 @@ export default class DriverTypeRepo implements IDriverTypeRepo{
     }
 
     public async save(DriverType: DriverType): Promise<DriverType> {
-        const query = {domainId: DriverType.id.toString()};
+        const query = {description: DriverType.description};
         const document = await this.DriverTypeSchema.findOne(query);
         try{
             if(document === null) {
@@ -33,9 +31,7 @@ export default class DriverTypeRepo implements IDriverTypeRepo{
                 const DriverTypeCreated = await this.DriverTypeSchema.create(rawDriverType);
                 return DriverTypeMap.toDomain(DriverTypeCreated);
             }else{
-                document.description = DriverType.description;
-                await document.save();
-                return DriverType;
+                return null;
             }
         } catch(e){
             throw e;

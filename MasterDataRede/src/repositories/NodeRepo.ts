@@ -33,16 +33,7 @@ export default class NodeRepo implements INodeRepo{
                 const NodeCreated = await this.NodeSchema.create(rawNode);
                 return NodeMap.toDomain(NodeCreated);
             }else{
-                document.key = node.key;
-                document.name = node.name;
-                document.latitude = node.latitude;
-                document.longitude = node.longitude;
-                document.shortName = node.shortName;
-                document.isDepot = node.isDepot;
-                document.isReliefPoint = node.isReliefPoint;
-                document.capacities= node.capacities;
-                await document.save();
-                return node;
+                return null;
             }
         } catch(e){
             throw e;
@@ -59,6 +50,18 @@ export default class NodeRepo implements INodeRepo{
             return Result.ok<Node>(NodeMap.toDomain(document));
         }
     }
+
+    public async findByName(value: string): Promise<Result<Node>> {
+        const query = {name: value};
+        const document = await this.NodeSchema.findOne(query);
+
+        if(document === null) {
+            return Result.fail<Node>('No Node found!');
+        } else {
+            return Result.ok<Node>(NodeMap.toDomain(document));
+        }
+    }
+
     public async deleteByKey(value: string){
         const query = {key:value};
         await this.NodeSchema.deleteOne(query);

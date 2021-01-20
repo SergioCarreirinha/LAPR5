@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterDataViagem.Migrations
 {
     [DbContext(typeof(MDVDbContext))]
-    [Migration("20210114200111_DriverDutyTypes")]
-    partial class DriverDutyTypes
+    [Migration("20210120123937_pop")]
+    partial class pop
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,7 +109,7 @@ namespace MasterDataViagem.Migrations
 
                     b.HasIndex("GeneticId");
 
-                    b.ToTable("Population");
+                    b.ToTable("Populations");
                 });
 
             modelBuilder.Entity("MasterDataViagem.Domain.ParameterValues.ParameterValue", b =>

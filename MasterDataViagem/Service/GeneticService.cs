@@ -19,7 +19,7 @@ namespace MasterDataViagem.Service
         }
 
         public async Task<List<IGeneticDTO>> Get(){
-            var list = await this._repo.GetAllAsync();
+            var list = await this._repo.getAllGenetics();
 
             List<IGeneticDTO> listDTO = list.ConvertAll<IGeneticDTO>( genetic => new IGeneticDTO
             { 

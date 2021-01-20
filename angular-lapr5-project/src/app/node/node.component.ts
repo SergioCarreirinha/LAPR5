@@ -58,65 +58,37 @@ export class CreateNodeComponent implements OnInit {
         isDepot: nodeIsDepot,
         isReliefPoint: nodeIsReliefPoint,
         capacities: parseInt(nodeCapacities)
-      } as INode).subscribe();
-      Swal.fire({
-        title: 'Success!',
-        text: 'Node Created',
-        icon: 'success',
-        confirmButtonText: 'Ok',
-        timer: 2500,
-        showConfirmButton: true,
-      })
+      } as INode).subscribe((res:any) => {
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Nó Criado!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 2500,
+          showConfirmButton: true,
+        })
+      }, (err:any) => {
+        if(err.status == 406)
+        {
+          Swal.fire({
+            title: 'Erro!',
+            text: 'Já existe um nó com essa chave!',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      });
     } else {
       Swal.fire({
-        title: 'ERROR!',
-        text: 'Node Couldnt be Created',
-        icon: 'error',
+        title: 'Aviso!',
+        text: 'Nó não foi criado, verifique os parametros',
+        icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
         showConfirmButton: false,
       })
     }
-  }
-  checkValues(nodeKey: string) {
-    let count = 0;
-    for (let i = 0; i < this.nodes.length; i++) {
-      if (this.nodes[i].key == nodeKey) {
-        count += 1;
-      }
-    }
-    if (count != 0) {
-      Swal.fire({
-        title: 'NODE EXISTS!',
-        text: 'Values will be updated if you continue.',
-        icon: 'error',
-        confirmButtonText: 'Ok',
-        timer: 7500,
-        showConfirmButton: true,
-      })
-    } else {
-      Swal.fire({
-        title: 'Values are Valid!',
-        text: 'Values will be inserted.',
-        icon: 'success',
-        confirmButtonText: 'Ok',
-        timer: 7500,
-        showConfirmButton: true,
-      })
-    }
-    if (nodeKey == '') {
-      Swal.fire({
-        title: 'EMPTY KEY!',
-        text: 'INSERT VALUE.',
-        icon: 'error',
-        confirmButtonText: 'Ok',
-        timer: 7500,
-        showConfirmButton: true,
-      })
-    }
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }

@@ -25,7 +25,11 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" name="password" class="form-control" formControlName="password">
                     </div>
-                    <div *ngIf="password.touched && password.errors?.required" class="alert alert-danger">Campo
+                    <div class="form-group">
+                        <label for="exampleInputPassword2">Confirm password</label>
+                        <input type="password" name="checkpassword" class="form-control" formControlName="checkpassword">
+                    </div>
+                    <div *ngIf="checkpassword.touched && checkpassword.errors?.required" class="alert alert-danger">Campo
                         Obrigatório!</div>
                     <input type="checkbox" formControlName="gdprCheck" name="checkRegister"> Li, compreendi e aceito a
                     <a href="#" data-target="#policyModal" data-toggle="modal">Política de Privacidade.</a>

@@ -8058,24 +8058,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tavar\\.nuget\\packages\\": {}
+    "C:\\Users\\josec\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
+      "projectUniqueName": "D:\\ISEP\\MasterDataViagem\\MasterDataViagem.csproj",
       "projectName": "MasterDataViagem",
-      "projectPath": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\MasterDataViagem.csproj",
-      "packagesPath": "C:\\Users\\tavar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tavar\\Documents\\LAPR5\\MasterDataViagem\\obj\\",
+      "projectPath": "D:\\ISEP\\MasterDataViagem\\MasterDataViagem.csproj",
+      "packagesPath": "C:\\Users\\josec\\.nuget\\packages\\",
+      "outputPath": "D:\\ISEP\\MasterDataViagem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tavar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\josec\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

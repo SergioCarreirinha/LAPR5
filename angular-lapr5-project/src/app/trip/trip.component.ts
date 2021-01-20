@@ -7,6 +7,8 @@ import { PassingTimeService } from '../services/passing-time/passing-time.servic
 import { IPassingTime } from '../interfaces/IPassingTimes';
 import { LineService } from '../services/line/line.service';
 import { ILine } from '../interfaces/ILine';
+import { PathService } from '../services/path/path.service';
+import { IPath } from '../interfaces/IPath';
 
 @Component({
   selector: 'app-trip',
@@ -46,9 +48,9 @@ export class CreateTripComponent implements OnInit {
   passingTrips: any[] = [];
   passingTimes: any[] = [];
   lines: ILine[] = [];
+  linePaths: IPath[] = [];
 
-
-  constructor(private serviceLine: LineService, private service: TripService, private serviceP: PassingTimeService, private location: Location) { }
+  constructor(private serviceLine: LineService, private service: TripService, private serviceP: PassingTimeService, private pathService: PathService) { }
 
   ngOnInit(): void {
     this.getPassingTimes();
@@ -63,8 +65,41 @@ export class CreateTripComponent implements OnInit {
     this.serviceP.getPassingTimes().subscribe(passingTime => this.passingTimes = passingTime);
   }
 
+  getPaths(){
+    this.linePaths = [];
+    var select = document.getElementById("selectLine");
+    let linekey = (<HTMLInputElement>select).value;
+    let line;
+    this.lines.forEach(element => {
+      if(element.key == linekey){
+        line = element.name;
+      }
+    });
+    this.pathService.getLinePaths(line).subscribe(path => this.getPathsInfo(path));
+  }
+
+  private getPathsInfo(p: any[]) {
+    for (let i = 0; i < p.length; i++) {
+
+      if (p[i].linePath != undefined) {
+
+        for (let j = 0; j < p[i].linePath.length; j++) {
+          const key = p[i].linePath[j].path;
+          this.getPathByKey(key);
+        }
+
+      } else {
+        this.getPathByKey(p[i].props.path)
+      }
+    }
+  }
+
+  private getPathByKey(key: string) {
+    this.pathService.getPathByKey(key).subscribe(p => this.linePaths.push(p));
+  }
+
   addTrip(key: string, isEmpty: string, orientation: string, line: string, path: string, isGenerated: string) {
-    if (!key || !isEmpty || !orientation || !line || !path || !isGenerated) {
+    if (!key || !line || !path) {
       Swal.fire({
         title: 'Aviso!',
         text: "Viagem não foi criada. Parâmetros inválidos.",
@@ -80,36 +115,78 @@ export class CreateTripComponent implements OnInit {
       for (let passingTrip of this.passingTrips) {
         passingTripId.push(passingTrip.id);
       }
-      this.service.addTrip({
-        key: key,
-        isEmpty: isEmpty,
-        orientation: orientation,
-        line: line,
-        path: path,
-        isGenerated: isGenerated,
-        passingTimes: passingTripId,
-      } as ITrip).subscribe(res => {
-        Swal.fire({
-          title: 'Sucesso!',
-          text: 'Viagem criada',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          timer: 3000,
-          showConfirmButton: false,
-        })
-      },err => {
-        console.log(err);
-        if(err.status==400){
+      if(orientation == 'adhoc'){
+        //Create a Go Trip
+        this.service.addTrip({key: key,
+          isEmpty: isEmpty,
+          orientation: "Go",
+          line: line,
+          path: path,
+          isGenerated: isGenerated,
+          passingTimes: passingTripId,} as ITrip).subscribe();
+        
+        //Create a Return Trip
+        this.service.addTrip({
+          key: key+'_Return',
+          isEmpty: isEmpty,
+          orientation: "Return",
+          line: line,
+          path: path,
+          isGenerated: isGenerated,
+          passingTimes: passingTripId,} as ITrip).subscribe(res => {
+            Swal.fire({
+              title: 'Sucesso!',
+              text: 'Viagem criada',
+              icon: 'success',
+              confirmButtonText: 'Ok',
+              timer: 3000,
+              showConfirmButton: false,
+            })
+          },err => {
+            console.log(err);
+            if(err.status==400){
+              Swal.fire({
+                title: 'Error!',
+                text: 'There is a Trip with that Key',
+                icon: 'error',
+                confirmButtonText: 'Ok',
+                timer: 2500,
+                showConfirmButton: false,
+              })
+            }
+          });
+      } else {
+        this.service.addTrip({
+          key: key,
+          isEmpty: isEmpty,
+          orientation: orientation,
+          line: line,
+          path: path,
+          isGenerated: isGenerated,
+          passingTimes: passingTripId,
+        } as ITrip).subscribe(res => {
           Swal.fire({
-            title: 'Error!',
-            text: 'There is a Trip with that Key',
-            icon: 'error',
+            title: 'Sucesso!',
+            text: 'Viagem criada',
+            icon: 'success',
             confirmButtonText: 'Ok',
-            timer: 2500,
+            timer: 3000,
             showConfirmButton: false,
           })
-        }
-      });
+        },err => {
+          console.log(err);
+          if(err.status==400){
+            Swal.fire({
+              title: 'Error!',
+              text: 'There is a Trip with that Key',
+              icon: 'error',
+              confirmButtonText: 'Ok',
+              timer: 2500,
+              showConfirmButton: false,
+            })
+          }
+        });
+      }
     }
   }
 
@@ -153,7 +230,6 @@ export class CreateTripComponent implements OnInit {
         timer: 2500,
         showConfirmButton: false,
       })
-
     }
   }
 }

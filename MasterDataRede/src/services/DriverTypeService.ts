@@ -22,7 +22,9 @@ export default class DriverTypeService implements IDriverTypeService {
                 return Result.fail<IDriverTypeDTO>(driverType.errorValue());
             }
 
-            await this.driverTypeRepo.save(driverType.getValue());
+            if((await this.driverTypeRepo.save(driverType.getValue())) == null) {
+                return Result.fail<IDriverTypeDTO>("Description already in the system");
+            }
 
             const vehicleTypeReturn = DriverTypeMap.toDTO(driverType.getValue()) as IDriverTypeDTO;
             return Result.ok<IDriverTypeDTO>(vehicleTypeReturn);

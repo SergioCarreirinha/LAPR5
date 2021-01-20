@@ -29,7 +29,7 @@ export default class DriverTypeController implements IDriverTypeController {
             const callService = await this.driverTypeServiceInstance.createDriverType(req.body as IDriverTypeDTO) as Result<IDriverTypeDTO>;
 
             if(callService.isFailure) {
-                return res.status(402).send();
+                return res.status(406).send();
             }
 
             return res.status(201).json(callService.getValue());

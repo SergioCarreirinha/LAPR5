@@ -5,7 +5,6 @@ import fileUpload from './routes/FileUploadRouter';
 import Node from './routes/NodeRouter';
 import Line from './routes/LineRouter';
 import LinePaths from './routes/LinePathsRouter';
-import Driver from './routes/DriverRouter';
 import Path from './routes/PathRouter';
 import Planning from './routes/PlanningRouter';
 
@@ -20,7 +19,6 @@ export default () => {
 	Node(app);
 	Line(app);
 	LinePaths(app);
-	Driver(app);
 	Path(app);
 	Planning(app);
 	return app

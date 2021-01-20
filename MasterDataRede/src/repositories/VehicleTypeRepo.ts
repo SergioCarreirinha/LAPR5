@@ -33,16 +33,7 @@ export default class VehicleTypeRepo implements IVehicleTypeRepo{
                 const vehicleTypeCreated = await this.vehicleTypeSchema.create(rawVehicleType);
                 return VehicleTypeMap.toDomain(vehicleTypeCreated);
             }else{
-                document.key = vehicleType.key;
-                document.name = vehicleType.name;
-                document.autonomy = vehicleType.autonomy;
-                document.cost = vehicleType.cost;
-                document.averageSpeed = vehicleType.averageSpeed;
-                document.energySource = vehicleType.energySource;
-                document.consumption = vehicleType.consumption;
-                document.emissions = vehicleType.emissions;
-                await document.save();
-                return vehicleType;
+                return null;
             }
         } catch(e){
             throw e;

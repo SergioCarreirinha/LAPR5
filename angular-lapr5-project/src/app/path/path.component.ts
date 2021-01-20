@@ -122,8 +122,8 @@ export class PathComponent implements OnInit {
       console.log('Invalid Paramaters. Path wasnt added');
 
       Swal.fire({
-        title: 'Warning!',
-        text: "Path couldn't be added. Invalid Paramaters.",
+        title: 'Aviso!',
+        text: "Caminho não foi adicionado, verifique os parâmetros!",
         icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
@@ -136,8 +136,8 @@ export class PathComponent implements OnInit {
     if (this.pathNodes.length === 1) {
 
       Swal.fire({
-        title: 'Warning!',
-        text: "Path couldn't be added. It should have more than one node!",
+        title: 'Aviso!',
+        text: "Caminho não foi adicionado, tem que ter mais que um Nó!",
         icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
@@ -154,19 +154,31 @@ export class PathComponent implements OnInit {
       isEmpty: isEmpty,
       pathNodes: this.pathNodes
     } as IPath)
-      .subscribe(path => { this.paths.push(path) });
+      .subscribe((res:any) => { 
+        //reset the array when the path is added
+        this.pathNodes = [];
 
-    //reset the array when the path is added
-    this.pathNodes = [];
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Caminho criado!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 2500,
+          showConfirmButton: false,
+        })
+      }, (err:any) => {
+        if(err.status == 406) {
+          Swal.fire({
+            title: 'Erro!',
+            text: 'Já existe um caminho com essa chave!',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            timer: 2500,
+            showConfirmButton: false,
+          })
+        }
+      });
 
-    Swal.fire({
-      title: 'Success!',
-      text: 'Path Created',
-      icon: 'success',
-      confirmButtonText: 'Ok',
-      timer: 2500,
-      showConfirmButton: false,
-    })
   }
 
   goBack(): void {

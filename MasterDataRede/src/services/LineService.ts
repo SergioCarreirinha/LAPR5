@@ -23,8 +23,10 @@ export default class LineService implements ILineService {
                 return Result.fail<ILineDTO>(lineCreated.errorValue());
             }
 
-            await this.lineRepo.save(lineCreated.getValue());
-
+            if((await this.lineRepo.save(lineCreated.getValue())) == null) {
+                return Result.fail<ILineDTO>("Line already in the system");
+            }
+            
             const lineReturn = LineMap.toDTO(lineCreated.getValue()) as ILineDTO;
             return Result.ok<ILineDTO>(lineReturn);
         } catch (e) {

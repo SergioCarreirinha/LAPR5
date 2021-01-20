@@ -50,6 +50,10 @@ export default class LinePathsService implements ILinePathsService {
 
       const a = await this.pathRepo.save(path.getValue());
 
+      if(a == null) {
+        return Result.fail<ILineDTO>("Path already in the system!");
+      }
+
       if (linePathsDTO.toGo) {
         var linePath = LinePath.create("Line" + path.getValue().key, path.getValue().key, "Go").getValue();
       } else {

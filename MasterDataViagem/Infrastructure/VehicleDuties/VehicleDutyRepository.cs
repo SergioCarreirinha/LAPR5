@@ -23,11 +23,11 @@ namespace MasterDataViagem.Infrastructure.VehicleDuties
         }
 
         public async Task<bool> verifyVehicleDutyKey(string k){
-            string query= $"SELECT [Id] FROM [VehicleDuties] WHERE [key]='{k}'";
+            string query= $"SELECT * FROM [VehicleDuties] WHERE [key]='{k}'";
 
             var list = await this._db.FromSqlRaw(query).ToListAsync();
             
-            if(list[0].Id==null){
+            if(list.Count == 0){
                 return false;
             }else{
                 return true;

@@ -32,13 +32,7 @@ export default class PathRepo implements IPathRepo{
                 const pathCreated = await this.PathSchema.create(rawPath);
                 return PathMap.toDomain(pathCreated);
             }else{
-                document.key = path.key;
-                document.isEmpty = path.isEmpty;
-                document.pathNodes = path.pathNodes;
-                document.totalDur = path.totalDur;
-                document.totalDist = path.totalDist;
-                await document.save();
-                return path;
+                return null;
             }
         } catch(e){
             throw e;

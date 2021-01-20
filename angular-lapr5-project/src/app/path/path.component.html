@@ -1,41 +1,43 @@
 <app-navbar></app-navbar>
 <div class="jumbotron">
-  <h2>Quais os Nós de Caminho que atravessam?</h2>
-  <div>
-    <label>Chave do Nó de Caminho
+  <div class="grid-container">
+    <div class="grid-item">
+    <h2>Quais os Nós de Caminho que atravessam?</h2>
+    <div>
+      <label>Chave do Nó de Caminho
+        <br>
+        <input name='pathNodeKey' #pathNodeKey />
+      </label>
       <br>
-      <input name='pathNodeKey' #pathNodeKey />
-    </label>
-    <br>
-    <label>Nó
+      <label>Nó
+        <br>
+        <select name='nodeKey' #node>
+          <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
+        </select>
+      </label>
       <br>
-      <select name='nodeKey' #node>
-        <option *ngFor="let node of nodes" value={{node.name}}>{{node.name}}</option>
-      </select>
-    </label>
-    <br>
-    <label>Duração
+      <label>Duração
+        <br>
+        <input name='duration' type="number" min=0 #duration />
+      </label>
       <br>
-      <input name='duration' type="number" min=0 #duration />
-    </label>
-    <br>
-    <label>Distância
+      <label>Distância
+        <br>
+        <input name='distance' type="number" min=0 #distance />
+      </label>
       <br>
-      <input name='distance' type="number" min=0 #distance />
-    </label>
-    <br>
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button id='addPathNode'
-      (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; duration.value=''; distance.value='';"
-      class="btn btn-primary">
-      Adicionar Nó de Caminho
-    </button>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button id='addPathNode'
+        (click)="addPathNode(pathNodeKey.value,node.value,duration.value,distance.value); pathNodeKey.value=''; duration.value=''; distance.value='';"
+        class="btn btn-primary">
+        Adicionar Nó de Caminho
+      </button>
 
-  </div>
-  <br>
-  <br>
+    </div>
+    <br>
+    <br>
 
-  <h2>Criar Caminho</h2>
+    <h2>Criar Caminho</h2>
 
   <div>
     <label>Chave do Caminho
@@ -66,4 +68,27 @@
       Criar Caminho
     </button>
   </div>
+  </div>
+  <div class="grid-item">
+    <h2>Nós Selecionados</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Chave</th>
+                <th scope="col">Nó</th>
+                <th scope="col">Duração</th>
+                <th scope="col">Distância</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let path of pathNodes">
+                <td>{{path[0]}}</td>
+                <td>{{path[1]}}</td>
+                <td>{{path[2]}}</td>
+                <td>{{path[3]}}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
 </div>

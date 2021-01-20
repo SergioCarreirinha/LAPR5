@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
       'username': ['', [Validators.required]],
       'email': ['', [Validators.required]],
       'password': ['', [Validators.required]],
+      'checkpassword': ['', [Validators.required]],
       'gdprCheck': ['', [Validators.requiredTrue]]
     });
   }
@@ -29,33 +30,37 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    this.authService.register(this.registerForm.value).subscribe(
+    if(this.registerForm.get('checkpassword').value == this.registerForm.get('password').value){ 
+      this.authService.register(this.registerForm.value).subscribe(
+        (res: any) => {
+          console.log(res);
+          if (res.succeeded) {
+            this.authService.formModel.reset();
+            this.toastr.success('Utilizador criado com sucesso!', 'Registado com sucesso.');
+            this.router.navigateByUrl('/login');
+          } else {
+            res.errors.forEach(element => {
+              console.log(element);
+              switch (element.code) {
+                case 'DuplicateUserName':
+                  this.toastr.error('Username já existente.', 'Erro no Registo.');
+                  break;
 
-      (res: any) => {
-        console.log(res);
-        if (res.succeeded) {
-          this.authService.formModel.reset();
-          this.toastr.success('Utilizador criado com sucesso!', 'Registado com sucesso.');
-          this.router.navigateByUrl('/login');
-        } else {
-          res.errors.forEach(element => {
-            console.log(element);
-            switch (element.code) {
-              case 'DuplicateUserName':
-                this.toastr.error('Username já existente.', 'Erro no Registo.');
-                break;
-
-              default:
-                this.toastr.error(element.description, 'Erro no Registo.');
-                break;
-            }
-          });
+                default:
+                  this.toastr.error(element.description, 'Erro no Registo.');
+                  break;
+              }
+            });
+          }
+        },
+        err => {
+          console.log(err);
         }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+      );
+    } else {
+      this.authService.formModel.reset();
+      this.toastr.error('Password não correspondente', 'Erro no Registo.');
+    }
   }
 
   get username() {
@@ -66,6 +71,10 @@ export class RegisterComponent implements OnInit {
   }
   get password() {
     return this.registerForm.get('password');
+  }
+  
+  get checkpassword() {
+    return this.registerForm.get('checkpassword');
   }
 
 }
