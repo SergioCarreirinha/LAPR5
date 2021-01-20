@@ -50,7 +50,7 @@ export class MapComponent implements OnInit {
 
     this.drawNodesAndLines();
     //this.addLight();
-
+    this.addTooltips();
   }
 
 
@@ -74,9 +74,7 @@ export class MapComponent implements OnInit {
               map,
               mbxContext,
               {
-                realSunlight: true,
-                enableSelectingObjects: true, //enable 3D models over/selection
-                enableTooltips: true // enable default tooltips on fill-extrusion and 3D models
+                defaultLights: true
               }
             );
 
@@ -122,6 +120,80 @@ export class MapComponent implements OnInit {
 
     //   }
     // })
+  }
+
+  //retirado de https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+  addTooltips() {
+    let _this = this;
+
+    _this.map.on('load', function () {
+      _this.map.loadImage(
+        'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+
+        function (error, image) {
+          if (error) throw error;
+          _this.map.addImage('custom-marker', image);
+        }
+      );
+
+      _this.nodeService.getNodes().subscribe(nodes=>{
+
+        for(let node of nodes){
+          console.log(node.key);
+          _this.map.addSource(node.key, {
+            'type': 'geojson',
+            'data': {
+              'type': 'FeatureCollection',
+              'features': [
+                {
+                  'type': 'Feature',
+                  'properties': {
+                    'description':
+                      '<strong>' + node.key+ '</strong><p>Name: ' + node.name + '<br>Long: ' + node.longitude + '<br>Lat: ' + node.latitude + '</p>'
+                  },
+                  'geometry': {
+                    'type': 'Point',
+                    'coordinates': [node.longitude+0.0001,node.latitude+0.0001]
+                  }
+                }
+              ]
+            }
+          });
+    
+          _this.map.addLayer({
+            'id': node.key,
+            'type': 'symbol',
+            'source': node.key,
+            'layout': {
+              'icon-image': 'custom-marker',
+              'icon-allow-overlap': true
+            }
+          });
+    
+          var popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+          });
+    
+          _this.map.on('mouseenter', node.key, function (e) {
+            
+            _this.map.getCanvas().style.cursor = 'pointer';
+    
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+    
+            popup.setLngLat(coordinates).setHTML(description).addTo(_this.map);
+          });
+    
+          _this.map.on('mouseleave', node.key, function () {
+            _this.map.getCanvas().style.cursor = '';
+            popup.remove();
+          });
+        }
+      })
+
+    });
+
   }
 
   setArrayLines() {
@@ -365,7 +437,7 @@ class PitchToggle {
       let map = this.map;
       let nodesIn = this.nodes;
 
-      
+
       map.addLayer({
         id: 'custom_layer2',
         type: 'custom',
@@ -388,15 +460,15 @@ class PitchToggle {
 
           const light = new THREE.AmbientLight(0x666666);
           tb.add(light);
-          
-          const datGui  = new dat.GUI({ autoPlace: true });
+
+          const datGui = new dat.GUI({ autoPlace: true });
           const container = document.getElementById('guiDIV');
           container.appendChild(datGui.domElement);
           datGui.add(directionalLight, 'intensity', 0, 2, 0.01);
           datGui.add(directionalLight.target.position, 'x', -10, 10, 0.01);
           datGui.add(directionalLight.target.position, 'z', -10, 10, 0.01);
           datGui.add(directionalLight.target.position, 'y', 0, 10, 0.01);
-          
+
           for (let point of nodesIn) {
             var model;
             if (point.isDepot === "true") {
@@ -405,7 +477,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Depot_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 90, z: 0 },
-                shadow:true
+                shadow: true
               }
             } else if (point.isReliefPoint === "true") {
               model = {
@@ -413,7 +485,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Relief_Point.gltf',
                 scale: 0.015,
                 rotation: { x: 90, y: 180, z: 0 },
-                shadow:true
+                shadow: true
               }
             } else {
               model = {
@@ -421,7 +493,7 @@ class PitchToggle {
                 obj: '../../assets/3DModel/Bus_Stop.gltf',
                 scale: 0.01,
                 rotation: { x: 90, y: 180, z: 0 },
-                shadow:true
+                shadow: true
               }
             }
             let locatedModel;
@@ -438,7 +510,7 @@ class PitchToggle {
         }
 
       });
-      
+
     });
   }
 
