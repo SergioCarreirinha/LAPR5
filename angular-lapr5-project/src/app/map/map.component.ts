@@ -122,13 +122,14 @@ export class MapComponent implements OnInit {
     // })
   }
 
+  //retirado de https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
   addTooltips() {
     let _this = this;
 
     _this.map.on('load', function () {
       _this.map.loadImage(
         'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
-        // Add an image to use as a custom marker
+
         function (error, image) {
           if (error) throw error;
           _this.map.addImage('custom-marker', image);
@@ -148,7 +149,7 @@ export class MapComponent implements OnInit {
                   'type': 'Feature',
                   'properties': {
                     'description':
-                      '<strong>' + node.key+ '</strong><p>Name:' + node.name + '<br>Long:' + node.longitude + '<br>Lat:' + node.latitude + '</p>'
+                      '<strong>' + node.key+ '</strong><p>Name: ' + node.name + '<br>Long: ' + node.longitude + '<br>Lat: ' + node.latitude + '</p>'
                   },
                   'geometry': {
                     'type': 'Point',
@@ -159,7 +160,6 @@ export class MapComponent implements OnInit {
             }
           });
     
-          // Add a layer showing the places.
           _this.map.addLayer({
             'id': node.key,
             'type': 'symbol',
@@ -170,28 +170,18 @@ export class MapComponent implements OnInit {
             }
           });
     
-          // Create a popup, but don't add it to the map yet.
           var popup = new mapboxgl.Popup({
             closeButton: false,
             closeOnClick: false
           });
     
           _this.map.on('mouseenter', node.key, function (e) {
-            // Change the cursor style as a UI indicator.
+            
             _this.map.getCanvas().style.cursor = 'pointer';
     
             var coordinates = e.features[0].geometry.coordinates.slice();
             var description = e.features[0].properties.description;
     
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-    
-            // Populate the popup and set its coordinates
-            // based on the feature found.
             popup.setLngLat(coordinates).setHTML(description).addTo(_this.map);
           });
     
