@@ -50,7 +50,7 @@ export class MapComponent implements OnInit {
 
     this.drawNodesAndLines();
     //this.addLight();
-    this.addTooltips();
+    this.addNodeTooltips();
   }
 
 
@@ -102,28 +102,10 @@ export class MapComponent implements OnInit {
       }); this.drawLines();
 
     });
-
-    // this.nodeService.getNodes().subscribe(node => {
-    //   this.nodes = node;
-    //   for (var i = 0; i < this.nodes.length; i++) {
-
-    //     new mapboxgl.Marker({ color: 'red', scale: 1 }).setLngLat([this.nodes[i].longitude, this.nodes[i].latitude]).setPopup(
-    //       new mapboxgl.Popup({ offset: 25 }).setText(
-    //         this.nodes[i].key + ' name:' +
-    //         this.nodes[i].name +
-    //         ' Lat: ' +
-    //         this.nodes[i].latitude +
-    //         '   Lon: ' +
-    //         this.nodes[i].longitude,
-    //       ),
-    //     ).addTo(this.map);
-
-    //   }
-    // })
   }
 
   //retirado de https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
-  addTooltips() {
+  addNodeTooltips() {
     let _this = this;
 
     _this.map.on('load', function () {
@@ -136,10 +118,9 @@ export class MapComponent implements OnInit {
         }
       );
 
-      _this.nodeService.getNodes().subscribe(nodes=>{
+      _this.nodeService.getNodes().subscribe(nodes => {
 
-        for(let node of nodes){
-          console.log(node.key);
+        for (let node of nodes) {
           _this.map.addSource(node.key, {
             'type': 'geojson',
             'data': {
@@ -149,17 +130,17 @@ export class MapComponent implements OnInit {
                   'type': 'Feature',
                   'properties': {
                     'description':
-                      '<strong>' + node.key+ '</strong><p>Name: ' + node.name + '<br>Long: ' + node.longitude + '<br>Lat: ' + node.latitude + '</p>'
+                      '<strong>' + node.name + '</strong>'
                   },
                   'geometry': {
                     'type': 'Point',
-                    'coordinates': [node.longitude+0.0001,node.latitude+0.0001]
+                    'coordinates': [node.longitude + 0.0001, node.latitude + 0.0001]
                   }
                 }
               ]
             }
           });
-    
+
           _this.map.addLayer({
             'id': node.key,
             'type': 'symbol',
@@ -169,22 +150,26 @@ export class MapComponent implements OnInit {
               'icon-allow-overlap': true
             }
           });
-    
+
           var popup = new mapboxgl.Popup({
             closeButton: false,
             closeOnClick: false
           });
-    
-          _this.map.on('mouseenter', node.key, function (e) {
-            
-            _this.map.getCanvas().style.cursor = 'pointer';
-    
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties.description;
-    
-            popup.setLngLat(coordinates).setHTML(description).addTo(_this.map);
-          });
-    
+
+
+            _this.map.on('mouseenter', node.key, function (e) {
+
+              _this.map.getCanvas().style.cursor = 'pointer';
+
+              var coordinates = e.features[0].geometry.coordinates.slice();
+              var description = e.features[0].properties.description;
+
+
+              popup.setLngLat(coordinates).setHTML(description).addTo(_this.map);
+
+
+            });
+
           _this.map.on('mouseleave', node.key, function () {
             _this.map.getCanvas().style.cursor = '';
             popup.remove();
@@ -265,9 +250,67 @@ export class MapComponent implements OnInit {
         let newCoords = this.lineOverlap(coords);
         if (coords.length > 0) {
           this.drawLine(newCoords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
+          this.addLineTooltip(newCoords, this.lines[i].name, this.rgbToHex(this.lines[i].color));
         }
         coords = [];
       }
+    });
+  }
+
+  addLineTooltip(coords: number[][], lineName: string, color: string) {
+    let _this = this;
+
+    this.map.on('load', function () {
+      _this.map.addSource('tooltip ' + lineName, {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {
+            'description':
+              '<strong>' + lineName + '</strong>'
+          },
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': coords
+          }
+        }
+      });
+      _this.map.addLayer({
+        'id': 'tooltip ' + lineName,
+        'type': 'line',
+        'source': 'tooltip ' + lineName,
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': 'rgba(0,0,225,0)',
+          'line-width': 3
+        }
+      });
+
+      var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+
+        _this.map.on('mouseenter', 'tooltip ' + lineName, function (e) {
+
+          _this.map.getCanvas().style.cursor = 'pointer';
+
+          var description = e.features[0].properties.description;
+
+
+          popup.setLngLat(e.lngLat).setHTML(description).addTo(_this.map);
+        });
+
+      _this.map.on('mouseleave', 'tooltip ' + lineName, function () {
+        _this.map.getCanvas().style.cursor = '';
+        popup.remove();
+
+      });
+
+
     });
   }
 
