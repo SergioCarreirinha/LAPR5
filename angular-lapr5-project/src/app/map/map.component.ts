@@ -376,7 +376,8 @@ class PitchToggle {
             map,
             mbxContext,
              {
-              enableShadows:true
+              enableShadows:true,
+              FirstPersonControls:true
             }
           );
 
@@ -567,7 +568,7 @@ class PitchToggleNavigation {
         toggle = true;
         map.dragRotate.enable();
         let tb;
-        var origin = [41.162513102751454, -8.583591];
+        var origin = [41.187208, -8.3757027];
         map.addLayer({
           id: 'custom_layer22',
           type: 'custom',
@@ -578,12 +579,7 @@ class PitchToggleNavigation {
               map,
               mbxContext,
               {
-                defaultLights: true,
-                enableSelectingFeatures: true,
-                enableSelectingObjects: true,
-                enableDraggingObjects: true,
-                enableRotatingObjects: true,
-                enableTooltips: true
+                defaultLights:true
               }
             );
 
@@ -592,8 +588,8 @@ class PitchToggleNavigation {
             // otherwise you'll receive a 404 error
             let model = {
               type: 'gltf',
-              obj: 'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
-              scale: 1,
+              obj: '../../assets/3DModel/autocarro.gltf',
+              scale: 0.009,
               rotation: { x: 90, y: 90, z: 0 },
             }
             let locatedModel;
