@@ -123,7 +123,7 @@ inicializaRequest(nGer, nPop, pCruz, pMut, nTarget, nRepetidos):-
 
 postSolution(Pop,Eva):-
     Term = json([population=Pop,evaluation=Eva]),
-    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, [content("application/json"),authorization(bearer('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJhYzIxZjk0MC00NGYwLTQ1NmEtOGVlNi0zYThjYzRjOGE4M2MiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MDk4ODY5NTcsImV4cCI6MTYwOTk3MzM1NywiaWF0IjoxNjA5ODg2OTU3fQ.Ny3tdQNgRbirhWJ_2Vj4WyjyX_uyymthdUp2mZlMlDk'))
+    http_post('https://mdv-g25.azurewebsites.net/api/genetic', json(Term), _, [content("application/json"),authorization(bearer('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTExNjAzMDQsImV4cCI6MTYxMTI0NjcwNCwiaWF0IjoxNjExMTYwMzA0fQ.RkLcZFQb_-cD2DySiyW4c09xCzcFIO32a0NImkSX0yg'))
 ]).
 
 %Cria uma lista com os condutores

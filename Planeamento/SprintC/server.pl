@@ -30,8 +30,8 @@ server(Port) :-
 :- http_handler('api/genetics',post_data,[]).
 
 server(Port) :-
-        http_server(http_dispatch, [ 
-				port(Port), 
+        http_server(http_dispatch, [
+				port(Port),
 				workers(16) ]).
 
 
@@ -39,6 +39,7 @@ server(Port) :-
 
 post_data(Request):-
 	cors_enable,
+        format('Access-Control-Allow-Headers: ~w~n', [*]),
 	http_read_json(Request,data),
 	process_data_json(data).
 
