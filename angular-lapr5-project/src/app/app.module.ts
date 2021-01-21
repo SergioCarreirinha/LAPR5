@@ -36,7 +36,6 @@ import { PlanningSprintCComponent } from './planning-sprint-c/planning-sprint-c.
 import { UserComponent } from './user/user.component';
 import { DriverDutyComponent, DriverDutyListComponent } from './driver-duty/driver-duty.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
