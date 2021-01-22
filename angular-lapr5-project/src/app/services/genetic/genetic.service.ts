@@ -20,6 +20,10 @@ export class GeneticService {
   }
 
   createSolution(data: IRequestSolution) {
+    let headers = new HttpHeaders();
+
+    headers.set("Access-Control-Allow-Origin", "*");
+
     let params = new HttpParams();
     params.set('nGenerations', data.nGenaration.toString());
     params.set('nPopulation', data.nPopulation.toString());
@@ -28,6 +32,6 @@ export class GeneticService {
     params.set('nTarget', data.nTarget.toString());
     params.set('nStability', data.nStability.toString());
 
-    return this.http.post(this.postGeneticUrl, null, {params});
+    return this.http.post(this.postGeneticUrl, null, {headers, params});
   }
 }
