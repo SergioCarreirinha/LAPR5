@@ -27,25 +27,26 @@ server(Port) :-
                   workers(16)
                 ]).
 
-:- http_handler('api/genetics',post_data,[]).
+:- http_handler('/api/genetics',post_data,[]).
 
 server(Port) :-
-        http_server(http_dispatch, [
-				port(Port),
-				workers(16) ]).
-
-
-
+  http_server(http_dispatch, [
+  port(Port),
+  workers(16) ]).
 
 post_data(Request):-
-	cors_enable,
-        format('Access-Control-Allow-Headers: ~w~n', [*]),
-	http_read_json(Request,data),
-	process_data_json(data).
-
-
-process_data_json([json([nGenaration=gen,nPopulation=npop,pCrossing=cro,pMutation=mut,nTarget=trg,nStability=sta])|T]):-
-	gerarRequest(gen, npop, cro, mut, trg, sta).
+  cors_enable,
+  format('Access-Control-Allow-Origin: ~w~n', [*]),
+  format('Access-Control-Allow-Headers: ~w~n', [*]),
+	http_parameters(Request,
+    [nGeneration(Ger,[integer]),
+    nPopulation(Pop,[integer]),
+    pCrossing(Cruz,[integer]),
+    pMutation(Mut,[integer]),
+    nTarget(Tar,[integer]),
+    nStability(Repet,[integer])]),
+   gerarRequest(Ger, Pop, Cruz, Mut, Tar, Repet),
+   reply_json(null).
 
 
 %-------------------------------------HTTP Server-------------------------------------%

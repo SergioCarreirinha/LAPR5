@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -16,28 +16,18 @@ export class GeneticService {
   constructor(private http: HttpClient) { }
 
   getSolutions() {
-    return this.http.get<IGetSolution[]>(this.getGeneticUrl)
-      .pipe(
-        catchError(this.handleError<IGetSolution[]>('getSolution', []))
-      );
+    return this.http.get<IGetSolution[]>(this.getGeneticUrl);
   }
 
   createSolution(data: IRequestSolution) {
-    return this.http.post<IRequestSolution>(this.postGeneticUrl, data).pipe(
-      catchError(this.handleError<IRequestSolution>('createSolution')));
-  }
+    let params = new HttpParams();
+    params.set('nGenerations', data.nGenaration.toString());
+    params.set('nPopulation', data.nPopulation.toString());
+    params.set('pCrossing', data.pCrossing.toString());
+    params.set('pMutation', data.pMutation.toString());
+    params.set('nTarget', data.nTarget.toString());
+    params.set('nStability', data.nStability.toString());
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    return this.http.post(this.postGeneticUrl, null, {params});
   }
 }
