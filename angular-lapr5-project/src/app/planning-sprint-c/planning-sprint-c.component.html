@@ -38,6 +38,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let solut of solutions">
+          <td>
           <table class="table">
             <tbody>
               <tr *ngFor="let solution of solut.population">
@@ -45,6 +46,7 @@
               </tr>
             </tbody>
           </table>
+          </td>
             <td>{{solut.evaluation}}</td>
         </tr>
       </tbody>
