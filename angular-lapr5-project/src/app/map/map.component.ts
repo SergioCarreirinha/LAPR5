@@ -157,18 +157,18 @@ export class MapComponent implements OnInit {
           });
 
 
-            _this.map.on('mouseenter', node.key, function (e) {
+          _this.map.on('mouseenter', node.key, function (e) {
 
-              _this.map.getCanvas().style.cursor = 'pointer';
+            _this.map.getCanvas().style.cursor = 'pointer';
 
-              var coordinates = e.features[0].geometry.coordinates.slice();
-              var description = e.features[0].properties.description;
-
-
-              popup.setLngLat(coordinates).setHTML(description).addTo(_this.map);
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
 
 
-            });
+            popup.setLngLat(coordinates).setHTML(description).addTo(_this.map);
+
+
+          });
 
           _this.map.on('mouseleave', node.key, function () {
             _this.map.getCanvas().style.cursor = '';
@@ -294,15 +294,15 @@ export class MapComponent implements OnInit {
         closeOnClick: false
       });
 
-        _this.map.on('mouseenter', 'tooltip ' + lineName, function (e) {
+      _this.map.on('mouseenter', 'tooltip ' + lineName, function (e) {
 
-          _this.map.getCanvas().style.cursor = 'pointer';
+        _this.map.getCanvas().style.cursor = 'pointer';
 
-          var description = e.features[0].properties.description;
+        var description = e.features[0].properties.description;
 
 
-          popup.setLngLat(e.lngLat).setHTML(description).addTo(_this.map);
-        });
+        popup.setLngLat(e.lngLat).setHTML(description).addTo(_this.map);
+      });
 
       _this.map.on('mouseleave', 'tooltip ' + lineName, function () {
         _this.map.getCanvas().style.cursor = '';
@@ -490,9 +490,9 @@ class PitchToggle {
           tb = new THREEBOX(
             map,
             mbxContext,
-             {
-              enableShadows:true,
-              FirstPersonControls:true
+            {
+              enableShadows: true,
+              FirstPersonControls: true
             }
           );
 
@@ -694,7 +694,8 @@ class PitchToggleNavigation {
               map,
               mbxContext,
               {
-                defaultLights:true
+                defaultLights: true,
+                passiveRendering: false
               }
             );
 
@@ -705,14 +706,107 @@ class PitchToggleNavigation {
               type: 'gltf',
               obj: '../../assets/3DModel/autocarro.gltf',
               scale: 0.009,
-              rotation: { x: 90, y: 90, z: 0 },
+              rotation: { x: 90, y: -90, z: 0 },
             }
             let locatedModel;
             tb.loadObj(model, function (model) {
 
-              locatedModel = model.setCoords([-8.583591, 41.162513102751454, 0]);
+              locatedModel = model.setCoords([-8.3757027,41.187208, 0]);
               tb.add(locatedModel);
-            })
+            });
+            map.flyTo({
+              center: [
+                -8.3757027,
+                41.187208
+              ],
+              zoom: 18,
+              essential: true,
+              pitch: 80,
+              bearing: 0
+            });
+
+
+            /* var camera, scene, renderer, mesh, goal, keys, follow;
+
+            var coronaSafetyDistance = 0.3;
+            var velocity = 0.0;
+            var speed = 0.0;
+            var longitude = -8.583591;
+            var latitude = 41.162513102751454;
+
+            function animate() {
+
+              requestAnimationFrame(animate);
+
+              speed = 0.0;
+
+              if (keys.w)
+                speed = 0.01;
+              else if (keys.s)
+                speed = -0.01;
+
+              velocity += (speed - velocity) * .3;
+              mesh.translateZ(velocity);
+
+              if (keys.a)
+                mesh.rotateY(0.05);
+              else if (keys.d)
+                mesh.rotateY(-0.05);
+
+              camera.lookAt(mesh.position);
+
+            } */
+
+            map.bearing = -12;
+            map.pitch = 60;
+
+            // pixels the map pans when the up or down arrow is clicked
+            var deltaDistance = 5;
+
+            // degrees the map rotates when the left or right arrow is clicked
+            var deltaDegrees = 5;
+            
+            function easing(t) {
+              return t * (2 - t);
+            }
+
+            map.getCanvas().focus();
+
+            map.getCanvas().addEventListener(
+              'keydown',
+              function (e) {
+                e.preventDefault();
+                if (e.which === 87) {
+                  // up
+                  map.panBy([0, -deltaDistance], {
+                    easing: easing
+                  });
+                  locatedModel.translateY(-0.21435);
+
+                } else if (e.which === 83) {
+                  // down
+                  map.panBy([0, deltaDistance], {
+                    easing: easing
+                  });
+                  locatedModel.translateY(0.2144);
+                } else if (e.which === 65) {
+                  // left                 
+                  map.easeTo({
+                    bearing: map.getBearing() - deltaDegrees,
+                    easing: easing
+                  });
+                  locatedModel.rotateOnWorldAxis(new THREE.Vector3(0, 0, 1).normalize(), 0.087254);
+                } else if (e.which === 68) {
+                  // right
+                  map.easeTo({
+                    bearing: map.getBearing() + deltaDegrees,
+                    easing: easing
+                  });
+                  locatedModel.rotateOnWorldAxis(new THREE.Vector3(0, 0, 1).normalize(), -0.087254);
+                }
+              },
+              true
+            );
 
           },
 
@@ -723,7 +817,7 @@ class PitchToggleNavigation {
         });
       }
       else {
-        _this._btn.textContent = "1P";
+        _this._btn.textContent = "3P";
         map.dragRotate.disable();
         toggle = false;
         map.removeLayer("custom_layer22");
