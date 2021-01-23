@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MasterDataViagem.Domain.Shared;
-using MasterDataViagem.Domain.WorkBlocks;
+using MasterDataViagem.Mappers;
 using System;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
@@ -25,14 +25,7 @@ namespace MasterDataViagem.Service
         public async Task<List<IVehicleDutyDTO>> Get(){
             var list = await this._repo.getAllVehicleDuty();
 
-            List<IVehicleDutyDTO> listDTO = list.ConvertAll<IVehicleDutyDTO>( vehicleDuty => new IVehicleDutyDTO{ 
-                Id = vehicleDuty.Id.AsGuid(), 
-                key = vehicleDuty.key,
-                name = vehicleDuty.name,
-                color = vehicleDuty.color,
-                depots = vehicleDuty.depots,
-                WorkBlocks = vehicleDuty.WorkBlocks
-            });
+            List<IVehicleDutyDTO> listDTO = list.ConvertAll<IVehicleDutyDTO>( vehicleDuty => VehicleDutyMapper.domainToDTO(vehicleDuty));
 
             return listDTO;
         }
@@ -42,48 +35,19 @@ namespace MasterDataViagem.Service
 
             if(vehicleDuty == null) return null;
 
-            return new IVehicleDutyDTO{ 
-                Id = vehicleDuty.Id.AsGuid(), 
-                key = vehicleDuty.key,
-                name = vehicleDuty.name,
-                color = vehicleDuty.color,
-                depots = vehicleDuty.depots,
-                WorkBlocks = vehicleDuty.WorkBlocks
-            };
+            return VehicleDutyMapper.domainToDTO(vehicleDuty);
         }
 
         public async Task<IVehicleDutyDTO> Create(CVehicleDutyDTO dto)
         {
-            List<WorkBlock> workBlockList=new List<WorkBlock>(); 
-            foreach (var wb in dto.WorkBlocks)
-            {
-
-                if (wb != null)
-                {
-
-                    Console.Write(wb);
-                    WorkBlock workBlock = new WorkBlock(wb);
-                    WorkBlock l = this._repoWb.GetByIdAsync(workBlock.Id).Result;
-                    workBlockList.Add(l);
-
-                }
-            }
-
-            var obj = new VehicleDuty(dto.key, dto.name, dto.color, dto.depots, workBlockList);
+            var obj = VehicleDutyMapper.cDtoToDomain(dto,this._repoWb);
 
             if (!(await this._repo.verifyVehicleDutyKey(dto.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
 
-                return new IVehicleDutyDTO{ 
-                    Id = obj.Id.AsGuid(),
-                    key = obj.key,
-                    name = obj.name,
-                    color = obj.color,
-                    depots = obj.depots,
-                    WorkBlocks = obj.WorkBlocks
-                };
+                return VehicleDutyMapper.domainToDTO(obj);
             
             }else{
                 return null;
@@ -93,20 +57,13 @@ namespace MasterDataViagem.Service
         public async Task<IVehicleDutyDTO> CreateWithoutVerifications(IVehicleDutyDTO dto)
         {
 
-            var obj = new VehicleDuty(dto.key, dto.name, dto.color, dto.depots, dto.WorkBlocks);
+            var obj = VehicleDutyMapper.dtoToDomain(dto);
 
             await this._repo.AddAsync(obj);
 
             await this._unitOfWork.CommitAsync();
 
-            return new IVehicleDutyDTO{ 
-                Id = obj.Id.AsGuid(),
-                key = obj.key,
-                name = obj.name,
-                color = obj.color,
-                depots = obj.depots,
-                WorkBlocks = obj.WorkBlocks
-            };
+            return VehicleDutyMapper.domainToDTO(obj);
         }
 
         public async Task<IVehicleDutyDTO> DeleteAsync(VehicleDutyId id)
@@ -119,14 +76,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(vehicleDuty);
             await this._unitOfWork.CommitAsync();
 
-            return new IVehicleDutyDTO{ 
-                Id = vehicleDuty.Id.AsGuid(), 
-                key = vehicleDuty.key,
-                name = vehicleDuty.name,
-                color = vehicleDuty.color,
-                depots = vehicleDuty.depots,
-                WorkBlocks = vehicleDuty.WorkBlocks
-            };
+            return VehicleDutyMapper.domainToDTO(vehicleDuty);
         }
     }
 }

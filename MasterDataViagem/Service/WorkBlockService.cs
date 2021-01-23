@@ -5,6 +5,7 @@ using MasterDataViagem.Domain.Trip;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.WorkBlocks;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -25,18 +26,7 @@ namespace MasterDataViagem.Service
         {
             var list = await this._repo.GetAllAsync();
 
-            List<IWorkBlockDTO> listDTO = list.ConvertAll<IWorkBlockDTO>(workBlock => new IWorkBlockDTO
-            {
-                Id = workBlock.Id.AsGuid(),
-                key = workBlock.key,
-                startTime = workBlock.startTime,
-                endTime = workBlock.endTime,
-                startNode = workBlock.startNode,
-                endNode = workBlock.endNode,
-                isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive,
-                trips = workBlock.trips
-            });
+            List<IWorkBlockDTO> listDTO = list.ConvertAll<IWorkBlockDTO>(workBlock => WorkBlockMapper.domainToDTO(workBlock));
 
             return listDTO;
         }
@@ -47,55 +37,19 @@ namespace MasterDataViagem.Service
 
             if (workBlock == null) return null;
 
-            return new IWorkBlockDTO
-            {
-                Id = workBlock.Id.AsGuid(),
-                key = workBlock.key,
-                startTime = workBlock.startTime,
-                endTime = workBlock.endTime,
-                startNode = workBlock.startNode,
-                endNode = workBlock.endNode,
-                isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive
-            };
+            return WorkBlockMapper.domainToDTO(workBlock);
         }
         public async Task<IWorkBlockDTO> Create(CWorkBlockDTO workBlock)
         {
-            List<Tripes> tripsList = new List<Tripes>();
-            foreach (var tp in workBlock.trips)
-            {
 
-                if (tp != null)
-                {
-
-                    
-                    Tripes tripId = new Tripes(tp);
-                    Tripes l = this._repoTp.GetByIdAsync(tripId.Id).Result;
-                    tripsList.Add(l);
-
-                }
-            }
-
-            var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime,
-            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive, tripsList);
+            var obj = WorkBlockMapper.cDtoToDomain(workBlock,this._repoTp);
             
             if (!(await this._repo.getByKey(workBlock.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
 
-                return new IWorkBlockDTO
-                {
-                    Id = obj.Id.AsGuid(),
-                    key = workBlock.key,
-                    startTime = workBlock.startTime,
-                    endTime = workBlock.endTime,
-                    startNode = workBlock.startNode,
-                    endNode = workBlock.endNode,
-                    isCrewTravelTime = workBlock.isCrewTravelTime,
-                    isActive = workBlock.isActive,
-                    trips = tripsList
-                };
+                return WorkBlockMapper.domainToDTO(obj);
             } else {
                 return null;
             }
@@ -104,26 +58,14 @@ namespace MasterDataViagem.Service
         public async Task<IWorkBlockDTO> CreateWithoutVerifications(IWorkBlockDTO workBlock)
         {   
             
-            var obj = new WorkBlock(workBlock.key, workBlock.startTime, workBlock.endTime,
-            workBlock.startNode, workBlock.endNode, workBlock.isCrewTravelTime, workBlock.isActive, workBlock.trips);
+            var obj = WorkBlockMapper.dtoToDomain(workBlock);
             
         
             await this._repo.AddAsync(obj);
 
             await this._unitOfWork.CommitAsync();
 
-            return new IWorkBlockDTO
-            {
-                Id = obj.Id.AsGuid(),
-                key = workBlock.key,
-                startTime = workBlock.startTime,
-                endTime = workBlock.endTime,
-                startNode = workBlock.startNode,
-                endNode = workBlock.endNode,
-                isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive,
-                trips = workBlock.trips
-            };
+            return WorkBlockMapper.domainToDTO(obj);
         }
 
         public async Task<IWorkBlockDTO> DeleteAsync(WorkBlockId id)
@@ -137,18 +79,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(workBlock);
             await this._unitOfWork.CommitAsync();
 
-            return new IWorkBlockDTO
-            {
-                Id = workBlock.Id.AsGuid(),
-                key = workBlock.key,
-                startTime = workBlock.startTime,
-                endTime = workBlock.endTime,
-                startNode = workBlock.startNode,
-                endNode = workBlock.endNode,
-                isCrewTravelTime = workBlock.isCrewTravelTime,
-                isActive = workBlock.isActive,
-                trips = workBlock.trips
-            };
+            return WorkBlockMapper.domainToDTO(workBlock);
         }
     }
 }

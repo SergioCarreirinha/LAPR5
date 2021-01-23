@@ -14,31 +14,11 @@ export class DriverService {
 
   constructor(private http: HttpClient, private injector: Injector) { }
 
-
-
   createDriver(driver: IDriver): Observable<IDriver> {
-    return this.http.post<IDriver>(this.DriverURL, driver)
-      .pipe(
-        catchError(this.handleError('createDriver', driver))
-      );
+    return this.http.post<IDriver>(this.DriverURL, driver);
   }
+  
   getAllDrivers(){
-    return this.http.get<IDriver>(this.DriverURL)
-      .pipe(
-        catchError(this.handleError<IDriver>('getAll'))
-      );
-  }
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    return this.http.get<IDriver>(this.DriverURL);
   }
 }

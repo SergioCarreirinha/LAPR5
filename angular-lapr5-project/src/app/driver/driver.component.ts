@@ -15,40 +15,41 @@ export class DriverComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createDriver(name: string, birthdate: string, driverLicenseNum: string, licenseExpiration: string){
+  createDriver(name: string, birthdate: string, driverLicenseNum: string, licenseExpiration: string) {
 
-    if(birthdate != '' && name != '' && driverLicenseNum !='' && licenseExpiration != ''){
+    if (birthdate != '' && name != '' && driverLicenseNum != '' && licenseExpiration != '') {
       this.driverService.createDriver({
         name: name,
         birthdate: birthdate,
         driverLicenseNum: parseInt(driverLicenseNum),
         licenseExpiration: licenseExpiration
       } as IDriver).subscribe((res: any) => {
-        if(res.status != undefined){
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Condutor Criado',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          timer: 2500,
+          showConfirmButton: false,
+        })
+
+      }, (err: any) => {
+        if (err.status == 400) {
           Swal.fire({
-            title: 'Success!',
-            text: 'Driver Created',
-            icon: 'success',
+            title: 'Erro!',
+            text: 'Já existe um condutor com essa carta de condução',
+            icon: 'error',
             confirmButtonText: 'Ok',
             timer: 2500,
             showConfirmButton: false,
           })
-        }else{
-            Swal.fire({
-              title: 'Error!',
-              text: 'There is a driver with that license',
-              icon: 'error',
-              confirmButtonText: 'Ok',
-              timer: 2500,
-              showConfirmButton: false,
-            })
         }
       })
-    }else{
+    } else {
       Swal.fire({
-        title: 'Error!',
-        text: 'invalid parameters',
-        icon: 'error',
+        title: 'Aviso!',
+        text: 'Parametros Inválidos',
+        icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
         showConfirmButton: false,

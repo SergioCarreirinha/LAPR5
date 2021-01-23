@@ -6,6 +6,7 @@ using System;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.Trip;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -25,16 +26,7 @@ namespace MasterDataViagem.Service
         public async Task<List<ITripDTO>> Get(){
             var list = await this._repo.getAllTrips();
 
-            List<ITripDTO> listDTO = list.ConvertAll<ITripDTO>( trip => new ITripDTO{ 
-                Id = trip.Id.AsGuid(), 
-                key = trip.key, 
-                IsEmpty = trip.IsEmpty,
-                Orientation = trip.Orientation,
-                Line = trip.Line,
-                Path = trip.Path, 
-                IsGenerated = trip.IsGenerated,
-                PassingTimes = trip.PassingTimes
-            });
+            List<ITripDTO> listDTO = list.ConvertAll<ITripDTO>( trip => TripMapper.domainToDTO(trip));
             
             return listDTO;
         }
@@ -44,52 +36,19 @@ namespace MasterDataViagem.Service
 
             if(trip == null) return null;
 
-            return new ITripDTO{ 
-                Id = trip.Id.AsGuid(), 
-                key = trip.key, 
-                IsEmpty = trip.IsEmpty,
-                Orientation = trip.Orientation,
-                Line = trip.Line,
-                Path = trip.Path, 
-                IsGenerated = trip.IsGenerated,
-                PassingTimes = trip.PassingTimes
-            };
+            return TripMapper.domainToDTO(trip);
         }
 
         public async Task<ITripDTO> Create(CTripDTO trip)
         {   
-            List<PassingTime> passingTimeList= new List<PassingTime>(); 
-            foreach (var pt in trip.PassingTimes)
-            {
-
-                if (pt != null)
-                {
-
-                    Console.Write(pt);
-                    PassingTime ptId = new PassingTime(pt);
-                    PassingTime ptM = this._repoPt.GetByIdAsync(ptId.Id).Result;
-                    passingTimeList.Add(ptM);
-
-                }
-            }
-
-            var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated, passingTimeList);
+            var obj = TripMapper.cDtoToDomain(trip,this._repoPt);
 
             if (!(await this._repo.getByKey(trip.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
 
-                return new ITripDTO{ 
-                    Id = obj.Id.AsGuid(), 
-                    key = obj.key, 
-                    IsEmpty = obj.IsEmpty,
-                    Orientation = obj.Orientation,
-                    Line = obj.Line,
-                    Path = obj.Path, 
-                    IsGenerated = obj.IsGenerated,
-                    PassingTimes = passingTimeList
-                };
+                return TripMapper.domainToDTO(obj);
             } else {
                 return null;
             }
@@ -98,22 +57,13 @@ namespace MasterDataViagem.Service
         public async Task<ITripDTO> CreateWithoutVerifications(ITripDTO trip)
         {   
 
-            var obj = new Tripes(trip.key, trip.IsEmpty, trip.Orientation, trip.Line, trip.Path, trip.IsGenerated, trip.PassingTimes);
+            var obj = TripMapper.dtoToDomain(trip);
 
             await this._repo.AddAsync(obj);
 
             await this._unitOfWork.CommitAsync();
 
-            return new ITripDTO{ 
-                Id = obj.Id.AsGuid(), 
-                key = obj.key, 
-                IsEmpty = obj.IsEmpty,
-                Orientation = obj.Orientation,
-                Line = obj.Line,
-                Path = obj.Path, 
-                IsGenerated = obj.IsGenerated,
-                PassingTimes = trip.PassingTimes
-            };
+            return TripMapper.domainToDTO(obj);
         }
 
         public async Task<ITripDTO> DeleteAsync(TripId id)
@@ -127,16 +77,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(trip);
             await this._unitOfWork.CommitAsync();
 
-            return new ITripDTO{ 
-                Id = trip.Id.AsGuid(), 
-                key = trip.key, 
-                IsEmpty = trip.IsEmpty,
-                Orientation = trip.Orientation,
-                Line = trip.Line,
-                Path = trip.Path, 
-                IsGenerated = trip.IsGenerated,
-                PassingTimes = trip.PassingTimes
-            };
+            return TripMapper.domainToDTO(trip);
         }
     }
 }
