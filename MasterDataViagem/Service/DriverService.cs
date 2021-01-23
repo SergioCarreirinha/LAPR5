@@ -4,6 +4,7 @@ using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.Driver;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -21,14 +22,7 @@ namespace MasterDataViagem.Service
         public async Task<List<IDriverDTO>> Get(){
             var list = await this._repo.GetAllAsync();
 
-            List<IDriverDTO> listDTO = list.ConvertAll<IDriverDTO>( driver => new IDriverDTO{ 
-                Id = driver.Id.AsGuid(),
-                name = driver.name,
-                birthdate = driver.birthdate,
-                driverLicenseNum = driver.driverLicenseNum,
-                licenseExpiration = driver.licenseExpiration,
-                //driverTypes = driver.driverTypes
-            });
+            List<IDriverDTO> listDTO = list.ConvertAll<IDriverDTO>( driver => DriverMapper.domainToDTO(driver));
             
             return listDTO;
         }
@@ -38,32 +32,18 @@ namespace MasterDataViagem.Service
 
             if(driver == null) return null;
 
-            return new IDriverDTO{ 
-                Id = driver.Id.AsGuid(),
-                name = driver.name,
-                birthdate = driver.birthdate,
-                driverLicenseNum = driver.driverLicenseNum,
-                licenseExpiration = driver.licenseExpiration,
-                //driverTypes = driver.driverTypes
-            };
+            return DriverMapper.domainToDTO(driver);
         }
         public async Task<IDriverDTO> Create(IDriverDTO driver)
         {
-            var obj = new Driver(driver.name, driver.birthdate, driver.driverLicenseNum, driver.licenseExpiration /*,driver.driverTypes*/);
+            var obj = DriverMapper.dtoToDomain(driver);
 
             if (!(await this._repo.getByLicense(driver.driverLicenseNum))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
 
-                return new IDriverDTO{ 
-                        Id = obj.Id.AsGuid(),
-                        name = obj.name,
-                        birthdate = obj.birthdate,
-                        driverLicenseNum = obj.driverLicenseNum,
-                        licenseExpiration = obj.licenseExpiration,
-                        //driverTypes = driver.driverTypes
-                };
+                return DriverMapper.domainToDTO(obj);
             }else {
                 return null;
             }
@@ -80,14 +60,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(driver);
             await this._unitOfWork.CommitAsync();
 
-            return new IDriverDTO{ 
-                Id = driver.Id.AsGuid(),
-                name = driver.name,
-                birthdate = driver.birthdate,
-                driverLicenseNum = driver.driverLicenseNum,
-                licenseExpiration = driver.licenseExpiration,
-                //driverTypes = driver.driverTypes
-            };
+            return DriverMapper.domainToDTO(driver);
         }
     }
 }

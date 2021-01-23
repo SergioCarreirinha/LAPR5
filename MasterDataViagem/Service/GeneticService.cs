@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.Genetics;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -21,12 +22,7 @@ namespace MasterDataViagem.Service
         public async Task<List<IGeneticDTO>> Get(){
             var list = await this._repo.getAllGenetics();
 
-            List<IGeneticDTO> listDTO = list.ConvertAll<IGeneticDTO>( genetic => new IGeneticDTO
-            { 
-                Id = genetic.Id.AsGuid(), 
-                population = genetic.population,
-                evaluation = genetic.evaluation
-            });
+            List<IGeneticDTO> listDTO = list.ConvertAll<IGeneticDTO>( genetic => GeneticMapper.domainToDTO(genetic));
             
             return listDTO;
         }
@@ -36,32 +32,18 @@ namespace MasterDataViagem.Service
 
             if(genetic == null) return null;
 
-            return new IGeneticDTO{ 
-                Id = genetic.Id.AsGuid(), 
-                population = genetic.population,
-                evaluation = genetic.evaluation
-            };
+            return GeneticMapper.domainToDTO(genetic);
         }
 
         public async Task<IGeneticDTO> Create(CGeneticDTO genetic)
         {
-            List<Population> list = new List<Population>();
-            foreach (var ele in genetic.population)
-            {
-                list.Add(new Population(ele));
-            }
-
-            var obj = new Genetic(list, genetic.evaluation);
+            var obj = GeneticMapper.cDtoToDomain(genetic);
 
             await this._repo.AddAsync(obj);
 
             await this._unitOfWork.CommitAsync();
 
-            return new IGeneticDTO{ 
-                Id = obj.Id.AsGuid(), 
-                population = obj.population,
-                evaluation = obj.evaluation
-            };
+            return GeneticMapper.domainToDTO(obj);
         }
 
         public async Task<IGeneticDTO> DeleteAsync(GeneticId id)
@@ -75,11 +57,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(genetic);
             await this._unitOfWork.CommitAsync();
 
-            return new IGeneticDTO{ 
-                Id = genetic.Id.AsGuid(), 
-                population = genetic.population,
-                evaluation = genetic.evaluation
-            };
+            return GeneticMapper.domainToDTO(genetic);
         }
     }
 }

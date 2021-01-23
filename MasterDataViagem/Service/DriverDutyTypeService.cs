@@ -5,6 +5,7 @@ using System;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.DriverDutyTypes;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -22,12 +23,7 @@ namespace MasterDataViagem.Service
         public async Task<List<IDriverDutyTypeDTO>> Get(){
             var list = await this._repo.GetAllAsync();
 
-            List<IDriverDutyTypeDTO> listDTO = list.ConvertAll<IDriverDutyTypeDTO>( driverDutyType => new IDriverDutyTypeDTO{ 
-                Id = driverDutyType.Id.AsGuid(),
-                key = driverDutyType.key,
-                name = driverDutyType.name,
-                parameters = driverDutyType.parameters
-            });
+            List<IDriverDutyTypeDTO> listDTO = list.ConvertAll<IDriverDutyTypeDTO>( driverDutyType => DriverDutyTypeMapper.domainToDTO(driverDutyType));
             
             return listDTO;
         }
@@ -37,28 +33,18 @@ namespace MasterDataViagem.Service
 
             if(driverDutyType == null) return null;
 
-            return new IDriverDutyTypeDTO{ 
-                Id = driverDutyType.Id.AsGuid(),
-                key = driverDutyType.key,
-                name = driverDutyType.name,
-                parameters = driverDutyType.parameters
-            };
+            return DriverDutyTypeMapper.domainToDTO(driverDutyType);
         }
         public async Task<IDriverDutyTypeDTO> Create(IDriverDutyTypeDTO driverDutyType)
         {
-            var obj = new DriverDutyType(driverDutyType.key, driverDutyType.name, driverDutyType.parameters);
+            var obj = DriverDutyTypeMapper.dtoToDomain(driverDutyType);
 
             if (!(await this._repo.getByKey(driverDutyType.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
 
-                return new IDriverDutyTypeDTO{ 
-                    Id = obj.Id.AsGuid(),
-                    key = obj.key,
-                    name = obj.name,
-                    parameters = obj.parameters
-                };
+                return DriverDutyTypeMapper.domainToDTO(obj);
             }else {
                 return null;
             }
@@ -75,12 +61,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(driverDutyType);
             await this._unitOfWork.CommitAsync();
 
-            return new IDriverDutyTypeDTO{ 
-                Id = driverDutyType.Id.AsGuid(),
-                key = driverDutyType.key,
-                name = driverDutyType.name,
-                parameters = driverDutyType.parameters
-            };
+            return DriverDutyTypeMapper.domainToDTO(driverDutyType);
         }
     }
 }

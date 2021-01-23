@@ -5,7 +5,7 @@ using System;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.DriverDuties;
-using MasterDataViagem.Domain.WorkBlocks;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -25,14 +25,7 @@ namespace MasterDataViagem.Service
         public async Task<List<IDriverDutyDTO>> Get(){
             var list = await this._repo.getAllDriverDuties();
 
-            List<IDriverDutyDTO> listDTO = list.ConvertAll<IDriverDutyDTO>( driverDuty => new IDriverDutyDTO{ 
-                Id = driverDuty.Id.AsGuid(),
-                key = driverDuty.key,
-                name = driverDuty.name,
-                color = driverDuty.color,
-                type = driverDuty.type,
-                workBlocks = driverDuty.workBlocks
-            });
+            List<IDriverDutyDTO> listDTO = list.ConvertAll<IDriverDutyDTO>( driverDuty => DriverDutyMapper.domainToDTO(driverDuty));
             
             return listDTO;
         }
@@ -42,44 +35,19 @@ namespace MasterDataViagem.Service
 
             if(driverDuty == null) return null;
 
-            return new IDriverDutyDTO{ 
-                Id = driverDuty.Id.AsGuid(),
-                key = driverDuty.key,
-                name = driverDuty.name,
-                color = driverDuty.color,
-                type = driverDuty.type,
-                workBlocks = driverDuty.workBlocks
-            };
+            return DriverDutyMapper.domainToDTO(driverDuty);
         }
         public async Task<IDriverDutyDTO> Create(CDriverDutyDTO dto)
         {
-            List<WorkBlock> workBlockList=new List<WorkBlock>(); 
-            foreach (var wb in dto.workBlocks)
-            {
-
-                if (wb != null)
-                {
-                    Console.Write(wb);
-                    WorkBlock workBlock = new WorkBlock(wb);
-                    WorkBlock l = this._repoWb.GetByIdAsync(workBlock.Id).Result;
-                    workBlockList.Add(l);
-                }
-            }
-            var obj = new DriverDuty(dto.key, dto.name, dto.color, dto.type, workBlockList);
+            
+            var obj = DriverDutyMapper.cDtoToDomain(dto,this._repoWb);
 
             if (!(await this._repo.getByKey(dto.key))) {
                 await this._repo.AddAsync(obj);
 
                 await this._unitOfWork.CommitAsync();
 
-                return new IDriverDutyDTO{ 
-                    Id = obj.Id.AsGuid(),
-                    key = obj.key,
-                    name = obj.name,
-                    color = obj.color,
-                    type = obj.type,
-                    workBlocks = obj.workBlocks
-                };
+                return DriverDutyMapper.domainToDTO(obj);
             }else{
                 return null;
             }
@@ -88,20 +56,13 @@ namespace MasterDataViagem.Service
 
         public async Task<IDriverDutyDTO> CreateWithoutVerifications(IDriverDutyDTO driverDuty)
         {
-            var obj = new DriverDuty(driverDuty.key, driverDuty.name, driverDuty.color, driverDuty.type, driverDuty.workBlocks);
+            var obj = DriverDutyMapper.dtoToDomain(driverDuty);
 
             await this._repo.AddAsync(obj);
 
             await this._unitOfWork.CommitAsync();
 
-            return new IDriverDutyDTO{ 
-                Id = obj.Id.AsGuid(),
-                key = obj.key,
-                name = obj.name,
-                color = obj.color,
-                type = obj.type,
-                workBlocks = obj.workBlocks
-            };
+            return DriverDutyMapper.domainToDTO(obj);
         }
 
         public async Task<IDriverDutyDTO> DeleteAsync(DriverDutyId id)
@@ -115,14 +76,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(driverDuty);
             await this._unitOfWork.CommitAsync();
 
-            return new IDriverDutyDTO{ 
-                Id = driverDuty.Id.AsGuid(),
-                key = driverDuty.key,
-                name = driverDuty.name,
-                color = driverDuty.color,
-                type = driverDuty.type,
-                workBlocks = driverDuty.workBlocks
-            };
+            return DriverDutyMapper.domainToDTO(driverDuty);
         }
     }
 }

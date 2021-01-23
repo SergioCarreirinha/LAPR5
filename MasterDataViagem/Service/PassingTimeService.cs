@@ -4,6 +4,7 @@ using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Domain.PassingTimes;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service {
 
@@ -21,15 +22,7 @@ namespace MasterDataViagem.Service {
         public async Task<List<IPassingTimeDTO>> Get(){
             var list = await this._repo.GetAllAsync();
 
-            List<IPassingTimeDTO> listDTO = list.ConvertAll<IPassingTimeDTO>( times => new IPassingTimeDTO
-            { 
-                Id = times.Id.AsGuid(), 
-                key = times.key,
-                Time = times.Time,
-                Node = times.Node,
-                IsUsed = times.IsUsed,
-                IsReliefPoint = times.IsReliefPoint
-            });
+            List<IPassingTimeDTO> listDTO = list.ConvertAll<IPassingTimeDTO>( times => PassingTimeMapper.domainToDTO(times));
             
             return listDTO;
         }
@@ -39,20 +32,12 @@ namespace MasterDataViagem.Service {
 
             if(times == null) return null;
 
-            return new IPassingTimeDTO
-            {
-                Id = times.Id.AsGuid(),
-                key = times.key,
-                Time = times.Time,
-                Node = times.Node,
-                IsUsed = times.IsUsed,
-                IsReliefPoint = times.IsReliefPoint
-            };
+            return PassingTimeMapper.domainToDTO(times);
         }
 
         public async Task<IPassingTimeDTO> Create(IPassingTimeDTO times)
         {
-            var obj = new PassingTime(times.key, times.Time, times.Node, times.IsUsed, times.IsReliefPoint);
+            var obj = PassingTimeMapper.dtoToDomain(times);
 
             if (!(await this._repo.getByKey(times.key))) {
 
@@ -60,15 +45,7 @@ namespace MasterDataViagem.Service {
 
                 await this._unitOfWork.CommitAsync();
 
-                return new IPassingTimeDTO
-                {
-                    Id = obj.Id.AsGuid(),
-                    key = obj.key,
-                    Time = obj.Time,
-                    Node = obj.Node,
-                    IsUsed = obj.IsUsed,
-                    IsReliefPoint = obj.IsReliefPoint
-                };
+                return PassingTimeMapper.domainToDTO(obj);
             } else {
                 return null;
             }
@@ -76,21 +53,13 @@ namespace MasterDataViagem.Service {
 
         public async Task<IPassingTimeDTO> CreateWithoutVerifications(IPassingTimeDTO times)
         {
-            var obj = new PassingTime(times.key, times.Time, times.Node, times.IsUsed, times.IsReliefPoint);
+            var obj = PassingTimeMapper.dtoToDomain(times);
 
             await this._repo.AddAsync(obj);
 
             await this._unitOfWork.CommitAsync();
 
-            return new IPassingTimeDTO
-            {
-                Id = obj.Id.AsGuid(),
-                key = obj.key,
-                Time = obj.Time,
-                Node = obj.Node,
-                IsUsed = obj.IsUsed,
-                IsReliefPoint = obj.IsReliefPoint
-            };
+            return PassingTimeMapper.domainToDTO(obj);
         }
 
         public async Task<IPassingTimeDTO> DeleteAsync(PassingTimeId id)
@@ -104,15 +73,7 @@ namespace MasterDataViagem.Service {
             this._repo.Remove(times);
             await this._unitOfWork.CommitAsync();
 
-            return new IPassingTimeDTO
-            {
-                Id = times.Id.AsGuid(),
-                key = times.key,
-                Time = times.Time,
-                Node = times.Node,
-                IsUsed = times.IsUsed,
-                IsReliefPoint = times.IsReliefPoint
-            };
+            return PassingTimeMapper.domainToDTO(times);
         }
     }
 }
