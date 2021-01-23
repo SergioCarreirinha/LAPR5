@@ -706,7 +706,7 @@ class PitchToggleNavigation {
               type: 'gltf',
               obj: '../../assets/3DModel/autocarro.gltf',
               scale: 0.009,
-              rotation: { x: 90, y: -90, z: 0 },
+              rotation: { x: 90, y: -90, z: 0 }
             }
             let locatedModel;
             tb.loadObj(model, function (model) {
@@ -788,7 +788,7 @@ class PitchToggleNavigation {
                   map.panBy([0, deltaDistance], {
                     easing: easing
                   });
-                  locatedModel.translateY(0.2144);
+                  locatedModel.translateY(0.2252);
                 } else if (e.which === 65) {
                   // left                 
                   map.easeTo({
