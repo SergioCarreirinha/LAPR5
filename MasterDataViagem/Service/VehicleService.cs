@@ -4,6 +4,7 @@ using MasterDataViagem.Domain.Shared;
 using MasterDataViagem.Repository;
 using MasterDataViagem.DTO;
 using MasterDataViagem.Domain.Vehicle;
+using MasterDataViagem.Mappers;
 
 namespace MasterDataViagem.Service
 {
@@ -22,14 +23,7 @@ namespace MasterDataViagem.Service
         {
             var list = await this._repo.GetAllAsync();
 
-            List<IVehicleDTO> listDTO = list.ConvertAll<IVehicleDTO>(vehicle => new IVehicleDTO
-            {
-                Id = vehicle.Id.AsGuid(),
-                licensePlate = vehicle.licensePlate,
-                vin = vehicle.vin,
-                vehicleType = vehicle.vehicleType,
-                firstServiceDate = vehicle.firstServiceDate,
-            });
+            List<IVehicleDTO> listDTO = list.ConvertAll<IVehicleDTO>(vehicle => VehicleMapper.domainToDTO(vehicle));
 
             return listDTO;
         }
@@ -40,19 +34,12 @@ namespace MasterDataViagem.Service
 
             if (vehicle == null) return null;
 
-            return new IVehicleDTO
-            {
-                Id = vehicle.Id.AsGuid(),
-                licensePlate = vehicle.licensePlate,
-                vin = vehicle.vin,
-                vehicleType = vehicle.vehicleType,
-                firstServiceDate = vehicle.firstServiceDate
-            };
+            return VehicleMapper.domainToDTO(vehicle);
         }
 
         public async Task<IVehicleDTO> Create(IVehicleDTO vehicle)
         {
-            var obj = new Vehicle(vehicle.licensePlate, vehicle.vin, vehicle.vehicleType, vehicle.firstServiceDate);
+            var obj = VehicleMapper.dtoToDomain(vehicle);
 
             if (!(await this._repo.verifyVehicleByLicensePlate(vehicle.licensePlate)) && !(await this._repo.verifyVehicleByVin(vehicle.vin))) {
                 await this._repo.AddAsync(obj);
@@ -85,14 +72,7 @@ namespace MasterDataViagem.Service
             this._repo.Remove(vehicle);
             await this._unitOfWork.CommitAsync();
 
-            return new IVehicleDTO
-            {
-                Id = vehicle.Id.AsGuid(),
-                licensePlate = vehicle.licensePlate,
-                vin = vehicle.vin,
-                vehicleType = vehicle.vehicleType,
-                firstServiceDate = vehicle.firstServiceDate,
-            };
+            return VehicleMapper.domainToDTO(vehicle);
         }
     }
 }
