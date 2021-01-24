@@ -32,6 +32,8 @@ export class PlanningSprintCComponent implements OnInit {
       nTarget: target,
       nStability: stability
     } as IRequestSolution).subscribe();
+
+    this.getSolutions();
   }
 
 }

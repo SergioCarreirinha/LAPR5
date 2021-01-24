@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { TripService } from '../services/trip/trip.service';
 import { ITrip } from '../interfaces/ITrip';
@@ -146,8 +146,8 @@ export class CreateTripComponent implements OnInit {
             console.log(err);
             if(err.status==400){
               Swal.fire({
-                title: 'Error!',
-                text: 'There is a Trip with that Key',
+                title: 'Erro!',
+                text: 'Já existe uma viagem com essa key',
                 icon: 'error',
                 confirmButtonText: 'Ok',
                 timer: 2500,
@@ -199,7 +199,7 @@ export class CreateTripComponent implements OnInit {
     } else {
       Swal.fire({
         title: 'Warning!',
-        text: "Can't add empty WorkBlock",
+        text: "Can't add empty Passing Time",
         icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
@@ -210,10 +210,29 @@ export class CreateTripComponent implements OnInit {
 
   validatePassingTime() {
     if (this.passingTrips.length === 1) {
-
       Swal.fire({
         title: 'Sucesso!',
-        text: 'Passagem Adicionada ',
+        text: 'Passagem Adicionada',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+
+    } else if (this.passingTrips[this.passingTrips.length - 2].key == this.passingTrips[this.passingTrips.length - 1].key) {
+      this.passingTrips.pop();
+      Swal.fire({
+        title: 'Aviso!',
+        text: "A Passagem tem que ser diferente!",
+        icon: 'warning',
+        confirmButtonText: 'Ok',
+        timer: 2500,
+        showConfirmButton: false,
+      })
+    } else if (this.passingTrips[this.passingTrips.length - 2].time <= this.passingTrips[this.passingTrips.length - 1].time) {
+      Swal.fire({
+        title: 'Sucesso!',
+        text: 'Passagem Adicionada',
         icon: 'success',
         confirmButtonText: 'Ok',
         timer: 2500,
@@ -223,8 +242,8 @@ export class CreateTripComponent implements OnInit {
     } else {
       this.passingTrips.pop();
       Swal.fire({
-        title: 'Warning!',
-        text: "A passagem precisa de ser valida!",
+        title: 'Aviso!',
+        text: "A Passagem tem que ser contigua!",
         icon: 'warning',
         confirmButtonText: 'Ok',
         timer: 2500,
