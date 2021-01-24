@@ -31,6 +31,17 @@ namespace MasterDataViagem.Domain.Trip {
             this.PassingTimes = _passingTime;
         }
 
+        public Tripes(TripId _id, string _key, string _isEmpty, string _orientation, string _line, string _path, string _isGenerated, List<PassingTime> _passingTime) {
+            this.Id = _id;
+            this.key = _key;
+            this.IsEmpty = _isEmpty;
+            this.Orientation = _orientation;
+            this.Line = _line;
+            this.Path = _path;
+            this.IsGenerated = _isGenerated;
+            this.PassingTimes = _passingTime;
+        }
+
         public Tripes(string _id){
             this.Id = new TripId(_id);
         }

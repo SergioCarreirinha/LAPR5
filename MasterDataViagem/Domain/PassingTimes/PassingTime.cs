@@ -21,6 +21,15 @@ namespace MasterDataViagem.Domain.PassingTimes {
         public PassingTime(string _id){
             this.Id = new PassingTimeId(_id);
         }
+
+        public PassingTime(PassingTimeId _id, string _key, string _time, string _node, bool _isUsed, bool _isReliefPoint){
+            this.Id = _id;
+            this.key = _key;
+            this.Time = _time;
+            this.Node = _node;
+            this.IsUsed = _isUsed;
+            this.IsReliefPoint = _isReliefPoint;
+        }
         protected PassingTime(){
             //ORM
         }
