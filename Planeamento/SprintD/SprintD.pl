@@ -224,44 +224,53 @@ escalonamento():-
 gera_corrigidos([]):-!.
 gera_corrigidos([(Vd,Mw)|MotWb]):-
 	gera((Vd,Mw),[MPop*V|_]),!,
-	%((V>0,!,
-	 %   vehicleDuty(Vd,Wb),
-	   % corrige_oito_horas_totais(Vd,MPop,Wb,R),
-	    %reverse(R,Res),
-	   % retract(lista_motoristas_nworkblocks(Vd,_)),
-	    %assert(lista_motoristas_nworkblocks(Vd,Res)));true),
-	write('VehicleDuty '),write(Vd),write(': '),write(MPop),nl,
-	write('_________________________________________________________________________________________'),nl,
+	(V>0,!,
+	 vehicleDuty(Vd,Wb),
+	 corrige_quatro_horas_seguidas(Vd,MPop,Wb,C),
+	((MPop\==C,write('VehicleDuty '),write(Vd),write(' alterado: '),write(C),nl),!;write('VehicleDuty '),write(Vd),write(': '),write(MPop),nl)),
+
+	write('_________________________________________________________________________________________'),nl,nl,
 	gera_corrigidos(MotWb).
 
-corrige_oito_horas_totais(_,[],[],[]):-!.
-corrige_oito_horas_totais(Vd,[I|Pop],[W|Wb],[X|Res]):-
+corrige_quatro_horas_seguidas(_,[I],[_],[I]):-!.
+corrige_quatro_horas_seguidas(Vd,[I|Pop],[W|Wb],[X|Pop2]):-
+	horas_seguidas([I|Pop],[W|Wb],H),
+	%4h=14400s
+	H>14400,
+        workblock(W,_,St,Et),
+	findall(t(Tst,Tet,Time,D),t(Tst,Tet,Time,D),T),
+	novo_condutor(St,Et,T,X),
+	alteracao_quatro_horas(Vd,St,Et,I,X),
+	corrige_quatro_horas_seguidas(Vd,Pop,Wb,Pop2),!.
+corrige_quatro_horas_seguidas(Vd,[I|Pop],[_|Wb],[I|Pop2]):-
+	corrige_quatro_horas_seguidas(Vd,Pop,Wb,Pop2).
 
-	%8h=28800
-	S>28800,
+alteracao_quatro_horas(Vd,St,Et,D,X):-
+	write('(VehicleDuty '),write(Vd),write(') Alteracao do condutor '),write(D), write(' para o condutor '),write(X),write('.['),write(St),write('-'),write(Et),write(', 4h]'),nl,nl.
+
+horas_seguidas([I|Pop],[W|Wb],H):-
 	workblock(W,_,St,Et),
-	tuples_inicio_crescente(T),
-	((novo_condutor(St,Et,T,X),aviso_mudanca_condutor(Vd,St,Et,I,X));aviso_nao_alteracao_condutor(Vd,St,Et,I)),
-	corrige_oito_horas_totais(Vd,Pop,Wb,Res),!.
-corrige_oito_horas_totais(Vd,[I|Pop],[_|Wb],[I|Res]):-
-	corrige_oito_horas_totais(Vd,Pop,Wb,Res).
+	N1 is Et-St,
+	horas_seguidas(I,Pop,Wb,N1,H).
+
+horas_seguidas(I,[I2|Pop],[W|Wb],N,H):-
+	I==I2,
+	workblock(W,_,St,Et),
+	N1 is N+(Et-St),
+	horas_seguidas(I,Pop,Wb,N1,H),!.
+horas_seguidas(_,_,_,N,N):-!.
+
 
 novo_condutor(_,_,[],_):-false,!.
 novo_condutor(WbSt,WbEt,[t(St,Et,Time,X)|_],X):-
 	St=<WbSt, Et>=WbEt,
-	(retract(t(St,Et,Time,X));true),
+	retract(t(St,Et,Time,X)),
 	((St\==WbSt,Et\==WbEt,
 	 T1 is WbSt-St,
 	 T2 is Et-WbEt,
 	assert(t(St,WbSt,T1,X)),assert(t(WbEt,Et,T2,X)));true),!.
 novo_condutor(WbSt,WbEt,[_|Tuples],X):-
 	novo_condutor(WbSt,WbEt,Tuples,X).
-
-aviso_nao_alteracao_condutor(Vd,St,Et,I):-
-	write('(VehicleDuty '),write(Vd),write(') Impossibilidade de alteracao de condutor no periodo de tempo '),write(St),write(' - '),write(Et),write('.'),write('O condutor '),write(I),write(' ultrapassa o limite de 8h diárias de trabalho.'),nl,nl.
-
-aviso_mudanca_condutor(Vd,St,Et,I,X):-
-	write('(VehicleDuty '),write(Vd),write(') Troca de condutor no horario entre as '),write(St),write(' e as '),write(Et),write('. '),write('O condutor '),write(I),write(' foi removido por ultrapassar o limite de 8h diárias de trabalho e substituido pelo condutor '),write(X),write('.'),nl,nl.
 
 criar_lista_mot_nwb([]):-!.
 criar_lista_mot_nwb([Vd|V]):-
@@ -491,6 +500,7 @@ avalia_populacao([Ind|Resto],[Ind*V|Resto1]):-
 	agenda(Ind),
 	pausas,
 	avalia(V),
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
 	avalia_populacao(Resto,Resto1).
 
 avalia(V1):-
@@ -589,6 +599,7 @@ pausa(Tf1,I):-
 	t(Tf1,Tf2,I2),
 	(percorre(Tf2,I,Tf1);true),
 	(pausa(Tf2,I2);true).
+pausa(_,_):-!.
 
 percorre(Tf,I,Tfi):-
 	t(Tf,_,I2),
@@ -649,7 +660,7 @@ menorAvaliacao([Pop*Eva|_]):-
 	(retractall(melhor(_*_));true), asserta(melhor(Pop*Eva)),!.
 
 gera_geracao(_,G,_,_,G,Pop):-
-	%write('Geracao '), write(G), write(':'), nl, write(Pop), nl,write('_______________________________________________'),nl,
+	%write('Geracao '), write(G), write(':'), nl, write(Pop), nl,
         menorAvaliacao(Pop),!.
 
 gera_geracao(_,G,_,N,_,Pop):-
