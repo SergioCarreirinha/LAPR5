@@ -96,7 +96,7 @@ namespace MasterDataViagemTest.Domain.DriverDutyServiceTest
          public async void getDriverDutyTest()
         {
             var mockRepo = new Mock<IDriverDutyRepository>();
-            mockRepo.Setup(repo => repo.GetAllAsync())
+            mockRepo.Setup(repo => repo.getAllDriverDuties())
                 .ReturnsAsync(createdDriverDuty());
             var mockUnitRepo = new Mock<IUnitOfWork>();
             var mockBlocoRepo = new Mock<IWorkBlockRepository>();
