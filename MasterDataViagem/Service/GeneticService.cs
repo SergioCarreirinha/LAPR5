@@ -46,6 +46,17 @@ namespace MasterDataViagem.Service
             return GeneticMapper.domainToDTO(obj);
         }
 
+        public async Task<IGeneticDTO> CreateWithoutVerifications(IGeneticDTO genetic)
+        {
+            var obj = GeneticMapper.dtoToDomain(genetic);
+
+            await this._repo.AddAsync(obj);
+
+            await this._unitOfWork.CommitAsync();
+
+            return GeneticMapper.domainToDTO(obj);
+        }
+
         public async Task<IGeneticDTO> DeleteAsync(GeneticId id)
         {
             var genetic = await this._repo.GetByIdAsync(id); 

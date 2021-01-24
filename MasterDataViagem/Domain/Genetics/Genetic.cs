@@ -14,6 +14,12 @@ namespace MasterDataViagem.Domain.Genetics {
             this.population = _pop;
             this.evaluation = _eva;
         }
+
+        public Genetic(GeneticId _id, List<Population> _pop, int _eva){
+            this.Id = _id;
+            this.population = _pop;
+            this.evaluation = _eva;
+        }
         protected Genetic(){
             //ORM
         }
