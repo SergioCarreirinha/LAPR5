@@ -206,26 +206,81 @@ horariomotorista(18131, 66600, 88200, 21600, [21600]).
 % lista_motoristas_nworkblocks(12,[(276,2),(5188,3),(16690,2),(18107,6)]).
 
 %Parameterizacao
-margem_maxima(0.20).
-margem_minima(0.14).
+margem(0.15).
 
+% afetacao(Vd,D,Nwb)
 :-dynamic afetacao/3.
 :-dynamic lista_motoristas_nworkblocks/2.
 
 escalonamento():-
-	%verifica_margem(),
+	verifica_margem(),
 	findall(_,blocos_motorista(),_),
 	afetar_motoristas(),
 	findall(X,rangevd(X,_,_),Vduties),
-	criar_lista_mot_nwb(Vduties).
+	criar_lista_mot_nwb(Vduties),
+	findall((D,L),lista_motoristas_nworkblocks(D,L),MotWb),
+	gera_corrigidos(MotWb).
+
+gera_corrigidos([]):-!.
+gera_corrigidos([(Vd,Mw)|MotWb]):-
+	gera((Vd,Mw),[MPop*V|_]),!,
+	%((V>0,!,
+	 %   vehicleDuty(Vd,Wb),
+	   % corrige_oito_horas_totais(Vd,MPop,Wb,R),
+	    %reverse(R,Res),
+	   % retract(lista_motoristas_nworkblocks(Vd,_)),
+	    %assert(lista_motoristas_nworkblocks(Vd,Res)));true),
+	write('VehicleDuty '),write(Vd),write(': '),write(MPop),nl,
+	write('_________________________________________________________________________________________'),nl,
+	gera_corrigidos(MotWb).
+
+corrige_oito_horas_totais(_,[],[],[]):-!.
+corrige_oito_horas_totais(Vd,[I|Pop],[W|Wb],[X|Res]):-
+
+	%8h=28800
+	S>28800,
+	workblock(W,_,St,Et),
+	tuples_inicio_crescente(T),
+	((novo_condutor(St,Et,T,X),aviso_mudanca_condutor(Vd,St,Et,I,X));aviso_nao_alteracao_condutor(Vd,St,Et,I)),
+	corrige_oito_horas_totais(Vd,Pop,Wb,Res),!.
+corrige_oito_horas_totais(Vd,[I|Pop],[_|Wb],[I|Res]):-
+	corrige_oito_horas_totais(Vd,Pop,Wb,Res).
+
+novo_condutor(_,_,[],_):-false,!.
+novo_condutor(WbSt,WbEt,[t(St,Et,Time,X)|_],X):-
+	St=<WbSt, Et>=WbEt,
+	(retract(t(St,Et,Time,X));true),
+	((St\==WbSt,Et\==WbEt,
+	 T1 is WbSt-St,
+	 T2 is Et-WbEt,
+	assert(t(St,WbSt,T1,X)),assert(t(WbEt,Et,T2,X)));true),!.
+novo_condutor(WbSt,WbEt,[_|Tuples],X):-
+	novo_condutor(WbSt,WbEt,Tuples,X).
+
+aviso_nao_alteracao_condutor(Vd,St,Et,I):-
+	write('(VehicleDuty '),write(Vd),write(') Impossibilidade de alteracao de condutor no periodo de tempo '),write(St),write(' - '),write(Et),write('.'),write('O condutor '),write(I),write(' ultrapassa o limite de 8h diárias de trabalho.'),nl,nl.
+
+aviso_mudanca_condutor(Vd,St,Et,I,X):-
+	write('(VehicleDuty '),write(Vd),write(') Troca de condutor no horario entre as '),write(St),write(' e as '),write(Et),write('. '),write('O condutor '),write(I),write(' foi removido por ultrapassar o limite de 8h diárias de trabalho e substituido pelo condutor '),write(X),write('.'),nl,nl.
 
 criar_lista_mot_nwb([]):-!.
 criar_lista_mot_nwb([Vd|V]):-
+	findall(Nwb,afetacao(Vd,_,Nwb),LNwb),
+	somar_lista(LNwb,Totalwb),
+	vehicleDuty(Vd,Lvd),
+	length(Lvd,VdTotalwb),
 	findall((D,Nwb),afetacao(Vd,D,Nwb),Afetacoes),
-	assert(lista_motoristas_nworkblocks(Vd,Afetacoes)),
+	%verifica o nr de workblock e adiciona os workblocks em falta ao ultimo driver
+	((Totalwb<VdTotalwb,
+	       Dif is VdTotalwb-Totalwb,
+	       reverse(Afetacoes,[(D,N)|A]),
+	       N1 is N+Dif,
+	       reverse([(D,N1)|A],Afetacoes1),
+	       assert(lista_motoristas_nworkblocks(Vd,Afetacoes1)),!);
+
+	assert(lista_motoristas_nworkblocks(Vd,Afetacoes))),
 	criar_lista_mot_nwb(V).
 
-% afetacao(Vd,D,Nwb)
 afetar_motoristas():-
 	vd_inicio_crescente(V),
 	tuples_inicio_crescente(T),
@@ -320,12 +375,10 @@ verifica_margem():-
 	capacidade_sistema(Capacidade),
 	(Capacidade>Carga,!;
 	write('Capacidade menor que a carga'),nl,false),
-	margem_maxima(Mmax),
-	margem_minima(Mmin),
+	margem(Margem),
 	M is 1-(Carga/Capacidade),
-	write('Margem: '),write(M),
-	(M<Mmax, M>Mmin,!;
-	write('Margem entre capacidade e carga não se encontra entre 15% e 20%'),nl,
+	(M>Margem,!;
+	write('Margem abaixo do desejável'),nl,
 	false).
 
 capacidade_sistema(CS):-
@@ -344,3 +397,470 @@ somar_lista([H|R],C):-
 ranges(R):-
 	rangevd(_,S,E),
 	R is E-S.
+
+
+
+%               ///////////////////////////////////////////////
+%              //////////////                 ////////////////
+%             //////////////  /////////////  ////////////////
+%            //////////////  ///            ////////////////
+%           //////////////  ///	           ////////////////
+%          //////////////  /////////////  ////////////////
+%	  //////////////                 ////////////////
+%        ///////////////////////////////////////////////
+
+% parameterizacao
+geracoes(5).
+populacao(4).
+prob_cruzamento(0.5).
+prob_mutacao(0.4).
+target(-1).
+tempo(5000).
+geracoes_repetidas(10).
+
+per_individuo(0.7).
+peso_hard_constraint1(10).
+peso_hard_constraint2(8).
+peso_soft_constraint(1).
+
+:-dynamic melhor/1.
+:-dynamic geracoes/1.
+:-dynamic populacao/1.
+:-dynamic prob_cruzamento/1.
+:-dynamic prob_mutacao/1.
+:-dynamic target/1.
+:-dynamic geracoes_repetidas/1.
+
+gera((Vd,MotWb),PopOrd):-
+	gera_populacao((Vd,MotWb),Pop),!,
+	avalia_populacao(Pop,PopAv),
+	ordena_populacao(PopAv,PopOrd),
+	geracoes(NG),
+	get_time(TempInit),
+	gera_geracao((Vd,MotWb),0,TempInit,0,NG,PopOrd).
+
+%Cria uma lista com os condutores
+gera_condutores((_,[(H,Num)|Lista]),LMaisFinal):-
+	gera_condutores2(H,Num,Lista,LFinal),
+	random_permutation(LFinal,LMaisFinal),
+	!.
+
+gera_condutores2(_,0,[],[]):-!.
+
+gera_condutores2(H,N,L,[H|LFinal]):-
+	N \= 0,
+	N1 is N-1,
+	gera_condutores2(H,N1,L,LFinal).
+
+gera_condutores2(_,0,[(H,Num)|L],LFinal):-
+	gera_condutores2(H,Num,L,LFinal).
+
+
+gera_populacao(MotWb,Pop):-
+	populacao(TamPop),
+	gera_condutores(MotWb,X),
+	length(X,N),
+	gera_populacao(TamPop,X,N,Pop).
+
+gera_populacao(0,_,_,[]):-!.
+
+gera_populacao(TamPop,Lista,NumT,[Ind|Resto]):-
+	TamPop1 is TamPop-1,
+	gera_populacao(TamPop1,Lista,NumT,Resto),
+	gera_individuo(Lista,NumT,Ind).
+	%not(member(Ind,Resto)).
+gera_populacao(TamPop,Lista,NumT,L):-
+	gera_populacao(TamPop,Lista,NumT,L).
+
+gera_individuo([G],1,[G]):-!.
+
+gera_individuo(Lista,NumT,[G|Resto]):-
+	NumTemp is NumT + 1, % To use with random
+	random(1,NumTemp,N),
+	retira(N,Lista,G,NovaLista),
+	NumT1 is NumT-1,
+	gera_individuo(NovaLista,NumT1,Resto).
+
+retira(1,[G|Resto],G,Resto).
+retira(N,[G1|Resto],G,[G1|Resto1]):-
+	N1 is N-1,
+	retira(N1,Resto,G,Resto1).
+
+avalia_populacao([],[]).
+avalia_populacao([Ind|Resto],[Ind*V|Resto1]):-
+	agenda(Ind),
+	pausas,
+	avalia(V),
+	avalia_populacao(Resto,Resto1).
+
+avalia(V1):-
+	findall(X,avalia_pausas_refeicoes(X),PPausas),
+	findall(Y,avalia_tempos_trabalho(Y),PTrabalhos),
+	append(PPausas,PTrabalhos,Pesos),
+	somar_lista(Pesos,V1),
+	retractall(visitado(_)).
+
+:-dynamic visitado/1.
+avalia_tempos_trabalho(Vf):-
+	peso_hard_constraint1(P),
+	t(Hi,Hf,I),
+	avalia_quatro_horas_seguidas(Hi,Hf,P,V),
+	avalia_oito_horas_totais(I,P,V,V2),
+	verifica_preferencia_horario(I,V2,Vf).
+
+verifica_preferencia_horario(I,V2,Vf):-
+	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
+	length(Horarios,L),
+	verifica_horario(L,L,Horarios,V3),
+	Vf is V2+V3.
+
+%Preferencias: 10h=36000 20h=72000
+verifica_horario(0,_,[],0):-!.
+verifica_horario(L,C,[(Hi,_)|Horarios],V):-
+	peso_soft_constraint(P),
+	L==C,
+	L1 is L-1,
+	verifica_horario(L1,C,Horarios,Vf),
+	((Hi<36000, V is Vf+(36000-Hi)*P);V is Vf),!.
+verifica_horario(1,_,[(_,Hf)],V):-
+	peso_soft_constraint(P),
+	verifica_horario(0,_,[],Vf),
+	((Hf>72000, V is Vf+(Hf-72000)*P);V is Vf),!.
+
+verifica_horario(L,C,[_|Horarios],V):-
+	L1 is L-1,
+	verifica_horario(L1,C,Horarios,V).
+
+
+avalia_oito_horas_totais(I,P,V,Vf):-
+	%verifica se ja avaliou o motorista I
+	findall(X,visitado(X),Visitados),
+	\+member(I,Visitados),
+	findall((Hi,Hf),t(Hi,Hf,I),Horarios),
+	soma_horarios(Horarios,S),
+	%8h=28800
+	S>28800,
+	Vf is V+(S-28800)*P,
+	assert(visitado(I)),!.
+avalia_oito_horas_totais(_,_,V,V).
+
+
+soma_horarios([],0):-!.
+soma_horarios([(Hi,Hf)|Horarios],S):-
+	soma_horarios(Horarios,S1),
+	S is S1+(Hf-Hi).
+
+%4h=14400
+avalia_quatro_horas_seguidas(Hi,Hf,P,V):-
+	Hf-Hi>14400,
+	V is ((Hf-Hi)-14400)*P,!.
+avalia_quatro_horas_seguidas(_,_,_,0).
+
+avalia_pausas_refeicoes(V2):-
+	p(Hi,Hf,_),
+	%11h=39600 15h=54000
+	pausa_refeicao(39600,54000,Hi,Hf,0,V1),
+	%18h=64800 22h=79200
+	pausa_refeicao(64800,79200,Hi,Hf,V1,V2).
+
+pausa_refeicao(Refi,Reff,Hi,Hf,V,Vf):-
+	%1h=3600
+	peso_hard_constraint2(P),
+	%quando a pausa comeca antes da referencia inicial e acaba entre as ambas
+	(((Hi<Refi, Hf>Refi), ((Hf-Refi>=3600,Vf is 0); Vf is V+(Hf-Refi)*P,!));
+
+	%quando a pausa esta entre as duas referencias
+	((Hi>Refi, Hf<Reff), ((Hf-Hi>=3600,Vf is 0); Vf is V+(Hf-Hi)*P,!));
+
+	%quando a pausa comeca entre as referencias e acaba depois da final
+	((Hi<Reff, Hf>Reff), ((Reff-Hi>=3600,Vf is 0); Vf is V+(Reff-Hi)*P,!))),!.
+pausa_refeicao(_,_,_,_,V,V).
+
+
+:-dynamic p/3.
+pausas:-
+	t(_,Tf,I),!,
+	pausa(Tf,I).
+
+%pausas:-!.
+
+
+pausa(Tf1,I):-
+	t(Tf1,Tf2,I2),
+	(percorre(Tf2,I,Tf1);true),
+	(pausa(Tf2,I2);true).
+
+percorre(Tf,I,Tfi):-
+	t(Tf,_,I2),
+	I2==I,
+	assert(p(Tfi,Tf,I)),!.
+percorre(Tf,I,Tfi):-
+	t(Tf,Tf2,_),
+	percorre(Tf2,I,Tfi),!.
+
+agenda(Ind):-
+	vehicleDuty(_,WorkBlocks),
+	length(Ind,L),
+	agenda2(L,WorkBlocks,Ind,Agenda),
+	length(Agenda,LA),
+	agenda3(LA,Agenda,0).
+
+agenda2(0,_,_,[]):-!.
+agenda2(L,[W|WorkBlocks],[I|Ind],[(HInicio,HFim,I)|Agenda]):-
+	workblock(W,_,HInicio,HFim),
+	L1 is L-1,
+	agenda2(L1,WorkBlocks,Ind,Agenda).
+
+:-dynamic t/3.
+agenda3(0,_,_):-!.
+agenda3(LA,[(Hi,Hf,I)|Agenda],I2):-
+	t(Hi2,Hi,I2),
+	I==I2,
+	retract(t(Hi2,_,I)),!,
+	assert(t(Hi2,Hf,I)),
+	L is LA-1,
+	agenda3(L,Agenda,I).
+
+agenda3(LA,[(Hi,Hf,I)|Agenda],_):-
+	assert(t(Hi,Hf,I)),
+	L is LA-1,
+	agenda3(L,Agenda,I).
+
+
+
+ordena_populacao(PopAv,PopAvOrd):-
+	bsort(PopAv,PopAvOrd).
+
+bsort([X],[X]):-!.
+bsort([X|Xs],Ys):-
+	bsort(Xs,Zs),
+	btroca([X|Zs],Ys).
+
+
+btroca([X],[X]):-!.
+
+btroca([X*VX,Y*VY|L1],[Y*VY|L2]):-
+	VX>VY,!,
+	btroca([X*VX|L1],L2).
+
+btroca([X|L1],[X|L2]):-btroca(L1,L2).
+
+menorAvaliacao([Pop*Eva|_]):-
+	(retractall(melhor(_*_));true), asserta(melhor(Pop*Eva)),!.
+
+gera_geracao(_,G,_,_,G,Pop):-
+	%write('Geracao '), write(G), write(':'), nl, write(Pop), nl,write('_______________________________________________'),nl,
+        menorAvaliacao(Pop),!.
+
+gera_geracao(_,G,_,N,_,Pop):-
+	%write('Geracao '), write(G), write(':'), nl, write(Pop), nl,
+	geracoes_repetidas(GR),
+	GR==N,
+        menorAvaliacao(Pop),!,
+	write('Estabilizacao de geracoes('),write(N),write(')'), nl,!.
+
+
+gera_geracao(_,_,TempInit,_,_,Pop):-
+	tempo(Var),
+	get_time(TempoAtual),TempoAtual-TempInit > Var,
+	write('TEMPO: '), write(TempInit),nl, write('ATUAL: '),write(TempoAtual), nl, write('Paragem por tempo limite('),write(Var),write(')'), nl,
+        menorAvaliacao(Pop),!.
+
+gera_geracao(_,_,_,_,_,[Pop*V|T]):-
+	target(Z),
+	%write(Z),write('<='),write(V),nl,
+	Z >= V,
+        write('Paragem por valor menor ou igual ao Target('),write(Z),write(')'),nl,
+        menorAvaliacao([Pop*V|T]),!.
+
+gera_geracao((Vd,MotWb),N,TempInit,Count,G,Pop):-
+%	write('Geracao '), write(N), write(':'), nl, write(Pop), nl,
+
+	%aleatoridade dos individuos da lista
+	random_permutation(Pop,RPop),
+
+	cruzamento((Vd,MotWb),RPop,NPop1),
+	mutacao((Vd,MotWb),NPop1,NPop),
+	avalia_populacao(NPop,NPopAv),
+	ordena_populacao(NPopAv,NPopOrd),
+
+	%write('filhos='),write(NPopOrd),nl,nl,
+
+	%junta as duas geracoes
+	append(Pop,NPopOrd,PopTotal),
+	ordena_populacao(PopTotal,OrdPopTotal),
+
+	populacao(NG),
+	%funcao que vai buscar a primeira melhor resposta e adiciona os restantes(10% de hipoteses)
+	obter_individuos(NG,OrdPopTotal,MPopTotal,PopMaSorte),
+
+	%preenche o resto da lista se faltarem elementos
+	length(MPopTotal,T),
+	preencher_lista(T,MPopTotal,PopMaSorte,PopFinal),
+	(   ( PopFinal == Pop ,Count1 is Count+1 )
+	;
+	(  PopFinal \== Pop , Count1 is 0)),
+	%write('Repetidos: '),write(Count1),nl,
+
+	ordena_populacao(PopFinal, PopMaisQueFinal),
+	N1 is N+1,
+	gera_geracao((Vd,MotWb),N1,TempInit,Count1,G,PopMaisQueFinal).
+
+obter_individuos(NG,[H|NPopOrd],[H|MPopOrd],PopMaSorte):-
+	NG1 is NG-1,
+	nao_elitista(NG1,NPopOrd,MPopOrd,H,PopMaSorte).
+
+nao_elitista(0,_,[],_,[]):-!.
+nao_elitista(NG,[H|NPopOrd],[H|MPopOrd],T,PopMaSorte):-
+	random(0.0,1.0,N),
+	per_individuo(P),
+	N<P,
+	H\==T,
+	NG1 is NG-1,
+        nao_elitista(NG1,NPopOrd,MPopOrd,T,PopMaSorte),
+	\+member(H,MPopOrd),!.
+nao_elitista(NG,[H|NPopOrd],MPopOrd,_0,[H|PopMaSorte]):-
+	NG1 is NG-1,
+	nao_elitista(NG1,NPopOrd,MPopOrd,_,PopMaSorte),!.
+
+preencher_lista(Tlista,PopSorte,PopSorte,_):-
+	populacao(P),
+	Tlista==P,!.
+preencher_lista(_,MPopTotal,PopMaSorte,PopFinal):-
+	append(MPopTotal,PopMaSorte,PopFinal).
+
+gerar_pontos_cruzamento(MotWb,P1,P2):-
+	gerar_pontos_cruzamento1(MotWb,P1,P2).
+
+gerar_pontos_cruzamento1((Vd,_),P1,P2):-
+	vehicleDuty(Vd,Wb),
+	length(Wb,N),
+	NTemp is N+1,
+	random(1,NTemp,P11),
+	random(1,NTemp,P21),
+	P11\==P21,!,
+	((P11<P21,!,P1=P11,P2=P21);P1=P21,P2=P11).
+gerar_pontos_cruzamento1((Vd,_),P1,P2):-
+	gerar_pontos_cruzamento1((Vd,_),P1,P2).
+
+
+cruzamento(_,[],[]):-!.
+
+cruzamento(_,[Ind*_],[Ind]):-!.
+
+cruzamento(MotWb,[Ind1*_,Ind2*_|Resto],[NInd1,NInd2|Resto1]):-
+	gerar_pontos_cruzamento(MotWb,P1,P2),
+	prob_cruzamento(Pcruz),	random(0.0,1.0,Pc),
+	((Pc =< Pcruz,!,
+        cruzar(MotWb,Ind1,Ind2,P1,P2,NInd1),
+	  cruzar(MotWb,Ind2,Ind1,P1,P2,NInd2))
+	;
+	(NInd1=Ind1,NInd2=Ind2)),
+	cruzamento(MotWb,Resto,Resto1).
+
+
+cruzar((Vd,L),Ind1,Ind2,P1,P2,NInd11):-
+	sublista(Ind1,P1,P2,Sub1),
+	vehicleDuty(Vd,Wb),
+	length(Wb,NumT),
+	R is NumT-P2,
+	rotate_right(NumT,Ind2,R,Ind21),
+	P3 is P2 + 1,
+	insere(NumT,Ind21,Sub1,P3,L,NInd1),
+	eliminah(NInd1,NInd11).
+
+
+preencheh([],[]):-!.
+
+preencheh([_|R1],[h|R2]):-
+	preencheh(R1,R2).
+
+
+sublista(L1,I1,I2,L):-
+	I1 < I2,!,
+	sublista1(L1,I1,I2,L).
+
+sublista(L1,I1,I2,L):-
+	sublista1(L1,I2,I1,L).
+
+sublista1([X|R1],1,1,[X|H]):-!,
+	preencheh(R1,H).
+
+sublista1([X|R1],1,N2,[X|R2]):-!,
+	N3 is N2 - 1,
+	sublista1(R1,1,N3,R2).
+
+sublista1([_|R1],N1,N2,[h|R2]):-
+	N3 is N1 - 1,
+	N4 is N2 - 1,
+	sublista1(R1,N3,N4,R2).
+
+rotate_right(N,L,K,L1):-
+	T is N - K,
+	rr(T,L,L1).
+
+rr(0,L,L):-!.
+
+rr(N,[X|R],R2):-
+	N1 is N - 1,
+	append(R,[X],R1),
+	rr(N1,R1,R2).
+
+insere(_,[],L,_,_,L):-!.
+insere(T,[X|R],L,N,LMot,L2):-
+	((N>T,!,N1 is N mod T);N1 = N),
+	nth0(_,LMot,(X,Rep)),
+	vezes_repetidas_lista(X,L,RepLista),
+
+(
+	    (Rep>RepLista,
+	    insere1(X,N1,L,L1),
+	    N2 is N + 1,
+	    insere(T,R,L1,N2,LMot,L2))
+	;
+	    (insere(T,R,L,N,LMot,L2))
+	),!.
+
+insere1(X,1,L,[X|L]):-!.
+insere1(X,N,[Y|L],[Y|L1]):-
+	N1 is N-1,
+	insere1(X,N1,L,L1).
+
+vezes_repetidas_lista(_,[],0):-!.
+vezes_repetidas_lista(X,[X|L],RepLista):-
+	vezes_repetidas_lista(X,L,R),
+	RepLista is R+1,!.
+vezes_repetidas_lista(X,[_|L],RepLista):-
+	vezes_repetidas_lista(X,L,RepLista).
+
+eliminah([],[]):-!.
+
+eliminah([h|R1],R2):-!,
+	eliminah(R1,R2).
+
+eliminah([X|R1],[X|R2]):-
+	eliminah(R1,R2).
+
+mutacao(_,[],[]):-!.
+mutacao(VdMotWb,[Ind|Rest],[NInd|Rest1]):-
+	prob_mutacao(Pmut),
+	random(0.0,1.0,Pm),
+	((Pm < Pmut,!,mutacao1(VdMotWb,Ind,NInd));NInd = Ind),
+	mutacao(VdMotWb,Rest,Rest1).
+
+mutacao1(VdMotWb,Ind,NInd):-
+	gerar_pontos_cruzamento(VdMotWb,P1,P2),
+	mutacao22(Ind,P1,P2,NInd).
+
+mutacao22([G1|Ind],1,P2,[G2|NInd]):-
+	!, P21 is P2-1,
+	mutacao23(G1,P21,Ind,G2,NInd).
+mutacao22([G|Ind],P1,P2,[G|NInd]):-
+	P11 is P1-1, P21 is P2-1,
+	mutacao22(Ind,P11,P21,NInd).
+
+mutacao23(G1,1,[G2|Ind],G2,[G1|Ind]):-!.
+mutacao23(G1,P,[G|Ind],G2,[G|NInd]):-
+	P1 is P-1,
+	mutacao23(G1,P1,Ind,G2,NInd).
+
