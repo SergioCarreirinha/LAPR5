@@ -19,6 +19,13 @@ namespace MasterDataViagem.Domain.Driver {
             this.driverLicenseNum = _driverLicenseNum;
             this.licenseExpiration = _licenseExpiration;
         }
+        public Driver(DriverId id,string _name, DateTime _birthdate, int _driverLicenseNum, DateTime _licenseExpiration) {
+            this.Id = id;
+            this.name = _name;
+            this.birthdate = _birthdate;
+            this.driverLicenseNum = _driverLicenseNum;
+            this.licenseExpiration = _licenseExpiration;
+        }
 
         protected Driver() {
             //ORM

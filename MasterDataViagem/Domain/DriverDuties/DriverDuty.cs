@@ -24,6 +24,15 @@ namespace MasterDataViagem.Domain.DriverDuties {
             this.type = _type;
             this.workBlocks = _workBlocks;
         }
+        
+        public DriverDuty(DriverDutyId id,string _key, string _name, string _color, string _type, List<WorkBlock> _workBlocks) {
+            this.Id = id;
+            this.key = _key;
+            this.name = _name;
+            this.color = _color;
+            this.type = _type;
+            this.workBlocks = _workBlocks;
+        }
 
         protected DriverDuty() {
             //ORM

@@ -16,6 +16,12 @@ namespace MasterDataViagem.Domain.ParameterValues {
             this.parameter = _parameter;
             this.value = _value;
         }
+        public ParameterValue(ParameterValueId id, string _key, string _parameter, string _value) {
+            this.Id = id;
+            this.key = _key;
+            this.parameter = _parameter;
+            this.value = _value;
+        }
 
         protected ParameterValue() {
             //ORM
