@@ -500,6 +500,7 @@ avalia_populacao([Ind|Resto],[Ind*V|Resto1]):-
 	agenda(Ind),
 	pausas,
 	avalia(V),
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
 	avalia_populacao(Resto,Resto1).
 
 avalia(V1):-
@@ -598,6 +599,7 @@ pausa(Tf1,I):-
 	t(Tf1,Tf2,I2),
 	(percorre(Tf2,I,Tf1);true),
 	(pausa(Tf2,I2);true).
+pausa(_,_):-!.
 
 percorre(Tf,I,Tfi):-
 	t(Tf,_,I2),
@@ -658,7 +660,7 @@ menorAvaliacao([Pop*Eva|_]):-
 	(retractall(melhor(_*_));true), asserta(melhor(Pop*Eva)),!.
 
 gera_geracao(_,G,_,_,G,Pop):-
-	%write('Geracao '), write(G), write(':'), nl, write(Pop), nl,write('_______________________________________________'),nl,
+	%write('Geracao '), write(G), write(':'), nl, write(Pop), nl,
         menorAvaliacao(Pop),!.
 
 gera_geracao(_,G,_,N,_,Pop):-
