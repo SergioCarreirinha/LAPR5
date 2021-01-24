@@ -26,17 +26,5 @@ namespace MasterDataViagemTest.Domain.PassingTimesTest
             Assert.Equal(newPT.IsUsed, this.IsUsed);
             Assert.Equal(newPT.IsReliefPoint, this.IsReliefPoint);
         }
-
-        [Fact]
-        public void PassingTimeNullConstructor()
-        {
-            var newPT = new PassingTime(null,null, null, false , false);
-            Assert.NotNull(newPT);
-            Assert.Equal(newPT.key, null);
-            Assert.Equal(newPT.Time, null);
-            Assert.Equal(newPT.Node, null);
-            Assert.Equal(newPT.IsUsed, false);
-            Assert.Equal(newPT.IsReliefPoint, false);
-        }
     }
 }
