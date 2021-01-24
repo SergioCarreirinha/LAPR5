@@ -674,7 +674,7 @@ class PitchToggleNavigation {
     this._btn = document.createElement("button");
     this._btn.className = "mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d";
     this._btn.type = "button";
-    this._btn.textContent = "1P";
+    this._btn.textContent = "3P";
     this._btn.onclick = function () {
 
       //retirado de https://docs.mapbox.com/mapbox-gl-js/example/3d-buildings/
