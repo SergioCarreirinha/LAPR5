@@ -35,7 +35,18 @@ namespace MasterDataViagem.Domain.WorkBlocks
             this.Id = new WorkBlockId(_id);
         }
 
-        
+        public WorkBlock(WorkBlockId _id, string _key, int _startTime, int _endTime, string _startNode, string _endNode, Boolean _isCrewTravelTime, Boolean _isActive, List<Tripes> _trips)
+        {
+            this.Id = _id;
+            this.key = _key;
+            this.startTime = _startTime;
+            this.endTime = _endTime;
+            this.startNode = _startNode;
+            this.endNode = _endNode;
+            this.isCrewTravelTime = _isCrewTravelTime;
+            this.isActive = _isActive;
+            this.trips = _trips;
+        }
 
         protected WorkBlock()
         {
