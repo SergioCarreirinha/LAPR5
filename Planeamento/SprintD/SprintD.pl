@@ -219,7 +219,12 @@ escalonamento():-
 	findall(X,rangevd(X,_,_),Vduties),
 	criar_lista_mot_nwb(Vduties),
 	findall((D,L),lista_motoristas_nworkblocks(D,L),MotWb),
-	gera_corrigidos(MotWb).
+	gera_corrigidos(MotWb),
+	retractall(afetacao(_,_,_)),
+	retractall(t(_,_,_,_)),
+	retractall((lista_motoristas_nworkblocks(_,_))),
+	retractall(t(_,_,_)),
+	retractall(p(_,_,_)).
 
 gera_corrigidos([]):-!.
 gera_corrigidos([(Vd,Mw)|MotWb]):-
@@ -227,8 +232,9 @@ gera_corrigidos([(Vd,Mw)|MotWb]):-
 	(V>0,!,
 	 vehicleDuty(Vd,Wb),
 	 corrige_quatro_horas_seguidas(Vd,MPop,Wb,C),
-	((MPop\==C,write('VehicleDuty '),write(Vd),write(' alterado: '),write(C),nl),!;write('VehicleDuty '),write(Vd),write(': '),write(MPop),nl)),
-
+	 corrige_refeicoes(Vd,C,Wb,C2),
+	((MPop\==C2,write('VehicleDuty '),write(Vd),write(': '),write(MPop),nl,nl,
+	  write('VehicleDuty '),write(Vd),write(' alterado: '),write(C2),nl),!;write('VehicleDuty '),write(Vd),write(': '),write(MPop),nl)),
 	write('_________________________________________________________________________________________'),nl,nl,
 	gera_corrigidos(MotWb).
 
@@ -247,6 +253,45 @@ corrige_quatro_horas_seguidas(Vd,[I|Pop],[_|Wb],[I|Pop2]):-
 
 alteracao_quatro_horas(Vd,St,Et,D,X):-
 	write('(VehicleDuty '),write(Vd),write(') Alteracao do condutor '),write(D), write(' para o condutor '),write(X),write('.['),write(St),write('-'),write(Et),write(', 4h]'),nl,nl.
+
+corrige_refeicoes(_,[],[],[]):-!.
+corrige_refeicoes(Vd,[I|Pop],[W|Wb],[X|Pop2]):-
+	dv_agenda(Vd,[I|Pop]),
+	workblock(W,_,Wst,Wet),
+	p(Wet,Et,I),
+	not(refeicoes(Wet,Et)),
+	findall(t(Tst,Tet,Time,D),t(Tst,Tet,Time,D),T),
+	novo_condutor(Wst,Wet,T,X),
+	alteracao_refeicoes(Vd,Wst,Wet,I,X),
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
+	corrige_refeicoes(Vd,Pop,Wb,Pop2),!.
+corrige_refeicoes(Vd,[I|Pop],[_|Wb],[I|Pop2]):-
+	retractall(t(_,_,_)),retractall(p(_,_,_)),
+	corrige_refeicoes(Vd,Pop,Wb,Pop2).
+
+alteracao_refeicoes(Vd,St,Et,D,X):-
+	write('(VehicleDuty '),write(Vd),write(') Alteracao do condutor '),write(D), write(' para o condutor '),write(X),write('.['),write(St),write('-'),write(Et),write(', refeicao]'),nl,nl.
+
+
+
+refeicoes(St,Et):-
+	%11h=39600 15h=54000
+	(((St<39600, Et>39600), Et-39600>=3600);
+	((St<64800, Et>64800), Et-64800>=3600);
+
+	((St>39600, Et<54000), Et-St>=3600);
+	((St>64800, Et<79200), Et-St>=3600);
+
+	((St<54000, Et>54000), 54000-St>=3600);
+	((St<79200, Et>79200), 79200-St>=3600)).
+
+dv_agenda(Vd,Ind):-
+	vehicleDuty(Vd,WorkBlocks),
+	length(Ind,L),
+	agenda2(L,WorkBlocks,Ind,Agenda),
+	length(Agenda,LA),
+	agenda3(LA,Agenda,0),
+	pausas.
 
 horas_seguidas([I|Pop],[W|Wb],H):-
 	workblock(W,_,St,Et),
@@ -591,9 +636,6 @@ pausa_refeicao(_,_,_,_,V,V).
 pausas:-
 	t(_,Tf,I),!,
 	pausa(Tf,I).
-
-%pausas:-!.
-
 
 pausa(Tf1,I):-
 	t(Tf1,Tf2,I2),
