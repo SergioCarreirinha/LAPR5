@@ -508,9 +508,9 @@ class PitchToggle {
           const container = document.getElementById('guiDIV');
           container.appendChild(datGui.domElement);
           datGui.add(directionalLight, 'intensity', 0, 2, 0.01);
-          datGui.add(directionalLight.target.position, 'x', -10, 10, 0.01);
-          datGui.add(directionalLight.target.position, 'z', -10, 10, 0.01);
-          datGui.add(directionalLight.target.position, 'y', 0, 10, 0.01);
+          datGui.add(directionalLight.target.position, 'x', -10, 10, 0.01).onChange(tb.update());
+          datGui.add(directionalLight.target.position, 'z', -10, 10, 0.01).onChange(tb.update());
+          datGui.add(directionalLight.target.position, 'y', 0, 10, 0.01).onChange(tb.update());
 
           for (let point of nodesIn) {
             var model;
