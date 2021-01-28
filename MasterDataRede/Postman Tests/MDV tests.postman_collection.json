@@ -1,0 +1,840 @@
+{
+	"info": {
+		"_postman_id": "9b50f57a-656b-4d6f-8c8a-a3f90af913cf",
+		"name": "MDV tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Drivers Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/driver",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"driver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Driver Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"TESTE 190\",\r\n    \"birthdate\":\"12/8/2000\",\r\n    \"driverLicenseNum\":8100208,\r\n    \"licenseExpiration\":\"12/8/2000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/driver",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"driver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Trip Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/trip",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"trip"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Trip Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"key\":\"Trip:Test\",\r\n    \"IsEmpty\":true,\r\n    \"Orientation\":\"Go\",\r\n    \"Line\":\"Line:Test\",\r\n    \"Path\":\"Paredes_Aguiar\",\r\n    \"IsGenerated\":true,\r\n    \"PassingTimes\":[]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/trip",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"trip"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get VehicleDuty Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/vehicleDuty",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"vehicleDuty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create VehicleDuty Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"key\":\"tesrrte\",\r\n    \"name\":\"service\",\r\n    \"color\":\"color\",\r\n    \"depots\":\"depots\",\r\n    \"WorkBlocks\":[]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/vehicleDuty",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"vehicleDuty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get WorkBlocks Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/workblock",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"workblock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create WorkBlock Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"key\": \"key\",\r\n    \"startTime\": 12312412,\r\n    \"endTime\": 24124121,\r\n    \"startNode\": \"Aguiar\",\r\n    \"endNode\": \"Paredes\",\r\n    \"isCrewTravelTime\": true,\r\n    \"isActive\": true,\r\n    \"trips\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/workblock",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"workblock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vehicle Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/vehicle",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"vehicle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Vehicle Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"key\": \"DriverDutyType:3\",\r\n    \"value\":\"1\",\r\n    \"parameters\":[]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/driverDuty",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"driverDuty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"Grupo25\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/login",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Test Failed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admn\",\r\n    \"password\":\"Grupo25\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/login",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Test2\",\r\n    \"password\":\"testPass\",\r\n    \"email\":\"test1@hotmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/register",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Test Failed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"\",\r\n    \"password\":\"testPass\",\r\n    \"email\":\"test@hotmail.com\",\r\n    \"role\":\"client\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/register",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Passing Time Test Passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"key\": \"passingTimeTest\",\r\n    \"time\": \"123456789\",\r\n    \"node\": \"Node:Test\",\r\n    \"isUsed\": true,\r\n    \"isReliefPoint\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/passingtime",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"passingtime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "teste Postman Validação driver",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"roberto\",\r\n    \"birthdate\":\"12/8/2000\",\r\n    \"driverLicenseNum\":\"918384129\",\r\n    \"licenseExpiration\":\"12/8/2000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/driver",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"driver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Driver Duty Test",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI2MGVhZjc4Yi03MDRjLTQ4ZTYtOGY0MC1iNjJmZjYxYTU1NTYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE2MTE4NjcyMjksImV4cCI6MTYxMTk1MzYyOSwiaWF0IjoxNjExODY3MjI5fQ.XTKAwtOO8zpjILvrrpfTF-WgLvIYZLjF_Ybioiz6R4Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mdv-g25.azurewebsites.net/api/driverDuty",
+					"protocol": "https",
+					"host": [
+						"mdv-g25",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"driverDuty"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
