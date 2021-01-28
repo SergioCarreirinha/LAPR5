@@ -21,18 +21,37 @@ export class PathService {
   constructor(private http: HttpClient) { }
 
   getPaths(): Observable<IPath[]> {
-    return this.http.get<IPath[]>(this.getPathURL);
+    return this.http.get<IPath[]>(this.getPathURL).pipe(
+      catchError(this.handleError<IPath[]>('getPaths', []))
+    );
   }
 
   addPath(path: IPath): Observable<IPath> {
-    return this.http.post<IPath>(this.pathUrl, path, this.httpOptions);
+    return this.http.post<IPath>(this.pathUrl, path, this.httpOptions).pipe(
+      catchError(this.handleError<IPath>('AddPath'))
+    );
   }
 
   getLinePaths(line: string): Observable<IPath[]> {
-    return this.http.get<IPath[]>(this.pathUrl + '?line=' + line);
+    return this.http.get<IPath[]>(this.pathUrl + '?line=' + line).pipe(
+      catchError(this.handleError<IPath[]>('getLinePaths', []))
+    );
   }
 
   getPathByKey(key: string): Observable<IPath> {
-    return this.http.get<IPath>(this.getPathURL + '/pathByKey?key=' + key);
+    return this.http.get<IPath>(this.getPathURL + '/pathByKey?key=' + key).pipe(
+      catchError(this.handleError<IPath>('getPathByKey'))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 }

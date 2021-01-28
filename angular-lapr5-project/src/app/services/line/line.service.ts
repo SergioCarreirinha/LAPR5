@@ -18,10 +18,27 @@ export class LineService {
   constructor(private http: HttpClient) { }
 
   getLines(): Observable<ILine[]> {
-    return this.http.get<ILine[]>(this.lineURL);
+    return this.http.get<ILine[]>(this.lineURL).pipe(
+      catchError(this.handleError<ILine[]>('getLines', []))
+    );
   }
 
   addLine(value: ILine): Observable<ILine> {
-    return this.http.post<ILine>(this.lineURL, value, this.httpOptions);
+    return this.http.post<ILine>(this.lineURL, value, this.httpOptions).pipe(
+      catchError(this.handleError<ILine>('addLines'))
+    );
   }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+
 }

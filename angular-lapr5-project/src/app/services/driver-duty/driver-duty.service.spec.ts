@@ -10,7 +10,4 @@ describe('DriverDutyService', () => {
     service = TestBed.inject(DriverDutyService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
 });
